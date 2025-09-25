@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Session Expired";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+}
+
+<style>
+    .session {
+        margin-top: 20%;
+        color: #ff0000;
+        opacity: 1;
+        text-align: center;
+    }
+</style>
+<script>
+    //alert('Session Expired');
+</script>
+<div class="session text-center" style="min-height:500px">
+    <h2 class="text-center">Session Expired</h2>
+    <a href="@siteUrl/account/logout"> <input type="button" class="btn btn-danger" value="Login" /></a>
+</div>
+

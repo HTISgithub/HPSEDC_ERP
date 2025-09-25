@@ -1,0 +1,75 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "GeoFence Mapping";
+    ViewBag.PageTitle = "GeoFence Mapping";
+    int sno = 0;
+}
+
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Home</a>
+        </li>
+        <li>
+            <a href="#">Master</a>
+        </li>
+        <li>
+            <a href="#">GeoFence</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right" onclick="_AddNew()"><i class="fa fa-plus"></i> Add New</a>
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div align="left" id="geofencemappinglist"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    _gfmplist(1);
+    function _gfmplist(pageNo) {
+        $('#ProgressImg').show();
+        $.post('/Admin/_GeoFenceMappingList',
+            {
+                'PageNo': pageNo
+            }, function (data) {
+                $('#geofencemappinglist').html(data);
+                tableOptions();
+                $('#ProgressImg').hide();
+            });
+    }
+
+    //To Display GeoFence User Mapping Modal//
+    function _AddNew() {
+        $('#myModal').modal('show');
+        $('.modal-title').html('<b>GeoFence User Mapping</b>');
+        $('#_view').html('');
+        $('#_view').html('<img src="/content/ajax-loader.gif" class="loaderimg" />');
+        $("#myModal").one('shown.bs.modal', function () {
+            $.post('/Admin/_GeoFenceMapping', {
+            }, function (data) {
+                $('#_view').html(data);
+            });
+        });
+    }
+</script>

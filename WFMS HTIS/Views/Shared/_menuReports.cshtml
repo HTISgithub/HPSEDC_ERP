@@ -1,0 +1,125 @@
+﻿<div class="sidebar-header">
+    <h3>Reports</h3> 
+</div>
+     <ul class="list-unstyled components">
+        @*<li class="active">
+            <a href="#MastersSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-home"></i>
+                Profile Reports
+            </a>
+            <ul class="collapse list-unstyled" id="MastersSubmenu">
+                <li><a href="#">Attendance Type</a></li>
+                <li><a href="#">Employee Machine Code</a></li>
+                <li><a href="#">Machine Attendance</a></li> 
+            </ul>
+        </li>*@
+        <li>  
+            <a href="#EntrySubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-duplicate"></i>
+                Reports
+            </a>
+            <ul class="collapse list-unstyled" id="EntrySubmenu">
+                <li><a href="#" onclick="_reportFilters('DailyAttendance','Daily Attendance')">Daily Attendance</a></li>
+                <li><a href="#" onclick="_reportFilters('Misspunch','Miss punch')">Miss punch</a></li>
+                <li><a href="#" onclick="_reportFilters('AttendanceRegister', 'Attendance Register')">Attendance Register</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_WeekkOffDays', 'Week Off Days')">Week Off Working Days</a></li>
+                <li><a href="#" onclick="_reportFilters('ExcelEmployeeWeekoffDay', 'Week Off Day')">Week Off Day</a></li>
+                
+                <li><a href="#" onclick="_reportFilters('Excel_Attendance_SalaryOT', 'Attendance OT Sheet')">Attendance OT Sheet</a></li>
+                <li><a href="#" onclick="_reportFilters('ExcelOTjustification', 'OT Justification Sheet ')">Attendance OT Justification</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_Attendance_SalaryOTValue', 'OT Sheet')">OT Sheet</a></li>
+                <li><a href="#" onclick="_reportFilters('DailyAttendance_TotalWorking', 'Daily Total Working')">Daily Total Working</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_EmployeeLeaveBalance', 'Employee Leave Balance')">Employee Leave Balance</a></li>
+                <li><a href="#" onclick="_reportFilters('WorkCostSheet', 'Work Cost Sheet')">Work Cost Sheet</a></li>
+                 <li><a href="#" onclick="_reportFilters('EmployeeDailyCostSheet', 'Employee Daily Cost Sheet')">Employee Daily Cost Sheet</a></li>
+               
+                 <li><a href="#" onclick="_reportFilters('EmployeeDetailCMR', 'Employee Detail')">Employee Detail</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_EmployeeDetailDemograph', 'Demographic Report')">Demographic Report</a></li>
+                <li><a href="#" onclick="_reportFilters('NewJoiningandDOLReport', 'New Joined Employee List')">New Joined Employee List</a></li>
+                <li><a href="#" onclick="_reportFilters('DOLReport', 'Date Of Left Report')">Date Of Left Employee List</a></li>
+                <li><a href="#" onclick="_reportFilters('ShoeRecordReport', 'Shoe Record Report')">Shoe Record Report</a></li>
+                 <li><a href="#" onclick="_reportFilters('GMPReport', 'GMP Report')">GMP Report</a></li>
+                <li><a href="#" onclick="_reportFilters('EmployeeCTCM', 'Employee Compensation')">Employee Compensation</a></li>
+                <li><a href="#" onclick="_reportFilters('ExcelCTCCalculation', 'Salary Sheet (CTC)')">Salary Sheet (CTC)</a></li> 
+                <li><a href="#" onclick="_reportFilters('Excel_SalaryRegisterColumnerfull1', 'Salary Sheet (CTC)')">Salary Sheet1 (CTC)</a></li> 
+                <li><a href="#" onclick="_reportFilters('SalaryRegister', 'Salary Register')">Salary Register</a></li> 
+                <li><a href="#" onclick="_reportFilters('ContractorSalaryRegister', 'Salary Register')">Contractor Salary Register</a></li>
+                <li><a href="#" onclick="_reportFilters('SalaryRegisterColumnerCTC', 'Salary Register Columner CTC')">Salary CTC Report</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_SalaryRegisterColumnerfull', 'Salary Register Columner CTC Report')">Salary Register Columner</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_ArearRegisterColumnerContractor', 'Arear Register Columner Contractor')">Arear Register Columner Contractor</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_PI_ArearValue', 'Arear PI Report')">Arear PI Report</a></li>
+                
+                <li><a href="#" onclick="_reportFilters('Excel_ViksatReimbursement', 'Reimbursement Bill Detail')">Reimbursement Bill Detail</a></li>
+                <li><a href="#" onclick="_reportFilters('ExcelSalaryReimbursement', 'Salary Reimbursement Sheet')">Salary Reimbursement Sheet</a></li>
+                <li><a href="#" onclick="_reportFilters('ReimbursementBill', 'Reimbursement Bill')">Reimbursement Bill</a></li>
+                <li><a href="#" onclick="_reportFilters('ESIRegister', 'ESI Statement')">ESI Statement</a></li>
+                <li><a href="#" onclick="_reportFilters('PFRegister', 'PF Statement')">PF Statement</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_SalaryManualDeduction', 'Salary Manual Deduction')">Salary Manual Deduction</a></li> 
+                <li><a href="#" onclick="_reportFilters('LoanReport','Loan Report')">Loan Report</a></li>
+                <li><a href="#" onclick="_reportFilters('Excel_MannualAttendance', 'Manual Report')">Manual Report</a></li>
+                
+                
+                <li><a href="#" onclick="_reportFilters('DailyWorkCostSheet', 'Work Cost Sheet')">Work Cost Sheet Report</a></li>
+                <li><a href="#" onclick="_reportFilters('PFECRForm12A', 'PF ECR')">PF ECR</a></li>
+                <li><a href="#" onclick="_reportFilters('DemographicReportNew', 'Demographic Report')">Demographic Report</a></li>
+                <li><a href="#" onclick="_reportFilters('ContractorSalaryReportNew', 'Contrator Salary Register')">Contrator Salary Register</a></li>
+                
+
+            
+   
+              
+               
+            
+             </ul>
+        </li>
+
+         @*<li>
+             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                 <i class="glyphicon glyphicon-duplicate"></i>
+                 Payroll Reports
+             </a>
+             <ul class="collapse list-unstyled" id="pageSubmenu">
+                 <li><a href="#" onclick="_reportFilters('Payroll', 'Payroll')">Payroll</a></li>
+                 <li><a href="#" onclick="_reportFilters('SalaryRegister', 'Salary Register')">Salary Register</a></li>
+                 <li><a href="#">PF Reports</a></li>
+                 <li><a href="#">ESI Reports</a></li>
+                 <li><a href="#">Employee Leaves</a></li>
+                 <li><a href="#">Attendance Card</a></li>
+                 <li><a href="#">Employee Attendance Report</a></li>
+             </ul>
+         </li>
+         <li>
+             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                 <i class="glyphicon glyphicon-duplicate"></i>
+                 Standard Reports
+             </a>
+             <ul class="collapse list-unstyled" id="pageSubmenu">
+                 <li><a href="#">Daily Attendance</a></li>
+                 <li><a href="#">Attendance Register</a></li>
+                 <li><a href="#">Attendance InOut Report</a></li>
+                 <li><a href="#">Employee Leaves</a></li>
+                 <li><a href="#">Attendance Card</a></li>
+                 <li><a href="#">Employee Attendance Report</a></li>
+             </ul>
+         </li>
+         <li>
+             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                 <i class="glyphicon glyphicon-duplicate"></i>
+                 Finance Reports
+             </a>
+             <ul class="collapse list-unstyled" id="pageSubmenu">
+                 <li><a href="#">Daily Attendance</a></li>
+                 <li><a href="#">Attendance Register</a></li>
+                 <li><a href="#">Attendance InOut Report</a></li>
+                 <li><a href="#">Employee Leaves</a></li>
+                 <li><a href="#">Attendance Card</a></li>
+                 <li><a href="#">Employee Attendance Report</a></li>
+             </ul>
+         </li>*@
+    </ul> 
+<script>
+    $('.menua').click(function () {
+        $('#sidebar').removeClass('active');
+        //$('.list-unstyled ul').css('height', 'auto').addClass('in').removeClass('collapse');
+    });
+</script>

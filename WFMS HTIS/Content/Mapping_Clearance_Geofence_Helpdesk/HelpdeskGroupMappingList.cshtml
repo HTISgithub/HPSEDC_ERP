@@ -1,0 +1,55 @@
+﻿@using System.Data
+@{
+    // string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    ViewBag.Title = "Helpdesk Group Mapping";
+    ViewBag.PageTitle = "Helpdesk Group / Group Head Mapping";
+    commonFunctions comfun = new commonFunctions();
+}
+
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Home</a>
+        </li>
+        <li>
+            <a href="#">Master</a>
+        </li>
+        <li>
+            <a href="#">Helpdesk</a>
+        </li>
+        <li class="active">@ViewBag.Title</li>
+    </ul><!-- /.breadcrumb -->
+</div>
+@******************Breadcrumb End**************@
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12 col-sm-12">
+            <div align="left" id="HelpGroup"></div>
+        </div>
+    </div>
+</div>
+<script>
+    _HelpDeskGroupList();
+    function _HelpDeskGroupList() {
+        $('#ProgressImg').show();
+        $.post('/Admin/_HelpdeskGroupMappingList',
+            {
+            }, function (data) {
+                $('#HelpGroup').html(data);
+                tableOptions();
+                $('#ProgressImg').hide();
+            });
+    }
+</script>

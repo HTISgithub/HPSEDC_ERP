@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "ESIEPF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string mon = "";
+}
+<style>
+    #container {
+        padding-top: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    #border {
+        border: 3px solid #000080 !important;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    label {
+        font-weight: 700;
+    }
+
+    thead {
+        background: #000080;
+        color: white;
+    }
+
+    .rounded-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<div class="container-fluid" id="container">
+    <div id="border">
+        <div class="row">
+
+            <div class="col-lg-3 form-group">
+                <label>Month Year</label>
+                <div style="display:flex">
+                    <select id="ddlMonths" class="Month form-control" onchange="Chalanddl(),EpfesiList()">
+                        <option>--Month--</option>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+
+                            DateTime date = new DateTime(2020, i, 1);
+                            mon = date.ToString("MMM");
+                            <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                        }
+                    </select>
+                    <select id="ddlYears" class="year form-control" onchange="Chalanddl(),EpfesiList()">
+                        <option>--Year--</option>
+                        @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                        {
+                            if (i == DateTime.Now.Year)
+                            {
+                                <option value="@i" selected='selected'>@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3 form-group">
+                <label>Agency Name</label>
+                <select class="form-control" id="agencyddl" onchange="Chalanddl(),EpfesiList()">
+                    <option value="0">--select--</option>
+                </select>
+            </div>
+            <div class="col-lg-3 form-group">
+                <label>Challan For</label>
+                <select class="form-control" id="chalanfor" onchange="Chalanddl(),EpfesiList(),toggleChallanSections(),fillForm()">
+                    <option value="0">--select--</option>
+                </select>
+            </div>
+
+
+            <div class="col-lg-3 form-group" style="display:none;">
+                <label>Challan Number</label>
+                <select class="form-control" id="chalanddl" onchange="ResourcData()">
+                    <option value="0">--select--</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- EPF Section -->
+    <div id="epfSection" style="display: none;">
+        <div class="col-lg-4 form-group">
+            <label>Download EPF Payment Conformation Receipt</label>
+            <div class="input-group">
+                <a href="javascript:void(0);" onclick="ViewDocument3()" id="EPFChallanAttachment" style="font-size: 16px; margin-left: 20px;">
+                    <i class="fas fa-download"></i> View Doc.
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 form-group">
+            <label>Download EPF Employee Details</label>
+            <div class="input-group">
+                <a href="javascript:void(0);" onclick="ViewDocument4()" id="EPFChallanAttachment2" style="font-size: 16px; margin-left: 20px;">
+                    <i class="fas fa-download"></i> View Doc.
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESIC Section -->
+    <div id="esicSection" style="display: none;">
+        <div class="col-lg-4 form-group">
+            <label>Download ESIC Payment Conformation Receipt</label>
+            <div class="input-group">
+                <a href="javascript:void(0);" onclick="ViewDocument()" id="ESICChallanAttachment" style="font-size: 16px; margin-left: 20px;">
+                    <i class="fas fa-download"></i> View Doc.
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 form-group">
+            <label>Download ESIC Employee Details</label>
+            <div class="input-group">
+                <a href="javascript:void(0);" onclick="ViewDocument2()" id="ESICChallanAttachment2" style="font-size: 16px; margin-left: 20px;">
+                    <i class="fas fa-download"></i> View Doc.
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="row" style="margin-top:20px;">
+    <div class="col-lg-12 table-responsive">
+        <table class="table table-striped table-bordered rounded-table" id="resourcelist">
+            <thead>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Agency Bill No.</th>
+                    <th>Agency Name</th>
+                    <th>Bill For Month</th>
+                    <th>Challan No.</th>
+                    <th>Challan Type</th>
+                    <th>No.of HPSEDC Resources</th>
+                    @*<th>Total Resources</th>*@
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@*<button class="btn btn-primary" onclick="SubmitEpfEsiMap()" style="width:100% ; border-radius:10px !important;">Submit</button>*@
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    var vId = 0;
+    var table;
+    $(document).ready(function () {
+        Agencyddl();
+        ChalanForddl();
+        table = $('#resourcelist').DataTable(
+            {
+
+            }
+        );
+
+    });
+    function toggleChallanSections() {
+        var selectedValue = document.getElementById('chalanfor').value;
+
+        // Hide both sections initially
+        document.getElementById('epfSection').style.display = 'none';
+        document.getElementById('esicSection').style.display = 'none';
+
+        if (selectedValue == '2') {
+            document.getElementById('epfSection').style.display = 'flex';
+        } else if (selectedValue == '1') {
+            document.getElementById('esicSection').style.display = 'flex';
+        }
+    }
+
+    var ChallanDocument = '';    // ESIC Receipt
+    var ChallanDocument2 = '';   // ESIC Employee Details
+    var ChallanDocument3 = '';   // EPF Receipt
+    var ChallanDocument4 = '';   // EPF Employee Details
+
+    function ViewDocument() {
+        if (ChallanDocument) {
+            window.open(`/ChallanDoc/${ChallanDocument}`, "_blank");
+        } else {
+            alert("Document not available.");
+        }
+    }
+
+    function ViewDocument2() {
+        if (ChallanDocument2) {
+            window.open(`/ChallanDetailsDoc/${ChallanDocument2}`, "_blank");
+        } else {
+            alert("Document not available.");
+        }
+    }
+
+    function ViewDocument3() {
+        if (ChallanDocument3) {
+            window.open(`/ChallanDoc/${ChallanDocument3}`, "_blank");
+        } else {
+            alert("Document not available.");
+        }
+    }
+
+    function ViewDocument4() {
+        if (ChallanDocument4) {
+            window.open(`/ChallanDetailsDoc/${ChallanDocument4}`, "_blank");
+        } else {
+            alert("Document not available.");
+        }
+    }
+
+    function fillForm() {
+        $.post('/Invoice/_ESIEPFReportlist', {
+            'AgencyId': $('#agencyddl').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'ChallanId': $('#chalanddl').val(),
+            'ChallanType': $('#chalanfor').val(),
+            'EsiEpfDeposited': 0
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ChallanDocument = value.EsiChallan;
+                ChallanDocument2 = value.EsiChallanDetails;
+                ChallanDocument3 = value.EpfChallan;
+                ChallanDocument4 = value.EpfChallanDetails;
+            });
+        });
+    }
+
+
+    function Agencyddl() {
+        $.post('/Invoice/_Agencyddl2', {}, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#agencyddl').html(DeploymentOfficeId);
+            $('#agencyddl').select2({
+
+            });
+        });
+    }
+
+    function ChalanForddl() {
+        $.post('/Invoice/ChalanForddl',
+            {},
+            function (data) {
+                var chalanfor = '<option value="0">---Select---</option>';
+                var obj = $.parseJSON(data);
+                $.each(obj, function (key, value) {
+                    chalanfor += '<option value=' + value.TypeId + '>' + value.TypeName + '</option>'
+                });
+                $('#chalanfor').html(chalanfor);
+            });
+    }
+
+    function Chalanddl() {
+        $.post('/Invoice/Chalanddl', {
+            'ChallanTypeId': $('#chalanfor').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'AgencyId': $('#agencyddl').val(),
+            'ChallanId': $('#chalanddl').val(),
+        }, function (data) {
+            var chalanno = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                chalanno += '<option value=' + value.ChallanId + '>' + value.ChallanNumber + '</option>'
+            });
+            $('#chalanddl').html(chalanno);
+        });
+    }
+
+    function ResourcData() {
+        $.post('/Invoice/Chalanddl', {
+            'ChallanTypeId': $('#chalanfor').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'AgencyId': $('#agencyddl').val(),
+            'ChallanId': $('#chalanddl').val(),
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $('#totalresource').val(obj[0].NoOfResource);
+            $('#allocatedresource').val(obj[0].InvoicePerson);
+        });
+    }
+
+    function EpfesiList() {
+        $.post('/Invoice/_ESIEPFReportlist', {
+            'AgencyId': $('#agencyddl').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'ChallanId': $('#chalanddl').val(),
+            'ChallanType':$('#chalanfor').val(),
+            'EsiEpfDeposited':0
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            table.clear().draw();
+
+            var msr = 0;
+            var row = '';
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var elmntArray = [
+                    msr,
+
+                    value.Billno,
+                    value.AgencyName,
+                    value.BillForMonth,
+                    value.ChallanNumber,
+                    value.Type,
+                    value.NoOfResource1
+                    //value.NoOfResource
+
+                ];
+                table.row.add(elmntArray).draw(false);
+
+
+            });
+
+        });
+    }
+
+
+</script>

@@ -1,0 +1,61 @@
+﻿
+@{
+    commonFunctions comfun = new commonFunctions();
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    ViewBag.Title = "Account Setup";
+    Layout = null;
+}
+<script src="@siteUrl/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+    .setup {
+        padding-top:10%;
+    }
+    .setup .logo{
+        width:100%; 
+        max-width:250px;
+    }
+        .setup h4 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .setup .loader{
+            
+        }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="setup text-center">
+                <img src="~/images/logo.png" class="logo" />
+                <h4  class="text-center" id="h4">Please wait while are setting up system for you...</h4>
+                <img src="~/images/ajax-loader1.gif" class="loader" />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if ('@ViewData["DB"].ToString()' == '1') {
+        $('#h4').html('Please wait while redirecting...')
+        window.location = '/home/index';
+    }
+    else { 
+       // databseSetup();
+   }
+    function databseSetup() {
+        $.post('/account/DatabaseSetup', {
+            'DomainId':'@ViewData["DomainId"]'
+        }, function (data) {
+            if (data.indexOf('Error') == -1) {
+                window.location = '/home/index';
+            }
+            else {
+                alert('An error occured while setting up. We will get back to you soon!');
+                window.location='@siteUrl'
+            }
+        })
+    }
+</script>

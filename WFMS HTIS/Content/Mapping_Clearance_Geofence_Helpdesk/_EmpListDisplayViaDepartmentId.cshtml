@@ -1,0 +1,39 @@
+﻿<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/modernizr-2.8.3.js"></script>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="col-md-8 col-sm-8">
+            <div class="table-bordered" style="width:50%; height:20%">
+                @foreach (var item in Model.Rows)
+                {
+                    <ul>
+                        <li hidden="hidden" id="EmpId">@item["EmployeeID"]</li>
+                        <li>@item["EmployeeName"] + @item["EmployeeCode"]</li>
+                        <li>@item["Email"] </li>
+                        <li><i class="fa fa-plus"></i></li>
+                    </ul>
+                }
+            </div>
+           
+        </div>
+        <div class="col-md-4 col-sm-4">
+            <div class="table-bordered" style="width:50%; height:20%">
+                @foreach (var item in Model.Rows)
+                {
+                    <ul>
+                        <li hidden="hidden" id="EmpId">@item["EmployeeID"]</li>
+                        <li>@item["EmployeeName"] + @item["EmployeeCode"]</li>
+                        <li>@item["Email"] </li>
+                        <li><i class="fa fa-plus"></i></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>

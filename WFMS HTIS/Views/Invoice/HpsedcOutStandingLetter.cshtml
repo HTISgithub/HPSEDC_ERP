@@ -1,0 +1,751 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Department Outstanding Letter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+          rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Lato", sans-serif;
+        }
+
+        p {
+            font-weight: 400;
+        }
+
+        .tax-invoice {
+            text-align: center;
+            font-size: 24px;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 2px;
+            width: 100%;
+        }
+
+        .a4-page {
+            width: 203mm;
+            height: 280mm;
+            border: 2px solid black !important;
+            margin-top: 0 !important;
+            margin: 28px auto 0 auto;
+            box-sizing: border-box;
+            position: relative;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .page-heading {
+            text-align: center;
+            font-size: 15px;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 20mm);
+            box-sizing: border-box;
+            padding: 0 10mm;
+        }
+
+            .page-heading h3 {
+                margin: 0;
+                padding-bottom: 5px;
+            }
+
+        .horizontal-line_1 {
+            position: absolute;
+            top: 43mm;
+            left: 0mm;
+            width: 766px;
+        }
+
+        .horizontal-line {
+            position: absolute;
+            top: 43mm;
+            left: 0mm;
+            width: 766px;
+            margin-top: -2rem;
+            height: 1px;
+            background-color: black;
+        }
+
+        .horizontal-line_EINV {
+            position: absolute;
+            top: 30mm;
+            left: 0mm;
+            width: 766px;
+            margin-top: -2rem;
+            height: 1px;
+            background-color: black;
+        }
+
+
+        .horizontal-line1 {
+            position: absolute;
+            top: 90mm;
+            left: 0mm;
+            width: 791px;
+            height: 0px;
+            background-color: black;
+        }
+
+        .horizontal-line3 {
+            position: absolute;
+            top: 80mm;
+            left: 0mm;
+            width: 791px;
+            height: 0px;
+            background-color: black;
+        }
+
+        .vertical-liney {
+            position: absolute;
+            top: 69mm;
+            left: 0mm;
+            width: 766px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .vertical-liney1 {
+            position: absolute;
+            top: 49mm;
+            left: 137.5mm;
+            width: 246px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .vertical-liney4 {
+            display: flex;
+            position: absolute;
+            top: 84mm;
+            left: 91mm;
+            width: 421px;
+            height: 1px;
+            background-color: black;
+            margin-top: 55px;
+        }
+
+        .vertical-liney2 {
+            position: absolute;
+            top: 82mm;
+            left: 137.5mm;
+            width: 246px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .vertical-line {
+            position: absolute;
+            top: 39mm;
+            right: 65mm;
+            height: 59mm;
+            width: 1px;
+            background-color: black;
+        }
+
+        @@page {
+            size: auto;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+
+            .a4-page {
+                visibility: visible;
+            }
+
+            title {
+                display: none;
+            }
+
+            .a4-page * {
+                visibility: visible;
+            }
+        }
+
+        .vertical-line1 {
+            position: absolute;
+            top: 95.5mm;
+            right: 118mm;
+            height: 14mm;
+            width: 1px;
+            background-color: black;
+        }
+
+        .vertical-liney8 {
+            display: flex;
+            position: absolute;
+            top: 26mm;
+            left: 91mm;
+            width: 421px;
+            height: 2px;
+            background-color: black;
+            margin-top: 55px;
+        }
+
+        /* Table styling */
+        table {
+            width: 96.8%;
+            border-collapse: collapse;
+            margin-top: 29px;
+            text-align: center;
+        }
+
+        .infobox {
+            flex: 1;
+            margin: 5px;
+        }
+
+        th,
+        td {
+            padding: 4px 10px;
+            /* border-left: 1px solid #000;  Add left border */
+            border-right: 1px solid #000; /* Add right border */
+            border-top: none; /* Remove top border */
+            border-bottom: none;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        th {
+            font-weight: normal;
+            border-bottom: 1px solid #000 !important;
+            border-top: 1px solid #000 !important;
+        }
+
+        .style {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        .new {
+            background-color: #f2f2f2;
+        }
+
+        th.sr-no {
+            width: 5%;
+        }
+
+        th.Description {
+            width: 40%;
+            text-align: center;
+        }
+
+        th.manpower,
+        th.working-days {
+            width: 3%;
+        }
+
+        th.rate,
+        th.amount {
+            width: 10%;
+        }
+
+        th.per {
+            width: 5%;
+        }
+
+        th.equal-width {
+            width: 12.66%;
+        }
+
+        th[colspan="2"] {
+            width: 33.32%;
+        }
+
+        p {
+            margin-left: 10px;
+        }
+
+        label {
+            margin-left: 7px;
+            margin-top: 4px;
+        }
+
+        img {
+            width: 11rem;
+            margin-top: 7px;
+            margin-left: -2rem;
+        }
+
+        .table_account p {
+            margin: 6px 0;
+        }
+
+        .table_account {
+            text-align: left;
+            width: 205px;
+            position: relative;
+            top: -2px;
+            /* border-left: 1px solid black; */
+        }
+
+        .table_account1 {
+            text-align: left;
+            padding: 0;
+            padding-top: 5px;
+        }
+        /* Covering letter */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Lato", sans-serif;
+        }
+
+        p {
+            font-weight: 400;
+        }
+
+
+
+        .a4-page1 {
+            width: 203mm;
+            height: 275mm;
+            margin: 28px auto 0 auto;
+            box-sizing: border-box;
+            position: relative;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .page-heading1 {
+            text-align: right;
+            font-size: 16px;
+        }
+
+            .page-heading1 h3 {
+                margin: 0;
+                padding-bottom: 5px;
+            }
+
+
+
+        @@page {
+            size: auto;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+
+            .a4-page {
+                visibility: visible;
+            }
+
+            title {
+                display: none;
+            }
+
+            .a4-page * {
+                visibility: visible;
+            }
+        }
+        /*
+        .vertical-line1 {
+            position: absolute;
+            top: 79.7mm;
+            right: 118mm;
+            height: 25mm;
+            width: 1px;
+        }*/
+
+        Table styling
+        table {
+            width: 96.8%;
+            border-collapse: collapse;
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .infobox {
+            flex: 1;
+            margin-top: 31px;
+        }
+
+        th, td {
+            padding: 4px 10px;
+            border-left: 1px solid #000;
+            Add left border border-right: 1px solid #000;
+            Add right border border-top: none;
+            Remove top border border-bottom: none;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        th {
+            font-weight: bold;
+            border-bottom: 1px solid #000 !important;
+            border-top: 1px solid #000 !important;
+        }
+
+        .style {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        .new {
+            background-color: #f2f2f2;
+        }
+
+        th.sr-no {
+            width: 5%;
+        }
+
+        th.Description {
+            width: 40%;
+            text-align: center;
+        }
+
+        th.manpower, th.working-days {
+            width: 3%;
+        }
+
+        th.rate, th.amount {
+            width: 10%;
+        }
+
+        th.per {
+            width: 5%;
+        }
+
+        th.equal-width {
+            width: 16.66%;
+        }
+
+        th[colspan="2"] {
+            width: 33.32%;
+        }
+
+        p {
+            margin-left: 10px;
+        }
+
+        label {
+            margin-top: 4px;
+        }
+
+        img {
+            margin-top: 6px;
+        }
+
+        .a4-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .qrcode {
+            display: block;
+            height: 6rem;
+            width: 6rem;
+            margin-left: 43rem;
+            margin-top: -90px;
+            position: relative;
+        }
+
+            .qrcode img, .qrcode canvas {
+                width: 105% !important;
+                height: 88% !important;
+            }
+        th {
+            border: 1px solid black;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 13px; 
+        }
+    </style>
+</head>
+<body>
+    @*<h6 style="text-align: center; margin-top: 10px; margin-bottom: 0; font-size: 18px">
+        Tax Invoice
+    </h6>*@
+    <button class="no-print"
+            style="
+        float: right;
+        height: 4rem;
+        width: 7rem;
+        cursor: pointer;
+        margin-right: 2rem;
+      "
+            onclick="window.print()">
+        Print
+    </button>
+
+    <div class="a4-page1">
+        <div class="a4-header">
+
+
+            <h4 style="margin-top: 42px; font-size: 17px" id="DeptName">
+                <span>HIMACHAL PRADESH STATE </span>
+                <br>ELECTRONICS DEVELOPMENT</br>
+                <span>CORPORATION LIMITED </span>
+            </h4>
+
+            <img style="width: 210px; margin-top: 40px; " src="/images/HPSEDC-removebg-preview.png" />
+            <div class="page-heading1">
+                <h4 style="margin-top: 42px;font-size:15px;">IT Bhawan, Ground & 1st Floor Beolia<br />Road, Mehli Shimla H.P. -171013</h4>
+                <h4 style=" margin-top: -19px; ">Ph. 0177-2623513,    2628473,<br />GSTIN/UIN: 02AAACH3904P2ZO<br /></h4>
+                <h4 style=" margin-top: -19px; ">State Name : Himachal Pradesh, Code : 02 <br /> E-Mail : hpsedc@hpsedc.in<br /></h4>
+                <h4 style="float: right; margin-left: 40px; font-size: 14px; margin: -67px" id="RefNo"></h4>
+            </div>
+        </div>
+        <div class="">
+            <label for="HPSEDC" style="font-size: 15px; margin-left: 40px;" id="Invoice">HPSEDC/OutStanding/2025-26</label>
+            @*<span style="margin-left: 198px; font-weight: bold; ">
+                Dispatch Date : <span id="dispatcDate"></span>
+            </span>*@
+            <br /><br />
+
+
+            <label for="HPSEDC" style="font-size: 15px; margin-left: 40px; ">To</label><br />
+
+            <div style="width: 31rem; margin-top: -8px; margin-left: 100px;">
+                <h5 style="margin-top: 2px; margin-left: 12px; margin-bottom:0;  font-size: 16px;" id="BillingAddressText3">
+                </h5>
+            </div>
+
+            <label for="HPSEDC"><h5 style=" margin-left: 40px; ">Subject :</h5> <h5 style="margin-left: 7rem; margin-top: -40px;">Reg. release of outstanding payment for providing manpower services on outsources basis.</h5></label>
+            <div class="" style=" margin-left: 40px; ">Dear Sir/Madam,</div>
+        </div>
+
+        <div class="letterbody">
+            <p style="font-size: 14px; margin-top: -25px; margin-left:40px; margin-right: 40px;">
+                <br /><br />
+                <span style="text-align: left; display: block; text-align: justify;">
+                    Please refer to subject cited above. It is brought to your kind notice that according to our accounts book, a sum of (Rs. <span id="NumberinAmount2">[Amount in Numbers]</span>)
+                    <span id="TaxWord2">[Amount in Words]</span>   remains outstanding. The details are as follows :-
+                </span>
+                <table style="width: 89.8%; border-collapse: collapse; margin-top: 15px; margin-left: 40px; text-align: center; border: 1px solid black;">
+                    <thead style="background-color: #f2f2f2;">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Bill No.</th>
+                            <th>Bill Date</th>
+                            <th>Amount (Rs.)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="InvoiceDetailsTableBody">
+                    </tbody>
+                </table>
+
+            <p style="font-size: 14px; text-align: justify; margin-left: 40px; margin-right: 40px;">
+                If your department has already processed the payment, please provide the details for necessary adjustments in the book of accounts. It is also brought to your kind notice that the empanelled agencies are also following up rigorously to release their outstanding payments and due to non adjustment/non-recovery of payments corporation is not in a position to release the payment to the concerned agencies.
+                The delayed payment to our agencies will in turn, impact the timely disbursement of wages to the deployed staff, potentially leading to satutory non-compliance.<br>
+                &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+               
+                You are therefore requested to release the outstanding payments immediately. It may also be ensured that the detail of the payments made are intimated to us for proper reconciliation in our records.</p>
+            <span style="margin-left: 176px;">
+                Thanking you and assuring our best service always.
+            </span></br>
+
+            <p style="margin-left: 548px; margin-top: 30px; ">
+                Yours faithfully
+            </p>
+            @*<img src="~/images/dcsign.png" style="height: 42px; width: 72px; margin-left:569px; margin-bottom:10px;" />*@
+            <p style="margin-left: 548px; margin-top: 35px; ">
+                Authorized Signatory
+            </p>
+            </p>
+        </div>
+
+
+    </div>
+
+</body>
+</html>
+<script src="~/Scripts/autocomplete.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<script>
+    var WorkOrderId = 0,
+        YearMonth = 0;
+    $(document).ready(function () {
+       
+        HpsedcInvoieDetails2();
+    });
+ 
+    function toWords(num) {
+        var ones = [
+            "",
+            "One",
+            "Two",
+            "Three",
+            "Four",
+            "Five",
+            "Six",
+            "Seven",
+            "Eight",
+            "Nine",
+            "Ten",
+            "Eleven",
+            "Twelve",
+            "Thirteen",
+            "Fourteen",
+            "Fifteen",
+            "Sixteen",
+            "Seventeen",
+            "Eighteen",
+            "Nineteen",
+        ];
+
+        var tens = [
+            "",
+            "",
+            "Twenty",
+            "Thirty",
+            "Forty",
+            "Fifty",
+            "Sixty",
+            "Seventy",
+            "Eighty",
+            "Ninety",
+        ];
+
+        var scales = ["", "Thousand", "Lakh", "Crore"];
+
+        function convertNumberToWords(num) {
+            if (num === 0) return "";
+            if (num < 20) return ones[num];
+            if (num < 100)
+                return tens[Math.floor(num / 10)] + (num % 10 ? " " + ones[num % 10] : "");
+            if (num < 1000)
+                return (
+                    ones[Math.floor(num / 100)] +
+                    " Hundred" +
+                    (num % 100 ? " and " + convertNumberToWords(num % 100) : "")
+                );
+            return "";
+        }
+
+        function integerToWords(num) {
+            if (num === 0) return "Zero";
+
+            var result = "";
+            var chunks = [];
+            var divider = [100, 10]; 
+            chunks.push(num % 1000);
+            num = Math.floor(num / 1000);
+            while (num > 0) {
+                chunks.push(num % 100);
+                num = Math.floor(num / 100);
+            }
+
+            for (var i = chunks.length - 1; i >= 0; i--) {
+                if (chunks[i]) {
+                    result += convertNumberToWords(chunks[i]) + (scales[i] ? " " + scales[i] + " " : " ");
+                }
+            }
+
+            return result.trim();
+        }
+
+        function convertDecimalToWords(decimal) {
+            if (decimal === 0) return "";
+            return convertNumberToWords(decimal) + " paise";
+        }
+
+        var integerPart = Math.floor(num);
+        var decimalPart = Math.round((num - integerPart) * 100);
+
+        var integerPartWords = integerToWords(integerPart);
+        var decimalPartWords = convertDecimalToWords(decimalPart);
+
+        var result = integerPartWords + " rupees";
+        if (decimalPartWords) {
+            result += " and " + decimalPartWords;
+        }
+        result += " only";
+
+        return result;
+    }
+
+
+    function HpsedcInvoieDetails2() {
+    $("#ProgressImg").show();
+    var MonthYear = "01-" +  $("#ddlMonths option:selected").text() +  "-" + $("#ddlYears").val();
+    var url = new URL(window.location.href);
+    var Rid = 0;
+    if (url.searchParams.has("BillingId")) {
+       const queryString = window.location.search;
+       const urlParams = new URLSearchParams(queryString);
+       BillingId = urlParams.get("BillingId");
+        }
+        $.post(
+            "/Invoice/HpsedcOutStandingLetterList",
+            { MonthYear: 0, BillingId: BillingId },
+            function (data) {
+                var totalAmountSum = 0;
+                var obj = JSON.parse(data);
+                if (obj.length > 0) {
+                    var toAddress = obj[0].BillingAddress.replace(/,/g, ",<br>");
+                    $("#BillingAddressText3").html(toAddress);
+                    var TotalAmtount = parseFloat(obj[0].TotalAmt) || 0;
+                   
+                    var tableBody = "";
+                    var totalAmountSum = 0;
+
+                    for (var i = 0; i < obj.length; i++) {
+                        totalAmountSum += parseFloat(obj[i].TotalAmt);
+
+                        var formattedDate = obj[i].BillDate.split('T')[0];
+
+                        tableBody += "<tr>" +
+                            "<td style='border: 1px solid black; padding: 8px;'>" + (i + 1) + "</td>" +
+                            "<td style='border: 1px solid black; padding: 8px;'>" + obj[i].SaleBillNo + "</td>" +
+                            "<td style='border: 1px solid black; padding: 8px;'>" + formattedDate + "</td>" +
+                            "<td style='border: 1px solid black; padding: 8px; text-align: right;'>" + parseFloat(obj[i].TotalAmt).toFixed(2) + "</td>" +
+                            "</tr>";
+                    }
+                    tableBody += "<tr style='font-weight: bold; background-color: #f9f9f9;'>" +
+                        "<td colspan='3' style='border: 1px solid black; padding: 8px; text-align: right;'>Total</td>" +
+                        "<td style='border: 1px solid black; padding: 8px; text-align: right;'>" + totalAmountSum.toFixed(2) + "</td>" +
+                        "</tr>";
+                    $("#InvoiceDetailsTableBody").html(tableBody);
+                    $("#NumberinAmount2").html(totalAmountSum.toFixed(2));
+                    var amountInWords = toWords(totalAmountSum);
+                    $("#TaxWord2").html("(" + amountInWords + ")");
+                }
+            }
+        );
+    }
+</script>

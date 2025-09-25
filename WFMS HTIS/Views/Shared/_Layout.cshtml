@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/images/logo.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    @{
+        string roleId = "2";
+        //Request.Cookies["RoleId"].Value;
+        commonFunctions comfun = new commonFunctions();
+        string projectName = "";
+        if (Session["ProjectName"] == null)
+        {
+            if (Request.Cookies["ProjectName"] == null)
+            {
+                Session["ProjectName"] = "HP State Electronics Development Corporation Ltd";
+                Response.Cookies["ProjectName"].Value = "HP State Electronics Development Corporation Ltd";
+                Response.Cookies["ProjectName"].Expires = DateTime.Now.AddDays(1);
+                projectName = Session["ProjectName"].ToString();
+            }
+            else
+            {
+                //Session["ProjectName"] = Request.Cookies["Project"].Value;
+                //projectName = Session["ProjectName"].ToString();
+            }
+        }
+        else
+        {
+            projectName = Session["ProjectName"].ToString();
+        }
+    }
+    @{
+
+
+        string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+        string website = System.Configuration.ConfigurationManager.AppSettings["SiteName"];
+    }
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <script src="@siteUrl/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="@siteUrl/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    @Html.Partial("_layoutrefTop")
+
+
+    <style>
+        .error-message {
+            color: #ff5b57 !important;
+        }
+
+        .projectname {
+            font-family: "Raleway", sans-serif;
+            color: white !important;
+        }
+
+        .logdrop {
+            margin-right: 20px;
+            margin-top: 10px;
+        }
+
+
+            .logdrop a {
+                background-color: transparent !important;
+            }
+
+        footer {
+            display: none;
+        }
+
+        .logname {
+            color: white !important;
+            font-size: 16px;
+            font-weight: normal;
+            margin-right: 10px;
+            margin-right: 15px;
+            margin-top: -1px;
+            float: left;
+        }
+
+        .logatag {
+            border-radius: 50%;
+            background-color: #17b0fb !important;
+            min-width: 45px !important;
+            height: 100%;
+        }
+
+        ion-icon {
+            margin-top: 1rem;
+            margin-left: -2rem;
+            width: 16rem;
+            height: 5rem;
+            visibility: hidden;
+        }
+
+        .logusericon {
+            font-size: 30px !important;
+            width: auto !important;
+            padding-top: 6px;
+        }
+
+        .fa-caret-down {
+            color: #808080 !important;
+            margin-left: 10px;
+        }
+
+        .navbar-brand {
+            display: inline-block;
+            width: 100% !important;
+            height: auto !important;
+            max-width: 110px !important;
+            margin-left: 4rem;
+        }
+
+        .back-icon {
+            color: #000080;
+            font-size: 29px;
+            margin-left: 36px;
+            margin-top: 30px;
+        }
+    </style>
+
+</head>
+
+<body class="no-skin">
+    <div id="ProgressImg" class="ProgressImg">
+        <img src="~/images/ajax-loader.gif" />
+    </div>
+    <div id="navbar" class="navbar navbar-default ace-save-state" style="background-color:#0f1875">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left" style="margin-bottom: 0.5rem !important; margin-left:-3rem !important;">
+                <a href="#" class="navbar-brand">
+                    <img src="/images/saksham-logo-v1.png">
+                </a>
+            </div>
+            <div class="pull-left projectname brand-sub-title" style="margin-top:4rem;color:white;margin-left:1rem">
+                HP State Electronics Development Corporation Ltd
+            </div>
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="blue logdrop">
+                        <a data-toggle="dropdown" class="dropdown-toggle " href="#">
+                            <span class="logname">
+                                <b>
+                                    Hi, @(Request.Cookies["EmpName"]==null?"":Request.Cookies["EmpName"].Value)
+                                    (@(Request.Cookies["DesigName"] ==null?"":Request.Cookies["DesigName"].Value))
+                                    (@(Request.Cookies["DeptName"] ==null?"":Request.Cookies["DeptName"].Value))
+                                </b>
+                            </span>
+                            <i class="ace-icon fa fa-user logusericon logatag"></i>
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    <li>
+                                        <a href="/account/logout" class="clearfix">Logout</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Invoice/ChangePassword" style="color:Black !important;">Change Password</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div>
+        <a href="/Timesheet/Dashboard">
+            @*<ion-icon name="arrow-back-circle"></ion-icon>*@
+            <i class="fa-solid fa-arrow-left back-icon"></i>
+        </a>
+    </div>
+
+
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.loadState('main-container') } catch (e) { }
+        </script>
+
+
+        <div class="main-content" style="background-color: #ffffff;">
+            <div class="main-content-inner">
+                @RenderBody()
+            </div>
+            @* <div class="footer">
+                    <div class="footer-inner">
+                        <div class="footer-content">
+                            <span class="bigger-120">
+                                <span class="blue bolder">Saksham</span>
+                                Application &copy; @DateTime.Now.Year
+                            </span>
+
+                            &nbsp; &nbsp;
+
+                        </div>
+                    </div>
+                </div>*@
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div>
+        @*-----------------------------------------------------MODEL Start----------------------------------*@
+        @*<div class="modal fade" id="myModaldadd" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:#00476a;color:white;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="_view">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                                <div class="col-md-8">
+                                    <div class="modelalert"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        @*</div>*@
+    </div>
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+                <span class="bigger-120">
+                    <span class="blue bolder">Saksham</span>
+                    Application &copy; @DateTime.Now.Year
+                </span>
+
+                &nbsp; &nbsp;
+                <span class="action-buttons">
+                    <a href="#">
+                        <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("_layoutrefBottom")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    // disable right click
+   // document.addEventListener('contextmenu', event => event.preventDefault());
+
+//   document.onkeydown = function (e) {
+
+        // disable F12 key
+   //     if(e.keyCode == 123) {
+//alert('Sorry,This function has been disabled');
+  //          return false;
+   //     }
+
+        // disable I key
+    //    if(e.ctrlKey && e.shiftKey && e.keyCode == 73){
+//alert('Sorry,This function has been disabled');
+  //          return false;
+    //    }
+
+        // disable J key
+//        if(e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+//alert('Sorry,This function has been disabled');
+  //          return false;
+    //    }
+
+        // disable U key
+//        if(e.ctrlKey && e.keyCode == 85) {
+//alert('Sorry,This function has been disabled');
+//           return false;
+   //     }
+  //}
+
+</script>
+
+<script src="@siteUrl/Scripts/browser.js"></script>

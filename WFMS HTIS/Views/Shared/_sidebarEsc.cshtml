@@ -1,0 +1,495 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@{ commonFunctions comfun = new commonFunctions(); }
+<ul class="nav nav-list">
+    @if (Request.Cookies["DomainId"].Value != "5237")
+    {
+        if (Request.Cookies["RoleId"].Value != "24")
+        {
+            <li class="active">
+                <a href="/?id=@(comfun.encryptString("esc"))" class="esc">
+                    <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+                    <span class="menu-text"> Dashboard </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Employee/ViewProfile">
+                    <i class="fa fa-user" style="margin-left: 14px;"></i>
+                    <span class="menu-text"> Profile </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Employee/WebAttendance">
+                    <i class="fa fa-calendar" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Web Attendance
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Payroll
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+
+                    <li class="">
+                        <a href="/Payroll/HRAByEmployee">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            HRA
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Payroll/EmployeeInvestmentbyEmployee">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Employee Investment
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="/reports/salaryslip">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Salary Slip
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-calendar-check-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Leave Details
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Employee/LeaveApply">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Leave Apply
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+                    <li class="">
+                        <a href="/Employee/LeaveApproval">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Leave Approval
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-calendar-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Comp-Off
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Employee/ApplyCompOff">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Apply Comp-Off
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Employee/CompOffRequest">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Approve Comp-Off
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+
+            if (Request.Cookies["DomainId"].Value != "75")
+            {
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-calendar-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Gate Pass
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Employee/EmployeeGatePass">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Apply Gate-Pass
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Employee/GatePassApprovalList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Approve Gate-Pass
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+            }
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-car" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Exp.Management
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Task/Expenselist">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Expense Request
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Employee/PaymentRequest">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Payment Request
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-car" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Task Management
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Task/EmployeeTask">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Add Task
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+
+            @*<li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-car" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Conveyance
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Employee/ApplyConveyance">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Apply Conveyance
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                                <a href="/Attendance/LeaveAssignedList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Print Conveyance
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        <li class="">
+                                <a href="/Attendance/LeaveBalanceList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Faciliation
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                    </ul>
+                </li>*@
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-mobile-phone fa-lg" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Outdoor Attendance
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Employee/OutdoorAttendanceRequest">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            OD Request
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Employee/OutdoorAttendanceApproval">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            OD Approval
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+        }
+    }
+    @if (Request.Cookies["RoleId"].Value != "3")
+    {
+        if (Request.Cookies["RoleId"].Value != "24")
+        {
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-users" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        My Team
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Employee/TeamStatistics">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Team Statistics
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li class="">
+                            <a href="/attendance/attendancecalendar">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Attendance Calendar
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>*@
+                    <li class="">
+                        <a href="/Employee/UniformRequest">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Uniform Request
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Employee/EmployeeExit">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Resign Request
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    @* <li class="">
+                            <a href="/Employee/EmpTermination">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee Termination
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>*@
+
+                    <li class="">
+                        <a href="/Employee/LeaveApplyTeam">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Leave Apply (Team)
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="/Attendance/Misspunchlist">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            MissPunch Approval
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    @if (Request.Cookies["DomainId"].Value == "5157" || Request.Cookies["DomainId"].Value == "5242" || Request.Cookies["DomainId"].Value == "5216")
+                    {
+                        <li class="">
+                            <a href="/Payroll/LoanApproval">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Loan Approval
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    }
+    @if (Request.Cookies["DomainId"].Value != "5237")
+    {
+        if (Request.Cookies["RoleId"].Value != "24")
+        {
+            <li class="">
+                <a href="/Employee/ClearanceRequest">
+                    <i class="fa fa-check" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Clearance Request
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <!--<li class="">
+                <a href="/attendance/attendancecalendar">
+                    <i class="fa fa-calendar-plus-o" style="margin-left: 0px;">-->
+            <!--style="margin-left: 14px;"-->
+            <!--</i>
+                    <span class="menu-text">
+                        Attendance Calendar
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>-->
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-car" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Attendance Management
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Attendance/attendancecalendar">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Attendance Calendar
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Attendance/EmployeeMisspunchList">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            MissPunch List
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="">
+                <a href="/Employee/MyDocuments">
+                    <i class="fa fa-file" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        My Document
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Employee/RequestDocument">
+                    <i class="fa fa-upload" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Req/Upload Doc
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Employee/AdvancePaymentApproval">
+                    <i class="fa fa-dollar" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Advance Pay Request
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="/Employee/CompanyPolicies">
+                    <i class="fa fa-file-text" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Company Policy
+                    </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-support" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Helpdesk
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Amc/AuthComplainRegister">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Complaints
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="">
+            <a href="/GreenHeckFans/GreenHeckResult">
+                <i class="menu-icon fa fa-caret-right"></i>
+                GreenHeck Fan
+            </a>
+            <b class="arrow"></b>
+        </li>
+    }
+    @if (Request.Cookies["RoleId"].Value != "24")
+    {
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-link" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    HTIS Connect
+                </span>
+                <!--<b class="arrow fa fa-angle-down"></b>-->
+            </a>
+            <b class="arrow"></b>
+        </li>
+    }
+</ul>

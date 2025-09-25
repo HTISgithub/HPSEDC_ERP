@@ -1,0 +1,100 @@
+﻿<link href="~/Content/MappingStyle.css" rel="stylesheet" />
+<div><input type="hidden" id="GeoFenceMappingId" value="0" /></div>
+<div class="form-group row">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="EmpId">Employee</label><span class="error-message">*</span></div>
+        <div>
+            <select id="EmpId" class="form-control" onchange="MappedSitesListDisplay()">
+                <option value="0">---SELECT Employee---</option>
+                @foreach (var item in Model.Tables[0].Rows)
+                {
+                    <option value="@item["EmployeeId"]">@item["EmployeeName"]</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="GeoFenceCountryId">Country</label><span class="error-message">*</span></div>
+        <div>
+            <select id="GeoFenceCountryId" class="form-control" onchange="GeoFenceStateListDisplay()">
+                <option value="0">---SELECT Country---</option>
+                @foreach (var item in Model.Tables[1].Rows)
+                {
+                    <option value="@item["CountryId"]">@item["CountryName"]</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="GeoFenceStateId">State</label><span class="error-message">*</span></div>
+        <div>
+            <select id="GeoFenceStateId" class="form-control" onchange="GeoFenceCityListDisplay()">
+                <option value="0">---SELECT State---</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="GeoFenceCityId">City</label><span class="error-message">*</span></div>
+        <div>
+            <select id="GeofenceCityId" class="form-control" onchange="GeoFenceSitesListDisplay()">
+                <option value="0">---SELECT City---</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background-color:#00476A;">
+                <div class="panel-title text-center">
+                    <label><b>Set Location Points</b></label>
+                </div>
+            </div>
+            <div class="panel-body" style="height:350px; overflow-y: scroll;">
+                <div id="Blank" class="text-center" style="display:none; margin:90px 0px 0px 0px;">
+                    <div style="margin-bottom:10px;">
+                        <img src="~/images/NoData.png" />
+                    </div>
+                    <p style="font-size:14px; color:#666;">To get Employee details, please select above filter!</p>
+                </div>
+                <div id="SiteList">
+                    <div class="" id="nonSelected">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background-color:#00476A;">
+                <div class="panel-title text-center">
+                    <label><b>Selected Location Point</b></label>
+                </div>
+            </div>
+            <div class="panel-body" style="height:350px; overflow-y: scroll;">
+                <div id="Blank" class="text-center" style="display:none; margin:90px 0px 0px 0px;">
+                    <div style="margin-bottom:10px;">
+                        <img src="~/images/NoData.png" />
+                    </div>
+                    <p style="font-size:14px; color:#666;">To get Employee details, please select above filter!</p>
+                </div>
+                <div id="MappedSiteList">
+                    <div class="" id="selected">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.modal-footer').show();
+    $('.btnModalSubmit').bind('click', function () {
+        GeoFenceMappingSubmit();
+    });
+</script>
+<script src="~/Scripts/GeoFenceMapping.min.js"></script>

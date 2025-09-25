@@ -1,0 +1,37 @@
+/*
+Theme Name:   Wfms
+Description:  Write here a brief description about your child-theme
+Author:       wfms_admin
+Author URL:   http://localhost/wfms
+Template:     astra
+Version:      1.0
+License:      GNU General Public License v2 or later
+License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  Wfms
+*/
+
+/* Write here your own personal stylesheet */
+.custom-top-bar{
+	background-color:#00476A;
+	width:100%
+}
+
+.custom-top-bar-in{
+	font-weight:bold;
+	color:#fff;
+	background-color:#00476A;
+	width:1170px;
+	margin:0 auto;
+	text-align:right;
+	padding:3px 0px;
+}
+
+.lae-testimonials .lae-testimonial-text{
+	border-radius: 12px!important;
+}
+
+.ast-footer-overlay {
+    padding-top: 1em!important;
+    padding-bottom: 1em!important;
+	
+}

@@ -1,0 +1,42 @@
+﻿@{
+    int sno = 0;
+}
+<div class="dt-responsive">
+    <table class="table table-striped table-bordered" id="myTable">
+        <thead>
+            <tr>
+                <th class="widthsr">Sr.No.</th>
+                <th>Group Code</th>
+                <th>Group Name</th>
+                <th>User Mapping</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Rows)
+            {
+                sno = sno + 1;
+            <tr>
+                <td>@sno</td>
+                <td>@item["CGCode"]</td>
+                <td>@item["CGName"]</td>
+                <td><a href="#" onclick="_UpdateGroupandClearanceHeadMapping(@(item["CGId"].ToString()))">Mapping</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function _UpdateGroupandClearanceHeadMapping(CGId) {
+        $('#myModal').modal('show');
+        $('.modal-title').html('<b>Update Group and Clearance Head Mapping</b>');
+        $('#_view').html('<img src="/content/ajax-loader.gif" class="loaderimg" />');
+        $("#myModal").one('shown.bs.modal', function () {
+            $.post('/Admin/_UpdateGroupandClearanceHeadMapping', {
+                'CGId': CGId
+            }, function (data) {
+                $('#_view').html(data);
+            });
+        });
+    }
+</script>

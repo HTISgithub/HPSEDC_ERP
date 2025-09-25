@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="37b1739a633246f1a9eeccf9ca99359b" Name="Diagram1" ZoomLevel="14">
+        <EntityTypeShape EntityType="PayrollModel.tblVIKSATpayEmployee" Width="5.125" PointX="29.625" PointY="5.125" IsExpanded="true" />
+<<<<<<< .mine
+        <EntityTypeShape EntityType="PayrollModel.tblVIKSATUserLoginPart1" Width="3.375" PointX="11.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PayrollModel.tblVIKSATUserLoginPart2" Width="3.5" PointX="21.875" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PayrollModel.tblVIKSATEmployeeCategory" Width="1.5" PointX="6.5" PointY="5.5" />
+        <EntityTypeShape EntityType="PayrollModel.tblVIKSATUserCategory" Width="1.5" PointX="9.75" PointY="8.75" />
+||||||| .r677
+        
+        
+        
+        
+=======
+        
+        
+        
+        
+        <EntityTypeShape EntityType="PayrollModel.tbUserRoleMaster" Width="2.375" PointX="9.125" PointY="4.25" />
+>>>>>>> .r856
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

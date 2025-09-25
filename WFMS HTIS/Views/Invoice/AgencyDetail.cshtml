@@ -1,0 +1,987 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Agency Detail Card";
+    //ViewBag.PageTitle = "Agency Detail Card" ;
+    int pageSize = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PageSize"]);
+}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    h3 {
+        font-family: "Jost", sans-serif !important;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    label {
+        font-weight: 500;
+    }
+</style>
+@******************Breadcrumb Start**************@
+<!--<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Purchase Order</a>
+        </li>-->
+@*<li>
+        <a href="#">Customer Detail</a>
+    </li>*@
+<!--<li class="active">@ViewBag.PageTitle</li>
+</ul>-->
+<!-- /.breadcrumb -->
+<!--</div>-->
+@******************Breadcrumb End**************@
+<h3 style=" color: #00476a;text-align:center"> Agency Details</h3>
+<div class="page-content">
+
+
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Create Agency</a>
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    <div class="row">
+        <div class="col-xs-12">
+            &nbsp;
+            <div id="_CustomerTypeList">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th style="width:15px;">Sr.No.</th>
+                                <th>Agency Name</th>
+                                <th>Category</th>
+                                <th>Proprietor/MD Name</th>
+                                <th>Official Email</th>
+                                <th>Official Phone</th>
+                                <th>Empanelment Date</th>
+                                <th>Empanelment Expiry Date</th>
+                                <th>Empanelment Letter</th>
+                                <th>Biparty File</th>
+                                <th class="editcol actionedit">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="AgencyName">Agency Name</label><span class="error-message">*</span>
+                            <input type="text" id="AgencyNameId" class="form-control cleartxt required" placeholder="Agency Name" />
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label for="Category">Category</label><span class="error-message">*</span>
+                            <select id="CategoryId" class="form-control clearddl" placeholder="Category">
+                                <option value="0">--Select Category--</option>
+                                <option value="Category A">Category A</option>
+                                <option value="Category B">Category B</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="ProprietorMDName">Proprietor/MD Name</label><span class="error-message">*</span>
+                            <input type="text" class="form-control cleartxt required" id="ProprietorMdId" placeholder="Proprietor/MD Name" />
+
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="RegistrationNumber"> Registration Number</label><span class="error-message">*</span>
+                            <input type="text" class=" form-control cleartxt required" id="RegistrationId" placeholder=" Registration Number" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="CompanyType">Company Type</label><span class="error-message">*</span>
+                            <select id="CompanyId" class="form-control clearddl" placeholder="Company Type">
+                                <option value="0">--Company Type Status--</option>
+                                <option value="MSME">MSME</option>
+                                <option value="Start Up">Start Up</option>
+                                <option value="Both">Both</option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="PanNumber">PAN Number</label><span class="error-message">*</span>
+                            <input type="text" class="form-control cleartxt required" id="PanId" placeholder="PAN Number" maxlength="10" />
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="EPF">PF Code No.</label><span class="error-message">*</span>
+                            <input type="text" class="form-control cleartxt required" id="EPFId" placeholder="PF Code No." />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="EstablishmentCode">Establishment Code No.</label><span class="error-message">*</span>
+                            <input type="text" class="form-control cleartxt required" id="ESICId" placeholder="Establishment Code No." />
+
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="GST">GST Registration No.</label><span class="error-message">*</span>
+                            <input type="text" class="form-control cleartxt required" id="Gst" placeholder="GST Registration No." />
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="LabourLicense">Labour License</label><span class="error-message">*</span><br />
+                            <form style="margin-top: -14px;">
+                                <label class="radio-inline">
+                                    <input type="radio" name="LabourLicenseId" id="Yes" value="Yes" onclick="Showdata()">Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="LabourLicenseId" id="No" onclick="HideData()" value="No">No
+                                </label>
+
+                            </form>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="LicenseNo">License No.</label><span class="error-message">*</span>
+                            <input type="text" class="form-control cleartxt required" id="LicenseNoId" placeholder="License No" />
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="EPF">Empanelment Date</label><span class="error-message">*</span>
+                            <input type="text" class="datepicker form-control cleartxt required" name="datepicker" placeholder="Empanelment Date" id="EmpanelmentDate" />
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <div>Empanelment Letter</div>
+                            <div>
+                                <input type="file" name="file" id="EmpanelmentFile" multiple="" @*onclick="HideFile()"*@ />
+                                @*<input onchange="readURL(this)" type="file" class="filName" name="files[]" id="Imageupload" multiple="">*@
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div>Biparty Agreement</div>
+                            <div>
+                                <input type="file" name="file" id="TripartiteFile" multiple="" />
+                                @*<input onchange="readURL(this)" type="file" class="filName" name="files[]" id="Imageupload" multiple="">*@
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="EPF">BiParty Expire Date</label><span class="error-message">*</span>
+                            <input type="text" class="datepicker form-control cleartxt required" name="datepicker" placeholder="BiParty Expire Date" id="BiPartyExpireDate" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color:#00476A;">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse5" style="color:white">Contact Details</a>
+                                <a data-toggle="collapse" href="#collapse5"> <span class="pull-right clickable" style="color:white"><i class="glyphicon glyphicon-chevron-down"></i></span></a>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="VendorHQAddress">Agency HQ Address</label><span class="error-message">*</span>
+                                        <textarea rows="3" cols="30" height="" id="VendorHQAddressId" placeholder="Agency HQ Address Describe Here..."></textarea>
+                                        @*<input type="text" class="VendorHQAddress form-control" id="VendorHQAddId" placeholder="Vendor HQ Address" />*@
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="VendorHPAddressId">Agency HP Address</label><span class="error-message">*</span>
+                                        <textarea rows="3" cols="30" height="" id="VendorHPAddressId" placeholder="Agency HP Address Describe Here..."></textarea>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="OfficialEmailId">Official Email ID</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="OfficialEmailId" placeholder="Official Email ID" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="OfficialPhoneId">Official Phone</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="OfficialPhoneId" placeholder="Official Phone" maxlength="12" />
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="PhoneNumber1">Phone Number1</label><span class="error-message"></span>
+                                        <input type="text" class="form-control cleartxt required" id="PhoneNumber1" placeholder="Phone Number1" maxlength="12" />
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="PhoneNumber2">Phone Number2</label><span class="error-message"></span>
+                                        <input type="text" class="form-control cleartxt required" id="PhoneNumber2" placeholder="Phone Number2" maxlength="12" />
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color:#00476A;">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse3" style="color:white">Financial Details</a>
+                                <a data-toggle="collapse" href="#collapse3"> <span class="pull-right clickable" style="color:white"><i class="glyphicon glyphicon glyphicon-chevron-down"></i></span></a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="AccountHolderName">Account Holder Name</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="AccountHolderName" placeholder="Account Holder Name" />
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="AccountNumber">Account Number</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="AccountNumber" placeholder="Account Number" />
+
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="IFSC">IFSC Code</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="IFSC" placeholder="IFSC Code" />
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="BranchDetail">Branch Detail</label><span class="error-message">*</span>
+                                        <textarea rows="3" cols="30" height="" id="BranchDetail" placeholder="Branch Detail Describe Here..."></textarea>
+                                        @*<input type="text" class="VendorHQAddress form-control" id="VendorHQAddId" placeholder="Vendor HQ Address" />*@
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label for="EmpanelmentFees"> Empanelment Fees Amount</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="EmpanelmentFeesId" placeholder=" Empanelment Fees" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="Empanelment">Empanelment Fees Status</label><span class="error-message">*</span>
+                                        <select id="EmpanelmentStatusId" class="form-control clearddl" placeholder="Empanelment Fees Status">
+                                            <option value="0">--Empanelment Status--</option>
+                                            <option value="Submitted">Submitted</option>
+                                            <option value="Not Submitted">Not Submitted</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="RefNo">Ref No.</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="RefNoid" placeholder="Ref No" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="Date">Date</label><span class="error-message">*</span>
+                                        <input type="text" class="datepicker form-control cleartxt required" name="datepicker" placeholder="Date" id="Date" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="Method">Method</label><span class="error-message">*</span>
+                                        <select id="MethodId" class="form-control clearddl" placeholder="Method">
+                                            <option value="0">--Select Method--</option>
+                                            <option value="RTGS">RTGS</option>
+                                            <option value="NEFT">NEFT</option>
+                                            <option value="DD">DD</option>
+                                            <option value="Cheqe">Cheque</option>
+                                            <option value="Bank Gurantee">Bank Guarantee</option>
+                                            <option value="FDR">FDR</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label for="EMD">EMD Amount</label>
+                                        <input type="text" id="EMDAmountId" class="form-control cleartxt required" placeholder="EMD Amount" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="EMDStatus">EMD Status</label><span class="error-message">*</span>
+                                        <select id="EMDStatusId" class="form-control clearddl" placeholder="EMD Status">
+                                            <option value="0">--EMD Status--</option>
+                                            <option value="Paid">Paid</option>
+                                            <option value="Return Requested">Return Requested</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="RefNo">Ref No.</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="RefNoid1" placeholder="Ref No" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="Date">Date</label><span class="error-message">*</span>
+                                        <input type="text" class="datepicker form-control cleartxt required" name="datepicker" placeholder="Date" id="Date1" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="Method">Method</label><span class="error-message">*</span>
+                                        <select id="MethodId1" class="form-control clearddl" placeholder="Method">
+                                            <option value="0">--Select Method--</option>
+                                            <option value="RTGS">RTGS</option>
+                                            <option value="NEFT">NEFT</option>
+                                            <option value="DD">DD</option>
+                                            <option value="Cheqe">Cheque</option>
+                                            <option value="Bank Gurantee">Bank Guarantee</option>
+                                            <option value="FDR">FDR</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label for="PBG">PBG Amount</label>
+                                        <input type="text" id="PBGAmountId" class="form-control cleartxt required" placeholder="PBG Amount" />
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="PBGStatus">PBG Status</label><span class="error-message">*</span>
+                                        <select id="PBGStatusId" class="form-control clearddl" placeholder="PBG Status">
+                                            <option value="0">--PBG Status--</option>
+                                            <option value="Submitted">Submitted</option>
+                                            <option value="Not Submitted">Not Submitted</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label for="RefNo">Ref No.</label><span class="error-message">*</span>
+                                        <input type="text" class="form-control cleartxt required" id="RefNoid2" placeholder="Ref No" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="Date">Date</label><span class="error-message">*</span>
+                                        <input type="text" class="datepicker form-control cleartxt required" name="datepicker" placeholder="Date" id="Date2" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="Method">Method</label><span class="error-message">*</span>
+                                        <select id="MethodId2" class="form-control clearddl" placeholder="Method">
+                                            <option value="0">--Select Method--</option>
+                                            <option value="RTGS">RTGS</option>
+                                            <option value="NEFT">NEFT</option>
+                                            <option value="DD">DD</option>
+                                            <option value="Cheqe">Cheque</option>
+                                            <option value="Bank Gurantee">Bank Guarantee</option>
+                                            <option value="FDR">FDR</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                <div class="col-md-8">
+                    <div class="modelalert"></div>
+                </div>
+                <div class="col-md-2">
+                    <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var pageSize=@pageSize;
+    var mSupplierId = 0;
+    //var mBillCountryId = 0;
+    //var mBillStateId = 0;
+    //var mBillCityId = 0;
+    var sr = 0;
+    var IsActive = 'Y';
+    var tableRow;
+
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _AgencyDetailList();
+        //Showdata();
+      //_CustomerSocialAddressddl();
+      //  _CustomerEntityddl();
+    });
+
+    $('.btnModalSubmit').click(function () {
+        _AgencyDetailSubmit();
+    });
+
+    $('.modal-footer').show();
+
+    function changeActiveStatus(id) {
+        var status = 'N';
+        if ($('#' + id).is(':checked')) {
+            status = 'Y';
+        }
+        switcStatus('/Pm/_CustomerDetailStatusUpdate', id, status);
+    }
+
+    function changestatus() {
+        console.log('chk');
+    }
+
+
+    function _AgencyDetailList() {
+
+
+        $('#ProgressImg').show();
+        $.post('/TimeSheet/_AgencyDetailList', {
+            'AgencyId':mSupplierId,
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            /* alert(obj[0].Id);*/
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                //Document Download Link//
+                if (value.EmpanelmentFileDocument == '' || value.EmpanelmentFileDocument == null) {
+                    Doc = '<label class="text-center">-</label>';
+                }
+                else {
+                    Doc = '<a href="/ImageHPSEDC/' + value.EmpanelmentFileDocument + '" target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a>';
+                }
+
+                if (value.TripartiteFileDocument == '' || value.TripartiteFileDocument == null) {
+                    Docm = '<label class="text-center">-</label>';
+                }
+                else {
+                    Docm = '<a href="/ImageHPSEDC/' + value.TripartiteFileDocument + '"  target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a>';
+                }
+                // alert(value.Id);
+                var btnStatus = '<label><input name="switch-field-1" id=' + value.AgencyId + '  class="ace ace-switch ace-switch-2 chk" onchange="changeActiveStatus(id)"  type="checkbox" ' + (value.IsActive == "Y" ? "checked='checked'" : "") + ' /><span class="lbl"></span></label> ';
+
+                msr = msr + 1;
+                var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + value.AgencyId + ',this,\'' + value.IsActive + '\',' + value.AgencyId + ')" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+                var btnDelete = '<a href="#" onclick="RemoveEntry($(this),\'' + value.Id + '\')" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+
+                //if (!accessRights.Edit) { btnEdit = '<i data-toggle="tooltip" title="You Are Not Authorized" class="fa fa-ban fa-2x"></i>'; }
+                //if (!accessRights.Status) { btnStatus = '<i data-toggle="tooltip" title="You Are Not Authorized" class="fa fa-ban fa-2x"></i>'; }
+                var elmntArray = [
+                    msr,
+                    value.AgencyName,
+                    value.Category,
+                    value.ProprietorMDName,
+                    value.OfficialEmail,
+                    value.OfficialPhone,
+                    value.AEmpanelmentDate,
+                    value.EmpanelmentExpireDate,
+                    Doc,
+                    Docm,
+                    btnEdit
+
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+    }
+
+
+
+    function OpenAddModel() {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("General Details");
+        $('#myModal').modal({
+            show: 'false'
+        });
+
+        mSupplierId = 0;
+        isActive = 'Y';
+
+    }
+
+
+    function HideData() {
+
+        $('#LicenseNoId').prop('disabled', true);
+        $('#LicenseNoId').val('');
+
+    }
+    function Showdata() {
+
+        $('#LicenseNoId').prop('disabled', false);
+    }
+    //function HideFile() {
+    //    document.getElementById('Imageupload1').disabled = 'disabled';
+
+    //}
+
+    function _AgencyDetailSubmit() {
+
+
+        if ($('#AgencyNameId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Agency Name');
+
+           return;
+
+        }
+
+        if ($('#CategoryId').val().trim() == '0') {
+            $('.modelalert').html('Please Choose Category');
+
+            return;
+        }
+
+        if ($('#ProprietorMdId').val().trim() == '') {
+            $('.modelalert').html('Please Enter ProprietorMDName');
+            return;
+        }
+        if ($('#RegistrationId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Registration Number');
+            return;
+
+        }
+        if ($('#CompanyId').val().trim() == '0') {
+            $('.modelalert').html('Please Choose Company');
+
+            return;
+
+        }
+
+        if ($('#PanId').val().trim() == '') {
+            $('.modelalert').html('Please Enter PAN Number');
+
+            return;
+        }
+
+        if ($('#EPFId').val().trim() == '') {
+            $('.modelalert').html('Please Enter PF Code No');
+            return;
+
+        }
+        if ($('#ESICId').val().trim() == '') {
+            $('.modelalert').html('Please Enter  Establishment Code No ');
+            return;
+        }
+
+        if ($('#Gst').val().trim() == '') {
+            $('.modelalert').html('Please Enter  GST Registration No ');
+           return;
+        }
+
+        if ($('#EmpanelmentDate').val().trim() == '') {
+            $('.modelalert').html('Please Enter Empanelment Date');
+            return;
+        }
+
+        if ($('#BiPartyExpireDate').val().trim() == '') {
+            $('.modelalert').html('Please Enter BiParty Expire Date');
+            return;
+        }
+
+
+        if ($('#VendorHQAddressId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Vendor HQ Address');
+            return;
+        }
+        if ($('#VendorHPAddressId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Vendor HP Address');
+            return;
+
+        }
+
+
+
+
+
+        if ($('#AccountHolderName').val().trim() == '') {
+            $('.modelalert').html('Please Enter Account Holder Name');
+            return;
+        }
+        if ($('#AccountNumber').val().trim() == '') {
+            $('.modelalert').html('Please Enter Account Number');
+            return;
+
+        }
+
+        if ($('#IFSC').val().trim() == '') {
+            $('.modelalert').html('Please Enter IFSC Code');
+            return;
+        }
+        if ($('#BranchDetail').val().trim() == '') {
+            $('.modelalert').html('Please Enter Branch Detail');
+            return;
+
+        }
+
+        if ($('#OfficialEmailId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Official Email');
+            return;
+        }
+
+        if ($('#OfficialPhoneId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Official Phone Number');
+            return;
+        }
+        if ($('#EmpanelmentFeesId').val().trim() == '') {
+            $('.modelalert').html('Please Enter Empanelment Fees');
+            return;
+
+        }
+        if ($('#EmpanelmentStatusId').val().trim() == '0') {
+            $('.modelalert').html('Please Choose Empanelment Status');
+            return;
+        }
+
+        if ($('#EMDAmountId').val().trim() == '') {
+            $('.modelalert').html('Please Enter EMD Amount');
+            return;
+        }
+        if ($('#EMDStatusId').val().trim() == '0') {
+            $('.modelalert').html('Please Choose EMD Status');
+            return;
+
+        }
+        if ($('#PBGAmountId').val().trim() == '') {
+            $('.modelalert').html('Please Enter PBG Amount');
+            return;
+        }
+
+        if ($('#PBGStatusId').val().trim() == '') {
+            $('.modelalert').html('Please Choose PBG Status');
+            return;
+        }
+
+
+        var TripartiteFile = $("#TripartiteFile").get(0).files;
+        var EmpanelmentFile = $("#EmpanelmentFile").get(0).files;
+
+        var formData = new FormData();
+
+        for (var i = 0; i < TripartiteFile.length; i++) {
+            formData.append(TripartiteFile[i].name, TripartiteFile[i]);
+        }
+        for (var i = 0; i < EmpanelmentFile.length; i++) {
+            formData.append(EmpanelmentFile[i].name, EmpanelmentFile[i]);
+        }
+        //var Image = $('#Imageupload').val();
+
+        //var fileUpload = $("#Imageupload").get(0);
+        //var files = fileUpload.files;
+        //var EmpImg = $("#Imageupload").get(0).files;
+
+        //if (EmpImg.length > 0) {
+        //    data1.append("EmpImage", EmpImg[0]);
+        //}
+        //if (mId == 0) {
+        //    mId = 0;
+        //}
+        //else {
+        //    mId = Id;
+        //}
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $('.btnModalSubmit').attr("disabled", "disabled");
+        //var formData = new FormData();
+        //$.each(files, function (key, value) {
+        //     formData.append("FileDocument", files[key]);
+
+        //});
+
+
+        formData.append("AgencyId", mSupplierId);
+        formData.append("AgencyName", $("#AgencyNameId").val());
+        formData.append("Category", $("#CategoryId").val());
+        formData.append("ProprietorMDName", $("#ProprietorMdId").val());
+        formData.append("RegistrationNo", $("#RegistrationId").val());
+        formData.append("CompanyType", $("#CompanyId").val());
+        formData.append("PanNumber", $("#PanId").val());
+        formData.append("EPF", $("#EPFId").val());
+        formData.append("ESIC", $("#ESICId").val());
+        formData.append("Gst", $("#Gst").val());
+
+        formData.append("LabourLicense", $('input[type="radio"]:checked').val());
+        formData.append("LicenseNo", $('#LicenseNoId').val());
+        formData.append("AEmpanelmentDate", $("#EmpanelmentDate").val());
+
+        formData.append("AccountHolderName", $("#AccountHolderName").val());
+        formData.append("AccountNumber", $("#AccountNumber").val());
+        formData.append("IfscCode", $("#IFSC").val());
+        formData.append("BranchDetail", $("#BranchDetail").val());
+
+        formData.append("VendorHqAddress", $("#VendorHQAddressId").val());
+        formData.append("VendorHpAddress", $("#VendorHPAddressId").val());
+        formData.append("OfficialEmail", $("#OfficialEmailId").val());
+        formData.append("OfficialPhone", $("#OfficialPhoneId").val());
+        formData.append("PhoneNumber1", $("#PhoneNumber1").val());
+        formData.append("PhoneNumber2", $("#PhoneNumber2").val());
+        formData.append("EmpanelmentFeesAmount", $("#EmpanelmentFeesId").val());
+        formData.append("EmpanelmentFeesStatus", $("#EmpanelmentStatusId").val());
+
+        formData.append("BiPartyExpireDate", $("#BiPartyExpireDate").val());
+
+        formData.append("EMDAmount", $("#EMDAmountId").val());
+        formData.append("EMDStatus", $("#EMDStatusId").val());
+        formData.append("PBGAmount", $("#PBGAmountId").val());
+        formData.append("PBGStatus", $("#PBGStatusId").val());
+
+        formData.append("TripartiteFileDocument", $('#TripartiteFile').val());
+        formData.append("EmpanelmentFileDocument", $('#EmpanelmentFile').val());
+
+        formData.append("EmpanelmentRefNo", $('#RefNoid').val());
+        formData.append("EmpanelmentDate", $('#Date').val());
+        formData.append("EmpanelmentMethod", $('#MethodId').val());
+
+        formData.append("EMDRefNo", $('#RefNoid1').val());
+        formData.append("EMDDate", $('#Date1').val());
+        formData.append("EMDMethod", $('#MethodId1').val());
+
+        formData.append("PBGRefNo", $('#RefNoid2').val());
+        formData.append("PBGDate", $('#Date2').val());
+        formData.append("PBGMethod", $('#MethodId2').val());
+
+        /*formData.append("IsActive", "Y");*/
+        $(this).prop('disabled', true);
+        $.ajax({
+
+            type: "POST",
+            url: "/TimeSheet/_AgencyDetailSubmit",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.indexOf('error') > -1) {
+                    $('.modelalert').html(data);
+                }
+                else {
+                    var table = $('#myTable').DataTable();
+
+                    //var elmntCollection = createTblColmnBtns();
+
+                    if (parseInt(mSupplierId) > 0) {
+                        $('.modelalert').html("Agency Updated Saved Sucessfully").delay(1000).queue(function () {
+                            $('.modelalert').dequeue();
+                            $('#myModal').modal('hide');
+                        });
+                        _AgencyDetailList();
+                    }
+                    else {
+                        sr = table.rows().count() + 1;
+                        console.log('sr=' + sr);
+                        $('.modelalert').html("Agency Details Saved Sucessfully").delay(1000).queue(function () {
+                            $('.modelalert').dequeue();
+                            $('#myModal').modal('hide');
+                        });
+                        _AgencyDetailList();
+                    }
+                }
+                $('.btnModalSubmit').removeAttr("disabled");
+                $('#ModalProgress').hide();
+            },
+            error: function (er) {
+                alert(er);
+            }
+        });
+
+
+    }
+
+    function fillForm() {
+
+        //console.log('fillForm');
+        $('#ModalProgress').show();
+        $('.modelalert').html('Please wait');
+        $.post('/TimeSheet/_AgencyDetailEdit', {
+            'AgencyId': mSupplierId
+        }, function (data) {
+            $('#ModalProgress').hide();
+            $('.modelalert').html('');
+            var obj = $.parseJSON(data);
+            console.log(obj);
+            $('#AgencyNameId').val(obj[0].AgencyName),
+            $('#CategoryId').val(obj[0].Category),
+            $('#Email').val(obj[0].Email),
+            $('#ProprietorMdId').val(obj[0].ProprietorMDName),
+                $('#RegistrationId').val(obj[0].RegistrationNo),
+                $('#CompanyId').val(obj[0].CompanyType),
+                $('#PanId').val(obj[0].PanNumber),
+                $('#EPFId').val(obj[0].EPF),
+                $('#ESICId').val(obj[0].ESIC),
+                $('#Gst').val(obj[0].Gst),
+
+                $('#LicenseNoId').val(obj[0].LicenseNo),
+                $('#EmpanelmentDate').val(obj[0].AEmpanelmentDate),
+               // $('#Imageupload').val(obj[0].FileDocument),
+
+                $('#AccountHolderName').val(obj[0].AccountHolderName),
+                $('#AccountNumber').val(obj[0].AccountNumber),
+                $('#IFSC').val(obj[0].IfscCode),
+                $('#BranchDetail').val(obj[0].BranchDetail),
+
+                $('#BiPartyExpireDate').val(obj[0].BiPartyExpireDate),
+
+                $('#VendorHQAddressId').val(obj[0].VendorHqAddress),
+                $('#VendorHPAddressId').val(obj[0].VendorHpAddress),
+                $('#OfficialEmailId').val(obj[0].OfficialEmail),
+                $('#OfficialPhoneId').val(obj[0].OfficialPhone),
+
+                $('#PhoneNumber1').val(obj[0].PhoneNumber1),
+                $('#PhoneNumber2').val(obj[0].PhoneNumber2),
+
+                $('#EmpanelmentFeesId').val(obj[0].EmpanelmentFeesAmount),
+                $('#EmpanelmentStatusId').val(obj[0].EmpanelmentFeesStatus),
+                $('#EMDAmountId').val(obj[0].EMDAmount),
+                $('#EMDStatusId').val(obj[0].EMDStatus),
+                $('#PBGAmountId').val(obj[0].PBGAmount),
+                $('#PBGStatusId').val(obj[0].PBGStatus),
+
+                $('#RefNoid').val(obj[0].EmpanelmentRefNo),
+                $('#Date').val(obj[0].EmpanelmentDate),
+                $('#MethodId').val(obj[0].EmpanelmentMethod),
+
+                $('#RefNoid1').val(obj[0].EMDRefNo),
+                $('#Date1').val(obj[0].EMDDate),
+                $('#MethodId1').val(obj[0].EMDMethod),
+
+                $('#RefNoid2').val(obj[0].PBGRefNo),
+                $('#Date2').val(obj[0].PBGDate),
+                $('#MethodId2').val(obj[0].PBGMethod)
+
+
+            if (obj[0].LabourLicense == 'No') {
+
+                $("input[name=LabourLicenseId][value=" + 'No' + "]").prop('checked', true);
+
+            }
+            else {
+                $("input[name=LabourLicenseId][value=" + 'Yes' + "]").prop('checked', true);
+
+            }
+
+                //mCustomerId = obj[0].CustomerId,
+            //
+            _Customerddl();
+            //// $('#DemoImages').val(obj[0].DeviceConnectionTypeId)
+
+        });
+    }
+
+    function OpenUpdateModel(AgencyId, atag, status) {
+
+        resetModal();
+        resetForm();
+        $('.modal-title').html("General Details");
+        $('#myModal').modal({
+            show: 'false'
+        });
+        mSupplierId = AgencyId;
+        /*sr = tableRowColumnsData[0];*/
+        fillForm();
+
+        /*isActive = status;*/
+        root = '/TimeSheet/_AgencyDetailEdit';
+        //_AgencyDetailList();
+        $('.modal-footer').show();
+        //_AgencyDetailList();
+    }
+
+</script>

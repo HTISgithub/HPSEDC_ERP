@@ -1,0 +1,100 @@
+﻿ .table, .table-form{
+     background-color:#fff;
+ }
+.table td{
+    padding-top:4px !important;
+    padding-bottom:4px !important;
+}
+.table>tbody>tr:nth-child(odd)>td, 
+.table>tbody>tr:nth-child(odd)>th {
+   background-color: #f4f5f7;  
+ }
+
+.table_right 
+{
+    width:100%;
+    background-color:#fff;
+}
+.mainlabel
+{
+     margin-left:12px;
+}
+ .table_right1 
+{
+    width:100%;
+    background-color:#fff;
+}
+.table_right2
+{
+    width:100%;
+    background-color:#fff;
+}
+.tb1chk
+{
+    margin-left:6px !important;
+}
+.table_right1 label
+{
+    margin-left:8px;
+}
+.table_right2 label
+{
+    margin-left:8px;
+}
+.table_right td,.table_right th,.table_right1 td,.table_right1 th,.table_right2 td,.table_right2 th{
+    padding-top:4px !important;
+    padding-bottom:4px !important;
+    padding-left:5px;
+}
+.table_right>tbody>tr:nth-child(odd)>td, 
+.table_right>tbody>tr:nth-child(odd)>th {
+    
+ }
+.table_right1>tbody>tr:nth-child(odd)>td, 
+.table_right1>tbody>tr:nth-child(odd)>th {
+    
+ }
+.table_right2>tbody>tr:nth-child(odd)>td, 
+.table_right2>tbody>tr:nth-child(odd)>th {
+    background-color:#f4f5f7;
+ }
+.table > tbody > tr:hover > td,
+.table> tbody > tr:hover > th {
+  background-color: #e3ead1;
+}
+ 
+ 
+.table-fixed thead{
+   background-color: #e3ead1 !important;  
+ }
+ 
+     
+.table-fixed>tbody>tr:nth-child(odd)>td, 
+.table-fixed>tbody>tr:nth-child(odd)>th {
+   background-color: #f4f5f7;  
+ }
+.table-fixed > tbody > tr:hover > td,
+.table-fixed> tbody > tr:hover > th {
+  background-color: #e3ead1;
+}
+
+
+/********table-form***************/
+.table-form 
+{
+    width:100%; 
+}
+.table-form td
+{
+    border:0 none;
+    padding:5px;
+}
+.table-form>tbody>tr:nth-child(odd)>td, 
+.table-form>tbody>tr:nth-child(odd)>th {
+   background-color: transparent !important;  
+ }
+
+
+.col-md-10{
+    background-color:#fff;
+}

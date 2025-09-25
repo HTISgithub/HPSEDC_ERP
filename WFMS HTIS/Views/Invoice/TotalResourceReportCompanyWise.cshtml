@@ -1,0 +1,396 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Total Resource Report";
+    ViewBag.PageTitle = "Total Resource Report";
+    //commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    // string user = Session["RoleId"].ToString();
+
+}
+
+@******************Breadcrumb Start**************@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    .input-sm {
+        margin-top: 30px;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+
+    .dt-buttons {
+        display: none;
+    }
+
+    .select2-results__options {
+        max-height: 400px !important;
+        overflow-y: auto !important;
+    }
+</style>
+
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+<div class="row">
+    &nbsp;
+    <div class="col-md-12">
+        <div style="margin-top:10px">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="col-md-3" style=" margin-top: -71px; display:none;">
+                        <label for="Month">Month Year</label><span class="error-message">*</span>
+                        <select id="ddlMonths" class="Month" onchange="_ResourceReport()">
+                            <option>--Month--</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+
+                                DateTime date = new DateTime(2020, i, 1);
+                                mon = date.ToString("MMM");
+                                <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                            }
+                        </select>
+                        <select id="ddlYears" class="year" onchange="_ResourceReport()">
+                            <option>--Year--</option>
+                            @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                            {
+                                if (i == DateTime.Now.Year)
+                                {
+                                    <option value="@i" selected='selected'>@i</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-1" style=" margin-top: -83px; margin-left: 1045px; display:flex;flex-direction:row ">
+                    <button id="exportBtn" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 12px; border-radius: 5px; border: none; margin-left:10px " onclick="ExportResourceReportToExcel()">Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div align="left" id="Zones">
+        <h2 style="text-align: center; margin-bottom: 20px;">Agency Wise Resources</h2>
+
+        <div class="dt-responsive">
+            <table class="table table-striped table-bordered" id="myTable">
+                <thead>
+                    <tr>
+                        <th class="widthsr" rowspan="2">Sr.No.</th>
+                        <th rowspan="2">Agency Name</th>
+                        <th colspan="12" style="text-align: center;">Month</th>
+                    </tr>
+                    <tr>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Apr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Aug</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <table class="table table-bordered" id="totalTable" style="margin-top:20px;">
+                <thead>
+                    <tr>
+                        <th>Total</th>
+                        <th>Jan</th>
+                        <th>Feb</th>
+                        <th>Mar</th>
+                        <th>Apr</th>
+                        <th>May</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Aug</th>
+                        <th>Sep</th>
+                        <th>Oct</th>
+                        <th>Nov</th>
+                        <th>Dec</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="totalRow">
+                        <td><b>Total</b></td>
+                        <td id="totalJan">0</td>
+                        <td id="totalFeb">0</td>
+                        <td id="totalMar">0</td>
+                        <td id="totalApr">0</td>
+                        <td id="totalMay">0</td>
+                        <td id="totalJun">0</td>
+                        <td id="totalJul">0</td>
+                        <td id="totalAug">0</td>
+                        <td id="totalSep">0</td>
+                        <td id="totalOct">0</td>
+                        <td id="totalNov">0</td>
+                        <td id="totalDec">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _ResourceReport();
+    });
+
+
+    function ExportResourceReportToExcel() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+
+        $.post('/Invoice/_TotalResourceReportCompanyWiseList', {
+            MonthId: month,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var dataForExport = [];
+
+            // Header row
+            dataForExport.push(["Total No. of Resources for Month " + $('#ddlMonths').find(':selected').text() + $('#ddlYears').find(':selected').text()]);
+            dataForExport.push([]);
+
+            dataForExport.push([
+                "Sr. No.",
+                "Agency Name",
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ]);
+
+            var msr = 0;
+            var totalJan = 0, totalFeb = 0, totalMar = 0, totalApr = 0,
+                totalMay = 0, totalJun = 0, totalJul = 0, totalAug = 0,
+                totalSep = 0, totalOct = 0, totalNov = 0, totalDec = 0;
+
+            $.each(obj, function (key, value) {
+                msr++;
+                dataForExport.push([
+                    msr,
+                    value.AgencyName,
+                    value.Jan,
+                    value.Feb,
+                    value.Mar,
+                    value.Apr,
+                    value.May,
+                    value.Jun,
+                    value.Jul,
+                    value.Aug,
+                    value.Sep,
+                    value.Oct,
+                    value.Nov,
+                    value.Dec
+                ]);
+
+                totalJan += parseFloat(value.Jan) || 0;
+                totalFeb += parseFloat(value.Feb) || 0;
+                totalMar += parseFloat(value.Mar) || 0;
+                totalApr += parseFloat(value.Apr) || 0;
+                totalMay += parseFloat(value.May) || 0;
+                totalJun += parseFloat(value.Jun) || 0;
+                totalJul += parseFloat(value.Jul) || 0;
+                totalAug += parseFloat(value.Aug) || 0;
+                totalSep += parseFloat(value.Sep) || 0;
+                totalOct += parseFloat(value.Oct) || 0;
+                totalNov += parseFloat(value.Nov) || 0;
+                totalDec += parseFloat(value.Dec) || 0;
+            });
+
+            // Add total row at the end
+            dataForExport.push([
+                "Total",
+                "",
+                totalJan,
+                totalFeb,
+                totalMar,
+                totalApr,
+                totalMay,
+                totalJun,
+                totalJul,
+                totalAug,
+                totalSep,
+                totalOct,
+                totalNov,
+                totalDec
+            ]);
+
+            const ws = XLSX.utils.aoa_to_sheet(dataForExport);
+
+            // Merge first header row cells
+            ws["!merges"] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 13 } }
+            ];
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Monthly Resource Report");
+            XLSX.writeFile(wb, "Compnay wise Report.xlsx");
+        });
+    }
+
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').select2({
+                dropdownAutoWidth: 'false',
+            });
+        });
+    }
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#ddldepartment').html(DeptId);
+            $('#ddldepartment').select2({
+                dropdownAutoWidth: 'false',
+            });
+        });
+    }
+
+
+    function _ResourceReport() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+        $.post('/Invoice/_TotalResourceReportCompanyWiseList', {
+            MonthId: month,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+
+            var totalJan = 0, totalFeb = 0, totalMar = 0, totalApr = 0, totalMay = 0, totalJun = 0,
+                totalJul = 0, totalAug = 0, totalSep = 0, totalOct = 0, totalNov = 0, totalDec = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var elmntArray = [
+                    msr,
+                    value.AgencyName,
+                    value.Jan,
+                    value.Feb,
+                    value.Mar,
+                    value.Apr,
+                    value.May,
+                    value.Jun,
+                    value.Jul,
+                    value.Aug,
+                    value.Sep,
+                    value.Oct,
+                    value.Nov,
+                    value.Dec
+                ];
+
+                table.row.add(elmntArray);
+                totalJan += parseFloat(value.Jan) || 0;
+                totalFeb += parseFloat(value.Feb) || 0;
+                totalMar += parseFloat(value.Mar) || 0;
+                totalApr += parseFloat(value.Apr) || 0;
+                totalMay += parseFloat(value.May) || 0;
+                totalJun += parseFloat(value.Jun) || 0;
+                totalJul += parseFloat(value.Jul) || 0;
+                totalAug += parseFloat(value.Aug) || 0;
+                totalSep += parseFloat(value.Sep) || 0;
+                totalOct += parseFloat(value.Oct) || 0;
+                totalNov += parseFloat(value.Nov) || 0;
+                totalDec += parseFloat(value.Dec) || 0;
+            });
+
+            table.draw(false);
+            $('#totalJan').html(totalJan);
+            $('#totalFeb').html(totalFeb);
+            $('#totalMar').html(totalMar);
+            $('#totalApr').html(totalApr);
+            $('#totalMay').html(totalMay);
+            $('#totalJun').html(totalJun);
+            $('#totalJul').html(totalJul);
+            $('#totalAug').html(totalAug);
+            $('#totalSep').html(totalSep);
+            $('#totalOct').html(totalOct);
+            $('#totalNov').html(totalNov);
+            $('#totalDec').html(totalDec);
+        });
+    }
+
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

@@ -1,0 +1,69 @@
+﻿@using System.Data
+@{
+    // string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    ViewBag.Title = "Helpdesk Group";
+    ViewBag.PageTitle = "Helpdesk Group List";
+    commonFunctions comfun = new commonFunctions();
+}
+
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Home</a>
+        </li>
+        <li>
+            <a href="#">Master</a>
+        </li>
+        <li>
+            <a href="#">Helpdesk</a>
+        </li>
+        <li class="active">@ViewBag.Title</li>
+    </ul><!-- /.breadcrumb -->
+</div>
+@******************Breadcrumb End**************@
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right" onclick="_AddNew()"><i class="fa fa-plus"></i> Add New</a>
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12 col-sm-12">
+            <div align="left" id="HelpGroup"></div>
+        </div>
+    </div>
+</div> 
+<script>
+    _HelpDeskGroupList();
+    function _HelpDeskGroupList() {
+        $('#ProgressImg').show();
+        $.post('/Admin/_helpdeskgroups',
+            {              
+            }, function (data) {
+                $('#HelpGroup').html(data);
+                tableOptions();
+                $('#ProgressImg').hide();
+            });
+    }
+
+    function _AddNew() {
+        $('#myModal').modal('show');
+        $('.modal-title').html('<b>Add New Group</b>');
+        $('#_view').html('');
+        $('#_view').html('<img src="/content/ajax-loader.gif" class="loaderimg" />');
+        $("#myModal").one('shown.bs.modal', function () {
+            $.post('/Admin/_helpdeskgroupAdd', {
+            }, function (data) {
+                $('#_view').html(data);
+            });
+        });
+    }
+</script>

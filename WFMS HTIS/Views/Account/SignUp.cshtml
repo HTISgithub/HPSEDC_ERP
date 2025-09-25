@@ -1,0 +1,725 @@
+﻿@model Payroll.portal.Models.LoginViewModel
+@using System.Data;
+@{
+    ViewBag.Title = "Sign Up";
+    Layout = null;// "~/Views/Shared/_layoutLogin.cshtml";
+    commonFunctions comfun = new commonFunctions();
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+}
+<script src="@siteUrl/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<style>
+    .loginbody {
+        min-height: 100vh !important;
+    }
+
+    body, button, input, select, textarea, .ast-button, .ast-custom-button {
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+        font-weight: inherit;
+        font-size: 15px;
+        font-size: 1rem;
+    }
+
+    .custom-top-bar {
+        background-color: #00476A;
+        width: 100%;
+    }
+
+    .main-header-bar-wrap {
+        position: relative;
+    }
+
+    .custom-top-bar-in {
+        font-weight: bold !important;
+        color: #fff;
+        background-color: #00476A;
+        width: 1170px;
+        margin: 0 auto;
+        text-align: right;
+        padding: 3px 0px;
+    }
+
+    .main-header-bar {
+        border-bottom-width: 1px;
+    }
+
+    .main-header-bar {
+        z-index: 4;
+        position: relative;
+        line-height: 4;
+    }
+
+    .main-header-bar {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .main-header-bar {
+        background-color: #fff;
+        border-bottom-color: #eaeaea;
+        border-bottom-style: solid;
+    }
+
+    .header-main-layout-1 .main-header-container {
+        align-items: stretch;
+    }
+
+    .ast-flex {
+        -js-display: flex;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .main-header-container {
+        position: relative;
+    }
+
+    .site-branding {
+        line-height: 1;
+        align-self: center;
+    }
+
+    .ast-mobile-menu-buttons {
+        display: none;
+    }
+
+    .header-main-layout-1 .ast-main-header-bar-alignment {
+        margin-left: auto;
+    }
+
+    .main-header-bar .main-header-bar-navigation {
+        height: 100%;
+    }
+
+    .header-main-layout-1 .main-header-bar-navigation {
+        text-align: right;
+    }
+
+    .main-header-bar-navigation {
+        flex: 1;
+    }
+
+    #site-navigation {
+        height: 100%;
+    }
+
+    .ast-flex-grow-1 {
+        flex-grow: 1;
+    }
+
+    article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
+        display: block;
+    }
+
+    .header-main-layout-1 .main-navigation {
+        padding-left: 15px;
+        vertical-align: top;
+    }
+
+    .main-navigation {
+        -js-display: inline-flex;
+        display: inline-flex;
+        height: 100%;
+    }
+
+        .main-navigation ul {
+            list-style: none;
+            margin: 0;
+            padding-left: 0;
+            position: relative;
+        }
+
+    .ast-justify-content-flex-end {
+        justify-content: flex-end;
+    }
+
+    .ast-flex {
+        -js-display: flex;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .main-header-menu .menu-item, .main-header-bar .ast-masthead-custom-menu-items {
+        -js-display: flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -moz-box-orient: vertical;
+        -moz-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .main-header-menu li {
+        position: relative;
+    }
+
+    .ast-masthead-custom-menu-items.widget-custom-menu-item {
+        text-align: left;
+    }
+
+    li.ast-masthead-custom-menu-items {
+        padding: 0 1em;
+    }
+
+    .main-header-menu li {
+        position: relative;
+    }
+
+    .ast-header-widget-area {
+        line-height: 1.65;
+    }
+
+        .ast-header-widget-area .widget:last-child {
+            margin-bottom: .5em;
+            margin-right: 0;
+        }
+
+    .widget:last-child {
+        margin-bottom: 0;
+    }
+
+    .ast-header-widget-area .widget {
+        margin: .5em;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .maxbutton-2.maxbutton.maxbutton-button2 {
+        position: relative;
+        text-decoration: none;
+        display: inline-block;
+        vertical-align: middle;
+        width: 105px;
+        height: 42px;
+        border-width: 0px;
+        border-radius: 5px 5px 5px 5px;
+        background-color: #02a2f2;
+        -webkit-box-shadow: 0px 0px 4px 3px #ffffff;
+        -moz-box-shadow: 0px 0px 4px 3px #ffffff;
+        box-shadow: 0px 0px 4px 3px #ffffff;
+    }
+
+        .maxbutton-2.maxbutton.maxbutton-button2 .mb-text {
+            color: #ffffff;
+            font-family: Tahoma;
+            font-size: 16px;
+            text-align: center;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1em;
+            box-sizing: border-box;
+            display: block;
+            background-color: unset;
+            padding: 12px 0px 0px 0px;
+        }
+
+    .maxbutton-1.maxbutton.maxbutton-button1 {
+        position: relative;
+        text-decoration: none;
+        display: inline-block;
+        vertical-align: middle;
+        width: 136px;
+        height: 42px;
+        border-width: 0px;
+        border-radius: 5px 5px 5px 5px;
+        background-color: #ee7928;
+        -webkit-box-shadow: 0px 0px 3px 3px #ffffff;
+        -moz-box-shadow: 0px 0px 3px 3px #ffffff;
+        box-shadow: 0px 0px 3px 3px #ffffff;
+    }
+
+        .maxbutton-1.maxbutton.maxbutton-button1 .mb-text {
+            color: #ffffff;
+            font-family: Tahoma;
+            font-size: 16px;
+            text-align: center;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1em;
+            box-sizing: border-box;
+            display: block;
+            background-color: unset;
+            padding: 12px 0px 0px 0px;
+        }
+
+    .main-header-menu > .menu-item > a {
+        height: 100%;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -js-display: flex;
+        display: flex;
+    }
+
+    .fa, .fas {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+    }
+
+    .main-header-menu a {
+        text-decoration: none;
+        padding: 0 1em;
+        display: inline-block;
+        transition: all .2s linear;
+    }
+
+    .ast-small-footer > .ast-footer-overlay {
+        background-color: #00476a;
+    }
+
+    .ast-footer-overlay {
+        padding-top: 1em !important;
+        padding-bottom: 1em !important;
+    }
+
+    .site-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0px;
+    }
+
+    .error {
+        border-color: #eb0c0c !important;
+        color: #eb0c0c !important;
+    }
+    .bi-info-circle {
+        margin: 3px;
+        margin-bottom: 5px;
+        display: none;
+        color: #eb0c0c;
+        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    .form-check-label {
+        margin-bottom: 0px;
+        margin-top: -3px;
+    }
+
+    @@keyframes shake {
+      10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+      }
+
+      20%, 80% {
+        transform: translate3d(2px, 0, 0);
+      }
+
+      30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+      }
+
+      40%, 60% {
+        transform: translate3d(4px, 0, 0);
+      }
+    }
+</style>
+
+<style>
+    .loginbg {
+        background-image: url('../../images/signup1.jpg');
+        background-size: 100%;
+        background-position-x: -100px;
+        background-position-y: top;
+        background-repeat: no-repeat;
+    }
+
+    body {
+        background-color: #d9edfe;
+    }
+
+    .control-label, .login-heading h3 {
+        color: #333;
+    }
+
+    .login-heading h3 {
+        margin-top: 25px;
+    }
+
+    .control-label {
+        margin-bottom: 5px;
+    }
+
+    .loginpage {
+        min-height: 450px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .panel {
+        border-radius: 10px;
+    }
+
+    .site-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0px;
+    }
+
+    #loginForm {
+        background-color: #fff;
+        padding: 10px 15px;
+        border-radius: 7px;
+    }
+
+    .btn100 {
+        width: 100% !important;
+        background-color: #ee7928 !important;
+    }
+
+    .terms {
+        color: #ee7928;
+    }
+
+    .selectdiv {
+        position: relative;
+        /*Don't really need this just for demo styling*/
+        float: left;
+        width: 100%;
+    }
+
+        .selectdiv label {
+            display: inherit !important;
+        }
+    /* IE11 hide native button (thanks Matt!) */
+    select::-ms-expand {
+        display: none;
+    }
+
+    .selectdiv:after {
+        content: '<>';
+        font: 17px "Consolas", monospace;
+        color: #333;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+        right: 10px;
+        /*Adjust for position however you want*/
+        top: 7px;
+        padding: 0 0px 5px 0px;
+        border-bottom: 1px solid #999;
+        /*left line */
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .selectdiv select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        /* Add some styling */
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        height: calc(1.5em + .75rem + 2px);
+        float: right;
+        padding: 0px 44px 0px 5px;
+        font-size: 16px;
+        line-height: 1.75;
+        color: #333;
+        background-color: #ffffff;
+        background-image: none;
+        border: 1px solid #cccccc;
+        -ms-word-break: normal;
+        word-break: normal;
+    }
+</style>
+<div class="container-fluid loginbg">
+    <div class="container">
+        <div class="loginpage">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 col-md-offset-6 col-xs-12 ">
+                    <section id="loginForm">
+                        @using (Html.BeginForm("AddWeb", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form", role = "form", id = "signupform" }))
+                        {
+                            <div class="panel">
+                                <div class="panel-heading login-heading">
+                                    <h3>Sign Up</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control AlphabetsOnly" name="FirstName" id="FirstName" required maxlength="50"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control AlphabetsOnly" name="LastName" id="LastName" required maxlength="50"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>Work Email</label>
+                                            <input type="text" class="form-control" name="Email" id="Email" required maxlength="50"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Job Title</label>
+                                            <div class="selectdiv">
+                                                <label>
+                                                    <select name="JobTitle" id="JobTitle">
+                                                        <option selected value=""> Select Job Title</option>
+                                                        <option>Option 1</option>
+                                                        <option>Option 2</option>
+                                                        <option>Last long option</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>Company Name</label>
+                                            <input type="text" class="form-control" name="CompanyName" id="CompanyName" maxlength="100"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>No of Employees</label>
+                                            <div class="selectdiv">
+                                                <label>
+                                                    <select name="NoOfEmployees" id="NoOfEmployees">
+                                                        <option selected value=""> Select No of Employees</option>
+                                                        <option value='50'>Option 1</option>
+                                                        <option value='100'>Option 2</option>
+                                                        <option value='500'>Last long option</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="Phone" id="Phone" required maxlength="20"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Country</label>
+                                            <div class="selectdiv">
+                                                <label>
+                                                    <select name="Country" id="Country">
+                                                        <option selected value=""> Select Country</option>
+                                                        <option value="1">India</option>
+
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <label>Domain</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control AlphabetsOnly" name="Domain" id="Domain" maxlength="30" placeholder="Domain" aria-label="Domain" aria-describedby="basic-addon2" required>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="basic-addon2">htistelecom.in</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="chkTerms" id="chkTerms">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    <span id="chkspan">I agree to the </span><a href="#" class="terms">Terms and conditions</a>&nbsp;<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
+    <circle cx="8" cy="4.5" r="1" />
+</svg>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" name="btnSubmit" id="btnSubmit" style="display:none" />
+                                        <a class="maxbutton-2 maxbutton maxbutton-button2 asubmitLogin btn100" href="javascript:;"><span class="mb-text">Sign Up</span></a>
+                                    </div>
+                                    <div class="form-group clear text-center">
+                                        @*<a href="javascript:;" onclick="forgetPassword()" class="pull-right">Forgot Password?</a>&nbsp;&nbsp;*@
+                                        Aready have an account? <a href="/account/login" class="">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+                            if (ViewData["error"] != null)
+                            {
+                                if (ViewData["error"].ToString() != "")
+                                {
+                                    <script>
+                                            alert('@ViewData["error"]');
+                                    </script>
+                                }
+                            }
+                        }
+                    </section>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $('.AlphabetsOnly').keypress(function (e) {
+        var regex = new RegExp(/^[a-zA-Z\s]+$/);
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        else {
+            e.preventDefault();
+            return false;
+        }
+    });
+    $('input').keyup(function () {
+        console.log('test');
+        $(this).removeClass('error');
+    });
+    $('select').change(function () {
+        $(this).removeClass('error');
+    });
+    $('.asubmitLogin').click(function () {
+        //$('#btnSubmit').trigger('click');
+        
+        if ($('#FirstName').val().trim() == '') {
+            $('#FirstName').addClass('error');
+            return;
+        }
+        else {
+            $('#FirstName').removeClass('error');
+        }
+        if ($('#LastName').val().trim() == '') {
+            $('#LastName').addClass('error');
+            return;
+        }
+        else {
+            $('#LastName').removeClass('error');
+        }
+        if ($('#Email').val().trim() == '') {
+            $('#Email').addClass('error');
+            return;
+        }
+        else {
+            $('#Email').removeClass('error');
+        }
+        if ($('#JobTitle').val().trim() == '') {
+            $('#JobTitle').addClass('error');
+            return;
+        }
+        else {
+            $('#JobTitle').removeClass('error');
+        }
+
+        if ($('#CompanyName').val().trim() == '') {
+            $('#CompanyName').addClass('error');
+            return;
+        }
+        else {
+            $('#CompanyName').removeClass('error');
+        }
+        if ($('#NoOfEmployees').val().trim() == '') {
+            $('#NoOfEmployees').addClass('error');
+            return;
+        }
+        else {
+            $('#NoOfEmployees').removeClass('error');
+        }
+        if ($('#Phone').val().trim() == '') {
+            $('#Phone').addClass('error');
+            return;
+        }
+        else {
+            $('#Phone').removeClass('error');
+        }
+        if ($('#Country').val().trim() == '') {
+            $('#Country').addClass('error');
+            return;
+        }
+        else {
+            $('#Country').removeClass('error');
+        }
+
+
+        if ($('#Domain').val().trim() == '') {
+            $('#Domain').addClass('error');
+            return;
+        }
+        else {
+            $('#Domain').removeClass('error');
+        }
+
+        if ($('#Domain').val().trim().indexOf('local')>-1) {
+            $('#Domain').addClass('error');
+            alert('Domain not available');
+            return;
+        }
+        else {
+            $('#Domain').removeClass('error');
+        }
+
+        if ($('input[type=checkbox]:checked').length == 0) {
+            //$('#chkspan').addClass('error');
+            $('.bi-info-circle').show().addClass('animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;').delay(1500, function () {
+                $(this).removeClass('animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;')
+            });;
+            return;
+        }
+        else {
+            $('.bi-info-circle').hide();
+            $('#chkspan').removeClass('error');
+        }
+
+      
+
+        var form = $('#signupform');
+        var url = form.attr('action');
+        $.post('/account/addweb', {
+            'Domain': $('#Domain').val(),
+            'FirstName': $('#FirstName').val(),
+            'LastName': $('#LastName').val(),
+            'Email': $('#Email').val(),
+            'Phone': $('#Phone').val(),
+            'NofEmp': $('#NoOfEmployees').val(),
+            'CompanyName': $('#CompanyName').val(),
+            'CountryID': $('#Country').val(),
+            'JobTitle': $('#JobTitle').val()
+        }
+            , function (data) {
+                alert(data); // show response from the php script.
+                if (data.indexOf('Error') == -1) {
+                    $('input').val('');
+                    $('select').val('');
+                }
+            }
+        );
+    });
+    @*
+    function allLetter(inputtxt) {
+        var letters = /^[A-Za-z]+$/;
+        if (inputtxt.value.match(letters)) {
+            return true;
+        }
+        else {
+            alert("message");
+            return false;
+        }
+    }
+    if (allLetter(document.form.Domain)) {
+
+    }
+        *@
+</script>
+

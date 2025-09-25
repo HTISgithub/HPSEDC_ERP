@@ -1,0 +1,89 @@
+﻿html {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background: rgb(204,204,204);
+    font-size: 9pt;
+    font-family: Arial;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+
+.compname, .address, .slipdetail {
+    margin: 0px;
+    text-align: center;
+}
+
+.tbbg {
+    background-color: #ccc;
+}
+
+page {
+    background: white;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.5cm;
+    box-shadow: 0;
+    border: solid 1px #333;
+}
+
+    page[size="A4"] {
+        width: 21cm;
+        height: 29.7cm;
+    }
+
+        page[size="A4"][layout="portrait"] {
+            width: 29.7cm;
+            height: 21cm;
+        }
+
+@media print {
+    body, page {
+        margin: 0;
+        box-shadow: 0;
+    }
+}
+
+.table-inner {
+    background-color: #fff;
+    padding:0px !important;
+    border-spacing: 0;
+}
+
+    .table-inner td {
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
+    }
+
+.table-outer {
+    background-color: #fff;
+    padding:0px !important;
+}
+
+    
+    .table-inner td,.table-inner th {
+        padding: 3px !important;
+    }
+    .table-outer .table-inner {
+        border-collapse: collapse !important;
+        border-spacing: 0;
+    }
+
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #ddd !important;
+}
+
+.text-right
+{
+    text-align:right;
+}
+table .table .table-outer .table-inner {
+        border-collapse: collapse !important;
+        border-spacing: 0;
+    }

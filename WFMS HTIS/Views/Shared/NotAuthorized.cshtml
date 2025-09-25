@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Unauthorized Access";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+&nbsp;
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"><div id="sidebar" class=""></div></div>
+        <div class="col-md-10">
+            <div class="row titleArea">
+                <div class="col-md-4 ">
+                     
+                </div>
+                <div class="col-md-8 " id="ActionbtnArea">
+                     
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>You are not authorized to view this page.</h2>
+                    <h4>@TempData["Error"]</h4><br /><br />
+                    <a href="#" onclick="javascript:history.back()" class="btn btn-danger"> Back </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

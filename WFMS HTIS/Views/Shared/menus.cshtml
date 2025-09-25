@@ -1,0 +1,231 @@
+﻿@using System.Data
+@{
+    DataTable dt = (DataTable)HttpRuntime.Cache["dtMenu"];
+}
+<div class="sidebar-header">
+    <select class="form-control" id="ddlRoleMenu" onchange='loadSideMenuss()'>
+        @for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            <option value="@dt.Rows[i]["RoleId"]">@dt.Rows[i]["RoleName"]</option>
+        }
+    </select>
+</div> 
+<div id="MenuDivAdmin" class="hidden">
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-home"></i>
+                General Masters
+            </a>
+            <ul class="collapse list-unstyled" id="homeSubmenu">
+
+                <li><a href="/admin/Country">Country</a></li>
+                <li><a href="/admin/States">State</a></li>
+                <li><a href="/admin/Cities">City</a></li>
+                <li><a href="/admin/Banks">Banks</a></li>
+                <li><a href="/admin/HolidayList">Holidays</a></li>
+                <li><a href="#">Tds Sections</a></li>
+
+                @*<li><a href="/admin/ShiftMaster">Shifts</a></li>
+                    <li><a href="/admin/shiftPlanning">Shift's Planning</a></li>*@
+
+
+                @*<li><a href="#">Contractors</a></li>
+                    <li><a href="#">Employee Login</a></li>
+                    <li><a href="#">Contractor Login</a></li>*@
+            </ul>
+        </li>
+    </ul>
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="#CompanySubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-briefcase"></i>
+                Company Masters
+            </a>
+            <ul class="collapse list-unstyled" id="CompanySubmenu">
+
+
+                <li><a href="/Admin/DivisionList">Division</a></li>
+                <li><a href="/admin/branch">Branches</a></li>
+                <li><a href="/admin/Contractor">Add Contractor</a></li>
+
+
+                @*<li><a href="/admin/ShiftMaster">Shifts</a></li>
+                    <li><a href="/admin/shiftPlanning">Shift's Planning</a></li>*@
+
+
+                @*<li><a href="#">Contractors</a></li>
+                    <li><a href="#">Employee Login</a></li>
+                    <li><a href="#">Contractor Login</a></li>*@
+            </ul>
+        </li>
+    </ul>
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="#EmployeeSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-record"></i>
+                Employee Masters
+            </a>
+            <ul class="collapse list-unstyled" id="EmployeeSubmenu">
+
+                <li><a href="/admin/department">Departments</a></li>
+                <li><a href="/admin/GradeList">Grades</a></li>
+                <li><a href="/admin/Designation">Designation</a></li>
+                <li><a href="/admin/empcategories">Employee Category</a></li>
+                <li><a href="/admin/Employee">Employee</a></li>
+                <li><a href="/admin/PayCharges">Pay Charges</a></li>
+
+
+                @*<li><a href="/admin/ShiftMaster">Shifts</a></li>
+                    <li><a href="/admin/shiftPlanning">Shift's Planning</a></li>*@
+
+
+                @*<li><a href="#">Contractors</a></li>
+                    <li><a href="#">Employee Login</a></li>
+                    <li><a href="#">Contractor Login</a></li>*@
+            </ul>
+        </li>
+    </ul>
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="#LeaveSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-home"></i>
+                Leave Masters
+            </a>
+            <ul class="collapse list-unstyled" id="LeaveSubmenu">
+
+                <li><a href="/attendance/ListOfLeaveQuarter">Leave Quarter</a></li>
+                <li><a href="/admin/LeaveTypeList"> Leaves Type Master</a></li>
+                <li><a href="/Attendance/LeaveRuleList">Leave Rule </a></li>
+
+                @*<li><a href="/admin/ShiftMaster">Shifts</a></li>
+                    <li><a href="/admin/shiftPlanning">Shift's Planning</a></li>*@
+
+
+                @*<li><a href="#">Contractors</a></li>
+                    <li><a href="#">Employee Login</a></li>
+                    <li><a href="#">Contractor Login</a></li>*@
+            </ul>
+        </li>
+    </ul>
+</div>
+<div  id="MenuDivAttendance" class="hidden">
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="#MastersSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-home"></i>
+                Masters
+            </a>
+            <ul class="collapse list-unstyled" id="MastersSubmenu">
+                <li><a href="/admin/attendanceType">Attendance Type</a></li>
+                <li><a href="#">Employee Machine Code</a></li>
+                <li><a href="/attendance/hourOtView"><b>Machine Attendance</b></a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#entrySubMenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-duplicate"></i>
+                Entry
+            </a>
+            <ul class="collapse list-unstyled" id="entrySubMenu">
+                <li><a href="/Attendance/LeaveApply">Leave Apply</a></li>
+                <li><a href="/Attendance/LeaveCancel">Leave Cancel</a></li>
+                <li><a href="/Attendance/LeaveStatus">Leave Status</a></li>
+                <li><a href="/Attendance/LeaveApproval">Leave Approval</a></li>
+                <li><a href="/Attendance/WeeklyOffCalender">Weekly Off</a></li>
+                @*<li><a href="#">Employee Leaves</a></li>*@
+                <li><a href="/Attendance/Attendance">Daily Attendance</a></li>
+                @*<li><a href="#">Bulk Attendance</a></li>*@
+            </ul>
+        </li>
+        <li>
+            <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-duplicate"></i>
+                Reports
+            </a>
+            <ul class="collapse list-unstyled" id="reportsSubmenu">
+                <li><a href="/ReportofPayroll/AttendanceRegister">Attendance Register</a></li>
+                <li><a href="/attendance/attendancecalendar">Attendance Calander</a></li>
+                <li><a href="/attendance/timingReport">Timing Report</a></li>
+                @*<li><a href="#">Employee Leaves</a></li>
+                    <li><a href="#">Bulk Attendance</a></li>*@
+                @*<li><a href="#">Employee Leaves</a></li>*@
+                <li><a href="/Attendance/Attendance">Daily Attendance</a></li>
+                @*<li><a href="#">Bulk Attendance</a></li>*@
+
+                <li><a href="/attendance/attendancecalendar">Attendance Calander</a></li>
+            </ul>
+        </li>
+    </ul> 
+</div>
+<div id="MenuDivPayroll" class="hidden">
+<ul class="list-unstyled components">
+    <li class="active">
+        <a href="#MastersSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-home"></i>
+            Masters
+        </a>
+        <ul class="collapse list-unstyled" id="MastersSubmenu">
+            <li><a href="/admin/PayCharges">Pay Charges</a></li>
+            <li><a href="#">Tds Sections</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#EntrySubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-duplicate"></i>
+            Entry
+        </a>
+        <ul class="collapse list-unstyled" id="EntrySubmenu">
+            <li><a href="/admin/PayChargeApplied">Employee CTC</a></li>
+            <li><a href="/admin/GroupCTC">Group CTC</a></li>
+            <li><a href="/Admin/AddAllowances">Allowances</a></li>
+            <li><a href="/Admin/Deductions">Deductions</a></li>
+            <li><a href="/admin/PayChargeApplied">Employee CTC</a></li>
+            @*<li><a href="#">Advance Against Salary</a></li>
+                <li><a href="#">Salary Calculation</a></li>
+                <li><a href="#">Employee Tax Investment</a></li>
+                <li><a href="#">TDs Deduction</a></li>*@
+        </ul>
+    </li>
+    <li>
+        <a href="#ReportsSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-duplicate"></i>
+            Reports
+        </a>
+        <ul class="collapse list-unstyled" id="ReportsSubmenu">
+            <li><a href="/ReportofPayroll/SalaryRegisterColumner">Salary Register</a></li>
+            <li><a href="/ReportofPayroll/CashStatement">Cash Statement</a></li>
+
+            @*<li><a href="#">Salary Slip</a></li>
+                <li><a href="#">Advance Register</a></li>
+                <li><a href="#">Unpaid Salary</a></li>
+                <li><a href="#">Bank Statement</a></li>
+                <li><a href="#">Cash Statement</a></li>
+                <li><a href="#">Month wise Summary</a></li>*@
+            <li><a href="/ReportofPayroll/PFregister">PF ECR</a></li>
+            <li><a href="/ReportofPayroll/EmployeeESIStatement">ESI ECR</a></li>
+            <li><a href="/ReportofPayroll/EmployeeSalaryDetail">CTC Statement</a></li>
+
+            @*<li><a href="#">Income Tax Calculation</a></li>
+                <li><a href="#">Bank Transfer</a></li>*@
+            <li><a href="/ReportofPayroll/EmployeeSalaryDetail">CTC Statement</a></li>
+            @*<li><a href="#">Salary Payable</a></li>
+                <li><a href="#">Salary Paid</a></li>
+                <li><a href="#">Deduction Reports</a></li>*@
+
+        </ul>
+    </li>
+</ul>
+</div>
+
+<script>
+    function loadSideMenuss()
+    {
+        //var txt = $("#ddlRoleMenu option:selected").text();
+        alert();
+        //$('#MenuDiv'+txt).show();
+    }
+   
+
+    
+</script>

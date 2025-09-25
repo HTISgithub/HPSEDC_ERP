@@ -1,0 +1,1610 @@
+﻿
+@{
+    ViewBag.Title = "Department Attendance";
+    ViewBag.PageTitle = "Department Attendance";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 41px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .modal-footer {
+        display: block;
+    }
+</style>
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+        @*<li>
+                <a href="#"></a>
+            </li>*@
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    @*<div class="page-header">
+            <h1>
+                @ViewBag.PageTitle
+                <a class="btn btn-primary pull-right" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New</a>
+            </h1>
+        </div>*@
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Department Attendance</b></div>
+
+            <div class="panel-body">
+                <div class="container-fluid" id="show">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+
+                                <label for="Month">Month Year</label><span class="error-message">*</span><br />
+
+                                <select id="ddlMonthsdept" class="Month" style="width: 15rem;" onchange="_GstReportList()">
+                                    <option>--Month--</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+
+                                        DateTime date = new DateTime(2020, i, 1);
+                                        mon = date.ToString("MMM");
+                                        <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                    }
+                                </select>
+                                <select id="ddlYearsdept" class="year" style="width: 15rem;" onchange="_GstReportList()">
+                                    <option>--Year--</option>
+                                    @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                    {
+                                        if (i == DateTime.Now.Year)
+                                        {
+                                            <option value="@i" selected='selected'>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Complaint">Department</label><span class="error-message">*</span></br>
+                                <select id="DeptId1" style="width: 30rem" onchange="_AgencyNewAttendanceDdl();">
+                                    <option value="0">Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Complaint">Agency</label><span class="error-message">*</span></br>
+                                <select id="ddlAgency" style="width: 30rem" onchange="_WorkOrderDetails();">
+                                    <option value="0">Select Agency</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Complaint">Work Order No.</label><span class="error-message">*</span>
+                                <select id="Work" class="clearddl" style="width: 30rem" onchange="_NewBiillingAdress();">
+                                    <option value="0">--Select Work Order--</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="Billing">Billing Address</label><span class="error-message">*</span><br />
+                                <select id="BillingId" class="clearddl" style="width: 652px; height: 34px" onchange="_NoOfResources();">
+                                    <option value="0">Select Billing Address</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="NoofResouserces">No. Of Resources</label><span class="error-message">*</span>
+                                <input type="text" id="NoofResources" style="width: 30rem" class="form-control cleartxt" placeholder="No. Of Resources" readonly />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="UplodedResources">No. Of Present Resources</label><span class="error-message">*</span>
+                                <input type="text" id="UpladNoOfResource" style="width: 30rem;" placeholder="No Of Resources" class="form-control cleartxt" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label for="Upload">Upload Attendance File</label><span class="error-message">*</span>
+                                <input type="file" id="Upload" style="width: 30rem; height: 34px;" class="form-control cleartxt" />
+                                <small style="color: red;">* Only PDF files are allowed</small>
+                            </div>
+
+
+                            @if (user == "48")
+                            {
+                                <div class="col-md-3">
+                                    <label for="Upload">Upload Annexure File (5%)</label><span class="error-message">*</span>
+                                    <input type="file" id="Uploadannexure" style="width: 30rem; height: 34px;" class="form-control cleartxt" />
+                                    <small style="color: red;">* Only PDF files are allowed</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Upload">Upload Agency (Bill+Annexure 2.5%)</label><span class="error-message">*</span>
+                                    <input type="file" id="UploadAgencyBill" style="width: 30rem; height: 34px;" class="form-control cleartxt" />
+                                    <small style="color: red;">* Only PDF files are allowed</small>
+                                </div>
+                            }
+
+                        </div>
+
+                        @if (user == "48")
+                        {
+
+
+                            <div class="form-group row">
+                                <div class="row">
+                                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                                    <div class="col-md-8">
+                                        <div class="modelalert"></div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="submit" id="Submit" style="width: 130px; margin-left: 57px; margin-top: -12rem;" class="btn btn-primary cleartxt" value="Submit" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group row">
+                                <div class="row">
+                                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                                    <div class="col-md-8">
+                                        <div class="modelalert"></div>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <input type="button" id="Submitdept" style="width: 130px; margin-left: 57px; margin-top: -12rem;" class="btnModalSubmit2 btn btn-success " value="Submit" onclick="_DepttAttendanceSubmit()" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div>
+
+                <fieldset style="border: 2px solid #ccc; padding: 1rem;">
+                    <legend><strong>Filter Criteria</strong></legend>
+                    <div class="panel panel-default">
+
+                        @*<div class="panel-heading">Panel Heading</div>*@
+                        <div class="panel-body">
+                            <div class="col-md-3" style=" margin-top: -48px; margin-left: 0px; display: none;">
+                                <label for="Complaint">Agency</label><span class="error-message">*</span>
+                                <select id="ddlAgencyfilter" style="width: 20rem" onchange="_GstReportList();">
+                                    <option value="0">Select Agency</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3" style=" margin-top: -48px; margin-left: 281px; display:none;">
+                                <label for="Complaint">Department</label><span class="error-message">*</span>
+                                <select id="DeptIdfilter" style="width: 20rem" onchange="_GstReportList();">
+                                    <option value="0">Select Department</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6" style=" margin-top: -48px; margin-left: 0px; ">
+
+                                <label style="color:blue" for="Month">Month Year</label><span class="error-message">*</span>
+
+                                <select id="ddlMonths1" style="color:blue" class="Month" onchange="_GstReportList()">
+                                    <option>--Month--</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+
+                                        DateTime date = new DateTime(2020, i, 1);
+                                        mon = date.ToString("MMM");
+                                        <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                    }
+                                </select>
+                                <select id="ddlYears1" class="year" style="color:blue" onchange="_GstReportList()">
+                                    <option>--Year--</option>
+                                    @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                    {
+                                        if (i == DateTime.Now.Year)
+                                        {
+                                            <option value="@i" selected='selected'>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div align="left" id="_DocumentCategoryList">
+                                        <div class="dt-responsive">
+                                            <div style="overflow-x :auto" ;>
+                                                <table class="table table-striped table-bordered" id="myTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="widthsr">Sr.No.</th>
+                                                            <th>Department Name</th>
+                                                            <th>Agency Name</th>
+                                                            <th>
+                                                                Work Order No.<br />
+                                                                <span style="font:bold">Agency Bill No.</span>
+                                                            </th>
+                                                            <th>Total No.Of Resources</th>
+                                                            <th>No.Of Present Resources</th>
+                                                            <th>Month Year</th>
+                                                            <th>View Attendance</th>
+                                                            <th>View Annexure</th>
+                                                            @*<th>Delete Attandance</th>*@
+
+                                                            @if (user == "48")
+                                                            {
+                                                                <th>View Bill</th>
+                                                                <th>Upload Annexure &<br />Bill</th>
+                                                                <th>Delete Attandance</th>
+                                                                <th>Bill Verification Status</th>
+                                                                <th>Remarks</th>
+                                                                <th>Agency Invoice Entry</th>
+
+                                                            }
+                                                            else if (user == "39")
+                                                            {
+                                                                <th>View Bill</th>
+                                                                <th>Upload Annexure &<br />Bill</th>
+                                                            }
+                                                            else if (user == "57")
+                                                            {
+                                                                @*@<th>View Bill</th>
+                                                                    <th>Upload Annexure &<br />Bill</th>*@
+                                                                <th>Delete Attandance</th>
+                                                                @*@<th>Purchase Entry</th>*@
+
+                                                            }
+
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@*Purchase Model*@
+<div class="modal fade" id="myModalPurchase" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="BillDate">Agency Bill Date</label><span class="error-message">*</span>
+                                    <input placeholder="Bill Date" class="form-control text-box single-line datepicker cleardate" data-val="true" id="BillDatePurchase" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Work">Work Order No.</label>
+                                    <input id="WorkOrderNoPurchase" placeholder="WorkOrderNo" class="form-control cleartxt required" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Billno">Agency Bill No.</label><span class="error-message">*</span>
+                                    <input id="BillnoPurchase" class="form-control cleartxt required" placeholder="Bill No.">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Complaint">Agency</label><span class="error-message">*</span>
+                                    <input type="text" id="ddlAgencyPurchase" class="form-control cleartxt" readonly>
+                                    <input type="text" id="ddlAgencyPurchase1" class="form-control cleartxt" style="display:none;">
+                                    @*<select id="ddlAgencyPurchase" class="clearddl" style="width:270px">
+                                         <option value="0">Select Agency</option>
+                                        </select>*@
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Complaint">Department</label><span class="error-message">*</span>
+                                    <input type="text" id="DeptIdPurchase" class="form-control cleartxt" readonly>
+                                    <input type="text" id="DeptIdPurchase1" class="form-control cleartxt" style="display:none;">
+                                    @*<select id="DeptIdPurchase" class="clearddl" style="width:269px">
+                                            <option value="0">Select Department</option>
+                                        </select>*@
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="No">No. Of Resource</label><span class="error-message">*</span>
+                                    <input type="text" class="form-control cleartxt required" id="NoOfResourcePurchase" placeholder="No. Of Resource" readonly>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-8" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>Department Full Name With Billing Address</label><span class="error-message">*</span>
+                                    </div>
+                                    <div>
+                                        <textarea style="width: 560px; height: 50px" id="DepartmentAddressPurchase" class="cleartxt" placeholder="Department Full Name With Address" disabled></textarea>
+                                        <input id="BillingId1" class="form-control cleartxt" placeholder="Agency Bill">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>BillForMonth</label><span class="error-message">*</span>
+                                    </div>
+
+                                    <div>
+                                        <select id="ddlMonthspb" class="Month" disabled>
+                                            <option>--Month--</option>
+                                            @for (int i = 1; i <= 12; i++)
+                                            {
+
+                                                DateTime date = new DateTime(2020, i, 1);
+                                                mon = date.ToString("MMM");
+                                                <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                            }
+                                        </select>
+                                        <select id="ddlYearspb" class="year" disabled>
+                                            <option>--Year--</option>
+                                            @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                            {
+                                                if (i == DateTime.Now.Year)
+                                                {
+                                                    <option value="@i" selected='selected'>@i</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i">@i</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="Complaint">Description</label><span class="error-message">*</span>
+                                    <textarea rows="2" cols="51" id="DescriptionPurchase" class="cleartxt" style="width: 425px; height: 31px;" placeholder="Description"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Complaint">Narration</label><span class="error-message">*</span>
+                                    <textarea rows="2" cols="51" id="NarrationPurchase" class="cleartxt" style="width: 419px; height: 31px;" placeholder="Narration"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doosra bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+                                @*<div>
+                                        <input type="checkbox" class="clearchk" id="NoAdminCharge" style=" margin-left: 14px; " />
+                                        <label for="NoAdminCharge">No Admin Charge</label>
+                                    </div>*@
+
+                                <div class="col-md-4">
+                                    <label for="AgencyBill">Basic Bill Amount</label>
+                                    <input id="AgencyBillPurchase" class="form-control cleartxt required" placeholder="Agency Bill" onchange="calculateAdminCharge2()">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Admin">Admin Charge@2.5%</label>
+                                    <input id="AdminPurchase" class="form-control cleartxt" placeholder="Agency Bill">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Libary">Livery Charge</label>
+                                    <input id="LibaryPurchase" class="form-control clearddl" value="0" placeholder="Livery Charge">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div>
+                                    <input type="checkbox" class="clearchk" id="showIGST" style=" margin-left: 14px; " />
+                                    <label for="showIGST">Show IGST Input</label>
+                                </div>
+
+                                <div class="col-md-3" id="igstInputContainer" style="display:none;">
+                                    <label for="Igst">Input IGST@18%</label>
+                                    <input id="IGSTPurchase" class="form-control clearddl required" placeholder="IGST" readonly>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="Cgst">Input CGST@9%</label>
+                                    <input id="cgstPurchase" class="form-control clearddl required" placeholder="CGST" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="SGST">Input SGST@9%</label>
+                                    <input id="SGSTPurchase" class="form-control clearddl required" placeholder="SGST" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Total">Total Amount</label>
+                                    <input id="TotalPurchase" class="form-control cleartxt required" placeholder="Total" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit1 btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@*Purchase Model*@
+
+@*Upload Model*@
+
+
+<div class="modal fade" id="myModalUpload" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 3px solid #00476a; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label>Month Year</label><span class="error-message">*</span>
+                                    <input id="monthyear1" class="form-control  required" placeholder="" readonly>
+                                    @*<div class="" id="monthyear1"></div>*@
+                                </div>
+                                <div class="col-md-5">
+                                    <label>Department</label><span class="error-message">*</span>
+                                    <input id="deptt1" class="form-control  required" placeholder="" readonly>
+                                    <input id="deptt2" class="form-control  required" type="hidden" placeholder="" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Agency</label><span class="error-message">*</span>
+                                    <input id="agencyId1" class="form-control  required" placeholder="" readonly>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label>Work Order No.</label><span class="error-message">*</span>
+                                    <input id="Workorder1" class="form-control  required" placeholder="" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="NoofResouserces">No. Of Resources</label><span class="error-message">*</span>
+                                    <input id="NoResource1" class="form-control  required" placeholder="" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="UplodedResources">No. Of Present Resources</label><span class="error-message">*</span>
+                                    <input id="uploadResource1" class="form-control  required" placeholder="" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="Billing">Billing Address</label><span class="error-message">*</span><br />
+                                    <input id="Billing1" class="form-control  required" placeholder="" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @if (user == "48")
+                                {
+                                    <div class="col-md-4">
+                                        <label for="Upload">Upload Annexure File (5%)</label><span class="error-message">*</span>
+                                        <input type="file" id="Uploadannexure1" />
+                                        <small style="color: red;">* Only PDF files are allowed</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="Upload">Upload Agency (Bill+Annexure 2.5%)</label><span class="error-message">*</span>
+                                        <input type="file" id="UploadAgencyBill1" />
+                                        <small style="color: red;">* Only PDF files are allowed</small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit3 btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@*Upload Model*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+<script>
+    var accessRights;
+    var vId = 0;
+    var sr = 0;
+    var sId = 0;
+    var AttendanceV = 0;
+
+    var IsActive = 'Y';
+    var tableRow;
+    //var user = @Session["RoleId"];
+
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        $('#ddlAgency').select2();
+        $('#DeptId1').select2();
+        $('#ddlAgencyfilter').select2();
+        $('#DeptIdfilter').select2();
+        $('#Work').select2();
+        $('#BillingId').select2();
+        _GstReportList();
+
+    });
+
+
+    function resetForm() {
+        $('#NoofResources').val('');
+        $('#ddlAgency').val('0');
+        $('#DeptId').val('0');
+        $('#Upload').val('');
+        $('#UpladNoOfResource').val('');
+        $('#Uploadannexure').val('');
+        $('#UploadAgencyBill').val('');
+
+        $('#BillnoPurchase').val('');
+        $('#DescriptionPurchase').val('');
+        $('#NarrationPurchase').val('');
+        $('#AgencyBillPurchase').val('');
+        $('#IGSTPurchase').val('');
+        $('#cgstPurchase').val('');
+        $('#SGSTPurchase').val('');
+        $('#TotalPurchase').val('');
+
+        $('#Uploadannexure1').val('');
+        $('#UploadAgencyBill1').val('');
+    }
+
+    $('#Submit').click(function () {
+        _NewDeptAttendanceSubmit();
+    });
+
+
+    $('.btnModalSubmit1').click(function () {
+        _PurchaseInvoiceSubmit();
+    });
+
+    $('.btnModalSubmitDelete').click(function () {
+        DeleteAttandance(AttendanceDelete);
+    });
+
+
+    function _NewDeptAttendanceSubmit() {
+        var WorkOfferAtt = $("#Upload").get(0);
+        var WorkOfferFiles = WorkOfferAtt.files;
+
+        var Anneexture = $("#Uploadannexure").get(0);
+        var AnnexureFiles = Anneexture.files;
+
+        var AgencyBillAtt = $("#UploadAgencyBill").get(0);
+        var AgencyBillFiles = AgencyBillAtt.files;
+
+        var monthyeardept = $('#ddlMonthsdept').val() + $('#ddlYearsdept').val();
+
+        if ($('#ddlMonths').val() == "--Month--" || $('#ddlYears').val() == "--Year--") {
+            $('.modelalert').html('Please select Month and Year.');
+            return;
+        }
+        if ($('#DeptId1').val() == '0') {
+            alert('Please select Department.');
+            return;
+        }
+        if ($('#ddlAgency').val() == '0') {
+            alert('Please select Agency.');
+            return;
+        }
+        if ($('#Work').val() == '0') {
+            alert('Please select Work Order No.');
+            return;
+        }
+        if ($('#BillingId').val() === '0') {
+            alert('Please select Billing Address');
+            return;
+        }
+        if ($('#UpladNoOfResource').val().trim() == '') {
+            alert('Please enter No. of Resources to give Attendance.');
+            return;
+        }
+
+        // Attendance file validation
+        if (WorkOfferFiles.length === 0) {
+            alert('Please upload an Attendance file.');
+            return;
+        } else {
+            for (let i = 0; i < WorkOfferFiles.length; i++) {
+                let file = WorkOfferFiles[i];
+                let allowedTypes = ["application/pdf", "image/jpeg"];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Only PDF or JPG files are allowed for Attendance file.');
+                    return;
+                }
+                if (file.name.includes(" ")) {
+                    alert('File name for Attendance file should not contain spaces.');
+                    return;
+                }
+            }
+        }
+
+        // Annexure file validation
+
+            if (AnnexureFiles.length === 0) {
+                alert('Please upload an Annexure file.');
+                return;
+            } else {
+                for (let i = 0; i < AnnexureFiles.length; i++) {
+                    if (AnnexureFiles[i].type !== "application/pdf") {
+                        alert('Only PDF files are allowed for Annexure file.');
+                        return;
+                    }
+                    if (AnnexureFiles[i].name.includes(" ")) {
+                        alert('File name for Annexure file should not contain spaces.');
+                        return;
+                    }
+                }
+            }
+
+
+        // Agency Bill File Validation
+
+            if (AgencyBillFiles.length === 0) {
+                alert('Please upload an Agency Bill file.');
+                return;
+            } else {
+                for (let i = 0; i < AgencyBillFiles.length; i++) {
+                    if (AgencyBillFiles[i].type !== "application/pdf") {
+                        alert('Only PDF files are allowed for Agency Bill.');
+                        return;
+                    }
+                    if (AgencyBillFiles[i].name.includes(" ")) {
+                        alert('File name for Agency Bill should not contain spaces.');
+                        return;
+                    }
+                }
+            }
+
+
+        $('#Submit').attr("disabled", "disabled");
+        $('#ModalProgress').show();
+
+        var formData = new FormData();
+
+        // Get current date and time for file name
+        var now = new Date();
+        var formattedDate = now.getFullYear().toString()
+            + String(now.getMonth() + 1).padStart(2, '0')
+            + String(now.getDate()).padStart(2, '0');
+        var formattedTime = String(now.getHours()).padStart(2, '0')
+            + String(now.getMinutes()).padStart(2, '0');
+        var timestamp = `${formattedDate}_${formattedTime}`;
+
+        // Get dynamic values for filename
+        var dept = $('#DeptId1 option:selected').text().replace(/\s+/g, '');
+       // var month = $('#ddlMonthsdept').val();
+        var agency = $('#ddlAgency option:selected').text().replace(/\s+/g, '');
+        var baseFileName = `DEPT_${dept}_AGY_${agency}_${timestamp}`;
+
+        // Rename function
+        function renameFile(originalFile, newName) {
+            return new File([originalFile], newName, {
+                type: originalFile.type,
+                lastModified: originalFile.lastModified,
+            });
+        }
+
+        // Add Attendance file(s)
+        $.each(WorkOfferFiles, function (key, value) {
+            var ext = value.name.split('.').pop();
+            var newFile = renameFile(value, `${baseFileName}_Attendance.${ext}`);
+            formData.append("UploadFile", newFile);
+        });
+
+        // Add Annexure file(s)
+        $.each(AnnexureFiles, function (key, value) {
+            var ext = value.name.split('.').pop();
+            var newFile = renameFile(value, `${baseFileName}_Annexure.${ext}`);
+            formData.append("UploadAnnexureFile", newFile);
+        });
+
+        // Add Agency Bill file(s)
+        $.each(AgencyBillFiles, function (key, value) {
+            var ext = value.name.split('.').pop();
+            var newFile = renameFile(value, `${baseFileName}_AgencyBill.${ext}`);
+            formData.append("UploadAgencyBill", newFile);
+        });
+
+        // Add other form data
+        formData.append("WorkOrderNo", $('#Work').val());
+        formData.append("NoOfResources", $('#NoofResources').val());
+        formData.append("Agency", $('#ddlAgency').val());
+        formData.append("Department", $('#DeptId').val());
+        formData.append("UpladNoOfResource", $('#UpladNoOfResource').val());
+        formData.append("MonthYear", monthyeardept);
+
+        $.ajax({
+            type: "POST",
+            url: "/Invoice/_NewDeptAttendanceSubmit",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+                resetForm();
+                $('#Submit').removeAttr("disabled");
+                $('#ModalProgress').hide();
+                _GstReportList();
+                $('#myModal').modal('hide');
+                $('.modelalert').html('');
+            },
+            error: function () {
+                $('.modelalert').html('An error occurred while submitting the form.');
+                $('#Submit').removeAttr("disabled");
+                $('#ModalProgress').hide();
+            }
+        });
+    }
+
+
+    function _DepttAttendanceSubmit() {
+        var WorkOfferAtt = $("#Upload").get(0);
+        var WorkOfferFiles = WorkOfferAtt.files;
+
+        var monthyeardept = $('#ddlMonthsdept').val() + $('#ddlYearsdept').val();
+
+        if ($('#ddlMonths').val() == "--Month--" || $('#ddlYears').val() == "--Year--") {
+            $('.modelalert').html('Please select Month and Year.');
+            return;
+        }
+        if ($('#DeptId1').val() == '0') {
+            alert('Please select Department.');
+            return;
+        }
+        if ($('#ddlAgency').val() == '0') {
+            alert('Please select Agency.');
+            return;
+        }
+        if ($('#Work').val() == '0') {
+            alert('Please select Work Order No.');
+            return;
+        }
+        if ($('#BillingId').val() == '0') {
+            alert('Please select Billing Address');
+            return;
+        }
+        if ($('#UpladNoOfResource').val().trim() == '') {
+            alert('Please enter No. of Resources to give Attendance.');
+            return;
+        }
+
+        // Attendance file validation
+        if (WorkOfferFiles.length === 0) {
+            alert('Please upload an Attendance file.');
+            return;
+        } else {
+            for (let i = 0; i < WorkOfferFiles.length; i++) {
+                let file = WorkOfferFiles[i];
+                let allowedTypes = ["application/pdf", "image/jpeg"];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Only PDF or JPG files are allowed for Attendance file.');
+                    return;
+                }
+                if (file.name.includes(" ")) {
+                    alert('File name for Attendance file should not contain spaces.');
+                    return;
+                }
+            }
+        }
+
+
+        $('#Submitdept').attr("disabled", "disabled");
+        $('#ModalProgress').show();
+
+        var formData = new FormData();
+
+        // Get current date and time for file name
+        var now = new Date();
+        var formattedDate = now.getFullYear().toString()
+            + String(now.getMonth() + 1).padStart(2, '0')
+            + String(now.getDate()).padStart(2, '0');
+        var formattedTime = String(now.getHours()).padStart(2, '0')
+            + String(now.getMinutes()).padStart(2, '0');
+        var timestamp = `${formattedDate}_${formattedTime}`;
+
+        // Get dynamic values for filename
+        var dept = $('#DeptId1 option:selected').text().replace(/\s+/g, '');
+        //var month = $('#ddlMonthsdept').val();
+        var agency = $('#ddlAgency option:selected').text().replace(/\s+/g, '');
+        var baseFileName = `DEPT_${dept}_AGY_${agency}_${timestamp}`;
+
+        // Rename function
+        function renameFile(originalFile, newName) {
+            return new File([originalFile], newName, {
+                type: originalFile.type,
+                lastModified: originalFile.lastModified,
+            });
+        }
+
+        // Add Attendance file(s)
+        $.each(WorkOfferFiles, function (key, value) {
+            var ext = value.name.split('.').pop();
+            var newFile = renameFile(value, `${baseFileName}_Attendance.${ext}`);
+            formData.append("UploadFile", newFile);
+        });
+
+        // Add other form data
+        formData.append("WorkOrderNo", $('#Work').val());
+        formData.append("NoOfResources", $('#NoofResources').val());
+        formData.append("Agency", $('#ddlAgency').val());
+        formData.append("Department", $('#DeptId').val());
+        formData.append("UpladNoOfResource", $('#UpladNoOfResource').val());
+        formData.append("MonthYear", monthyeardept);
+        formData.append("AgencyBillFile", 0);
+        formData.append("AnnexureFile", 0);
+        $.ajax({
+            type: "POST",
+            url: "/Invoice/_NewDeptAttendanceSubmit",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+                resetForm();
+                $('#Submitdept').removeAttr("disabled");
+                $('#ModalProgress').hide();
+                _GstReportList();
+                $('#myModal').modal('hide');
+                $('.modelalert').html('');
+            },
+            error: function () {
+                $('.modelalert').html('An error occurred while submitting the form.');
+                $('#Submitdept').removeAttr("disabled");
+                $('#ModalProgress').hide();
+            }
+        });
+    }
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptIdvar = '<option value="0">---select---</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptIdvar += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId1').html(DeptIdvar);
+        });
+    }
+
+    function _AgencyNewAttendanceDdl() {
+        $.post('/Invoice/_AgencyNewAttendanceDdl', { 'AgencyId': 0, 'DeptId': $("#DeptId1").val() }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            // $('#ddlAgency').val(mAgencyId);
+        });
+    }
+    function _WorkOrderDetails() {
+        $.post('/Invoice/_WorkOrderDdl', {
+            'AgencyId': 0,
+            'DeptId': $("#DeptId1").val(),
+            'WorkOrderAgencyId': $("#Work").val(),
+        }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                // $('#Work').val(value.NoDeployedRes);
+                DeploymentOfficeId += '<option value=' + value.WorkOrderAgencyId + '>' + value.WorkOrderId + '</option>'
+            });
+            $('#Work').html(DeploymentOfficeId);
+
+
+        });
+    }
+    function _NewBiillingAdress() {
+        $.post('/Invoice/_WorkOrderDdl', {
+            'AgencyId': 0,
+            'DeptId': $("#DeptId1").val(),
+            'WorkOrderAgencyId': $("#Work").val(),
+        }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                // $('#NoofResources').val(value.NoDeployedRes);
+                DeploymentOfficeId += '<option value=' + value.BillingId + '>' + value.BillingAddress + '</option>'
+            });
+            $('#BillingId').html(DeploymentOfficeId);
+
+
+        });
+    }
+
+
+    function _NoOfResources() {
+        $.post('/Invoice/_WorkOrderDdl', {
+            'AgencyId': 0,
+            'DeptId': $("#DeptId1").val(),
+            'WorkOrderAgencyId': $("#Work").val(),
+        }, function (data) {
+            // var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#NoofResources').val(value.NoDeployedRes);
+                // DeploymentOfficeId += '<option value=' + value.WorkOrderAgencyId + '>' + value.WorkOrderId + '</option>'
+            });
+            // $('#Work_Order').html(DeploymentOfficeId);
+
+
+        });
+    }
+    var month1 = $('#ddlMonths1').val() + $('#ddlYears1').val();
+    var AttendaceId = 0;
+    function _GstReportList() {
+        var month1 = $('#ddlMonths').val() + $('#ddlYears').val();
+        var month = $('#ddlMonths1').val() + $('#ddlYears1').val();
+        $('#ProgressImg').show();
+        $.post('/Invoice/_AgencyAttendanceList', {
+            MonthId: month,
+            'Id': vId,
+            'AgencyId': $('#ddlAgencyfilter').val(),
+            'DeptId': $('#DeptIdfilter').val(),
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var RoleId = '@Session["RoleId"]';
+
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+
+                msr = msr + 1;
+                var monthMap = {
+                    "1": "Jan", "2": "Feb", "3": "Mar", "4": "Apr", "5": "May", "6": "Jun",
+                    "7": "Jul", "8": "Aug", "9": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"
+                };
+
+                var monthStr = value.MonthYear.toString();
+                var monthPart = monthStr.substring(0, monthStr.length - 4);
+                var yearPart = monthStr.substring(monthStr.length - 4);
+
+                var formattedMonthYear = (monthMap[monthPart] || "Invalid") + " " + yearPart;
+
+                var Doc = '';
+                if (value.AttendanceCertificate == '' || value.AttendanceCertificate == null) {
+                    Doc = '<label class="text-center">-</label>';
+                } else {
+                    Doc = '<a href="/TallyAttendanceFiles/' + value.AttendanceCertificate + '" target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a>';
+                }
+
+                var AnnexureDoc = '';
+                if (value.AnnexureFile == '' || value.AnnexureFile == null) {
+                    AnnexureDoc = '<label class="text-center">-</label>';
+                } else {
+                    AnnexureDoc = '<a href="/TallyAnnexureFiles/' + value.AnnexureFile + '" target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a>';
+                }
+
+                var AgencyBill = '';
+                if (value.UploadBill == '' || value.UploadBill == null) {
+                    AgencyBill = '<label class="text-center">-</label>';
+                }
+                else {
+                    AgencyBill = '<a href="/TallyAgencyBillFiles/' + value.UploadBill + '" target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a>';
+                }
+
+                // Purchase Bill Button
+                var isDisabled = (value.IsPurhaseBIllGenerated === 'Y');
+                var btnClass = isDisabled ? 'btn-secondary' : 'btn-success';
+
+                var PurchaseBill = '<div style="text-align:center;">' +
+                    '<button onclick="' + (!isDisabled ? 'OpenAddModel(' + value.Id + ', \'' + value.AttendaceId + '\')' : '') + '" ' +
+                    'class="btn ' + btnClass + '" ' + (isDisabled ? 'disabled' : '') + '>' +
+                    '<i class="fa fa-pencil fa-lg"></i></button>' +
+                    '</div>';
+
+                // Upload Button for Agency
+                var UploadBtnAgency = '';
+
+                if (value.UploadBill && value.AnnexureFile && value.AttendanceCertificate) {
+                    // All files present, disable button
+                    UploadBtnAgency = '<div style="text-align:center;">' +
+                        '<a href="#" class="btn btn-primary" disabled>' +
+                        '<i class="fas fa-file-upload"></i></a>' +
+                        '</div>';
+                } else {
+                    // Some file missing, enable button
+                    UploadBtnAgency = '<div style="text-align:center;">' +
+                        '<a href="#" onclick="OpenAddUploadModel(' + value.Id + ', \'' + value.AttendaceId + '\')" class="btn btn-primary">' +
+                        '<i class="fas fa-file-upload"></i></a>' +
+                        '</div>';
+                }
+
+                // Delete Attendance Button (NEW)
+                var DeleteAttendanceBtn = '';
+
+                if (value.IsPurhaseBIllGenerated === 'Y') {
+                    // Disable the delete button
+                    DeleteAttendanceBtn = '<div style="text-align:center;">' +
+                        '<a href="#" disabled ' +
+                        'style="background-color: grey; color: white; padding: 8px 12px; border-radius: 50%; font-size: 19px; opacity: 0.6; pointer-events: none;" ' +
+                        'title="Delete not allowed after bill generation"><i class="fa fa-trash-o"></i></a></div>';
+                } else if (value.IsPurhaseBIllGenerated === 'N') {
+                    // Enable the delete button
+                    DeleteAttendanceBtn = '<div style="text-align:center;">' +
+                        '<a href="#" onclick="OpenCancelAttancaeModal(' + value.Id + ', \'' + value.AttendaceId + '\')" ' +
+                        'style="background-color: red; color: white; text-decoration: none; padding: 8px 12px; border-radius: 50%; font-size: 19px;" ' +
+                        'title="Delete Attendance"><i class="fa fa-trash-o"></i></a></div>';
+                }
+
+                var VerifiedIcon = '-';
+
+
+                    if (value.IsPurchaseBillVerified === 'R') {
+
+                        VerifiedIcon = '<i class="fa fa-close" style="font-size:48px;color:red"></i>';
+
+                    }
+                    else if (value.IsPurchaseBillVerified === 'V') {
+
+                        VerifiedIcon = '<i class="fa fa-check" style="font-size:48px;color:green"></i>';
+
+                    }
+
+                // Final array for this row:
+                var elmntArray = [
+                    msr,
+                    value.departmentName,
+                    value.AgencyName,
+                    value.WorkOrderId + '<br/> <span style="color:Green;"> P.Bill No.:-' + value.PurhaseInvNO + '</span>',
+                    value.DeployedResource,
+                    value.UpladNoOfResource,
+                    formattedMonthYear,
+                    Doc,
+                    AnnexureDoc
+                ];
+                if (RoleId == "57") {
+                    //elmntArray.push(AgencyBill);
+                    elmntArray.push(DeleteAttendanceBtn);
+                }
+
+                else if (RoleId === "48") {
+
+                    //var elmntArray = [
+                    //    msr,
+                    //    AgencyBill,
+                    //    UploadBtnAgency,
+                    //    DeleteAttendanceBtn,
+                    //    VerifiedIcon,
+                    //    value.VerificationRemarks,
+                    //    PurchaseBill,
+
+                    //];
+
+                    elmntArray.push(AgencyBill);
+                    elmntArray.push(UploadBtnAgency);
+                    elmntArray.push(DeleteAttendanceBtn);
+
+                   elmntArray.push(VerifiedIcon);
+                   elmntArray.push(value.VerificationRemarks);
+                    elmntArray.push(PurchaseBill);
+                    //elmntArray.push(VerifiedIcon); // value.IsPurchaseBillVerified (icon version)
+                    //elmntArray.push(value.VerificationRemarks);
+
+                }
+                else if (RoleId === "39") {
+                    //elmntArray.push(UploadBtnAgency);
+                    elmntArray.push(AgencyBill);
+                }
+
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+
+
+    function OpenAddModel(Id, attendanceId) {
+        $('.modal-title').html("Enter Purchase Bill Details");
+        $('#myModalPurchase').modal({
+            show: 'false'
+        });
+
+        vId = Id;
+
+        AttendanceV = attendanceId;
+        _AgencyAttenInvget(attendanceId);
+        root = '/Invoice/_AgencyAttenInvget';
+    }
+    function _AgencyAttenInvget(Id) {
+
+        $.post('/Invoice/_AgencyAttenInvget', {
+            'AttendaceId': Id,
+
+
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#WorkOrderNoPurchase').val(value.HpsedcWrokOrderNO);
+                $('#ddlAgencyPurchase').val(value.AgencyName);
+                $('#ddlAgencyPurchase1').val(value.AgencyId);
+                $('#DeptIdPurchase').val(value.departmentName);
+                $('#BillingId1').val(value.BillingId);
+
+                $('#DeptIdPurchase1').val(value.DeptId);
+                $('#NoOfResourcePurchase').val(value.UpladNoOfResource);
+                $('#DepartmentAddressPurchase').val(value.BillingAddress);
+                $('#ddlMonthspb').val(value.MonthYear.toString().substring(0, 1));
+                $('#ddlYearspb').val(value.MonthYear.toString().substring(1));
+            });
+        });
+
+        $('.modal-title').html("Enter Purchase Bill Details");
+        $('#myModalPurchase').modal({
+            show: 'false'
+        });
+    }
+
+
+
+    function _PurchaseInvoiceSubmit() {
+        var month = $('#ddlMonths1').val() + $('#ddlYears1').val();
+
+        if ($('#BillDatePurchase').val() == '') {
+            alert('Please Select Bill Date');
+            return;
+        }
+        if ($('#BillnoPurchase').val() == '') {
+            alert('Please Enter Bill No.');
+            return;
+        }
+        if ($('#DescriptionPurchase').val() == '') {
+            alert('Please Enter Description');
+            return;
+        }
+        if ($('#NarrationPurchase').val() == '') {
+            alert('Please Enter Narration');
+            return;
+        }
+
+        if ($('#AgencyBillPurchase').val() == '') {
+            alert('Please Enter Bill Amount');
+            return;
+        }
+
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $('.btnModalSubmit1').attr("disabled", "disabled");
+        $.post('/Invoice/_NewInvoiceSubmit', {
+            'AgencyBillId': sId,
+            'BillDate': $('#BillDatePurchase').val(),
+            'WorkOrderNo': $('#WorkOrderNoPurchase').val(),
+            'Billno': $('#BillnoPurchase').val(),
+            'NoOfResource': $('#NoOfResourcePurchase').val(),
+            'ddlAgency': $('#ddlAgencyPurchase1').val(),
+            'DeptId': $('#DeptIdPurchase1').val(),
+            'DepartmentAddress': $('#DepartmentAddressPurchase').val(),
+            'Description': $('#DescriptionPurchase').val(),
+            'Narration': $('#NarrationPurchase').val(),
+            'AgencyBill': $('#AgencyBillPurchase').val(),
+            'Admin': $('#AdminPurchase').val(),
+            'Libary': $('#LibaryPurchase').val(),
+            'IGSTAmt': $('#IGSTPurchase').val(),
+            'cgst': $('#cgstPurchase').val(),
+            'SGST': $('#SGSTPurchase').val(),
+            'BillingId1': $('#BillingId1').val(),
+            'Total': Math.round($('#TotalPurchase').val()),
+            'BillForMonth': month,
+            'AttendaceId': AttendanceV
+        }, function (data) {
+            resetForm();
+            alert(data);
+            _GstReportList();
+            $('#myModalPurchase').modal('hide');
+            $('.btnModalSubmit1').removeAttr("disabled");
+            $('#ModalProgress').hide();
+        });
+    }
+
+    function calculateAdminCharge2() {
+        var basicAmount = parseFloat(document.getElementById("AgencyBillPurchase").value) || 0;
+        var adminCharge = (basicAmount * 2.5) / 100;
+        document.getElementById("AdminPurchase").value = adminCharge.toFixed(2);
+
+        var libaryChargeInput = document.getElementById("LibaryPurchase");
+        var libaryCharge = parseFloat(libaryChargeInput.value) || 0;
+
+        // Jab Library Charge blank ho, tab usme '0' show ho
+        if (libaryChargeInput.value.trim() === "") {
+            libaryChargeInput.value = "0";
+        }
+
+        // Total Before GST (Agar Library Charge > 0 hai tabhi add ho)
+        var totalBeforeTax = basicAmount + adminCharge + libaryCharge;
+
+        // GST Calculation
+        var cgst = (totalBeforeTax * 9) / 100;
+        var sgst = (totalBeforeTax * 9) / 100;
+
+        document.getElementById("cgstPurchase").value = cgst.toFixed(2);
+        document.getElementById("SGSTPurchase").value = sgst.toFixed(2);
+        document.getElementById("IGSTPurchase").value = "0"; // Default IGST = 0
+
+        var totalAmount = totalBeforeTax + cgst + sgst;
+        document.getElementById("TotalPurchase").value = totalAmount.toFixed(2);
+    }
+
+    // IGST Checkbox Event Listener
+    document.getElementById("showIGST").addEventListener("change", function () {
+        var igstInput = document.getElementById("igstInputContainer");
+        if (this.checked) {
+            igstInput.style.display = "block";
+
+            var sgstValue = parseFloat(document.getElementById("SGSTPurchase").value) || 0;
+            var igst = sgstValue * 2;
+
+            document.getElementById("IGSTPurchase").value = igst.toFixed(2);
+            document.getElementById("SGSTPurchase").value = "0";
+            document.getElementById("cgstPurchase").value = "0";
+        } else {
+            igstInput.style.display = "none";
+            document.getElementById("IGSTPurchase").value = "0";
+            calculateAdminCharge2();
+        }
+    });
+
+    // Library Charge Input Event
+    document.getElementById("LibaryPurchase").addEventListener("input", function () {
+        calculateAdminCharge2();
+    });
+
+    _AgencyddlFilter();
+    function _AgencyddlFilter() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgencyfilter').html(DeploymentOfficeId);
+           // $('#ddlAgencyfilter').val(mAgencyId);
+        });
+    }
+    _DepartmentddlFilter();
+    function _DepartmentddlFilter() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptIdfilter').html(DeptId);
+        });
+    }
+    HidePanel();
+    function HidePanel()
+    {
+        var RoleId = '@Session["RoleId"]';
+        if (RoleId == '39') { $('#show').hide(); }
+
+    }
+
+    //var AttendanceVV=0;
+    var vvId=0;
+    function OpenAddUploadModel(Id) {
+        $('.modal-title').html("Enter ");
+        $('#myModalUpload').modal({
+            show: 'false'
+        });
+
+        vvId = Id;
+
+       // AttendanceVV = attendanceId;
+        _AgencyAttenUploadGet(Id);
+        root = '/Invoice/_AgencyAttenUploadGet';
+    }
+
+    function _AgencyAttenUploadGet(Id) {
+
+        $.post('/Invoice/_AgencyAttenUploadGet', {
+            //'AttendaceId': Id,
+            'Id':Id,
+
+
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#monthyear1').val(value.MonthYear);
+                $('#deptt1').val(value.departmentName);
+                $('#agencyId1').val(value.AgencyName);
+                $('#Workorder1').val(value.WorkOrderId);
+                $('#Billing1').val(value.BillingAddress);
+
+                $('#NoResource1').val(value.DeployedResource);
+                $('#uploadResource1').val(value.UpladNoOfResource);
+                $('#deptt2').val(value.DeptId);
+                //$('#ddlMonthspb').val(value.MonthYear.toString().substring(0, 1));
+                //$('#ddlYearspb').val(value.MonthYear.toString().substring(1));
+            });
+        });
+
+        $('.modal-title').html("Upload Annexure & AgencyBillFile");
+        $('#myModalUpload').modal({
+            show: 'false'
+        });
+    }
+
+    $('.btnModalSubmit3').click(function () {
+        _AgencyUploadAttendanceSubmit();
+    });
+    function _AgencyUploadAttendanceSubmit() {
+
+        var Anneexture = $("#Uploadannexure1").get(0);
+        var AnnexureFiles = Anneexture.files;
+
+        var AgencyBillAtt = $("#UploadAgencyBill1").get(0);
+        var AgencyBillFiles = AgencyBillAtt.files;
+
+
+
+        // Annexure file validation
+
+        if (AnnexureFiles.length === 0) {
+            alert('Please upload an Annexure file.');
+            return;
+        } else {
+            for (let i = 0; i < AnnexureFiles.length; i++) {
+                if (AnnexureFiles[i].type !== "application/pdf") {
+                    alert('Only PDF files are allowed for Annexure file.');
+                    return;
+                }
+                if (AnnexureFiles[i].name.includes(" ")) {
+                    alert('File name for Annexure file should not contain spaces.');
+                    return;
+                }
+            }
+        }
+
+
+        // Agency Bill File Validation
+
+        if (AgencyBillFiles.length === 0) {
+            alert('Please upload an Agency Bill file.');
+            return;
+        } else {
+            for (let i = 0; i < AgencyBillFiles.length; i++) {
+                if (AgencyBillFiles[i].type !== "application/pdf") {
+                    alert('Only PDF files are allowed for Agency Bill.');
+                    return;
+                }
+                if (AgencyBillFiles[i].name.includes(" ")) {
+                    alert('File name for Agency Bill should not contain spaces.');
+                    return;
+                }
+            }
+        }
+
+
+        $('.btnModalSubmit3').attr("disabled", "disabled");
+        $('#ModalProgress').show();
+
+        var formData = new FormData();
+
+        // Get current date and time for file name
+        var now = new Date();
+        var formattedDate = now.getFullYear().toString()
+            + String(now.getMonth() + 1).padStart(2, '0')
+            + String(now.getDate()).padStart(2, '0');
+        var formattedTime = String(now.getHours()).padStart(2, '0')
+            + String(now.getMinutes()).padStart(2, '0');
+        var timestamp = `${formattedDate}_${formattedTime}`;
+
+        // Get dynamic values for filename
+        var Deptt = $('#deptt1').val().replace(/\s+/g, '');
+        //var month = $('#monthyear1').val();
+        var agency = $('#agencyId1').val().replace(/\s+/g, '');
+        var baseFileName = `DEPT_${Deptt}_AGY_${agency}_${timestamp}`;
+
+        // Rename function
+        function renameFile(originalFile, newName) {
+            return new File([originalFile], newName, {
+                type: originalFile.type,
+                lastModified: originalFile.lastModified,
+            });
+        }
+
+                //Add Annexure file(s)
+        $.each(AnnexureFiles, function (key, value) {
+            var ext = value.name.split('.').pop();
+            var newFile = renameFile(value, `${baseFileName}_Annexure.${ext}`);
+            formData.append("UploadAnnexureFile", newFile);
+        });
+
+         //Add Agency Bill file(s)
+        $.each(AgencyBillFiles, function (key, value) {
+            var ext = value.name.split('.').pop();
+            var newFile = renameFile(value, `${baseFileName}_AgencyBill.${ext}`);
+            formData.append("UploadAgencyBill", newFile);
+        });
+
+        // Add other form data
+        formData.append("Id", vvId);
+        $.ajax({
+            type: "POST",
+            url: "/Invoice/_AgencyUploadAttendanceSubmit",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+                resetForm();
+                $('.btnModalSubmit3').removeAttr("disabled");
+                $('#ModalProgress').hide();
+                _GstReportList();
+                $('#myModalUpload').modal('hide');
+                $('.modelalert').html('');
+            },
+            error: function () {
+                $('.modelalert').html('An error occurred while submitting the form.');
+                $('.btnModalSubmit3').removeAttr("disabled");
+                $('#ModalProgress').hide();
+            }
+        });
+    }
+ /*   Delete Atteandance*/
+
+    var CancelId;
+    var AttendanceDelete;
+    function OpenCancelAttancaeModal(Id, attendanceId) {
+        if (confirm("Do you want to delete this Attendance?")) {
+            DeleteAttandance(attendanceId);
+        }
+    }
+    function DeleteAttandance(attendanceId) {
+        $('#ModalProgressDelete').show();
+        $.post('/Invoice/DeleteAttandance', {
+            'AttendanceId': attendanceId,
+            'chkDeleteAttendance': 'Y',
+        }, function (data) {
+            alert(data);
+            $('#ModalProgressDelete').hide();
+            _GstReportList();
+        });
+    }
+    /*   Delete Atteandance*/
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+

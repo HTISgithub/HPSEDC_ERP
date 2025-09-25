@@ -1,0 +1,54 @@
+﻿<link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="~/assets/css/fonts.googleapis.com.css" />
+<link rel="stylesheet" href="~/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" /> 
+<script src="~/Content/TimePicker/jquery.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/buttons.dataTables.min.css" rel="stylesheet" /> 
+
+<link href="~/Content/TimePicker/bootstrap-datepicker.css" rel="stylesheet" />
+<link href="~/Content/TimePicker/bootstrap-timepicker.min.css" rel="stylesheet" />
+<link href="~/Content/TimePicker/bootstrap-datepicker3.css" rel="stylesheet" />
+<link href="~/Content/TimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<link href="~/assets/css/ace_adon.css" rel="stylesheet" /> 
+
+<script src="~/Content/TimePicker/bootstrap-datepicker.js"></script>
+<script src="~/Content/TimePicker/bootstrap-timepicker.min.js"></script>
+<script src="~/Content/TimePicker/moment.js"></script>
+<script src="~/Content/TimePicker/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Content/TimePicker/daterangepicker.js"></script> 
+
+<link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.min.css" rel="stylesheet"></link>
+<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+
+
+<script>
+    $(function () {
+        var url = window.location.pathname;
+        var element = $('ul.nav a[href="' + url + '"]').eq(0).parent();
+        $('ul.nav').find('.active').removeClass('active');
+        if (element.is('li')) {
+            element.addClass('active');
+            element.parent().show();
+            var liLength = element.parents('li').length;
+            element.parents('li').eq(liLength - 1).addClass('open');
+            $.cookie("save_last_href", url, { expires: 9999, path: '/' });
+        }
+        else {
+            var last_link = $.cookie("save_last_href");
+            var newElement = $('a[href="' + last_link + '"]').parent();
+            if (newElement.is('li')) {
+                newElement.addClass('active');
+                var liLength = element.parents('li').length;
+                newElement.parents('li').eq(liLength - 1).show();
+                newElement.parents('ul').eq(0).show();
+            }
+        }
+    });
+</script>
+<style> 
+    select option{
+        text-transform: lowercase !important
+    }
+</style>

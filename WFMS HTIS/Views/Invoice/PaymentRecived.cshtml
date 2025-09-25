@@ -1,0 +1,1199 @@
+﻿@using System.Data
+
+@{ ViewBag.Title = "Department Payment";
+    ViewBag.PageTitle = "Department Payment";
+    DateTime _date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    DateTime nextMonthDate = _date.AddMonths(1);
+    DateTime oldMonth = _date.AddDays(1);
+    DateTime currentMonth = new DateTime(nextMonthDate.Year, nextMonthDate.Month, 1).AddDays(-1);
+    oldMonth = new DateTime(oldMonth.Year, oldMonth.Month, 1);
+    string DepartName = "";
+    DepartName = Session["Empid"].ToString(); }
+<link href="~/Content/Bootstrap-Sweetalert/sweetalert.css" rel="stylesheet" />
+<link rel="preconnect" href=https://fonts.googleapis.com>
+<link rel="preconnect" href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Raleway:wght@100..900&display=swap" rel="stylesheet">
+<script src="~/Content/Bootstrap-Sweetalert/sweetalert.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="~/assets/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap-multiselect.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" />
+
+
+@*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
+
+<script src="~/Scripts/jquery-uinew.js"></script>
+<style>
+
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #d6f5fc;
+        font-weight: 600;
+        font-family: "Raleway", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 2rem;
+        display: inline-block;
+        width: auto;
+    }
+
+    .modal-footer {
+        display: block;
+    }
+
+    input[type="text"] {
+        width: auto;
+        text-align: center;
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #48484b;
+        border-radius: 5px;
+        box-sizing: border-box;
+        max-width: 170px;
+    }
+
+    /* input {
+            width: 30%;
+            padding: 5px;
+            margin-right: 10px;
+        }
+    */
+    /* label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+    */
+
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+    td {
+        font-family: "Jost", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .error2 {
+        color: red;
+    }
+
+
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+
+    .tab button.active {
+        background-color: #0f1875;
+        color: white;
+    }
+
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    th {
+        background-color: #0f1875;
+        color: white;
+        font-size: 15px;
+        border-radius: 5px;
+        font-weight: 700;
+        font-family: "Jost", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        padding-top: 0.85em;
+        white-space: nowrap;
+        font-size: 25px;
+        color: #0f1875;
+    }
+
+    div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+        position: relative;
+        margin-left: 2rem;
+        margin-right: 1rem !important;
+    }
+
+    select {
+        width: 170px;
+        text-align: left;
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #48484b;
+        box-sizing: border-box;
+        max-width: 170px;
+    }
+
+    label {
+        font-weight: 700;
+        font-family: "Jost", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-size: 16px;
+    }
+
+    div.dt-buttons {
+        position: relative;
+        float: left;
+        display: none;
+    }
+
+    .font {
+        font-weight: 600;
+        font-family: "Jost", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-size: 14px;
+        position: relative;
+        text-align: left;
+        color: #0f1875;
+    }
+
+    .tablinks {
+        transition: ease 0.3s;
+        font-family: "Jost", sans-serif;
+    }
+
+        .tablinks:hover {
+            transform: scale(1.1)
+        }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+
+    /*span {
+            font-weight: 700;
+            font-size: 15px;
+        }*/
+
+    div.dataTables_wrapper div.dataTables_info {
+        padding-top: 0.85em;
+        font-family: "Jost", sans-serif;
+        white-space: nowrap;
+        font-size: 20px;
+        color: #0f1875;
+    }
+
+    .button-container {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: 160px;
+        height: 55px;
+        margin-right: 10px;
+    }
+
+    .jost {
+        font-family: "Jost", sans-serif;
+    }
+
+    .tablinks {
+        margin-bottom: 8px;
+    }
+
+    .fa {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .fa {
+        font-size: 30px; /* Adjust the size of the icon */
+        color: inherit; /* Inherit color from parent if needed */
+    }
+
+    .dataTables_filter {
+        margin-left: -24rem;
+    }
+</style>
+
+
+<h1 class="jost" style=" color: #0f1875;text-align:center;font-size:30px;margin-bottom:1rem;margin-top:-25px;">@ViewBag.Title</h1>
+<div class="page-content">
+    <div class="page-content divborder">
+        <div class="button-container">
+            <input type="button" style="font-size:16px" class="btn btn-primary tablinks" id="btnVendor" onclick="opentab(event, 'Entry')" value="New Request For PI " />
+            <input type="button" style="font-size:16px" class="btn btn-primary tablinks" id="btnList" onclick="opentab(event, 'List')" value="List" />
+
+
+        </div>
+        <div class="row form-group">
+            <div id="List" class="tabcontent">
+                <div class="row">
+                    <div class="col-xs-12">
+                        &nbsp;
+                        <div id="_CustomerTypeList">
+                            <div class="dt-responsive">
+                                <table class="table table-striped table-bordered testtable display" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No</th>
+
+                                            <th>Department Name</th>
+                                            <th>Billing Address</th>
+                                            <th>Shipping Address</th>
+                                            <th>Contact Number</th>
+                                            <th>View Details</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="Entry" class="tabcontent">
+
+                <div class="row">
+                    <input type="hidden" value="0" id="MrnId" />
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row mt10">
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Department 
+                                </div>
+                                <div>
+                                    <select id="DeptId" class="form-control clearddl" onchange="_ParentOfficeddl()">
+                                        <option value="0" style="text-align:center">--Select Department--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Payment Recived Number 
+                                </div>
+
+                                <div>
+                                    <input id="RecivedNumber" placeholder="Payment Recived Number" class="form-control cleartxt required">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Transaction ID 
+                                </div>
+
+                                <div>
+                                    <input id="TransactionId" class="form-control cleartxt required" placeholder="Transaction ID">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Payment Transaction Date 
+                                </div>
+
+                                <div>
+                                    <input placeholder="Payment Transaction Date" class="form-control text-box single-line datepicker cleardate" data-val="true" id="PaymentTransactionDate" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Recived Amount 
+                                </div>
+
+                                <div>
+                                    <input id="RecivedAmount" class="form-control cleartxt required" placeholder="Recived Amount">
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-lg-1">
+                                <div class="font">
+                                    GST TDS(2%) 
+                                </div>
+
+                                <div>
+                                    <input type="checkbox" id="GSTTDS2"  >
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-lg-1">
+                                <div class="font">
+                                     TDS(2%) 
+                                </div>
+
+                                <div>
+                                    <input type="checkbox" id="TDS2">
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                        <br />
+                        @*----------------------------------------------------TEMP PANEL-----------------------------------------------------------------*@
+
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-md-12">
+                                <div class="panel panel-default ">
+                                    <div class="panel-heading align12 font" align="left" style="background-color: #d6f5fc; color:#0f1875; font-size:16px;text-align:center">
+                                        <font style="color: #0f1875"><b>Payment Recived Against Sale Bill</b></font>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-lg-12" id="item">
+                                            <div class="row mt10 ">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered font" id="tblPurchase">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Sale Bill No. <span class="error-message">*</span> </th>
+
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Agency Name <span class="error-message">*</span> </th>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Bill Date<span class="error-message">*</span> </th>
+
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Base Amount <span class="error-message">*</span> </th>
+
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">GST TDS(2%)<span class="error-message">*</span></th>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">TDS(2%)</th>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Payment Recived Amt.</th>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Balance</th>
+
+
+
+                                                                <th style="color: #0f1875; background-color: #d6f5fc; width: 10%; ">Action</th>
+                                                                @*<th id="itemid" class="hide"></th>*@
+                                                            </tr>
+                                                            <tr>
+
+
+
+                                                                <td>
+                                                                    <select id="SaleBillddl" class="form-control clearddl" style="width:171px;height:40px;">
+                                                                    </select>
+                                                                </td>
+
+                                                                <td>
+                                                                    <select id="Agencyddl" class="form-control clearddl" style="width:171px;height:40px;">
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input placeholder="Bill Date" class="form-control text-box single-line datepicker cleardate" data-val="true" id="BillDate" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")"style="width:171px;height:40px;">
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="BaseAmount" placeholder="Base Amount" class="form-control cleartxt  " style="width:171px;height:40px;" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="GSTTDS21" placeholder="GST TDS" class="form-control cleartxt  " style="width:171px;height:40px;" />
+                                                                   
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="TDS21" placeholder="TDS" class="form-control cleartxt  " style="width:171px;height:40px;" />
+                                                                    
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" id="PaymentAmount" placeholder="Payment Recived Amt." class="form-control cleartxt  " style="width:171px;height:40px;" />
+                                                                    
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="text" id="BaseAmt" placeholder="Base Amt." class="form-control cleartxt  " style="width:171px;height:40px;" />
+                                                                    
+                                                                </td>
+
+
+                                                                <td>
+                                                                    <input type="button" class="btn btn-primary pull-right" @*class="addmore btn-success"*@ id="btnAdd" onclick="Add()" value="ADD" style="width:60px; margin-right:15px;" />
+                                                                </td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4" style="margin-left:46rem;">
+                                            <table align="right" class="font" style="margin:5px;background-color: #d6f5fc; color: #0f1875; height:70px;border-radius:10px;">
+                                                <tbody>
+                                                    <tr id="totals">
+                                                        <td>Grand Total</td>
+                                                        <td><input type="text" id="txtTotalResource" value="0" readonly style=" margin: 13px; border-radius: 10px; width: 13rem;" /></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-md-offset-5">
+
+                            <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" style="width: 80px" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="Table2" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal"><h4>Close</h4></button>
+                <h4 class="modal-title">View Details</h4>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <div id="_view">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div align="left" id="Zones">
+                                <div class="dt-responsive">
+                                    <!-- Updated content -->
+                                    <table class="table table-striped table-bordered" id="myTable2">
+                                        <thead>
+                                            <tr>
+                                                <th class="widthsr">Sr.No.</th>
+                                                <th>Main Category</th>
+                                                <th>Product Name</th>
+                                                <th>Company Name</th>
+                                                <th>Specification</th>
+                                                <th>Quantity</th>
+                                                @*<th>Minimum Range</th>
+                                                    <th>Maximum Range</th>*@
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <!-- Additional content, if necessary -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="~/images/ajax-loader.gif" id="ModalProgress" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" class="btnModalSubmit1 btn btn-primary" style="margin-left: -7rem; width: 72px;" value="OK" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/Scripts/autocomplete.js"></script>
+<script src="~/Scripts/autocomplete.js"></script>
+<script>
+
+
+
+    autoTextReport('Department', 'DepartmentId', '/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+    autoTextReport('Resource', 'ResourceId', '/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+    autoTextReport('DeploymentLoc', 'DeploymentLocId', '/autoComplete/_autoSearch/', 'DistrictId', 'DistrictName', 'DistrictCode', 'District');
+    var accessRights = {@ViewData["AccessRights"]};
+    var vaddress = 0, temprow, TotalResource = 0, mChildOfficeId=0,mAgencyId=0 ,mDeptId=0, mParentOfficeId = 0 , PostTotalResource=0, RequisitionId = 0, totalNoResource=0 ,PostId = 0, msr = 0, storeid = 0, billingid = 0;
+    var ProductId = 0, PiRequistId = 0, RequestBy = 0, UserRole = 0;
+
+    $(document).ready(function () {
+
+        opentab(event, 'Entry');
+    });
+
+    
+
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+   }
+
+    function opentab(evt, tabName) {
+        clearform();
+        setvalue();
+        var i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        if (!tabName || tabName === "") {
+            tabName = "Entry";
+        }
+        document.getElementById(tabName).style.display = "block";
+        //  resetForm();
+        evt.currentTarget.className += " active";
+        $('.btnModalSubmit').val('Submit');
+
+    }
+    function opentabonedit(evt, tabName) {
+        clearform();
+        setvalue();
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+
+        $('#' + evt).addClass(" active");
+    }
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId').html(DeptId);
+        });
+        _HPSEDCAVOddl();
+
+
+    }
+    function _Departmentddl1() {
+        $.post('/TimeSheetNew/_CustomerEntityddlNew', {}, function (data) {
+        $('#DeptId').html(data);
+        });
+
+    }
+
+    function _HPSEDCAVOddl() {
+        $.post('/TimeSheetNew/_HPSEDCAVOddl', { 'DeptId': $('#DeptId').val() }, function (data) {
+            var AVOId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                AVOId += '<option value=' + value["AvoId"] + '>' + value["AvOName"] + '</option>';
+
+            });
+            $('#AVOName').html(AVOId);
+
+
+        });
+    }
+
+    function _ParentOfficeddl() {
+
+        mDeptId = $('#DeptId').val();
+        _HPSEDCAVOddl();
+       // mDeptId = mDeptId == 0 ? $('#DeptId').val() : mDeptId;
+        $.post('/TimeSheetNew/_DeptHQOfficeddl', { 'DeptId': mDeptId }, function (data) {
+            var ParentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ParentOfficeId += '<option value=' + value.ParentOfficeId + '>' + value.ParentOfficeName + '</option>'
+
+            });
+            $('#ddlParent').html(ParentOfficeId);
+            $('#ddlParent').val(mParentOfficeId);
+
+        });
+        _ChildOfficeddl();
+        _HPSEDCAVOddl();
+    }
+
+    function _ChildOfficeddl() {
+        mParentOfficeId = mParentOfficeId == 0 ? $('#ddlParent').val() : mParentOfficeId
+        $.post('/TimeSheetNew/_DeptChildOfficeddl', { 'ParentOfficeId': mParentOfficeId }, function (data) {
+            var ChildOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ChildOfficeId += '<option value=' + value.ChieldOfficeId + '>' + value.ChildOfficeName + '</option>'
+
+            });
+
+            $('#ddlChild').html(ChildOfficeId);
+            $('#ddlChild').val(mChildOfficeId);
+       });
+
+   }
+
+
+    _DeploymentOfficeddl(); _Agencyddl();
+    function _DeploymentOfficeddl() {
+        mParentOfficeId = mParentOfficeId == 0 ? $('#ddlParent').val() : mParentOfficeId
+        $.post('/TimeSheetNew/_DeptChildOfficeddl', { 'ParentOfficeId': mParentOfficeId }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.ChieldOfficeId + '>' + value.ChildOfficeName + '</option>'
+            });
+            $('#DeploymentOffice').html(DeploymentOfficeId);
+            $('#DeploymentOffice').val(mDeptId);
+        });
+
+    }
+    function _Agencyddl() {
+
+        $.post('/TimeSheetNew/_Agencyddl', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+        });
+
+    }
+
+
+    $(document).ready(function () {
+        _ProductRequestDeptList();
+
+        document.getElementById('Entry').style.display = "block";
+      //  _SupplierBranch();
+        $('.tblcler').val('');
+        $('#Unit').val(0);
+    });
+
+    function getdataSearch() {
+        var ProductCategory = $("#ProductCategory").val();
+        var ProductCategory1 = '';
+        $("#tblPurchase TBODY TR").each(function () {
+            var row = $(this);
+
+            ProductCategory1 = row.find('.ProductCategory').html();
+        });
+        if (ProductCategory == ProductCategory1) { return true; } else {return false;}
+    }
+
+
+    function Add() {
+
+        if (!getdataSearch()) {
+            //Reference the Name and Country TextBoxes.
+            var ResourceId = $("#ResourceId").val();
+            var MainCategory = $("#MainCategory  option:selected").text();
+            var MainCategoryId = $("#MainCategory").val();
+
+            var ProductCategory = $("#ProductCategory  option:selected").text();
+            var ProductCategoryId = $("#ProductCategory").val();
+
+            var cName = $("#cName  option:selected").text();
+            var cNameId = $("#cName").val();
+
+            var Specification = $("#Specification").val();
+            var Quantity = $("#Quantity").val();
+            var Price = $("#Price").val();
+            var Price1 = $("#Price1").val();
+
+            var btnRemove = $("<input />");
+            btnRemove.attr("type", "button");
+            btnRemove.attr("onclick", "Remove(this);");
+            btnRemove.val("Remove");
+
+            // cell.append(btnRemove);
+
+            if ($("#ProductCategory").val() == "0") {
+                alert("Please select Product Type");
+                return;
+            }
+            if ($("#Specification").val() == "") {
+                alert("Please Enter Specification");
+                return;
+            }
+            if ($("#Quantity").val() == "") {
+                alert("Please Enter Quantity ");
+                return;
+            }
+            //if ($("#Price").val() == "0") {
+            //    alert("Please select Price Range");
+            //    return;
+            //}
+
+            msr = msr + 1;
+            var hiddenIds = '<div style="display:none"><span class="ResourceId">' + ResourceId + '</span>';
+            hiddenIds += '</div>';
+            var template1 = '<tr>';
+
+            template1 += '<td style="display:none"><span class="MainCategoryId">' + MainCategoryId + '</span><span class="ProductCategoryId">' + ProductCategoryId + '</span> <span class="cNameId">' + cNameId + '</span> </td > ';
+            template1 += '<td style="display:none"><span class="srno">' + msr + '</span></td>';
+            template1 += '<td><span class="MainCategory">' + MainCategory + '</span></td>';
+
+            template1 += '<td><span class="ProductCategory">' + ProductCategory + '</span></td>';
+            template1 += '<td><span class="cName">' + cName + '</span></td>';
+
+            template1 += '<td><span class="Specification">' + Specification + '</span></td>';
+            template1 += '<td><span class="Quantity">' + Quantity + '</span></td>';
+            template1 += '<td><span class="Price">' + Price + '</span></td>';
+            template1 += '<td><span class="Price1">' + Price1 + '</span></td>';
+
+
+            //&nbsp;<button id="btnEdit"  onclick="EditEntry1($(this),1);">Edit</button>
+            template1 += '<td>\
+                    <button id="btnRemove" style="width:9rem; margin-bottom:2px" onclick="Remove(this);">Remove</button>\
+                </td>';
+            template1 += '</tr>';
+
+            var oldBody1 = $("#tblPurchase > TBODY").html();
+            var tBody1 = $("#tblPurchase > TBODY").html(oldBody1 + template1);
+            $("#txtTotalResource").val(parseInt($("#txtTotalResource").val()) + parseInt($("#ResourceNo").val()))
+            TotalResource = TotalResource + parseInt($("#ResourceNo").val());
+            alert("Data Added Succesfully.");
+           // $('input').val('');
+           /* $('.clearddl').val(0);*/
+            $('.tblcler').val('');
+
+            //$('#Unit').val(0);
+            // Sum();
+        }
+        else
+        {
+            alert('All ready added');
+        }
+
+    }
+
+
+    $('.btnModalSubmit').click(function () {
+
+        _ProductDeptSubmit();
+    });
+
+    function getdata()
+    {
+        var PurchaseDetail = new Array();
+        $("#tblPurchase TBODY TR").each(function()
+            {
+            var row = $(this);
+            Purchase = {};
+            Purchase.MainCategoryId = row.find('.MainCategoryId').html();
+
+            Purchase.ProductCategoryId = row.find('.ProductCategoryId').html();
+            Purchase.cNameId = row.find('.cNameId').html();
+
+            Purchase.Specification = row.find('.Specification').html();
+
+            Purchase.Quantity = row.find('.Quantity').html();
+            Purchase.Price = row.find('.Price').html();
+            Purchase.Price1 = row.find('.Price1').html();
+
+
+
+            PurchaseDetail.push(Purchase);
+        });
+         return PurchaseDetail;
+    }
+
+
+    function _ProductDeptSubmit() {
+
+        if ($("#DeptId").val() == "0") {
+            alert("Please select Department ");
+            return;
+
+        }
+
+        if ($("#BillingAddress").val() == "") {
+
+            alert("Please Enter Billing Address");
+            return;
+
+        }
+
+        if ($("#ShippingAddress").val() == "") {
+            alert("Please Enter Shipping Address");
+            return;
+
+        }
+        if ($("#ContactNumber").val() == '') {
+            alert("Please Enter Contact Number");
+            return;
+        }
+
+        if ($("#ProductCategory").val() == "0") {
+            alert("Please select Product Type");
+            return;
+        }
+        if ($("#Specification").val() == "") {
+            alert("Please Enter Specification");
+            return;
+        }
+        if ($("#Quantity").val() == "") {
+            alert("Please Enter Quantity ");
+            return;
+        }
+
+            var data = JSON.stringify(getdata());
+            var formData = new FormData();
+            formData.append("RequestDetails", data),
+            formData.append("PiRequistId", RequisitionId),
+            formData.append("DeptId", $("#DeptId").val()),
+            formData.append("BillingAddress", $("#BillingAddress").val()),
+            formData.append("ShippingAddress", $("#ShippingAddress").val()),
+            formData.append("ContactNO", $("#ContactNumber").val()),
+            formData.append("IsActive", $("#IsActive").val()),
+
+        $.ajax({
+
+            type: "POST",
+            url: "/HpsedcPi/_ProductDeptSubmit",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+                resetModal();
+                resetForm();
+                RequisitionId = 0;
+                clearform();
+               // window.location.href = "@Url.Action("AddRequisitionData", "TimeSheetNew")";
+                _ProductRequestDeptList();
+                $('.btnModalSubmit').removeAttr("disabled");
+                $('#ModalProgress').hide();
+
+
+
+            }
+
+        });
+    }
+
+    function OpenUpdateModal1(PiRequistId) {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("View Details");
+        $('#Table2').modal({
+            show: 'false'
+        });
+
+        vId = 0;
+
+        //IsActive = 'Y';
+        _PiDepartmentPiRequist_Details(PiRequistId)
+        root = '/HpsedcPi/_PiDepartmentPiRequist_Details';
+    }
+
+    function _PiDepartmentPiRequist_Details(PiRequistId) {
+       // alert(PiRequistId);
+
+         $('#ProgressImg').show();
+        $.post('/HpsedcPi/_PiDepartmentPiRequist_Details', {
+            'PiRequistId': PiRequistId,
+
+            }, function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+                var table = $('#myTable2').DataTable();
+                table.clear().draw();
+                var msr = 0;
+                $.each(obj, function (key, value) {
+                    msr = msr + 1;
+                    //var btnEdit = '<a href="#" onclick="OpenUpdateModal1(' + value.vId + ')" class="btn btn-primary">Educational Details</a>';
+
+                    var elmntArray = [
+                        msr,
+
+                        value.MainCatgName,
+                        value.Title,
+                        value.CompanyName,
+                        value.Specification,
+                        value.Qty
+                       // btnEdit
+
+                    ];
+
+                    table.row.add(elmntArray).draw(false);
+                });
+            });
+        }
+
+
+
+    function clearform()
+    {
+        $('.sclear').val('');
+        $("#tblPurchase TBODY").html('');
+    }
+
+    function setvalue()
+    {
+        $('.setclear').val('0');
+    }
+
+    function _ProductRequestDeptList() {
+        window.onload = function () {
+            opentab(event, 'List');
+        };
+
+        var url = new URL(window.location.href);
+        var Rid = 0;
+        if (url.searchParams.has('Rid')) {
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            Rid = urlParams.get('Rid');
+
+            $('#btnVendor').hide();
+            //const product = urlParams.get('product')
+            //alert(urlParams.get('Rid'));
+
+        }
+        $('#ProgressImg').show();
+        $.post('/HpsedcPi/_ProductDeptDetailsRemove', {
+            'PostId': "0",
+
+        }, function (data) {
+
+        });
+
+        $.post('/HpsedcPi/_ProductRequestDeptList',
+            {
+
+                'PiRequistId': PiRequistId,
+
+            },
+
+            function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+
+                var table = $('#myTable').DataTable();
+                table.clear().draw();
+                var msr = 0;
+                var RoleId = '@Session["RoleId"]';
+
+                $.each(obj, function (key, value) {
+                    msr = msr + 1;
+
+
+                    var btnViewPid='',ActionButton='',OrderView=''
+                    var btnAction = '<a href="#" onclick="openPopup1(' + value.PiRequistId + ' )" class="img-circle btnTblListEdit"><i class="fa fa-pencil-square fa-2x"></i></a>';
+                    if (value.IsPiCreated == 'Y') {
+                        btnAction = '';
+                        btnViewPid = '<a href="#" onclick="openPopupPi(' + value.PiRequistId + ' )" class="img-circle"><center><i class="" style="color:green !important;">Show Pi</center></i></a>';
+                        /*  tripartiteBtn = '<a href="/TimeSheet/TripartyAgreement"  class="img-circle"><i class="fa fa-eye fa-2x"></i></a>';*/
+                    }
+                    if (value.IsConfirmOrder == 'Y') {
+                        OrderView = '<a href="#" onclick="openPopupOrder(' + value.PiRequistId + ' )" class="img-circle"><center><i class="" style="color:green !important;">View Order</center></i><i class="fa fa-solid fa-check " style="color:green;" ></i></a>';
+                        /*  tripartiteBtn = '<a href="/TimeSheet/TripartyAgreement"  class="img-circle"><i class="fa fa-eye fa-2x"></i></a>';*/
+                    }
+
+                    if (RoleId == 28) {
+                        ActionButton = btnAction + btnViewPid + OrderView;
+
+                    }
+                    else if (RoleId == 29)
+                    { ActionButton = btnViewPid + OrderView; }
+
+                    var viewDetails = '<a href="#" onclick="OpenUpdateModal1(' + value.PiRequistId + ')"  class="img-circle"><center><i class="fa fa-eye" aria-hidden="true"></i></center></a>';
+
+
+                    var elmntArray = [
+                        msr,
+
+                        value.departmentName,
+                        value.BillingAddress,
+                        value.ShippingAddress,
+                        value.ContactNO,
+                        viewDetails,
+                        btnAction + btnViewPid + OrderView
+
+
+                    ];
+                    table.row.add(elmntArray).draw(false);
+                });
+            });
+    }
+        function openPopup1(id) {
+        var popupUrl = '@Url.Action("ProductList", "HpsedcPi")' + '/?Rid='+ id;
+        var features = 'width=600,height=400,status=no,toolbar=no,menubar=no,location=no';
+        window.location.replace(popupUrl);
+    }
+    function openPopupPi(id) {
+    var popupUrl = '@Url.Action("ShopShoppingCart", "HpsedcPi")' + '/?Rid=' + id;
+    var features = 'width=600,height=400,status=no,toolbar=no,menubar=no,location=no';
+    window.location.replace(popupUrl);
+    }
+    function openPopupOrder(id) {
+    var popupUrl = '@Url.Action("ViewOrder", "HpsedcPi")' + '/?Rid=' + id;
+    var features = 'width=600,height=400,status=no,toolbar=no,menubar=no,location=no';
+    window.location.replace(popupUrl);
+}
+
+    function Remove(button) {
+        //Determine the reference of the Row using the Button.
+        var row = $(button).closest("TR");
+        var ResourceId = $(row).closest("tr").find(".ResourceId").html();
+        var ResourceNo = $(row).closest("tr").find(".ResourceNo").html();
+
+       var name = $("TD", row).eq(0).html();
+        if (confirm("Do you want to delete ?")) {
+            //TotalResource = TotalResource - ResourceNo;
+            $.post('/HpsedcPi/_ProductDeptDetailsRemove', {
+                    'PostId': ResourceId,
+
+        }, function (data) {
+
+        });
+            //Get the reference of the Table.
+            var table = $("#tblPurchase")[0];
+            //Delete the Table row using it's Index.
+            $("#txtTotalResource").val(parseInt($("#txtTotalResource").val()) - parseInt(ResourceNo))
+            TotalResource = TotalResource - parseInt(ResourceNo);
+            if ((TotalResource == parseInt($("#txtTotalResource").val())) && TotalResource!=0 ) {
+              //  alert(TotalResource);
+                //$('.btnModalSubmit').attr("disabled", true);
+                //$(".btnModalSubmit").removeAttr("disabled");
+            }
+            //else {
+            //    $('.btnModalSubmit').attr("disabled", true);
+            //}
+
+            table.deleteRow(row[0].rowIndex);
+        }
+    }
+
+    function Removedetails(button) {
+        var row = $(button).closest("TR");
+        var RidNo = $(row).closest("tr").find(".RId1").html();
+        if (confirm("Do you want to delete?")) {
+           $('#Rid').html($('#Rid').html() + "<option value=\'" + RidNo + "\'>R00" + RidNo + "</option>");
+            var table = $("#tblDetails")[0];
+            table.deleteRow(row[0].rowIndex);
+            TotalResource--;
+            PostTotalResource--;
+        }
+    }
+    function RemoveTax(button) {
+        var row = $(button).closest("TR");
+        var name = $("TD", row).eq(0).html();
+       if (confirm("Do you want to delete?")) {
+            var table = $("#tblSundry")[0];
+            table.deleteRow(row[0].rowIndex);
+            SumSundry();
+        }
+    }
+
+
+    PIProductCategory_ddl();
+    function PIProductCategory_ddl() {
+
+        $.post('/HpsedcPi/PIProductCategory_ddl',
+            { 'Id': $('#ProductCategory').val() },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var ProductCategory = '<option value="0">-Select-</option>';
+                $.each(obj, function (key, value) {
+                    ProductCategory += '<option value=' + value.Id + '>' + value.Title + '</option>';
+                });
+                $('#ProductCategory').html('');
+                $('#ProductCategory').html(ProductCategory);
+
+            });
+
+    }
+    PiCompany_ddl();
+    function PiCompany_ddl() {
+        $.post('/HpsedcPi/ProductCompany_ddl', { 'Id': 0 }, function (data) {
+            var cName = '<option value="0">-Select-</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                cName += '<option value="' + value.Id + '">' + value.CompanyName + '</option>';
+            });
+            $('#cName').html(cName);
+        });
+    }
+
+    PiMainCategory_ddl();
+    function PiMainCategory_ddl() {
+        $.post('/HpsedcPi/PiMainCategory_ddl', { 'Id': 0 }, function (data) {
+            var MainCategory = '<option value="0">-Select-</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                MainCategory += '<option value="' + value.Id + '">' + value.MainCatgName + '</option>';
+            });
+            $('#MainCategory').html(MainCategory);
+        });
+    }
+
+
+</script>
+
+
+
+

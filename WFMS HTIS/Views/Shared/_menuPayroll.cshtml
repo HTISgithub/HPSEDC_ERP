@@ -1,0 +1,75 @@
+﻿@using System.Data
+@{
+    DataTable dt = (DataTable)HttpRuntime.Cache["dtMenu"];
+}
+<div class="sidebar-header">
+    <select class="form-control"  >
+        @for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            <option value="@dt.Rows[i]["RoleId"]">@dt.Rows[i]["RoleName"]</option>
+        }
+    </select>
+</div>
+<ul class="list-unstyled components">
+    <li class="active">
+        <a href="#MastersSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-home"></i>
+            Masters
+        </a>
+        <ul class="collapse list-unstyled" id="MastersSubmenu">
+            <li><a href="/admin/PayCharges">Pay Charges</a></li>
+            <li><a href="#">Tds Sections</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#EntrySubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-duplicate"></i>
+            Entry
+        </a>
+        <ul class="collapse list-unstyled" id="EntrySubmenu">
+            <li><a href="/admin/PayChargeApplied">Employee CTC</a></li>
+            <li><a href="/admin/GroupCTC">Group CTC</a></li>
+            <li><a href="/Admin/AddAllowances">Allowances</a></li>
+            <li><a href="/Admin/Deductions">Deductions</a></li>
+            <li><a href="/admin/PayChargeApplied">Employee CTC</a></li>
+            @*<li><a href="#">Advance Against Salary</a></li>
+                <li><a href="#">Salary Calculation</a></li>
+                <li><a href="#">Employee Tax Investment</a></li>
+                <li><a href="#">TDs Deduction</a></li>*@
+        </ul>
+    </li>
+    <li>
+        <a href="#ReportsSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-duplicate"></i>
+            Reports
+        </a>
+        <ul class="collapse list-unstyled" id="ReportsSubmenu">
+            <li><a href="/ReportofPayroll/SalaryRegisterColumner">Salary Register</a></li>
+            <li><a href="/ReportofPayroll/CashStatement">Cash Statement</a></li>
+
+            @*<li><a href="#">Salary Slip</a></li>
+                <li><a href="#">Advance Register</a></li>
+                <li><a href="#">Unpaid Salary</a></li>
+                <li><a href="#">Bank Statement</a></li>
+                <li><a href="#">Cash Statement</a></li>
+                <li><a href="#">Month wise Summary</a></li>*@
+            <li><a href="/ReportofPayroll/PFregister">PF ECR</a></li>
+            <li><a href="/ReportofPayroll/EmployeeESIStatement">ESI ECR</a></li>
+            <li><a href="/ReportofPayroll/EmployeeSalaryDetail">CTC Statement</a></li>
+
+            @*<li><a href="#">Income Tax Calculation</a></li>
+                <li><a href="#">Bank Transfer</a></li>*@
+            <li><a href="/ReportofPayroll/EmployeeSalaryDetail">CTC Statement</a></li>
+            @*<li><a href="#">Salary Payable</a></li>
+                <li><a href="#">Salary Paid</a></li>
+                <li><a href="#">Deduction Reports</a></li>*@
+
+        </ul>
+    </li>
+</ul>
+<script>
+    $('.menua').click(function () {
+        $('#sidebar').removeClass('active');
+        //$('.list-unstyled ul').css('height', 'auto').addClass('in').removeClass('collapse');
+    });
+</script>

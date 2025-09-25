@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PayrollModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblVIKSATEmployeeCategory">
+          <Key>
+            <PropertyRef Name="fiEmpCategoryId" />
+          </Key>
+          <Property Name="fiEmpCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fvEmpCategoryName" Type="varchar" MaxLength="50" />
+          <Property Name="fvEmpCategoryCode" Type="varchar" MaxLength="50" />
+          <Property Name="fdFromDate" Type="datetime" />
+          <Property Name="fdToDate" Type="datetime" />
+          <Property Name="fnDailyWorkingHours" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="fvInclusiveWeeklyOffDay" Type="varchar" MaxLength="1" />
+          <Property Name="IsActive" Type="varchar" MaxLength="1" />
+          <Property Name="Sr" Type="int" />
+          <Property Name="BranchId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblVIKSATpayEmployees">
+          <Key>
+            <PropertyRef Name="fiEmployeeID" />
+          </Key>
+          <Property Name="fiEmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fvEmployeeCode" Type="varchar" MaxLength="50" />
+          <Property Name="fvEmployeeName" Type="varchar" MaxLength="50" />
+          <Property Name="fvFatherHusbandName" Type="varchar" MaxLength="50" />
+          <Property Name="fdDateofBirth" Type="datetime" />
+          <Property Name="fdDateofJoining" Type="datetime" />
+          <Property Name="fvMobile" Type="varchar" MaxLength="50" />
+          <Property Name="fiEmpCategoryId" Type="int" />
+          <Property Name="fiBranchID" Type="int" />
+          <Property Name="fiDepartmentID" Type="int" />
+          <Property Name="fiDesignationID" Type="int" />
+          <Property Name="fiShiftId" Type="int" />
+          <Property Name="Relation" Type="varchar" MaxLength="50" />
+          <Property Name="fvAddress1" Type="varchar" MaxLength="1500" />
+          <Property Name="fvAddress2" Type="varchar" MaxLength="500" />
+          <Property Name="fiCityId" Type="int" />
+          <Property Name="fvPhone" Type="varchar" MaxLength="50" />
+          <Property Name="fvEmail" Type="varchar" MaxLength="50" />
+          <Property Name="fvGender" Type="varchar" MaxLength="50" />
+          <Property Name="fvBloodGroup" Type="varchar" MaxLength="50" />
+          <Property Name="fvIsMarried" Type="varchar" MaxLength="50" />
+          <Property Name="fiNoOfChildren" Type="int" />
+          <Property Name="fdDateofLeft" Type="datetime" />
+          <Property Name="fdDateofTermination" Type="datetime" />
+          <Property Name="fvPaymentMode" Type="varchar" MaxLength="50" />
+          <Property Name="fiBankId" Type="int" />
+          <Property Name="fvBankAccountNo" Type="varchar" MaxLength="50" />
+          <Property Name="fvPFNo" Type="varchar" MaxLength="50" />
+          <Property Name="fvESINo" Type="varchar" MaxLength="50" />
+          <Property Name="fvPANNo" Type="varchar" MaxLength="50" />
+          <Property Name="fvLICNo" Type="varchar" MaxLength="50" />
+          <Property Name="fvTokenNo" Type="varchar" MaxLength="50" />
+          <Property Name="fvPFonBasic" Type="varchar" MaxLength="1" />
+          <Property Name="fvPFonMinWages" Type="varchar" MaxLength="1" />
+          <Property Name="fvIsActive" Type="varchar" MaxLength="255" />
+          <Property Name="fiBoiMatCode" Type="int" />
+          <Property Name="fvDayofWeek" Type="varchar" MaxLength="50" />
+          <Property Name="fvAccountHolderName" Type="varchar" MaxLength="150" />
+          <Property Name="fvIFSCNO" Type="varchar" MaxLength="50" />
+          <Property Name="fvAccountTypeNo" Type="varchar" MaxLength="10" />
+          <Property Name="fvAccountHolderAddress" Type="varchar" MaxLength="250" />
+          <Property Name="fvEmpBankName" Type="varchar" MaxLength="50" />
+          <Property Name="fvResourceID" Type="varchar" MaxLength="20" />
+          <Property Name="EmpImage" Type="varchar" MaxLength="100" />
+          <Property Name="EmpImagePath" Type="varchar" MaxLength="250" />
+          <Property Name="DeviceId" Type="varchar" MaxLength="100" />
+          <Property Name="DeviceIMEI" Type="varchar" MaxLength="100" />
+          <Property Name="fvUANNo" Type="varchar" MaxLength="100" />
+          <Property Name="IsRegular" Type="varchar" MaxLength="10" />
+          <Property Name="ContractorID" Type="int" />
+          <Property Name="MainCategoryID" Type="int" />
+          <Property Name="fiStatus" Type="int" />
+          <Property Name="fvAadhaarNo" Type="varchar" MaxLength="100" />
+          <Property Name="fiReportingManager" Type="int" />
+          <Property Name="fiHRManager" Type="int" />
+          <Property Name="fvQualification" Type="varchar" MaxLength="200" />
+          <Property Name="fvExperience" Type="varchar" MaxLength="200" />
+          <Property Name="fiGradeID" Type="int" />
+          <Property Name="fvReportingManagerName" Type="varchar" MaxLength="200" />
+          <Property Name="fvHRManagerName" Type="varchar" MaxLength="200" />
+          <Property Name="fvReportIngManagerCode" Type="varchar" MaxLength="200" />
+          <Property Name="fvHRManagerCode" Type="varchar" MaxLength="200" />
+          <Property Name="fiCostCenterId" Type="int" />
+          <Property Name="fiDivisionID" Type="int" />
+          <Property Name="fiLocationId" Type="int" />
+          <Property Name="fiAccountTypeID" Type="int" />
+          <Property Name="fiPaymentModeId" Type="int" />
+          <Property Name="fiBloodGroupId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Payroll.dbo.tblVIKSATUserCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblVIKSATUserCategories">
+          <Key>
+            <PropertyRef Name="fiCategoryId" />
+          </Key>
+          <Property Name="fiCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fvCategoryName" Type="varchar" MaxLength="50" />
+          <Property Name="BranchId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Payroll.dbo.tblVIKSATUserLoginPart1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblVIKSATUserLoginPart1">
+          <Key>
+            <PropertyRef Name="fiUserId" />
+          </Key>
+          <Property Name="fiUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fvUserName" Type="varchar" MaxLength="50" />
+          <Property Name="fvUserPassword" Type="varchar" MaxLength="50" />
+          <Property Name="fiCategoryId" Type="int" />
+          <Property Name="fiEmployeeId" Type="int" />
+          <Property Name="fvIsActive" Type="varchar" MaxLength="1" />
+          <Property Name="IsTrackingOn" Type="varchar" MaxLength="1" />
+          <Property Name="BranchId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Payroll.dbo.tblVIKSATUserLoginPart2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tblVIKSATUserLoginPart2">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="fiUserId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fiUserId" Type="int" Nullable="false" />
+          <Property Name="fiEmpCategoryId" Type="int" />
+          <Property Name="EmpId" Type="int" />
+          <Property Name="BranchId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Payroll.dbo.tbUserRoleMaster' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbUserRoleMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nchar" MaxLength="10" />
+          <Property Name="IsActive" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="PayrollModelStoreContainer">
+          <EntitySet Name="tblVIKSATEmployeeCategory" EntityType="Self.tblVIKSATEmployeeCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVIKSATpayEmployees" EntityType="Self.tblVIKSATpayEmployees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVIKSATUserCategories" EntityType="Self.tblVIKSATUserCategories" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[tblVIKSATUserCategories].[fiCategoryId] AS [fiCategoryId], 
+[tblVIKSATUserCategories].[fvCategoryName] AS [fvCategoryName], 
+[tblVIKSATUserCategories].[BranchId] AS [BranchId]
+FROM [dbo].[tblVIKSATUserCategories] AS [tblVIKSATUserCategories]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblVIKSATUserLoginPart1" EntityType="Self.tblVIKSATUserLoginPart1" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[tblVIKSATUserLoginPart1].[fiUserId] AS [fiUserId], 
+[tblVIKSATUserLoginPart1].[fvUserName] AS [fvUserName], 
+[tblVIKSATUserLoginPart1].[fvUserPassword] AS [fvUserPassword], 
+[tblVIKSATUserLoginPart1].[fiCategoryId] AS [fiCategoryId], 
+[tblVIKSATUserLoginPart1].[fiEmployeeId] AS [fiEmployeeId], 
+[tblVIKSATUserLoginPart1].[fvIsActive] AS [fvIsActive], 
+[tblVIKSATUserLoginPart1].[IsTrackingOn] AS [IsTrackingOn], 
+[tblVIKSATUserLoginPart1].[BranchId] AS [BranchId]
+FROM [dbo].[tblVIKSATUserLoginPart1] AS [tblVIKSATUserLoginPart1]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tblVIKSATUserLoginPart2" EntityType="Self.tblVIKSATUserLoginPart2" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[tblVIKSATUserLoginPart2].[Id] AS [Id], 
+[tblVIKSATUserLoginPart2].[fiUserId] AS [fiUserId], 
+[tblVIKSATUserLoginPart2].[fiEmpCategoryId] AS [fiEmpCategoryId], 
+[tblVIKSATUserLoginPart2].[EmpId] AS [EmpId], 
+[tblVIKSATUserLoginPart2].[BranchId] AS [BranchId]
+FROM [dbo].[tblVIKSATUserLoginPart2] AS [tblVIKSATUserLoginPart2]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbUserRoleMaster" EntityType="Self.tbUserRoleMaster" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[tbUserRoleMaster].[Id] AS [Id], 
+[tbUserRoleMaster].[RoleName] AS [RoleName], 
+[tbUserRoleMaster].[IsActive] AS [IsActive]
+FROM [dbo].[tbUserRoleMaster] AS [tbUserRoleMaster]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PayrollModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblVIKSATpayEmployee">
+          <Key>
+            <PropertyRef Name="fiEmployeeID" />
+          </Key>
+          <Property Name="fiEmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fvEmployeeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fiEmpCategoryId" Type="Int32" />
+          <Property Name="fiBranchID" Type="Int32" />
+          <Property Name="fiDepartmentID" Type="Int32" />
+          <Property Name="fiDesignationID" Type="Int32" />
+          <Property Name="fiShiftId" Type="Int32" />
+          <Property Name="fvEmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvFatherHusbandName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fdDateofBirth" Type="DateTime" Precision="3" />
+          <Property Name="fvAddress1" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+          <Property Name="fvAddress2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="fiCityId" Type="Int32" />
+          <Property Name="fvPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvGender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvBloodGroup" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvIsMarried" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fiNoOfChildren" Type="Int32" />
+          <Property Name="fdDateofJoining" Type="DateTime" Precision="3" />
+          <Property Name="fdDateofLeft" Type="DateTime" Precision="3" />
+          <Property Name="fdDateofTermination" Type="DateTime" Precision="3" />
+          <Property Name="fvPaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fiBankId" Type="Int32" />
+          <Property Name="fvBankAccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvPFNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvESINo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvPANNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvLICNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvTokenNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvPFonBasic" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fvPFonMinWages" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fvIsActive" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fiBoiMatCode" Type="Int32" />
+          <Property Name="fvDayofWeek" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvAccountHolderName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="fvIFSCNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvAccountTypeNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fvAccountHolderAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="fvEmpBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvResourceID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EmpImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmpImagePath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceIMEI" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Relation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvUANNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsRegular" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ContractorID" Type="Int32" />
+          <Property Name="MainCategoryID" Type="Int32" />
+          <Property Name="fiStatus" Type="Int32" />
+          <Property Name="fvAadhaarNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fiReportingManager" Type="Int32" />
+          <Property Name="fiHRManager" Type="Int32" />
+          <Property Name="fvQualification" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fvExperience" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fiGradeID" Type="Int32" />
+          <Property Name="fvReportingManagerName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fvHRManagerName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fvReportIngManagerCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fvHRManagerCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fiCostCenterId" Type="Int32" />
+          <Property Name="fiDivisionID" Type="Int32" />
+          <Property Name="fiLocationId" Type="Int32" />
+          <Property Name="fiAccountTypeID" Type="Int32" />
+          <Property Name="fiPaymentModeId" Type="Int32" />
+          <Property Name="fiBloodGroupId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblVIKSATUserLoginPart1">
+          <Key>
+            <PropertyRef Name="fiUserId" />
+          </Key>
+          <Property Name="fiUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fvUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvUserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fiCategoryId" Type="Int32" />
+          <Property Name="fiEmployeeId" Type="Int32" />
+          <Property Name="fvIsActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IsTrackingOn" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblVIKSATUserLoginPart2">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="fiUserId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fiUserId" Type="Int32" Nullable="false" />
+          <Property Name="fiEmpCategoryId" Type="Int32" />
+          <Property Name="EmpId" Type="Int32" />
+          <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="PayrollEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblVIKSATpayEmployees" EntityType="Self.tblVIKSATpayEmployee" />
+          <EntitySet Name="tblVIKSATUserLoginPart1" EntityType="Self.tblVIKSATUserLoginPart1" />
+          <EntitySet Name="tblVIKSATUserLoginPart2" EntityType="Self.tblVIKSATUserLoginPart2" />
+          <EntitySet Name="tblVIKSATEmployeeCategories" EntityType="PayrollModel.tblVIKSATEmployeeCategory" />
+          <EntitySet Name="tblVIKSATUserCategories" EntityType="PayrollModel.tblVIKSATUserCategory" />
+          <EntitySet Name="tbUserRoleMasters" EntityType="PayrollModel.tbUserRoleMaster" />
+        </EntityContainer>
+        <EntityType Name="tblVIKSATEmployeeCategory">
+          <Key>
+            <PropertyRef Name="fiEmpCategoryId" />
+          </Key>
+          <Property Name="fiEmpCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fvEmpCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fvEmpCategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fdFromDate" Type="DateTime" Precision="3" />
+          <Property Name="fdToDate" Type="DateTime" Precision="3" />
+          <Property Name="fnDailyWorkingHours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="fvInclusiveWeeklyOffDay" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Sr" Type="Int32" />
+          <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblVIKSATUserCategory">
+          <Key>
+            <PropertyRef Name="fiCategoryId" />
+          </Key>
+          <Property Name="fiCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fvCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbUserRoleMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PayrollModelStoreContainer" CdmEntityContainer="PayrollEntities">
+          <EntitySetMapping Name="tblVIKSATpayEmployees">
+            <EntityTypeMapping TypeName="PayrollModel.tblVIKSATpayEmployee">
+              <MappingFragment StoreEntitySet="tblVIKSATpayEmployees">
+                <ScalarProperty Name="fiBloodGroupId" ColumnName="fiBloodGroupId" />
+                <ScalarProperty Name="fiPaymentModeId" ColumnName="fiPaymentModeId" />
+                <ScalarProperty Name="fiAccountTypeID" ColumnName="fiAccountTypeID" />
+                <ScalarProperty Name="fiLocationId" ColumnName="fiLocationId" />
+                <ScalarProperty Name="fiDivisionID" ColumnName="fiDivisionID" />
+                <ScalarProperty Name="fiCostCenterId" ColumnName="fiCostCenterId" />
+                <ScalarProperty Name="fvHRManagerCode" ColumnName="fvHRManagerCode" />
+                <ScalarProperty Name="fvReportIngManagerCode" ColumnName="fvReportIngManagerCode" />
+                <ScalarProperty Name="fvHRManagerName" ColumnName="fvHRManagerName" />
+                <ScalarProperty Name="fvReportingManagerName" ColumnName="fvReportingManagerName" />
+                <ScalarProperty Name="fiGradeID" ColumnName="fiGradeID" />
+                <ScalarProperty Name="fvExperience" ColumnName="fvExperience" />
+                <ScalarProperty Name="fvQualification" ColumnName="fvQualification" />
+                <ScalarProperty Name="fiHRManager" ColumnName="fiHRManager" />
+                <ScalarProperty Name="fiReportingManager" ColumnName="fiReportingManager" />
+                <ScalarProperty Name="fvAadhaarNo" ColumnName="fvAadhaarNo" />
+                <ScalarProperty Name="fiStatus" ColumnName="fiStatus" />
+                <ScalarProperty Name="MainCategoryID" ColumnName="MainCategoryID" />
+                <ScalarProperty Name="ContractorID" ColumnName="ContractorID" />
+                <ScalarProperty Name="IsRegular" ColumnName="IsRegular" />
+                <ScalarProperty Name="fvUANNo" ColumnName="fvUANNo" />
+                <ScalarProperty Name="Relation" ColumnName="Relation" />
+                <ScalarProperty Name="fiEmployeeID" ColumnName="fiEmployeeID" />
+                <ScalarProperty Name="fvEmployeeCode" ColumnName="fvEmployeeCode" />
+                <ScalarProperty Name="fiEmpCategoryId" ColumnName="fiEmpCategoryId" />
+                <ScalarProperty Name="fiBranchID" ColumnName="fiBranchID" />
+                <ScalarProperty Name="fiDepartmentID" ColumnName="fiDepartmentID" />
+                <ScalarProperty Name="fiDesignationID" ColumnName="fiDesignationID" />
+                <ScalarProperty Name="fiShiftId" ColumnName="fiShiftId" />
+                <ScalarProperty Name="fvEmployeeName" ColumnName="fvEmployeeName" />
+                <ScalarProperty Name="fvFatherHusbandName" ColumnName="fvFatherHusbandName" />
+                <ScalarProperty Name="fdDateofBirth" ColumnName="fdDateofBirth" />
+                <ScalarProperty Name="fvAddress1" ColumnName="fvAddress1" />
+                <ScalarProperty Name="fvAddress2" ColumnName="fvAddress2" />
+                <ScalarProperty Name="fiCityId" ColumnName="fiCityId" />
+                <ScalarProperty Name="fvPhone" ColumnName="fvPhone" />
+                <ScalarProperty Name="fvMobile" ColumnName="fvMobile" />
+                <ScalarProperty Name="fvEmail" ColumnName="fvEmail" />
+                <ScalarProperty Name="fvGender" ColumnName="fvGender" />
+                <ScalarProperty Name="fvBloodGroup" ColumnName="fvBloodGroup" />
+                <ScalarProperty Name="fvIsMarried" ColumnName="fvIsMarried" />
+                <ScalarProperty Name="fiNoOfChildren" ColumnName="fiNoOfChildren" />
+                <ScalarProperty Name="fdDateofJoining" ColumnName="fdDateofJoining" />
+                <ScalarProperty Name="fdDateofLeft" ColumnName="fdDateofLeft" />
+                <ScalarProperty Name="fdDateofTermination" ColumnName="fdDateofTermination" />
+                <ScalarProperty Name="fvPaymentMode" ColumnName="fvPaymentMode" />
+                <ScalarProperty Name="fiBankId" ColumnName="fiBankId" />
+                <ScalarProperty Name="fvBankAccountNo" ColumnName="fvBankAccountNo" />
+                <ScalarProperty Name="fvPFNo" ColumnName="fvPFNo" />
+                <ScalarProperty Name="fvESINo" ColumnName="fvESINo" />
+                <ScalarProperty Name="fvPANNo" ColumnName="fvPANNo" />
+                <ScalarProperty Name="fvLICNo" ColumnName="fvLICNo" />
+                <ScalarProperty Name="fvTokenNo" ColumnName="fvTokenNo" />
+                <ScalarProperty Name="fvPFonBasic" ColumnName="fvPFonBasic" />
+                <ScalarProperty Name="fvPFonMinWages" ColumnName="fvPFonMinWages" />
+                <ScalarProperty Name="fvIsActive" ColumnName="fvIsActive" />
+                <ScalarProperty Name="fiBoiMatCode" ColumnName="fiBoiMatCode" />
+                <ScalarProperty Name="fvDayofWeek" ColumnName="fvDayofWeek" />
+                <ScalarProperty Name="fvAccountHolderName" ColumnName="fvAccountHolderName" />
+                <ScalarProperty Name="fvIFSCNO" ColumnName="fvIFSCNO" />
+                <ScalarProperty Name="fvAccountTypeNo" ColumnName="fvAccountTypeNo" />
+                <ScalarProperty Name="fvAccountHolderAddress" ColumnName="fvAccountHolderAddress" />
+                <ScalarProperty Name="fvEmpBankName" ColumnName="fvEmpBankName" />
+                <ScalarProperty Name="fvResourceID" ColumnName="fvResourceID" />
+                <ScalarProperty Name="EmpImage" ColumnName="EmpImage" />
+                <ScalarProperty Name="EmpImagePath" ColumnName="EmpImagePath" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="DeviceIMEI" ColumnName="DeviceIMEI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVIKSATUserLoginPart1">
+            <EntityTypeMapping TypeName="PayrollModel.tblVIKSATUserLoginPart1">
+              <MappingFragment StoreEntitySet="tblVIKSATUserLoginPart1">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="fiUserId" ColumnName="fiUserId" />
+                <ScalarProperty Name="fvUserName" ColumnName="fvUserName" />
+                <ScalarProperty Name="fvUserPassword" ColumnName="fvUserPassword" />
+                <ScalarProperty Name="fiCategoryId" ColumnName="fiCategoryId" />
+                <ScalarProperty Name="fiEmployeeId" ColumnName="fiEmployeeId" />
+                <ScalarProperty Name="fvIsActive" ColumnName="fvIsActive" />
+                <ScalarProperty Name="IsTrackingOn" ColumnName="IsTrackingOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVIKSATUserLoginPart2">
+            <EntityTypeMapping TypeName="PayrollModel.tblVIKSATUserLoginPart2">
+              <MappingFragment StoreEntitySet="tblVIKSATUserLoginPart2">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="fiUserId" ColumnName="fiUserId" />
+                <ScalarProperty Name="fiEmpCategoryId" ColumnName="fiEmpCategoryId" />
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVIKSATEmployeeCategories">
+            <EntityTypeMapping TypeName="PayrollModel.tblVIKSATEmployeeCategory">
+              <MappingFragment StoreEntitySet="tblVIKSATEmployeeCategory">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="Sr" ColumnName="Sr" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="fvInclusiveWeeklyOffDay" ColumnName="fvInclusiveWeeklyOffDay" />
+                <ScalarProperty Name="fnDailyWorkingHours" ColumnName="fnDailyWorkingHours" />
+                <ScalarProperty Name="fdToDate" ColumnName="fdToDate" />
+                <ScalarProperty Name="fdFromDate" ColumnName="fdFromDate" />
+                <ScalarProperty Name="fvEmpCategoryCode" ColumnName="fvEmpCategoryCode" />
+                <ScalarProperty Name="fvEmpCategoryName" ColumnName="fvEmpCategoryName" />
+                <ScalarProperty Name="fiEmpCategoryId" ColumnName="fiEmpCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVIKSATUserCategories">
+            <EntityTypeMapping TypeName="PayrollModel.tblVIKSATUserCategory">
+              <MappingFragment StoreEntitySet="tblVIKSATUserCategories">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="fvCategoryName" ColumnName="fvCategoryName" />
+                <ScalarProperty Name="fiCategoryId" ColumnName="fiCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbUserRoleMasters">
+            <EntityTypeMapping TypeName="PayrollModel.tbUserRoleMaster">
+              <MappingFragment StoreEntitySet="tbUserRoleMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

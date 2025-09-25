@@ -1,0 +1,508 @@
+﻿@using System.Data
+
+@{
+    ViewBag.Title = "Time Sheet Approval";
+    ViewBag.PageTitle = "Time Sheet Approval";
+
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    commonFunctions comfun = new commonFunctions();
+}
+
+
+@{
+    int StartYear = Convert.ToInt32(DateTime.Now.Year);
+    int StartMonth = Convert.ToInt32(DateTime.Now.Month);
+    DateTime oBeginnngOfThisMonth = new DateTime(StartYear, StartMonth, 1);
+    int daysInMonth = oBeginnngOfThisMonth.AddMonths(1).AddDays(-1).Day;
+    DateTime startDate = new DateTime(StartYear, StartMonth, 1).AddDays(-1);
+    string dayName = "";
+    DateTime iDate = new DateTime();
+    string colName = "";
+    string tdId = "";
+    string dayTag = "";
+    DataTable dtDayTags = comfun.fillDataTable("stpviksatLeaveTypeListShow", "", null);
+    DateTime currentMonth = new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1).AddDays(-1);
+    DateTime oldMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+
+}
+
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<style>
+    .select2-container .select2-selection--single {
+        height: 34px !important;
+        width: 265px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #ccc !important;
+        width: 265px !important;
+        border-radius: 0px !important;
+    }
+</style>
+<style>
+    .ui-helper-hidden-accessible {
+        display: none !important;
+    }
+
+    #_salaryAttMonthly {
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    .ddl {
+        max-width: 40px;
+    }
+
+    .attendanceContainer {
+        width: 100%;
+        margin: 0px;
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        border: 0;
+        padding: 0px;
+        height: auto;
+        /*scrollbar-width: thin;*/
+    }
+
+    #_salaryAttMonthly {
+        max-height: 80vh;
+        /*overflow: auto;*/
+        scrollbar-width: thin;
+        /*scrollbar-color: #00476a white;*/
+    }
+
+    .tdays {
+        padding: 0px;
+    }
+
+    .tsr {
+    }
+
+    .tnames {
+        text-transform: capitalize;
+        padding-left: 5px !important;
+    }
+
+    .tempid {
+        padding-left: 5px !important;
+    }
+
+    .tul li {
+        list-style-type: none;
+    }
+
+    .bd-example-modal-lg .modal-dialog {
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(45% - 24px);
+    }
+
+        .bd-example-modal-lg .modal-dialog .modal-content {
+            background-color: transparent;
+            border: none;
+        }
+
+    .table-form td {
+        padding: 4px;
+    }
+</style>
+
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+        <li>
+            <a href="#">Organisation</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            @*<a class="btn btn-primary pull-right btnAddModal" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New</a>*@
+        </h1>
+    </div>
+    @*********Page End************@
+    <div class="attendanceContainer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="form-group col-lg-3 col-md-3 col-sm-3" hidden>
+                                                Funnel
+                                                <select id="funnelId" class="form-control select2" onchange="PayDaysfreeze()">
+                                                    <option value="0">--Funnel--</option>
+                                                </select>
+
+                                            </div>
+
+                                            <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                                                Scrum
+                                                <select id="ScrumId" class="form-control select2" onchange="PayDaysfreeze()">
+                                                    <option value="0">--Scrum--</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                                                Resource
+                                                @Html.Partial("_employeeBox")
+
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-lg-3 col-md-3 col-sm-3" hidden>
+                                                Status
+                                                <select id="StatusId" class="form-control select2" onchange="PayDaysfreeze()">
+                                                    <option value="0">--All--</option>
+                                                </select>
+
+                                            </div>
+
+
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                                        From Date
+                                        <input type="text" data-date-format="dd-M-yyyy" style="width:265px;" class="datepicker form-control readonly" name="FromDate" id="FromDate" readonly="readonly" value="@(oldMonth.ToString("dd-MMM-yyyy"))" />
+
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                                        To Date
+                                        <input type="text" data-date-format="dd-M-yyyy" style="width:265px;" class="datepicker form-control readonly" name="ToDate" id="ToDate" readonly="readonly" value="@currentMonth.ToString("dd-MMM-yyyy")" />
+
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                                        <br />
+                                        <input type="button" value="Refresh" onclick="PayDaysfreeze()" class="btn btn-default btnRefresh" />
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; height:374px;">
+                            <div class="panel-body p-0" data-scrollbar="true" data-height="276px" data-init="true" style="overflow-x: auto; width: auto; height:374px;">
+                                <div id="divLeaveStats" class="no-data-list" style="display: none;">
+                                    <div class="icon"><img src="~/images/NoData.png"></div>
+                                    <p>No record available</p>
+                                </div>
+                                <table id="tblLeaveList" class="table table-bordered table-striped" style="display: table;">
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color:#00476a;color:white">Code</th>
+                                            <th style="background-color:#00476a;color:white">Resource</th>
+                                            @*<th style="background-color:#00476a;color:white">Funnel</th>*@
+                                            @*<th style="background-color:#00476a;color:white">Scrum</th>
+                                                <th style="background-color:#00476a;color:white">Designation</th>*@
+                                            <th style="background-color:#00476a;color:white">DOJ</th>
+                                            <th style="background-color:#00476a;color:white">PP</th>
+                                            <th style="background-color:#00476a;color:white">AA</th>
+                                            <th style="background-color:#00476a;color:white">WW</th>
+                                            <th style="background-color:#00476a;color:white">HH</th>
+                                            <th style="background-color:#00476a;color:white">Pay Days</th>
+                                            @*<th style="background-color:#00476a;color:white"> Status</th>*@
+                                            <th style="background-color:#00476a;color:white"><input type="checkbox" class="All" /></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot><tr><td colspan="13" align="right"><input type="submit" class="btn btn-primary" onclick="AttendanceApproval()" value="Submit" /></td></tr></tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<button type="button" class="btn btn-primary" onclick="modal();">Open and close in 3 secs</button>*@
+
+    <div class="modal fade bd-example-modal-lg" role="dialog" id="spinnerModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <h4 class="text-center">Please wait</h4>
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+    @{
+
+        string Employee = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "Employee")).ToString();
+    }
+</div>
+<script src="~/Scripts/autocomplete.js"></script>
+<script>
+    $(document).ready(function () {
+        autoTextReport('EmployeeName', 'EmployeeId', '/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+    });
+    _Branch();
+    _Status();
+    _Department();
+      PayDaysfreeze() ;
+    $('.select2').select2();
+     $(".All").click(function () {
+        $(".chk_").prop('checked', $(this).prop('checked'));
+     });
+      $('.datepicker').datepicker(
+   {
+       format: "M-yyyy",
+       viewMode: "months",
+       minViewMode: "months"
+   });
+    $('.datepicker').on('changeDate', function (e) {
+        $(this).datepicker('hide');
+        var date = new Date(e.date);
+        //$('.errorDiv').html(date.getMonth()+1).show();
+        $('#Month').val(date.getMonth() + 1);
+    });
+    function _Status() {
+
+
+        $('#ModalProgress').show();
+        $.post('/TimeSheet/_AttendanceStatusddl', {
+        }, function (data) {
+            $('#ModalProgress').hide();
+            var StatusId = '<option value="0">--All--</option>';
+            var obj = $.parseJSON(data);
+            $('#notinotavialable').hide();
+            $.each(obj, function (key, value) {
+                StatusId += '<option value=' + value.StatusId + '>' + value.StatusName + '</option>';
+            });
+            $('#StatusId').html(StatusId);
+
+        });
+    }
+
+
+    function _Branch() {
+
+
+        $('#ModalProgress').show();
+        $.post('/TimeSheet/_helpdeskGroupMappingBranch', {
+        }, function (data) {
+            $('#ModalProgress').hide();
+            var branchId = '<option value="0">--Select Funnel--</option>';
+            var obj = $.parseJSON(data);
+            $('#notinotavialable').hide();
+            $.each(obj, function (key, value) {
+                branchId += '<option value=' + value.BranchId + '>' + value.BranchName + '</option>';
+            });
+            $('#funnelId').html(branchId);
+
+        });
+    }
+    function _Department() {
+        $('#ModalProgress').show();
+        $.post('/TimeSheet/_Department', {
+        }, function (data) {
+            $('#ModalProgress').hide();
+            var department = '<option value="0">--Select Scrum--</option>';
+            var obj = $.parseJSON(data);
+            $('#notinotavialable').hide();
+            $.each(obj, function (key, value) {
+                department += '<option value=' + value.DepartmentID + '>' + value.DepartmentName + '</option>';
+            });
+            $('#ScrumId').html(department);
+        });
+    }
+    var accessRights = {@ViewData["AccessRights"]};
+    function showModalProgress() {
+        $('.modal').modal('show');
+    }
+    function hideModalProgress() {
+        $('.modal').modal('hide');
+    }
+    $('.datepicker').datepicker()
+    $('.datepicker').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+
+    });
+
+     function PayDaysfreeze() {
+
+
+       //  alert(dateval);
+             $('#ProgressImg').show();
+                    $("#tblLeaveList > TBODY").html('');
+                    $.post('/TimeSheet/_TimeSheetApproval', {
+                        'FromDate': $('#FromDate').val(),
+                        'ToDate':$('#ToDate').val(),
+                         //'funnelId': $('#funnelId').val(),
+                        'ScrumId': $('#ScrumId').val(),
+                        'EmployeeID': $('#EmployeeId').val(),
+                        'StatusId': $('#StatusId').val(),
+                    }, function (data) {
+                            $('#ProgressImg').hide();
+                            if (data.length <= 0)
+                            {
+
+                                $("#tblLeaveList").html('Record Not Found');
+                                return;
+                            }
+                        var obj = $.parseJSON(data);
+
+                        //table4.clear().draw();
+
+                            $.each(obj, function (key, value) {
+                                var EmpId = value.EmpID
+                                var Empcode = value.EmployeeCode;
+                 var EmpName = value.EmployeeName;
+                // var Funnel = value.Funnel;
+                // var Scrum = value.Scrum;
+                 //var Designation = value.Designation;
+                 var Doj = value.DOJ;
+                 var PP= value.PP;
+                 var AA = value.AA;
+                 var WW = value.WW;
+                 var HH = value.HH;
+                 var PayDays = value.PayDays;
+                               // var AStatus = value.AStatus;
+                 //Get the reference of the Table's TBODY element.
+
+
+
+                 var hiddenIds1 = '<div style="display:none"><span class="Id">' + EmpId + '</span>';
+
+                 hiddenIds1 += '</div>';
+                 var template1 = '<tr  class="trEmpData">';
+                 template1 += '<td class="EmpCode">' + Empcode + '</td>';
+                 template1 += '<td><span class="EmpName">' + EmpName + '</span></td>';
+                 //template1 += '<td><span class="Funnel">' + Funnel + '</span></td>';
+                 //template1 += '<td><span class="Scrum">' + Scrum + '</span></td>';
+                 //template1 += '<td><span class="Designation">' + Designation + '</span></td>';
+                                template1 += '<td><span class="Doj">' + Doj + '</span></td>';
+                                 template1 += '<td><span class="PP">' + PP + '</span></td>';
+                 template1 += '<td><span class="AA">' + AA + '</span></td>';
+                 template1 += '<td><span class="WW">' + WW + '</span></td>';
+                 template1 += '<td><span class="HH">' + HH + '</span></td>';
+                                template1 += '<td><span class="NoofDays">' + PayDays + '</span></td>';
+
+                                //template1 += '<td><span class="AStatus">' + AStatus + '</span></td>';
+                                template1 += '<td><input type="checkbox" Id="chk_' + EmpId + '" class="chk_"/></td>';
+                                 template1 += '<td hidden="hidden"><span class="chk_EmpId">' + EmpId + '</span></td>';
+                                template1 += '</tr>'
+
+                 var oldBody1 = $("#tblLeaveList>TBODY").html();
+                 var tBody1 = $("#tblLeaveList > TBODY").html(oldBody1 + template1);
+
+                        });
+                    });
+    }
+    function getAllData() {
+            var data = [];
+            $('.trEmpData').each(function () {
+                    //var id = $(this).attr("id");
+                var empId = $(this).find('.chk_EmpId').text();
+                var chk = $(this).find('.chk_');
+                  var PayDays = $(this).find('.NoofDays').text();
+                var alldata = {
+                    'EmpId': empId,
+                    'NoofDays': PayDays
+                }
+
+                if ($(chk).prop("checked")) {
+                    data.push(alldata);
+                }
+            });
+        console.log(data);//
+
+            return data;
+    }
+    function AttendanceApproval() {
+
+        var fdata = JSON.stringify(getAllData());
+        alert(fdata);
+        if (fdata.length < 3) {
+            alert('Error: Please select Employees');
+            return;
+        }
+
+        var FromDate = $('#FromDate').val();
+
+        $('#ProgressImg').show();
+        $.post('/TimeSheet/_AttendanceApprovalSubmit', {
+            'FreezeEmpIds': fdata,
+            'FromDate': FromDate,
+
+        }, function (data) {
+            alert(data);
+            $('#ProgressImg').hide();
+        });
+
+    }
+
+    $('#EmployeeName').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $(".EmployeeIdGlobal").val(ui.item.value);
+            $(".EmployeeNameGlobal").val(ui.item.label);
+            $("#CategoryIdGlobal").val('');
+            $("#DesignationIdGlobal").val('');
+            $("#GradeIdGlobal").val('');
+            $("#CompanyIdGlobal").val('');
+            $("#LocationIdGlobal").val('');
+            $("#DivisionIdGlobal").val('');
+            $("#DepartmentIdGlobal").val('');
+            $("#CostCenterIdGlobal").val('');
+            $("#ReportingManagerIdGlobal").val('');
+            $("#StatusIdGlobal").val('');
+            PayDaysfreeze();
+        }
+    });
+
+    function applyGlobalFilters() {
+        hideGlobalFilters('_TimeAttMonthly()', 200);
+    }
+    $(".EmployeeIdGlobal").val('0');
+    $('#EmployeeName').val('');
+
+
+
+</script>

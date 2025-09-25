@@ -1,0 +1,607 @@
+﻿
+@using System.Data
+@{ ViewBag.Title = "Payment Received Report";
+                ViewBag.PageTitle = "Payment Received Report";
+                commonFunctions comfun = new commonFunctions();
+                string mon = "";
+                string user = Session["RoleId"].ToString(); }
+
+@******************Breadcrumb Start**************@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    .input-sm {
+        margin-top: 30px;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+
+    .dt-buttons {
+        display: none;
+    }
+</style>
+
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div style="margin-top:10px">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style=" margin-top: -71px;">
+                            <label for="Month">Month Year</label><span class="error-message">*</span>
+                            <select id="ddlMonths" class="Month" onchange="_NewInvoiceList()">
+                                <option>--Month--</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+
+                                    DateTime date = new DateTime(2020, i, 1);
+                                    mon = date.ToString("MMM");
+                    <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>}
+                            </select>
+                            <select id="ddlYears" class="year" onchange="_NewInvoiceList()">
+                                <option>--Year--</option>
+                                @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                {
+                                    if (i == DateTime.Now.Year)
+                                    {
+                    <option value="@i" selected='selected'>@i</option> }
+                                    else
+                                    {
+                    <option value="@i">@i</option>}
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 280px; ">
+                            <label for="Complaint">Agency</label><span class="error-message">*</span>
+                            <select id="ddlAgency" style="width: 20rem" onchange="_NewInvoiceList()">
+                                <option value="0">Select Agency</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 580px; ">
+                            <label for="Complaint">Department</label><span class="error-message">*</span>
+                            <select id="ddldepartment" style="width: 20rem" onchange="_NewInvoiceList()">
+                                <option value="0">Select Department</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 870px; display:flex;flex-direction:row">
+                            <div>
+                                <label for="PReceived">Payment Received</label><span class="error-message">*</span>
+                            </div>
+                            <div style="margin-left:0.5rem; margin-top:-0.5rem;" />
+                            <input type="checkbox" class="form-control clearchk" id="PReceived" onchange="_NewInvoiceList()">
+                        </div>
+                    </div>
+
+                    <div class="col-md-1" style=" margin-top: -83px; margin-left: 1045px; display:flex;flex-direction:row ">
+                        <button id="printData" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 8px; border-radius: 5px; border: none; " onclick="print()">Print</button>
+                        <button id="exportBtn" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 12px; border-radius: 5px; border: none; margin-left:10px " onclick="Excel()">Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div align="left" id="Zones">
+            <div class="dt-responsive">
+                <table class="table table-striped table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="widthsr">Sr.No.</th>
+                            <th>Department Address</th>
+                            <th>Agency Bill No./<br />Date</th>
+                            <th>HPSEDC Bill no</th>
+                            <th>HPSEDC Bill Amount</th>
+                            <th>Amount Received</th>
+                            <th>Amount Received Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+<script>
+    var mAgencyId = 0, accessRights;
+    var vId = 0;
+    var sr = 0;
+
+    var IsActive = 'Y';
+    var tableRow;
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _NewInvoiceList();
+
+        $('#ddlAgency').select2({
+            //dropdownAutoWidth: 'false'
+        });
+        $('#ddldepartment').select2({
+            //dropdownAutoWidth: 'false'
+        });
+    });
+
+    var checkedBills = [];
+    $('#myTable').on('change', 'input[type="checkbox"]', function () {
+        if ($(this).prop('checked')) {
+            checkedBills.push($(this).val());
+        } else {
+            var index = checkedBills.indexOf($(this).val());
+            if (index !== -1) {
+                checkedBills.splice(index, 1);
+            }
+        }
+    });
+
+    function print() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        var checkedBillsString = checkedBills.join(',') || '';
+
+        if ($('#PReceived').prop('checked')) {
+            var Preceived = 'Y';
+        }
+        else {
+            var Preceived = 'N';
+        }
+
+        $('#ProgressImg').show();
+        $.post('/Invoice/_PaymentReceivedReportList', {
+            DeptId: $('#ddldepartment').val(),
+            MonthId: month,
+            AgencyId: $('#ddlAgency').val(),
+            PReceived: Preceived,
+            SaleBillNo: checkedBillsString
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var msr = 0;
+
+            if ($('#ddlAgency').val() == 0) {
+                var agencyname = "All Agency";
+            }
+            else {
+                var agencyname = $('#ddlAgency option:selected').text();
+            }
+            var printContent = `
+                <div style="display: flex; justify-content: space-between;"><div style="text-align: left;">
+                 <h2>${agencyname}</h2>
+                          </div>
+                            <div style="text-align: right;">
+                             <h2>Month: ${$('#ddlMonths option:selected').text()} ${$('#ddlYears option:selected').text()}</h2></div></div>`;
+
+
+            printContent += "<style>";
+            printContent += "#myTable1, #myTable1 th, #myTable1 td {";
+            printContent += "border: 1px solid black;";
+            printContent += "border-collapse: collapse;";
+            printContent += "}";
+            printContent += "#myTable1 th, #myTable1 td {";
+            printContent += "padding: 3px;";
+            printContent += "text-align: center;";
+            printContent += "}";
+            printContent += "#myTable1 td {";
+            printContent += "font-size: 10px";
+            printContent += "}";
+            printContent += "#myTable1 th {";
+            printContent += "font-size: 12px";
+            printContent += "}";
+            printContent += "</style>";
+
+            printContent += "<table id='myTable1'><tr><th>Sr.<br />No.</th><th>Department Address</th><th>Agency<br />Bill No./<br />Date</th><th>HPSEDC Bill no</th><th style='width: 100px !important'>HPSEDC<br />Bill<br />Amount</th><th style='width: 100px !important'>Amount Received</th><th style='width: 150px !important'>Amount Received Detail</th></tr>";
+
+            var AmountReceived = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var BillDetail = '<div>' + value.Billno + '<br> ' + value.BillDate + '</div>';
+                var SaleAmount = '<div>' + 'Amt2- ' + parseFloat(value.SAmount).toFixed(2) + '<br>' +
+                    'CG - ' + parseFloat(value.cgstAmt).toFixed(2) + '<br>' + 'SG - ' + parseFloat(value.SGSTAtm).toFixed(2) +
+                    '<br>' + 'TA2 - ' + parseFloat(value.TotalAmt1).toFixed(2) + '</div>';
+                var ReceivedAmount = '<div>' + 'Amt3- ' + parseFloat(value.ReceivedAmt).toFixed(2) + '<br>' +
+                    'TDS- ' + parseFloat(value.Tds2).toFixed(2) + '<br>' + 'GTD- ' + parseFloat(value.GSTTds2).toFixed(2) +
+                    '<br>' + 'TA3 - ' + parseFloat(value.TReceivedAmount).toFixed(2) + '</div>';
+                var RAmountDetail = '<div>' + 'Mode Of Payment- ' + value.ModeOfPayment + '<br>' +
+                    'Transaction Id- ' + value.TransactionId + '<br>' + 'Transaction Date -' +
+                    value.ReceivedDate + '<br>' + 'Amount Payable -' +
+                    parseFloat(parseFloat(value.TBalanceAmt).toFixed(0)).toFixed(2) + '</div>';
+
+                AmountReceived += parseFloat(parseFloat(value.ReceivedAmt).toFixed(2));
+
+                printContent += "<tr>";
+                printContent += "<td>" + msr + "</td>";
+                printContent += "<td>" + value.DepartmentAddress + "</td>";
+                printContent += "<td>" + BillDetail + "</td>";
+                printContent += "<td>" + value.SaleBillNo + "</td>";
+                printContent += "<td>" + SaleAmount + "</td>";
+                printContent += "<td>" + ReceivedAmount + "</td>";
+                printContent += "<td>" + RAmountDetail + "</td>";
+                printContent += "</tr>";
+            });
+            printContent += "</table>";
+
+            printContent += "<div style='margin-top: 30px;'><span><strong>Total Amount Received From Department(Office)= Rs." + AmountReceived + "</strong></span>";
+
+            if ($('#PReceived').prop('checked') && $('#ddlAgency').val() != '0') {
+
+                printContent += "<style>";
+                printContent += "#myTable2 {";
+                printContent += "margin-top: 30px";
+                printContent += "}";
+                printContent += "#myTable2, #myTable2 th, #myTable2 td {";
+                printContent += "border: 1px solid black;";
+                printContent += "border-collapse: collapse;";
+                printContent += "}";
+                printContent += "#myTable2 th, #myTable2 td {";
+                printContent += "padding: 3px;";
+                printContent += "text-align: center;";
+                printContent += "}";
+                printContent += "#myTable2 td {";
+                printContent += "font-size: 10px";
+                printContent += "}";
+                printContent += "#myTable2 th {";
+                printContent += "font-size: 12px";
+                printContent += "}";
+                printContent += "</style>";
+
+                printContent += "<table id='myTable2'><tr><th>Sr.No.</th><th>Item</th><th>Amount</th></tr>";
+
+                var Totalbalance = 0;
+                var TBGSTTds = 0;
+                var TBTds = 0;
+                var NetTotalBalanceAmt = 0;
+                var GstTdsType = '0';
+
+                $.each(obj, function (key, value) {
+                    Totalbalance += parseFloat(parseFloat(value.BalanceAmt).toFixed(2));
+                    TBGSTTds += parseFloat(parseFloat(value.BGSTTds).toFixed(2));
+                    TBTds += parseFloat(parseFloat(value.BTds).toFixed(2));
+                    NetTotalBalanceAmt += parseFloat(parseFloat(value.TBalanceAmt).toFixed(0));
+                    GstTdsType = value.GSTTdsType;
+                });
+
+                printContent += "<tr>";
+                printContent += "<td>" + '1' + "</td>";
+                printContent += "<td>" + 'Total Amount' + "</td>";
+                printContent += "<td>" + parseFloat(Totalbalance).toFixed(2) + "</td>";
+                printContent += "</tr>";
+                printContent += "<tr>";
+                printContent += "<td>" + '2' + "</td>";
+                printContent += "<td>" + 'GST TDS (2%)' + "</td>";
+                printContent += "<td>" + parseFloat(TBGSTTds).toFixed(2) + "</td>";
+                printContent += "</tr>";
+                printContent += "<tr>";
+                printContent += "<td>" + '3' + "</td>";
+                printContent += "<td>" + 'TDS (' + GstTdsType + '%)' + "</td>";
+                printContent += "<td>" + parseFloat(TBTds).toFixed(2) + "</td>";
+                printContent += "</tr>";
+                printContent += "<tr>";
+                printContent += "<td>" + '4' + "</td>";
+                printContent += "<td>" + 'Total Amount to be Paid' + "</td>";
+                printContent += "<td>" + parseFloat(NetTotalBalanceAmt).toFixed(2) + "</td>";
+                printContent += "</tr>";
+
+                printContent += "</table>";
+            }
+
+            printContent += "<style>";
+            printContent += "#myTable3 {";
+            printContent += "margin-top: 5px";
+            printContent += "}";
+            printContent += "#myTable3, #myTable3 th, #myTable3 td {";
+            printContent += "border: 1px solid black;";
+            printContent += "border-collapse: collapse;";
+            printContent += "}";
+            printContent += "#myTable3 th, #myTable3 td {";
+            printContent += "padding: 3px;";
+            printContent += "text-align: center;";
+            printContent += "}";
+            printContent += "#myTable3 td {";
+            printContent += "font-size: 10px";
+            printContent += "}";
+            printContent += "#myTable3 th {";
+            printContent += "font-size: 12px";
+            printContent += "}";
+            printContent += "</style>";
+
+            printContent += "<style>";
+            printContent += "#myTable4 {";
+            printContent += "margin-top: 30px";
+            printContent += "}";
+            printContent += "#myTable4, #myTable4 th, #myTable4 td {";
+            printContent += "border: 1px solid black;";
+            printContent += "border-collapse: collapse;";
+            printContent += "}";
+            printContent += "#myTable4 th, #myTable4 td {";
+            printContent += "padding: 3px;";
+            printContent += "text-align: center;";
+            printContent += "}";
+            printContent += "#myTable4 td {";
+            printContent += "font-size: 10px";
+            printContent += "}";
+            printContent += "#myTable4 th {";
+            printContent += "font-size: 12px";
+            printContent += "}";
+            printContent += "</style>";
+
+            printContent += "<table id='myTable4'>";
+            printContent += "<tr>";
+            printContent += "<td>" + 'Amt2' + "</td>";
+            printContent += "<td>" + 'HPSEDC Base Amount(including 5% Administrative charges)' + "</td>";
+            printContent += "</tr>";
+            printContent += "<tr>";
+            printContent += "<td>" + 'TA2' + "</td>";
+            printContent += "<td>" + 'Amt2 + CG + SG' + "</td>";
+            printContent += "</tr>";
+            printContent += "</table>";
+
+            printContent += "<table id='myTable3'>";
+            printContent += "<tr>";
+            printContent += "<td>" + 'Amt3' + "</td>";
+            printContent += "<td>" + 'Payment Received from Department' + "</td>";
+            printContent += "</tr>";
+            printContent += "<tr>";
+            printContent += "<td>" + 'GTD' + "</td>";
+            printContent += "<td>" + '2% Amt2' + "</td>";
+            printContent += "</tr>";
+            printContent += "<tr>";
+            printContent += "<td>" + 'TDS' + "</td>";
+            printContent += "<td>" + '2% Amt2' + "</td>";
+            printContent += "</tr>";
+            printContent += "<tr>";
+            printContent += "<td>" + 'TA3' + "</td>";
+            printContent += "<td>" + 'Amt3 + GTD + TDS' + "</td>";
+            printContent += "</tr>";
+            printContent += "</table>";
+
+            var printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+        });
+    }
+
+    function Excel() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+
+        if ($('#PReceived').prop('checked')) {
+            var Preceived = 'Y';
+        }
+        else {
+            var Preceived = 'N';
+        }
+        $('#ProgressImg').show();
+        $.post('/Invoice/_PaymentReceivedReportList', {
+            DeptId: $('#ddldepartment').val(),
+            MonthId: month,
+            AgencyId: $('#ddlAgency').val(),
+            PReceived: Preceived,
+            SaleBillNo: ''
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var msr = 0;
+            var Totalbalance = 0;
+            var TBGSTTds = 0;
+            var TBTds = 0;
+            var NetTotalBalanceAmt = 0;
+            var GstTdsType = 0;
+
+            var agencyname = ($('#ddlAgency').val() == 0) ? "All Agency" : $('#ddlAgency option:selected').text();
+
+            var dataForExport = [];
+            var dataForExport1 = [];
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var BillDetail = value.Billno + '\n' + value.BillDate;
+                var SaleAmount = 'Amt2- ' + parseFloat(value.SAmount).toFixed(2) + '\nCG - ' + parseFloat(value.cgstAmt).toFixed(2) + '\nSG - ' + parseFloat(value.SGSTAtm).toFixed(2) + '\nTA2 - ' + parseFloat(value.TotalAmt1).toFixed(2);
+                var ReceivedAmount = 'Amt3- ' + parseFloat(value.ReceivedAmt).toFixed(2) + '\nTDS- ' + parseFloat(value.Tds2).toFixed(2) + '\nGTD- ' + parseFloat(value.GSTTds2).toFixed(2) + '\nTA3 - ' + parseFloat(value.TReceivedAmount).toFixed(2);
+                var RAmountDetail = 'Mode Of Payment- ' + value.ModeOfPayment + '\nTransaction Id- ' + value.TransactionId + '\nTransaction Date - ' + value.ReceivedDate + '\nAmount Payable - ' + parseFloat(parseFloat(value.TBalanceAmt).toFixed(0)).toFixed(2);
+
+                Totalbalance += parseFloat(parseFloat(value.BalanceAmt).toFixed(2));
+                TBGSTTds += parseFloat(parseFloat(value.BGSTTds).toFixed(2));
+                TBTds += parseFloat(parseFloat(value.BTds).toFixed(2));
+                NetTotalBalanceAmt += parseFloat(parseFloat(value.TBalanceAmt).toFixed(0));
+                GstTdsType = value.GSTTdsType;
+
+                dataForExport.push({
+                    "Sr. No.": msr,
+                    "Department Address": value.DepartmentAddress,
+                    "Agency Bill No./Date": BillDetail,
+                    "HPSEDC Bill no": value.SaleBillNo,
+                    "HPSEDC Bill Amount": SaleAmount,
+                    "Amount Received": ReceivedAmount,
+                    "Amount Received Detail": RAmountDetail,
+                });
+            });
+
+            let rowsData = [
+                { description: 'Total Amount', amount: parseFloat(Totalbalance).toFixed(2) },
+                { description: 'GST TDS (' + GstTdsType + '%)', amount: parseFloat(TBGSTTds).toFixed(2) },
+                { description: 'TDS (2%)', amount: parseFloat(TBTds).toFixed(2) },
+                { description: 'Total Amount to be Paid', amount: parseFloat(NetTotalBalanceAmt).toFixed(2) }
+            ];
+
+            rowsData.forEach((row, index) => {
+                dataForExport1.push({
+                    "Sr. No.": index + 1,
+                    "Item": row.description,
+                    "Amount": row.amount
+                });
+            });
+
+            let exportData = [
+                {
+                    rows: [
+                        { label: 'Amt2', description: 'HPSEDC Base Amount(including 5% Administrative charges)' },
+                        { label: 'TA2', description: 'Amt2 + CG + SG' },
+                        { label: '', description: '' },
+
+                        { label: 'Amt3', description: 'Payment Received from Department' },
+                        { label: 'GTD', description: '2% Amt2' },
+                        { label: 'TDS', description: '2% Amt2' },
+                        { label: 'TA3', description: 'Amt3 + GTD + TDS' },
+                    ]
+                }
+            ];
+
+            let dataForExport2 = [];
+            exportData.forEach((tableData) => {
+                tableData.rows.forEach((row) => {
+                    dataForExport2.push([row.label, row.description]);
+                });
+            });
+
+
+            const ws = XLSX.utils.json_to_sheet(dataForExport);
+            const ws1 = XLSX.utils.json_to_sheet(dataForExport1);
+            const ws2 = XLSX.utils.aoa_to_sheet(dataForExport2, { header: [] });
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+            XLSX.utils.book_append_sheet(wb, ws1, "Sheet2");
+            XLSX.utils.book_append_sheet(wb, ws2, "Sheet3");
+            XLSX.writeFile(wb, "PaymentReceived_Report.xlsx");
+        });
+    }
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+        });
+    }
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#ddldepartment').html(DeptId);
+        });
+    }
+
+    function _NewInvoiceList() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val()
+        if ($('#PReceived').prop('checked')) {
+            var Preceived = 'Y';
+        }
+        else {
+            var Preceived = 'N';
+        }
+
+        $('#ProgressImg').show();
+        $.post('/Invoice/_PaymentReceivedReportList', {
+            DeptId: $('#ddldepartment').val(),
+            MonthId: month,
+            AgencyId: $('#ddlAgency').val(),
+            PReceived: Preceived,
+            SaleBillNo: ''
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var BillDetail = '<div>' + value.Billno + '<br> ' + value.BillDate + '</div>';
+                var SaleAmount = '<div>' + 'Amt2- ' + parseFloat(value.SAmount).toFixed(2) + '<br>' +
+                    'CG - ' + parseFloat(value.cgstAmt).toFixed(2) + '<br>' + 'SG - ' + parseFloat(value.SGSTAtm).toFixed(2) +
+                    '<br>' + 'TA2 - ' + parseFloat(value.TotalAmt1).toFixed(2) + '</div>';
+                var ReceivedAmount = '<div>' + 'Amt3- ' + parseFloat(value.ReceivedAmt).toFixed(2) + '<br>' +
+                    'TDS- ' + parseFloat(value.Tds2).toFixed(2) + '<br>' + 'GTD- ' + parseFloat(value.GSTTds2).toFixed(2) +
+                    '<br>' + 'TA3 - ' + parseFloat(value.TReceivedAmount).toFixed(2) + '</div>';
+                var RAmountDetail = '<div>' + 'Mode Of Payment- ' + value.ModeOfPayment + '<br>' +
+                    'Transaction Id- ' + value.TransactionId + '<br>' + 'Transaction Date -' +
+                    value.ReceivedDate + '<br>' + 'Amount Payable -' +
+                    parseFloat(parseFloat(value.TBalanceAmt).toFixed(0)).toFixed(2) + '</div>';
+                var checkbox = '<input type="checkbox" class="form-control clearchk12" id="bill' + msr + '" value="' + value.SaleBillNo + '"/>';
+
+                var elmntArray = [
+                    checkbox,
+                    msr,
+                    value.DepartmentAddress,
+                    BillDetail,
+                    value.SaleBillNo,
+                    SaleAmount,
+                    ReceivedAmount,
+                    RAmountDetail
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+            $('.clearchk12').prop('checked', false);
+            checkedBills = [];
+        });
+
+    }
+
+</script>

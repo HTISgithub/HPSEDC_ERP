@@ -1,0 +1,706 @@
+﻿@{ commonFunctions comfun = new commonFunctions(); }
+<ul class="nav nav-list">
+    <li class="active">
+        <a href="/?id=@(comfun.encryptString("pms"))" class="pms">
+            <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+            <span class="menu-text"> Dashboard </span>
+        </a>
+        <b class="arrow"></b>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="glyphicon glyphicon-user" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Customer Info
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+
+        <ul class="submenu">
+            <li class="">
+                <a href="/Pm/CustomerType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerEntity">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Entity
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerCategory">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Category
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/AddressType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Address Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/SocialAddressType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Social Address
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/TaxType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Tax Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CurrencyType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Currency Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerAccount">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Account
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/Industry">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Industry Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @if (Request.Cookies["DomainId"].Value == "1121")
+            {
+                <li class="">
+                    <a href="/TimeSheet/CustomerDetail">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Customer Detail
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            }
+            @if (Request.Cookies["DomainId"].Value != "1121")
+            {
+                <li class="">
+                    <a href="/Pm/CustomerDetail">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Customer Detail
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            }
+        </ul>
+    </li>
+
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-check-circle-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Purchase Order
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Master
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    @*  <li class="">
+                            <a href="/pm/AccountsHead">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Account Head
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/pm/AccountDetail">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Account Detail
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Master/SubAccount">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Sub Account
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/pm/SupplierDetail">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Supplier Detail
+                            </a>
+                            <b class="arrow"></b>
+                        </li>*@
+                    <li>
+                        <a href="/Pm/PurchaseorderCategory">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Purchase Order Category
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="/Pm/ServiceLineItem">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Service Item
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li>
+                            <a href="/Master/BillSundry">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Bill Sundry
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li>
+                            <a href="/Master/OpeningBalance">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Opening Balance
+                            </a>
+                            <b class="arrow"></b>
+                        </li>*@
+                </ul>
+            </li>
+
+            <li>
+                <a href="/pm/CustomerPO">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Purchase Order
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-calendar-check-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                My Team
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+
+        <b class="arrow"></b>
+
+        <ul class="submenu">
+            <li class="">
+                <a href="#">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Team
+                    @*<b class="arrow fa fa-angle-down"></b>*@
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @* <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Faciliation
+                        @*<b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            <li class="">
+                @*<a href="/Reports/ApiReport_PmEmpAttendance_DetailAll">*@
+                <a href="/Pm/AttendanceApproval">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Attendance Approve
+                    @*<b class="arrow fa fa-angle-down"></b>*@
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-wrench" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">Tools</span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/pm/MaterialIssue">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Material Issue
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/MaterialIssue">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Material Return
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-inbox" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Material Management
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Master/Manufacturer">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Manufacturer
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li class="">
+                    <a href="/Master/ItemCategory">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Item Category
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            @* <li class="">
+                    <a href="/Master/ItemSubCategory">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Item Sub Category
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            <li class="">
+                <a href="/Master/ItemGroupList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Group
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/MeasurementUnit">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Measurement Unit
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/TaxGSTInformation">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Tax GST Information
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li class="">
+                    <a href="/Master/IGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        IGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/SGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        SGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/CGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        CGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            <li class="">
+                <a href="/Master/ItemInfo">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Info
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="/Master/Warehouse">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Warehouse
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+
+            <li class="">
+                <a href="/Master/InHouse">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    In house
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="#">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Out Door
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-tasks" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Task Management
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Task/Project">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Projects
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/ProjectAccount">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Project Account
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/CostType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Cost Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/ProductServicesType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Product Service Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Task/ProjectSite">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Sites
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Task/Activity">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Site Activities
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Task/SubActivity">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Sub Activities
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+            @*<li class="">
+            <a href="#">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Site Activity Mapping
+                <!--<b class="arrow fa fa-angle-down"></b>-->
+            </a>
+            <b class="arrow"></b>
+        </li>
+        <li class="">
+            <a href="#">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Status
+                <!--<b class="arrow fa fa-angle-down"></b>-->
+            </a>
+            <b class="arrow"></b>
+        </li>*@
+            <li class="">
+                <a href="/Task/NewTask">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Add New Task
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Attendance/Index">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Task Approval
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-car" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Exp. Management
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Expense/ExpenseCategory">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Exp. Categories
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="#">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Request
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @if (Request.Cookies["RoleId"].Value == "5" || Request.Cookies["RoleId"].Value == "2")
+            {
+                <li class="">
+                    <a href="/Attendance/EmployeeClaim">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Approval
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            }
+            @if (Request.Cookies["RoleId"].Value == "2" || Request.Cookies["RoleId"].Value == "10")
+            {
+                <li class="">
+                    <a href="/expense/PMOClaimApproval">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Claim Approval
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            }
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-check-square-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                TermsConditions
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Master/TermsConditions">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Terms Conditions
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Terms Conditions
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+
+
+        </ul>
+    </li>
+
+    @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-cog" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    My Document
+                </span>
+
+            </a>
+            <b class="arrow"></b>
+
+        </li>*@
+    @*<li class="">
+            <a href="/Master/TermsConditions">
+                <i class="fa fa-cog" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Company Policy
+                </span>
+
+            </a>
+            <b class="arrow"></b>
+
+        </li>*@
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-download" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Import Data
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Master/ExcelImportSetting">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Excel Import
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+
+        </ul>
+    </li>
+    @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-file" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Helpdesk
+                </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Request
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Approval
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>*@
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-file-text" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Reports
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+
+        <b class="arrow"></b>
+
+        <ul class="submenu">
+            <li class="">
+                <a href="/Reports/EmployeeTaskReport">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Task Report
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+        </ul>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Reports/EmployeeTaskUtilization">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Task Utilization
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="/Reports/ExpensePendingbyPMO">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Expense Report
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/ExpenseApprovedbyPMO">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Claim Approve Report
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="/AccountingReport/ProjectManagementReportDashboard">
+            <i class="fa fa-bar-chart-o" style="margin-left: 14px;"></i>
+            Finla Report
+            <!--<b class="arrow fa fa-angle-down"></b>-->
+        </a>
+        <b class="arrow"></b>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-link" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                HTIS Connect
+            </span>
+
+            <!--<b class="arrow fa fa-angle-down"></b>-->
+        </a>
+        <b class="arrow"></b>
+
+    </li>
+</ul>

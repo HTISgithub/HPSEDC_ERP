@@ -1,0 +1,95 @@
+﻿@foreach (var item in Model.Rows)
+{
+    if (ViewData["ActionResult"].ToString() == "Company")
+    {
+        if (ViewData["DisplayType"].ToString() == "Li")
+        {
+            <li>
+                <input name="chkRolesC" type="checkbox" id="chkRolesC_@item["CompanyId"]" value="@item["CompanyId"]" @(item["EmpId"] > 0 ? "checked='checked'" : "") /> <label for="chkRolesC_@item["CompanyId"]">@item["CompanyName"]</label>
+            </li>
+        }
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["CompanyId"]">@item["CompanyName"]</option>
+        }
+        
+
+    }
+
+    if (ViewData["ActionResult"].ToString() == "BranchAssign")
+    {
+        if (ViewData["DisplayType"].ToString() == "Li")
+        {
+            <li>
+                <input name="chkRolesC" type="checkbox" id="chkRolesC_@item["CompanyId"]" value="@item["CompanyId"]" @(item["EmpId"] > 0 ? "checked='checked'" : "") /> <label for="chkRolesC_@item["CompanyId"]">@item["CompanyName"]</label>
+            </li>
+        }
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["UnitId"]">@item["UnitName"]</option>
+        }
+    }
+    if (ViewData["ActionResult"].ToString() == "CostCenterAssign")
+    {
+        if (ViewData["DisplayType"].ToString() == "Li")
+        {
+            <li>
+                <input name="chkCostCenters" type="checkbox" id="chkCostCenters_@item["CostCenterId"]" value="@item["CostCenterId"]" @(item["EmpId"] > 0 ? "checked='checked'" : "") /> <label for="chkCostCenters_@item["CostCenterId"]">@item["CostCenterName"]</label>
+            </li>
+        }
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["CostCenterId"]">@item["CostCenterName"]</option>
+        }
+    }
+
+    if (ViewData["ActionResult"].ToString() == "LocationAssign")
+    {
+        if (ViewData["DisplayType"].ToString() == "Li")
+        {
+            <li>
+                <input name="chkLocations" type="checkbox" id="chkLocation_@item["CostCenterId"]" value="@item["CostCenterId"]" @(item["EmpId"] > 0 ? "checked='checked'" : "") /> <label for="chkLocation_@item["CostCenterId"]">@item["CostCenterName"]</label>
+            </li>
+        }
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["CostCenterId"]">@item["CostCenterName"]</option>
+        }
+    }
+
+
+    if (ViewData["ActionResult"].ToString() == "SessionList")
+    {
+
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["SessionId"]">@item["SessionName"]</option>
+        }
+    }
+
+    if (ViewData["ActionResult"].ToString() == "EmpCategory")
+    {
+
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["EmployeeCategoryId"]">@item["EmployeeCategoryName"]</option>
+        }
+    }
+    if (ViewData["ActionResult"].ToString() == "GradeByDesignation")
+    {
+
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["GradeId"]">  @item["GradeCode"] </option>
+        }
+    }
+    if (ViewData["ActionResult"].ToString() == "DesignationByGrade")
+    {
+
+        if (ViewData["DisplayType"].ToString() == "Select")
+        {
+            <option value="@item["EmployeeCategoryId"]">@item["EmployeeCategoryName"]</option>
+        }
+    }
+}
+

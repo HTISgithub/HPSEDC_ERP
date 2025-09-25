@@ -1,0 +1,248 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Create User";
+    ViewBag.PageTitle = "Create User";
+
+}
+@******************Breadcrumb Start**************@
+<!--<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">-->
+        @*<li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Emp Management</a>
+        </li>*@
+        @*<li>
+                <a href="#"> Create User</a>
+            </li>*@
+        <!--<li class="active">@ViewBag.PageTitle</li>
+    </ul> 
+
+</div>-->
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+           
+            <a class="btn btn-primary pull-right btnAddModal" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New User</a>
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    <div class="row">
+        <div class="col-xs-12">
+            &nbsp;
+            <div id="_ActivityList">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>User Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Password</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog  modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#00476a;color:white;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="_view">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="hidden" id="Id" hidden="hidden" value="0">
+                                <label for="FirstName">First Name</label><span class="error-message">*</span>
+                                <input type="text" id="FirstName" class="form-control cleartxt" placeholder="First Name" />
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="LastName">Last Name</label><span class="error-message">*</span>
+                                <input type="text" id="LastName" class="form-control cleartxt"  placeholder="Last Name" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="Email">Email</label><span class="error-message">*</span>
+                                <input type="text" id="Email" class="form-control  cleartxt" placeholder="Email" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="CreatedBy">Mobile Number</label><span class="error-message">*</span>
+                                <input type="text" id="Mobile" class="form-control cleartxt" placeholder="Mobile Number" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="RoleId">Role</label><span class="error-message">*</span>
+                                <select id="RoleId" class="form-control clearddl">
+                                    <option value="0">---Select Role---</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Password">Password</label><span class="error-message">*</span>
+                                <input type="text" id="Password" class="form-control cleartxt" placeholder="Password" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                        <div class="col-md-8">
+                            <div class="modelalert"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+    $(document).ready(function () {
+        TableManageDefault.init();
+        UserRoleList();
+    });
+
+    $('.btnModalSubmit').click(function () {
+        _UserCreateSubmit();
+    });
+
+    $('.modal-footer').show();
+
+   
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+    }
+    function OpenAddModel() {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Create User ");
+        $('#myModal').modal({
+            show: 'false'
+        });
+        }
+     
+        UserRoleDdl();
+        function UserRoleDdl() {
+            $.post('/Invoice/UserRoleDdl', { 'Id': 0 }, function (data) {
+                var RoleId = '<option value="0">--Select--</option>';
+                var obj = $.parseJSON(data);
+                $('#ProgressImg').hide();
+                $.each(obj, function (key, value) {
+                    RoleId += '<option value=' + value.fiRoleId + '>' + value.RoleName + '</option>';
+                });
+                $('#RoleId').html(RoleId);
+            });
+        }
+        function _UserCreateSubmit() {
+            var firstName = $('#FirstName').val().trim();
+            var lastName = $('#LastName').val().trim();
+
+            if (firstName == '') {
+                alert('Please Enter First Name');
+                return;
+            }
+            if (lastName == '') {
+                alert('Please Enter Last Name');
+                return;
+            }
+
+            if ($('#Email').val() == '') {
+                alert('Please Enter Email ID');
+                return;
+            }
+            if ($('#Mobile').val() == '') {
+                alert('Please Enter Mobile No.'); 
+                return;
+            }
+           
+            if ($('#RoleId').val() == '0') {
+                alert('Please Select Role');
+                return;
+            }
+            if ($('#Password').val() == '') {
+                alert('Please Enter Password');
+                return;
+            }
+            
+            var userName = firstName +' '+ lastName;
+
+            $('.modelalert').html('');
+            $('#ModalProgress').show();
+            $('.btnModalSubmit').attr("disabled", "disabled");
+            $.post('/Invoice/_UserRoleSubmit', {
+                'FirstName': firstName,
+                'LastName': lastName,
+                'UserName': userName,
+                'Email': $('#Email').val(),
+                'Mobile': $('#Mobile').val(),
+                'RoleId': $('#RoleId').val(),
+                'Password': $('#Password').val(),
+            }, function (data) {
+                alert(data);
+                $('#myModal').modal('hide');
+                resetForm();
+                $('.btnModalSubmit').removeAttr("disabled");
+                $('#ModalProgress').hide();
+                UserRoleList();
+            });
+        }
+
+        function UserRoleList() {
+            $('#ProgressImg').show();
+            $.post('/Invoice/UserRoleList',
+                {
+                    'EmailId': 0,
+                },
+                function (data) {
+                    $('#ProgressImg').hide();
+                    var obj = $.parseJSON(data);
+                    var table = $('#myTable').DataTable();
+                    table.clear().draw();
+                    var msr = 0;
+                    $.each(obj, function (key, value) {
+                        msr += 1;
+                            var elmntArray = [
+                            msr,
+                            value.UserName,
+                            value.Email,
+                            value.RoleName,
+                            value.Password
+                           
+                        ];
+                        table.row.add(elmntArray).draw(false);
+                    });
+                });
+        }
+    </script>

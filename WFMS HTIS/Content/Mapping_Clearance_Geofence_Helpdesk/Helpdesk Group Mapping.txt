@@ -1,0 +1,102 @@
+/// <summary>
+        /// Helpdesk Group Mapping
+        /// </summary>
+        /// <returns></returns>
+        #region Helpdesk Group Mapping
+        public ActionResult HelpdeskGroupMappingList()
+        {
+            return View();
+        }
+        public ActionResult _HelpdeskGroupMappingList()
+        {
+            SortedList list = new SortedList();
+            DataTable dt = comfun.fillDataTable("sp_helpdeskGroup_Select", "", list);
+            return PartialView("_HelpdeskGroupMappingList", dt);
+        }
+        public ActionResult _UpdateHelpDeskMapping()
+        {
+            SortedList list = new SortedList();
+            list.Add("@HelpdeskGroupId", Request.Form["HelpdeskGroupId"].ToString());
+            DataSet ds = comfun.fillDataSet("sp_HDGDisplayViaId", "", list);
+            return PartialView("_UpdateHelpDeskMapping", ds);
+        }
+        public ActionResult _HelpDeskMappedEmployees()
+        {
+            SortedList list = new SortedList();
+            list.Add("@HelpdeskGroupID", Request.Form["HelpdeskGroupId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_HelpdeskGroupMappedEmpList", "", list);
+            return PartialView("_HelpDeskMappedEmployees", dt);
+        }
+        //public ActionResult _EmpListViaDepartmentDisplay()
+        //{
+        //    SortedList list = new SortedList();
+        //    list.Add("@DepartmentId", Request.Form["DepartmentId"].ToString());
+        //    DataTable dt = comfun.fillDataTable("sp_EmpListViaDepartmentId", "", list);
+        //    List<Employees> empList = new List<Employees>();
+        //    empList = (from DataRow dr in dt.Rows
+        //               select new Employees()
+        //               {
+        //                   EmployeeId = dr["EmployeeID"].ToString(),
+        //                   EmployeeCode = dr["EmployeeCode"].ToString(),
+        //                   EmployeeEmail = dr["Email"].ToString(),
+        //                   EmployeeName = dr["EmployeeName"].ToString(),
+        //               }).ToList();
+        //    return Json(empList, JsonRequestBehavior.AllowGet);
+        //}
+        public ActionResult _EmpListViaDesignationDisplay()
+        {
+            SortedList list = new SortedList();
+            list.Add("@DesignationId", Request.Form["DesignationId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_EmpListViaDesignationId", "", list);
+            List<Employees> empList = new List<Employees>();
+            empList = (from DataRow dr in dt.Rows
+                       select new Employees()
+                       {
+                           EmployeeId = dr["EmployeeID"].ToString(),
+                           EmployeeCode = dr["EmployeeCode"].ToString(),
+                           EmployeeName = dr["EmployeeName"].ToString(),
+                           EmployeeEmail = dr["Email"].ToString(),
+                           EmployeeImage = dr["EmployeeImage"].ToString(),
+                           EmployeeDepartment = dr["EmployeeDepartment"].ToString(),
+                           EmployeeDesignation = dr["EmployeeDesignation"].ToString(),
+                           EmployeeBranch = dr["EmployeeBranch"].ToString(),
+                       }).ToList();
+            return Json(empList, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult _EmpListViaBranchDisplay()
+        {
+            SortedList list = new SortedList();
+            list.Add("@BranchId", Request.Form["BranchId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_EmpListViaBranchId", "", list);
+            List<Employees> empList = new List<Employees>();
+            empList = (from DataRow dr in dt.Rows
+                       select new Employees()
+                       {
+                           EmployeeId = dr["EmployeeID"].ToString(),
+                           EmployeeCode = dr["EmployeeCode"].ToString(),
+                           EmployeeName = dr["EmployeeName"].ToString(),
+                           EmployeeEmail = dr["Email"].ToString(),
+                           EmployeeImage = dr["EmployeeImage"].ToString(),
+                           EmployeeDepartment = dr["EmployeeDepartment"].ToString(),
+                           EmployeeDesignation = dr["EmployeeDesignation"].ToString(),
+                           EmployeeBranch = dr["EmployeeBranch"].ToString(),
+                       }).ToList();
+            return Json(empList, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult HelpdeskMappingSaveUpdateSubmit()
+        {
+            string mes = string.Empty;
+            try
+            {
+                SortedList list = new SortedList();
+                list.Add("@HelpdeskGroupId", Request.Form["HelpdeskGroupId"].ToString());
+                list.Add("@MappedEmpId", Request.Form["Emps"].ToString());
+                mes = comfun.executeNonQueryWMessage("sp_HelpdeskGroupMapping_SaveUpdate", "", list).ToString();
+            }
+            catch (Exception ex)
+            {
+                mes = ex.Message;
+            }
+            return Json(mes);
+        }
+        #endregion Helpdesk Group Mapping

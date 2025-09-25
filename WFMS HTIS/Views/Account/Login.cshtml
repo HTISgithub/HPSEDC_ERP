@@ -1,0 +1,362 @@
+﻿@model Payroll.portal.Models.LoginViewModel
+@using System.Data;
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_LayoutLoginhpsedc.cshtml";
+}
+@{
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    string website = System.Configuration.ConfigurationManager.AppSettings["SiteName"];
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="~/assets/css/jquery-ui.css" rel="stylesheet"/>
+<script src="@siteUrl/Scripts/jquery-1.10.2.min.js"></script>
+<script src="@siteUrl/Scripts/bootstrap.min.js"></script>
+<style>
+    .maxbutton-3.maxbutton.maxbutton-button3 {
+        position: relative;
+        text-decoration: none;
+        display: inline-block;
+        vertical-align: middle;
+        height: 42px;
+        border-width: 0px;
+        border-radius: 25px 25px 25px 25px;
+        background-color: #0F1875;
+        -webkit-box-shadow: 0px 0px 4px 3px #ffffff;
+        -moz-box-shadow: 0px 0px 4px 3px #ffffff;
+        padding-top: 10px;
+        padding-left: 1px;
+    }
+
+    a {
+        font-weight: 400;
+        font-size: 15px !important;
+    }
+
+    .jost {
+        font-family: "Jost", sans-serif;
+    }
+
+    .center {
+        margin: auto;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .loginbutton {
+        border-radius: 20px;
+        background-color: #0F1875;
+        color: #fff;
+        width: 100%;
+    }
+
+    .panel {
+        box-shadow: 4px 4px 5px rgba(0.2, 0.2, 0.2, 0.4);
+    }
+
+    .maxbutton-3.maxbutton.maxbutton-button3 .mb-text {
+        font-family: "Jost", sans-serif;
+    }
+
+    .custom-modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        overflow: auto;
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+    .close-btn {
+        font-size: 30px;
+        font-weight: bold;
+        border: none;
+        background: transparent;
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    .modal-body {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    .modal-footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .primary-btn {
+        background-color: #0f1875;
+        color: white;
+    }
+
+    .secondary-btn {
+        background-color: #f1f1f1;
+        color: #555;
+    }
+
+        .primary-btn:hover, .secondary-btn:hover {
+            opacity: 0.8;
+        }
+
+    .buttons {
+        box-shadow: 4px 4px 5px rgba(0.2, 0.2, 0.2, 0.4) !important;
+    }
+
+    .link-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+        .link-container a {
+            font-size: 13px;
+            text-align: center;
+        }
+</style>
+<div class="container">
+    <div class="col-lg-12 an">
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4 col-sm-4 col-lg-4">
+                <div class="loginpage">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:-6px;height:30rem; ">
+                            <section id="loginForm">
+
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="panel" style="margin-top:-5px;border-radius:25px !important">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-12 center">
+                                                        <font><h3 class="font jost">Welcome</h3></font>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-12 center">
+                                                        <h3 class="font topmargin jost">Department Login</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <div target="_blank" style="margin-left: 36px;width: 17rem;border-radius:15px !important">
+                                                    <a class="maxbutton-4  buttons maxbutton maxbutton-button4 asubmitLogin btn loginbutton button1 jost" href="https://himparivar.hp.gov.in/sso-admin/GovLogin?service_id=1&app_unique=HPSEDCMPWR"><span class="ssofont jost"><b>Single Sign On Login</b></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="font">
+                                            <h3 class="center font jost">Agency Login</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                                                                                            
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.UserName)
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Password)
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <a class="maxbutton-3  buttons maxbutton maxbutton-button3 asubmitLogin btn loginbutton button1" href="#"><span class="font2 jost">Login</span></a>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <a class="maxbutton-3  buttons maxbutton maxbutton-button3 asubmitLogin btn loginbutton button1 jost" href="https://sso.hp.gov.in/official/site/logout?onboardingapp=HPSEDCMPWR&user_name=naresh.hpsedc@hpmail.in"><span class="mb-text jost">Single Sign On logout</span></a>
+                                                </div>
+                                            </div>
+
+                                            <div class="link-container">
+                                                <div class="form-group">
+                                                    <a href="javascript:;" id="openModalBtn" class="pull-right">Sign-Up?</a>
+
+                                                </div>
+
+                                                @*<div class="form-group">
+                                                    <a href="javascript:;" onclick="_EducationalDetail()" data-bs-toggle="modal1">Register</a>
+
+                                                </div>*@
+
+                                                <div class="form-group">
+                                                    <a href="javascript:;" onclick="_VendorRegistration()" data-bs-toggle="modal" style="visibility:hidden">Vendor Registration</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    if (ViewData["error"] != null)
+                                    {
+                                        if (ViewData["error"].ToString() != "")
+                                        {
+                                            <script>
+                                                alert('@ViewData["error"]');
+                                            </script>
+                                        }
+                                    }
+                                 }
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="custom-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Registration</h2>
+                <button id="closeModalBtn" class="close-btn">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-md-3 col-sm-6">
+                            <label for="Email">Email ID</label><span class="error-message">*</span>
+                            <input type="email" id="email" class="form-control" placeholder="Email" name="email">
+                        </div>
+                        <div class="col-lg-6 col-md-3 col-sm-6">
+                            <label for="Contact">Contact No.</label><span class="error-message">*</span>
+                            <input type="text" id="Contact" class="form-control" placeholder="Contact No." name="Contact No.">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6 col-md-3 col-sm-6">
+                            <label for="Name">Name</label><span class="error-message">*</span>
+                            <input type="text" id="Name" class="form-control" placeholder="Name" name="Name">
+                        </div>
+                        <div class="col-lg-6 col-md-3 col-sm-6">
+                            <label for="Orginazation">Organisation Name</label><span class="error-message">*</span>
+                            <input type="text" id="Orginazation" class="form-control" placeholder="Organisation Name" name="Organisation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" id="modalSubmitBtn" class="btnModalSubmit btn btn-primary" style="margin-left:-6rem" value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const modal = document.getElementById("myModal");
+    const openModalBtn = document.getElementById("openModalBtn");
+    const closeModalBtns = document.querySelectorAll("#closeModalBtn");
+
+    openModalBtn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    closeModalBtns.forEach(btn => {
+        btn.onclick = function () {
+            modal.style.display = "none";
+        }
+    });
+
+    function _EducationalDetail() {
+        window.location = '/TimeSheet/EducationalDetail'
+    }
+
+    function _VendorRegistration() {
+        window.location = '/HpsedcPi/VendorRegistration'
+    }
+
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+    $('.asubmitLogin').click(function () { $('form').submit(); });
+
+    document.getElementById("modalSubmitBtn").onclick = function () {
+        // Collect data from the modal inputs
+        const email = document.getElementById("email").value;
+        const contact = document.getElementById("Contact").value;
+        const name = document.getElementById("Name").value;
+        const organization = document.getElementById("Orginazation").value;
+
+        $.ajax({
+            type: "POST",
+            url: "/Account/_SchoolRegistrationSubmit", // URL to hit the _SchoolRegistrationSubmit method
+            data: {
+                email: email,
+                contact: contact,
+                name: name,
+                organization: organization
+            },
+            success: function (response) {
+                // Handle successful submission here
+                alert("Registration successful");
+                modal.style.display = "none"; // Close the modal on success
+            },
+            error: function (xhr, status, error) {
+                // Handle errors here
+                console.error("Error:", error);
+                alert("Error during submission. Please try again.");
+            }
+        });
+    };
+</script>

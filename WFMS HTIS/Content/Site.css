@@ -1,0 +1,28 @@
+﻿body {
+     
+    padding-bottom: 20px;
+}
+.minHeight {
+    min-height:450px;  
+}
+.ProgressImg {
+    text-align:center;
+    position:fixed;
+    background:#fff;
+    width:100%;
+    margin-top:0%; 
+    display:none;
+    z-index:9899;
+    height:100vh;
+     
+    background: rgb(242, 242, 242); /* The Fallback */
+    background: rgba(242, 242, 242, 0.7); 
+}
+.ProgressImg img{
+    z-index:999999;
+    margin-top:20%;
+    position:relative; 
+    opacity:1;
+     
+}
+ 

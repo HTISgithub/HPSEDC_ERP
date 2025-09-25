@@ -1,0 +1,106 @@
+﻿@{
+    string HelpdeskGroupId = "";
+    string HelpdeskGroupCode = "";
+    string HelpdeskGroupName = "";
+}
+
+@if (Model.Tables[0].Rows.Count > 0)
+{
+    HelpdeskGroupId = Model.Tables[0].Rows[0]["HelpdeskGroupId"].ToString();
+    HelpdeskGroupCode = Model.Tables[0].Rows[0]["HelpdeskGroupCode"].ToString();
+    HelpdeskGroupName = Model.Tables[0].Rows[0]["HelpdeskGroupName"].ToString();
+}
+<link href="~/Content/MappingStyle.css" rel="stylesheet" />
+<div><input type="hidden" id="HelpdeskGroupId" hidden="hidden" value="@HelpdeskGroupId"></div>
+<div class="row form-group">
+    <div class="col-md-4 col-sm-4">
+        <div><label for="DepartmentId">Department</label><span class="error-message">*</span></div>
+        <div>
+            <select id="DepartmentId" class="form-control" onchange="EmpListViaDepartmentDisplay()">
+                <option value="0">---SELECT Department---</option>
+                @foreach (var item in Model.Tables[1].Rows)
+                {
+                    <option value="@item["DeptID"]">@item["DeptName"]</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <div><label for="DesignationId">Designation</label><span class="error-message">*</span></div>
+        <div>
+            <select id="DesignationId" class="form-control" onchange="EmpListViaDesignationDisplay()">
+                <option value="0">---SELECT Designation---</option>
+                @foreach (var item in Model.Tables[2].Rows)
+                {
+                    <option value="@item["DesignationID"]">@item["DesignationName"]</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <div><label for="BranchId">Branch</label><span class="error-message">*</span></div>
+        <div>
+            <select id="BranchId" class="form-control" onchange="EmpListViaBranchDisplay()">
+                <option value="0">---SELECT Branch---</option>
+                @foreach (var item in Model.Tables[3].Rows)
+                {
+                    <option value="@item["BranchId"]">@item["BranchName"]</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background-color:#00476A;">
+                <div class="panel-title text-center">
+                    <label><b>Employee List</b></label>
+                </div>
+            </div>
+            <div class="panel-body" style="height:350px; overflow-y: scroll;">
+                <div id="Blank" class="text-center" style="display:none; margin:90px 0px 0px 0px;">
+                    <div style="margin-bottom:10px;">
+                        <img src="~/images/NoData.png" />
+                    </div>
+                    <p style="font-size:14px; color:#666;">To get Employee details, please select above filter!</p>
+                </div>
+                <div id="EmpList">
+                    <div class="" id="nonSelected">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background-color:#00476A;">
+                <div class="panel-title text-center">
+                    <label><b>Selected Employee List</b></label>
+                </div>
+            </div>
+            <div class="panel-body" style="height:350px; overflow-y: scroll;">
+                <div id="BlankSelectedList" class="text-center" style="display:none; margin:90px 0px 0px 0px;">
+                    <div style="margin-bottom:10px;">
+                        <img src="~/images/NoData.png" />
+                    </div>
+                    <p style="font-size:14px; color:#666;">Please Select Employees Tor Mapping !</p>
+                </div>
+                <div id="MappedEmpList">
+                    <div class="" id="selected">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.modal-footer').show();
+    $('.btnModalSubmit').bind('click', function () {
+        HelpdeskGroupMappingSubmit();
+    });
+</script>
+<script src="~/Scripts/HelpdeskGroupMapping.min.js"></script>

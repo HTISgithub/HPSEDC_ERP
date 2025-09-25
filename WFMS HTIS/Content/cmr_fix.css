@@ -1,0 +1,41 @@
+﻿.panels li {
+    background-size: 100%;
+    background-image: url('/images/welcome-page_03.png');
+    list-style-type: none;
+}
+
+.index-box {
+    background-size: 100%;
+    background-image: url('/images/welcome-page_03.png');
+    padding-top: 40px;
+    padding-left: 30px;
+    margin-left: -19px;
+    margin-right: -40px;
+}
+.loginbg {
+    background: url('/images/login-bg-v4.jpg');
+    background-repeat: no-repeat;
+    border-radius: 0px;
+    height: 575px;
+    width: 100%;
+    background-color: #ececec;
+} 
+.loginpage {
+    background: url('/images/animation-v5.gif');
+    background-repeat: no-repeat;
+    border-radius: 0px;
+    height: 427px;
+    width: auto;
+    margin-top: 75px;
+    background-size: 100%;
+    vertical-align: middle;
+}
+.btnlogin {
+    background: url('/images/loginbtn.png');
+    background-size: 100%;
+    background-position: center;
+    height: auto;
+    padding: 12px 12px;
+    border: 0 none;
+    margin-top: 5px;
+}

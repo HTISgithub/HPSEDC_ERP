@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Attendance" targetNamespace="http://tempuri.org/Attendance.xsd" xmlns:mstns="http://tempuri.org/Attendance.xsd" xmlns="http://tempuri.org/Attendance.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="dbsHTIS_wfmsHtisConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbsHTIS_wfmsHtisConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.dbsHTIS_wfmsHtisConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="tblCustomerInvoicePart3TableAdapter" GeneratorDataComponentClassName="tblCustomerInvoicePart3TableAdapter" Name="tblCustomerInvoicePart3" UserDataComponentName="tblCustomerInvoicePart3TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbsHTIS_wfmsHtisConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>Select 0 InvoiceID,0 DesignationID,'' Particulars,'0.00' PayDays,0 Nofmen,'0.00' ChargeAmount</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="InvoiceID" DataSetColumn="InvoiceID" />
+              <Mapping SourceColumn="DesignationID" DataSetColumn="DesignationID" />
+              <Mapping SourceColumn="Particulars" DataSetColumn="Particulars" />
+              <Mapping SourceColumn="PayDays" DataSetColumn="PayDays" />
+              <Mapping SourceColumn="Nofmen" DataSetColumn="Nofmen" />
+              <Mapping SourceColumn="ChargeAmount" DataSetColumn="ChargeAmount" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="tblCustomerInvoiceTableAdapter" GeneratorDataComponentClassName="tblCustomerInvoiceTableAdapter" Name="tblCustomerInvoice" UserDataComponentName="tblCustomerInvoiceTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbsHTIS_wfmsHtisConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        0 AS ID, 0 AS fiBillNo, '' AS fvBillNo, 0 AS CustomerID, '' AS BillDate, 0 AS SessionID, 0 AS MonthYear, '' AS MonthDate, 0 AS Createby, '' AS createdDate, 0 AS VoucherID, 0 AS Amount, 0 AS GSTAmount, 0 AS OtherCharges,0 AS BillAmount, 0 AS NoofPack, '' AS RefNo, '' AS Remarks, 0 AS IGSTRate, 0 AS CGSTRate, 0 AS SGSTRate, 0 AS ChargeRate, 0 AS IGSTAmount, 0 AS CGSTAmount, 0 AS SGSTAmount, 0 AS ChargeAmount,'' AS fvAccountName,'' as fvAccountAddress</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="fiBillNo" DataSetColumn="fiBillNo" />
+              <Mapping SourceColumn="fvBillNo" DataSetColumn="fvBillNo" />
+              <Mapping SourceColumn="CustomerID" DataSetColumn="CustomerID" />
+              <Mapping SourceColumn="BillDate" DataSetColumn="BillDate" />
+              <Mapping SourceColumn="SessionID" DataSetColumn="SessionID" />
+              <Mapping SourceColumn="MonthYear" DataSetColumn="MonthYear" />
+              <Mapping SourceColumn="MonthDate" DataSetColumn="MonthDate" />
+              <Mapping SourceColumn="Createby" DataSetColumn="Createby" />
+              <Mapping SourceColumn="createdDate" DataSetColumn="createdDate" />
+              <Mapping SourceColumn="VoucherID" DataSetColumn="VoucherID" />
+              <Mapping SourceColumn="Amount" DataSetColumn="Amount" />
+              <Mapping SourceColumn="GSTAmount" DataSetColumn="GSTAmount" />
+              <Mapping SourceColumn="OtherCharges" DataSetColumn="OtherCharges" />
+              <Mapping SourceColumn="BillAmount" DataSetColumn="BillAmount" />
+              <Mapping SourceColumn="NoofPack" DataSetColumn="NoofPack" />
+              <Mapping SourceColumn="RefNo" DataSetColumn="RefNo" />
+              <Mapping SourceColumn="Remarks" DataSetColumn="Remarks" />
+              <Mapping SourceColumn="IGSTRate" DataSetColumn="IGSTRate" />
+              <Mapping SourceColumn="CGSTRate" DataSetColumn="CGSTRate" />
+              <Mapping SourceColumn="SGSTRate" DataSetColumn="SGSTRate" />
+              <Mapping SourceColumn="ChargeRate" DataSetColumn="ChargeRate" />
+              <Mapping SourceColumn="IGSTAmount" DataSetColumn="IGSTAmount" />
+              <Mapping SourceColumn="CGSTAmount" DataSetColumn="CGSTAmount" />
+              <Mapping SourceColumn="SGSTAmount" DataSetColumn="SGSTAmount" />
+              <Mapping SourceColumn="ChargeAmount" DataSetColumn="ChargeAmount" />
+              <Mapping SourceColumn="fvAccountName" DataSetColumn="fvAccountName" />
+              <Mapping SourceColumn="fvAccountAddress" DataSetColumn="fvAccountAddress" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ReportHeadTableAdapter" GeneratorDataComponentClassName="ReportHeadTableAdapter" Name="ReportHead" UserDataComponentName="ReportHeadTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbsHTIS_wfmsHtisConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>Select '' CompanyName,'' Address,'' fvCityName,'' fvStateName,'' fvPhoneNo,'' fvMobileNo,'' fvEmail,'' fvWebSite,'' fvGSTNo </CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="CompanyName" DataSetColumn="CompanyName" />
+              <Mapping SourceColumn="Address" DataSetColumn="Address" />
+              <Mapping SourceColumn="fvCityName" DataSetColumn="fvCityName" />
+              <Mapping SourceColumn="fvStateName" DataSetColumn="fvStateName" />
+              <Mapping SourceColumn="fvPhoneNo" DataSetColumn="fvPhoneNo" />
+              <Mapping SourceColumn="fvMobileNo" DataSetColumn="fvMobileNo" />
+              <Mapping SourceColumn="fvEmail" DataSetColumn="fvEmail" />
+              <Mapping SourceColumn="fvWebSite" DataSetColumn="fvWebSite" />
+              <Mapping SourceColumn="fvGSTNo" DataSetColumn="fvGSTNo" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Attendance" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Attendance" msprop:Generator_UserDSName="Attendance">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tblCustomerInvoicePart3" msprop:Generator_TableClassName="tblCustomerInvoicePart3DataTable" msprop:Generator_TableVarName="tabletblCustomerInvoicePart3" msprop:Generator_RowChangedName="tblCustomerInvoicePart3RowChanged" msprop:Generator_TablePropName="tblCustomerInvoicePart3" msprop:Generator_RowDeletingName="tblCustomerInvoicePart3RowDeleting" msprop:Generator_RowChangingName="tblCustomerInvoicePart3RowChanging" msprop:Generator_RowEvHandlerName="tblCustomerInvoicePart3RowChangeEventHandler" msprop:Generator_RowDeletedName="tblCustomerInvoicePart3RowDeleted" msprop:Generator_RowClassName="tblCustomerInvoicePart3Row" msprop:Generator_UserTableName="tblCustomerInvoicePart3" msprop:Generator_RowEvArgName="tblCustomerInvoicePart3RowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="InvoiceID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnInvoiceID" msprop:Generator_ColumnPropNameInRow="InvoiceID" msprop:Generator_ColumnPropNameInTable="InvoiceIDColumn" msprop:Generator_UserColumnName="InvoiceID" type="xs:int" minOccurs="0" />
+              <xs:element name="DesignationID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnDesignationID" msprop:Generator_ColumnPropNameInRow="DesignationID" msprop:Generator_ColumnPropNameInTable="DesignationIDColumn" msprop:Generator_UserColumnName="DesignationID" type="xs:int" minOccurs="0" />
+              <xs:element name="Particulars" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnParticulars" msprop:Generator_ColumnPropNameInRow="Particulars" msprop:Generator_ColumnPropNameInTable="ParticularsColumn" msprop:Generator_UserColumnName="Particulars" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PayDays" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPayDays" msprop:Generator_ColumnPropNameInRow="PayDays" msprop:Generator_ColumnPropNameInTable="PayDaysColumn" msprop:Generator_UserColumnName="PayDays" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Nofmen" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnNofmen" msprop:Generator_ColumnPropNameInRow="Nofmen" msprop:Generator_ColumnPropNameInTable="NofmenColumn" msprop:Generator_UserColumnName="Nofmen" type="xs:int" minOccurs="0" />
+              <xs:element name="ChargeAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnChargeAmount" msprop:Generator_ColumnPropNameInRow="ChargeAmount" msprop:Generator_ColumnPropNameInTable="ChargeAmountColumn" msprop:Generator_UserColumnName="ChargeAmount" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tblCustomerInvoice" msprop:Generator_TableClassName="tblCustomerInvoiceDataTable" msprop:Generator_TableVarName="tabletblCustomerInvoice" msprop:Generator_RowChangedName="tblCustomerInvoiceRowChanged" msprop:Generator_TablePropName="tblCustomerInvoice" msprop:Generator_RowDeletingName="tblCustomerInvoiceRowDeleting" msprop:Generator_RowChangingName="tblCustomerInvoiceRowChanging" msprop:Generator_RowEvHandlerName="tblCustomerInvoiceRowChangeEventHandler" msprop:Generator_RowDeletedName="tblCustomerInvoiceRowDeleted" msprop:Generator_RowClassName="tblCustomerInvoiceRow" msprop:Generator_UserTableName="tblCustomerInvoice" msprop:Generator_RowEvArgName="tblCustomerInvoiceRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="fiBillNo" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfiBillNo" msprop:Generator_ColumnPropNameInRow="fiBillNo" msprop:Generator_ColumnPropNameInTable="fiBillNoColumn" msprop:Generator_UserColumnName="fiBillNo" type="xs:int" minOccurs="0" />
+              <xs:element name="fvBillNo" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvBillNo" msprop:Generator_ColumnPropNameInRow="fvBillNo" msprop:Generator_ColumnPropNameInTable="fvBillNoColumn" msprop:Generator_UserColumnName="fvBillNo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CustomerID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCustomerID" msprop:Generator_ColumnPropNameInRow="CustomerID" msprop:Generator_ColumnPropNameInTable="CustomerIDColumn" msprop:Generator_UserColumnName="CustomerID" type="xs:int" minOccurs="0" />
+              <xs:element name="BillDate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBillDate" msprop:Generator_ColumnPropNameInRow="BillDate" msprop:Generator_ColumnPropNameInTable="BillDateColumn" msprop:Generator_UserColumnName="BillDate" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SessionID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSessionID" msprop:Generator_ColumnPropNameInRow="SessionID" msprop:Generator_ColumnPropNameInTable="SessionIDColumn" msprop:Generator_UserColumnName="SessionID" type="xs:int" minOccurs="0" />
+              <xs:element name="MonthYear" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMonthYear" msprop:Generator_ColumnPropNameInRow="MonthYear" msprop:Generator_ColumnPropNameInTable="MonthYearColumn" msprop:Generator_UserColumnName="MonthYear" type="xs:int" minOccurs="0" />
+              <xs:element name="MonthDate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMonthDate" msprop:Generator_ColumnPropNameInRow="MonthDate" msprop:Generator_ColumnPropNameInTable="MonthDateColumn" msprop:Generator_UserColumnName="MonthDate" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Createby" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCreateby" msprop:Generator_ColumnPropNameInRow="Createby" msprop:Generator_ColumnPropNameInTable="CreatebyColumn" msprop:Generator_UserColumnName="Createby" type="xs:int" minOccurs="0" />
+              <xs:element name="createdDate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columncreatedDate" msprop:Generator_ColumnPropNameInRow="createdDate" msprop:Generator_ColumnPropNameInTable="createdDateColumn" msprop:Generator_UserColumnName="createdDate" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="VoucherID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnVoucherID" msprop:Generator_ColumnPropNameInRow="VoucherID" msprop:Generator_ColumnPropNameInTable="VoucherIDColumn" msprop:Generator_UserColumnName="VoucherID" type="xs:int" minOccurs="0" />
+              <xs:element name="Amount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:int" minOccurs="0" />
+              <xs:element name="GSTAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnGSTAmount" msprop:Generator_ColumnPropNameInRow="GSTAmount" msprop:Generator_ColumnPropNameInTable="GSTAmountColumn" msprop:Generator_UserColumnName="GSTAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="OtherCharges" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOtherCharges" msprop:Generator_ColumnPropNameInRow="OtherCharges" msprop:Generator_ColumnPropNameInTable="OtherChargesColumn" msprop:Generator_UserColumnName="OtherCharges" type="xs:int" minOccurs="0" />
+              <xs:element name="BillAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBillAmount" msprop:Generator_ColumnPropNameInRow="BillAmount" msprop:Generator_ColumnPropNameInTable="BillAmountColumn" msprop:Generator_UserColumnName="BillAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="NoofPack" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnNoofPack" msprop:Generator_ColumnPropNameInRow="NoofPack" msprop:Generator_ColumnPropNameInTable="NoofPackColumn" msprop:Generator_UserColumnName="NoofPack" type="xs:int" minOccurs="0" />
+              <xs:element name="RefNo" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnRefNo" msprop:Generator_ColumnPropNameInRow="RefNo" msprop:Generator_ColumnPropNameInTable="RefNoColumn" msprop:Generator_UserColumnName="RefNo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Remarks" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" msprop:Generator_UserColumnName="Remarks" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="IGSTRate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnIGSTRate" msprop:Generator_ColumnPropNameInRow="IGSTRate" msprop:Generator_ColumnPropNameInTable="IGSTRateColumn" msprop:Generator_UserColumnName="IGSTRate" type="xs:int" minOccurs="0" />
+              <xs:element name="CGSTRate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCGSTRate" msprop:Generator_ColumnPropNameInRow="CGSTRate" msprop:Generator_ColumnPropNameInTable="CGSTRateColumn" msprop:Generator_UserColumnName="CGSTRate" type="xs:int" minOccurs="0" />
+              <xs:element name="SGSTRate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSGSTRate" msprop:Generator_ColumnPropNameInRow="SGSTRate" msprop:Generator_ColumnPropNameInTable="SGSTRateColumn" msprop:Generator_UserColumnName="SGSTRate" type="xs:int" minOccurs="0" />
+              <xs:element name="ChargeRate" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnChargeRate" msprop:Generator_ColumnPropNameInRow="ChargeRate" msprop:Generator_ColumnPropNameInTable="ChargeRateColumn" msprop:Generator_UserColumnName="ChargeRate" type="xs:int" minOccurs="0" />
+              <xs:element name="IGSTAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnIGSTAmount" msprop:Generator_ColumnPropNameInRow="IGSTAmount" msprop:Generator_ColumnPropNameInTable="IGSTAmountColumn" msprop:Generator_UserColumnName="IGSTAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="CGSTAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCGSTAmount" msprop:Generator_ColumnPropNameInRow="CGSTAmount" msprop:Generator_ColumnPropNameInTable="CGSTAmountColumn" msprop:Generator_UserColumnName="CGSTAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="SGSTAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSGSTAmount" msprop:Generator_ColumnPropNameInRow="SGSTAmount" msprop:Generator_ColumnPropNameInTable="SGSTAmountColumn" msprop:Generator_UserColumnName="SGSTAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="ChargeAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnChargeAmount" msprop:Generator_ColumnPropNameInRow="ChargeAmount" msprop:Generator_ColumnPropNameInTable="ChargeAmountColumn" msprop:Generator_UserColumnName="ChargeAmount" type="xs:int" minOccurs="0" />
+              <xs:element name="fvAccountName" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvAccountName" msprop:Generator_ColumnPropNameInRow="fvAccountName" msprop:Generator_ColumnPropNameInTable="fvAccountNameColumn" msprop:Generator_UserColumnName="fvAccountName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvAccountAddress" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvAccountAddress" msprop:Generator_ColumnPropNameInRow="fvAccountAddress" msprop:Generator_ColumnPropNameInTable="fvAccountAddressColumn" msprop:Generator_UserColumnName="fvAccountAddress" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ReportHead" msprop:Generator_TableClassName="ReportHeadDataTable" msprop:Generator_TableVarName="tableReportHead" msprop:Generator_RowChangedName="ReportHeadRowChanged" msprop:Generator_TablePropName="ReportHead" msprop:Generator_RowDeletingName="ReportHeadRowDeleting" msprop:Generator_RowChangingName="ReportHeadRowChanging" msprop:Generator_RowEvHandlerName="ReportHeadRowChangeEventHandler" msprop:Generator_RowDeletedName="ReportHeadRowDeleted" msprop:Generator_RowClassName="ReportHeadRow" msprop:Generator_UserTableName="ReportHead" msprop:Generator_RowEvArgName="ReportHeadRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CompanyName" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCompanyName" msprop:Generator_ColumnPropNameInRow="CompanyName" msprop:Generator_ColumnPropNameInTable="CompanyNameColumn" msprop:Generator_UserColumnName="CompanyName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Address" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnAddress" msprop:Generator_ColumnPropNameInRow="Address" msprop:Generator_ColumnPropNameInTable="AddressColumn" msprop:Generator_UserColumnName="Address" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvCityName" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvCityName" msprop:Generator_ColumnPropNameInRow="fvCityName" msprop:Generator_ColumnPropNameInTable="fvCityNameColumn" msprop:Generator_UserColumnName="fvCityName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvStateName" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvStateName" msprop:Generator_ColumnPropNameInRow="fvStateName" msprop:Generator_ColumnPropNameInTable="fvStateNameColumn" msprop:Generator_UserColumnName="fvStateName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvPhoneNo" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvPhoneNo" msprop:Generator_ColumnPropNameInRow="fvPhoneNo" msprop:Generator_ColumnPropNameInTable="fvPhoneNoColumn" msprop:Generator_UserColumnName="fvPhoneNo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvMobileNo" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvMobileNo" msprop:Generator_ColumnPropNameInRow="fvMobileNo" msprop:Generator_ColumnPropNameInTable="fvMobileNoColumn" msprop:Generator_UserColumnName="fvMobileNo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvEmail" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvEmail" msprop:Generator_ColumnPropNameInRow="fvEmail" msprop:Generator_ColumnPropNameInTable="fvEmailColumn" msprop:Generator_UserColumnName="fvEmail" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvWebSite" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvWebSite" msprop:Generator_ColumnPropNameInRow="fvWebSite" msprop:Generator_ColumnPropNameInTable="fvWebSiteColumn" msprop:Generator_UserColumnName="fvWebSite" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="fvGSTNo" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnfvGSTNo" msprop:Generator_ColumnPropNameInRow="fvGSTNo" msprop:Generator_ColumnPropNameInTable="fvGSTNoColumn" msprop:Generator_UserColumnName="fvGSTNo" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tblCustomerInvoicePart3" />
+      <xs:field xpath="mstns:InvoiceID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

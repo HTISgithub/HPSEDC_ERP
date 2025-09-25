@@ -1,0 +1,113 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+
+    <style>
+        header, footer {
+            background-color: #ffff;
+            color: black;
+            padding: 24px;
+            text-align: center;
+            height: 50px;
+            border-bottom: 1px solid #0f1875;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        input[type="text"] {
+            width: auto;
+            text-align: center;
+            padding: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #48484b;
+            border-radius: 5px;
+            box-sizing: border-box;
+            max-width: 170px;
+        }
+
+        input {
+            width: 30%;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        header {
+            margin-bottom: 15px;
+            width: 97%;
+            margin: -7px;
+            
+        }
+
+        footer {
+            position: fixed;
+            bottom: -39px;
+            width: 97%;
+            padding: 10px;
+            border-top: 1px solid #0f1875;
+        }
+
+            footer p {
+                margin: 0;
+            }
+
+        .logo {
+            max-width: 5%;
+            max-height: 55%;
+            margin: -17px;
+             /* adjust size as needed */
+        }
+
+        .header-content {
+            display: inline-block;
+            margin: 40px auto;
+        }
+
+            .header-content h1 {
+                margin: -10px;
+                font-family: "Raleway", sans-serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+                font-size: 20px;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="/images/HPSEDC-removebg-preview.png" style="width:255%;" alt="Logo">
+        </div>
+
+        <div class="header-content">
+            <h1>HP State Electronics Development Corporation Ltd</h1>
+        </div>
+        <div class="header-content" style=" margin-right: 25px;float:right">
+            <h1>Agency Name</h1>
+        </div>
+    </header>
+
+    @RenderBody()
+
+    <footer>
+        <p style="float: left; font-size: small;"> Copyright&copy; 2024 HPSEDC.</p>
+    </footer>
+
+    <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" defer="defer"></script>
+
+</body>
+</html>

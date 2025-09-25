@@ -1,0 +1,498 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Department Address";
+    ViewBag.PageTitle = "Department Billing Address";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+}
+
+@******************Breadcrumb Start**************@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul>
+</div>
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    label {
+        font-weight: 800;
+    }
+
+        label[for="IsActive"] {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 18px;
+            color: #333;
+        }
+
+            label[for="IsActive"]:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 22px;
+                height: 22px;
+                border: 2px solid #4CAF50;
+                background-color: #fff;
+                border-radius: 4px;
+                transition: background-color 0.3s, border 0.3s;
+            }
+
+    #IsActive:checked + label[for="IsActive"]:before {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    #IsActive:checked + label[for="IsActive"]:after {
+        content: "✔";
+        position: absolute;
+        left: 4px;
+        top: 0;
+        color: white;
+        font-size: 16px;
+    }
+
+    #IsActive {
+        display: none;
+    }
+</style>
+
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right btnAddModal" onclick="OpenUpdateModelAddress()"><i class="fa fa-edit"> </i> Update Address</a>
+        </h1>
+    </div>
+
+
+    @*********Page End************@
+    @*********Page Content************@
+    <div class="row">
+        <div class="col-md-12">
+            <div align="left" id="Zones">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>Agency Name</th>
+                                <th>Department Name</th>
+                                <th>Work Order No.</th>
+                                <th>Billing Address</th>
+                                <th>No. Of Resources</th>
+                                <th>Email Id</th>
+                                <th class="editcol actionedit">Edit Email ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #0f1875; color: white;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="_view">
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Complaint">Agency</label>
+                                <select id="ddlAgencynew" style="width:269px">
+                                    <option value="0">Select Agency</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Department">Department Name</label><span class="error-message">*</span>
+                                <select id="DeptId" class="clearddl" style="width:269px" onchange="_BillingAddressddl()">
+                                    <option value="0">--Select Department--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Work">Work Order No.</label><span class="error-message">*</span>
+                                <input type="text" id="Work" class="form-control cleartxt" placeholder="Work Order No." />
+                            </div>
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="NoofResouserces">No. Of Resources</label><span class="error-message">*</span>
+                                <input type="text" id="NoofResources" class="form-control cleartxt" placeholder="No. Of Resources" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Email">Department Email ID</label><span class="error-message">*</span>
+                                <input type="text" id="Email" class="form-control cleartxt" placeholder="Email Id" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="font">
+                                    Billing Address <span class="error-message">*</span>
+                                </div>
+                                <div>
+                                    <select id="BillingId" class="form-control" onchange="AddressBox()">
+                                        <option value="S">--Select--</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="display:none;">
+                            <div class="col-lg-12 col-md-12 col-sm-12" id="addressDiv">
+                                <div class="font">
+                                    Enter Billing Address <span class="error-message">*</span>
+                                </div>
+                                <div>
+                                    <textarea id="BillingAddress" placeholder="Billing Address" class="form-control textbox"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="~/images/ajax-loader.gif" id="ModalProgress" />
+                        </div>
+                        <div class="col-md-8">
+                            <div class="modelalert"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*adressupdate*@
+    <div class="modal fade" id="adressupdate" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #0f1875; color: white;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="_view">
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Department">Department Name</label><span class="error-message">*</span>
+                                <select id="DeptIdAddressUpdate" class="clearddl" style="width:269px" onchange="_BillingAddressUpdateddl()">
+                                    <option value="0">--Select Department--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label for="Department">Billing Address</label><span class="error-message">*</span>
+                                <select id="BillingAddressUpdatedrop" class="form-control" onchange="AddressBox()">
+                                    <option value="S">--Select--</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-12 col-sm-12" id="addressDiv">
+                                <label for="Department">Enter Billing Address</label><span class="error-message">*</span>
+                                <textarea id="BillingAddressUpdate" placeholder="Billing Address" class="form-control textbox"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="~/images/ajax-loader.gif" id="ModalProgress" />
+                        </div>
+                        <div class="col-md-8">
+                            <div class="modelalert"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btnModalSubmit1 btn btn-primary" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*adressupdate*@
+</div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    var vId = 0, mDistrictId = 0; var WorkOrderAgencyId = 0;
+    var IsActive = 'Y';  var currentUser = '@user';
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _DEPTMasterList();
+        _DEPTMasterListDept();
+        $('#ddlAgency').select2();
+        $('#DeptId').select2();
+        $('#ddlAgencyfilter').select2();
+        $('#DeptIdfilter').select2();
+    });
+    $('.btnModalSubmit').click(function () {
+        _DepartmentAddressSubmit();
+    });
+
+    function OpenAddModel() {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Add Department Email & Billing Address");
+        $('#myModal').modal({
+            show: true
+        });
+    }
+    
+    function fillForm(WorkOrderAgencyId) {
+        $('#ModalProgress').show();
+        $('.modelalert').html('Please wait');
+        $.post('/Invoice/_DEPTMasterListEdit', {
+            'WorkOrderAgencyId': WorkOrderAgencyId,
+        }, function (data) {
+            $('#ModalProgress').hide();
+            $('.modelalert').html('');
+            var obj = $.parseJSON(data);
+            $('#ddlAgencynew').val(obj[0].AgencyId).trigger('change');
+            $('#DeptId').val(obj[0].DeptId).trigger('change');
+            $('#BillingId').val(obj[0].BillingId);
+            $('#Work').val(obj[0].WorkOrderId);
+            $('#NoofResources').val(obj[0].NoDeployedRes);
+            $('#Email').val(obj[0].BillAddressEmail);
+        });
+    }
+
+    function OpenUpdateModel(Id) {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Update Department Email & Billing Address");
+        $('#myModal').modal({
+            show: 'false'
+        });
+        WorkOrderAgencyId = Id;
+        fillForm(WorkOrderAgencyId);
+        root = '/Invoice/_DEPTMasterList';
+        $('.modal-footer').show();
+    }
+   
+    function OpenUpdateModelAddress() {
+        $('.modal-title').html("Update Department Billing Address");
+        $('#adressupdate').modal({
+            show: 'false'
+        });
+      
+        $('.modal-footer').show();
+    }
+
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('#Work').val('');
+        $('#NoofResources').val('');
+        $('#Email').val('');
+        $('#BillingAddress').val('');
+        $('#ddlAgency').val('0').trigger('change');
+        $('#DeptId').val('0').trigger('change');
+        $('#BillingId').val('0');
+        $('.modelalert').html('');
+    }
+    
+    function _DEPTMasterList() {
+        $('#ProgressImg').show();
+        $.post('/Invoice/_DEPTMasterList',
+            {
+                'WorkOrderId': 0,
+                'DeptId': $('#DeptId').val(),
+                'AgencyId': $('#ddlAgencynew').val(),
+
+            },
+            function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+                var table = $('#myTable').DataTable();
+                table.clear().draw();
+                var msr = 0;
+                $.each(obj, function (key, value) {
+                    msr += 1;
+                    var btnEdit = '<a href="#" onclick="OpenUpdateModel(\'' + value.WorkOrderAgencyId + '\', this)" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+                    var elmntArray = [
+                        msr,
+                        value.AgencyName,
+                        value.DepartmentName,
+                        value.WorkOrderId,
+                        value.BillingAddress,
+                        value.NoDeployedRes,
+                        value.BillAddressEmail,
+                        btnEdit
+                    ];
+                    table.row.add(elmntArray).draw(false);
+                });
+            });
+    }
+
+
+    function _DepartmentAddressSubmit() {
+        if ($('#ddlAgencynew').val() == '0') {
+            alert('Please Select Agency');
+            return;
+        }
+        if ($('#DeptId').val() == '0') {
+            alert('Please Select Department');
+            return;
+        }
+        if ($('#Work').val() == '') {
+            alert('Please Enter Work Order No.');
+            return;
+        }
+        if ($('#NoofResources').val() == '') {
+            alert('Please Enter No. Of Resources');
+            return;
+        }
+        if ($('#Email').val() == '') {
+            alert('Please Enter Email Id');
+            return;
+        }
+        var billingAddress=''
+        if ($("#BillingId").val() == '0') {
+            billingAddress = $('#BillingAddress').val();
+        }
+        else {
+            billingAddress = $("#BillingId option:selected").text();
+        }
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $('.btnModalSubmit').attr("disabled", "disabled");
+        $.post('/Invoice/_DEPTMasterSubmit', {
+            'WorkOrderAgencyId': WorkOrderAgencyId,
+            'ddlAgency': $('#ddlAgencynew').val(),
+            'DeptId': $('#DeptId').val(),
+            'Work': $('#Work').val(),
+            'NoofResources': $('#NoofResources').val(),
+            'Email': $('#Email').val(),
+            'BillingId': $('#BillingId').val(),
+            'BillingAddress': billingAddress,
+        }, function (data) {
+            alert(data);
+            $('#myModal').modal('hide');
+            resetForm();
+            $('.btnModalSubmit').removeAttr("disabled");
+            $('#ModalProgress').hide();
+            _DEPTMasterList();
+        });
+    }
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew2', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.DeptId + '>' + value.departmentName + '</option>';
+            });
+            $('#DeptId').html(DeptId);
+        });
+        $('#DeptId').select2({
+            dropdownParent: $('#myModal')
+        });
+    }
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl2', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+                $('#ddlAgencynew').html(DeploymentOfficeId);
+            });
+        });
+    }
+    function _BillingAddressddl() {
+        $.post('/Invoice/_BillingAddressddl', { 'AgencyId': 0, 'DeptId': $("#DeptId").val() }, function (data) {
+            var DeploymentOfficeId = '<option value="S">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AddressId + '>' + value.BillingAddress + '</option>'
+
+            });
+            console.log(DeploymentOfficeId);
+            $('#BillingId').html(DeploymentOfficeId);
+
+        });
+    }
+    _DepartmentddlUpdate();
+    function _DepartmentddlUpdate() {
+        $.post('/Invoice/_AvoDepartmentddlNew2', { 'Id': 0 }, function (data) {
+            var DeptId1 = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId1 += '<option value=' + value.DeptId + '>' + value.departmentName + '</option>';
+            });
+            $('#DeptIdAddressUpdate').html(DeptId1);
+        });
+        $('#DeptIdAddressUpdate').select2({
+            dropdownParent: $('#adressupdate')
+        });
+    }
+    function _BillingAddressUpdateddl() {
+        
+        $.post('/Invoice/_BillingAddressddl', { 'AgencyId': 0, 'DeptId': $("#DeptIdAddressUpdate").val() }, function (data) {
+            var DeploymentOfficeId1 = '<option value="S">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId1 += '<option value=' + value.AddressId + '>' + value.BillingAddress + '</option>'
+
+            });
+            console.log(DeploymentOfficeId1);
+            $('#BillingAddressUpdatedrop').html(DeploymentOfficeId1);
+
+        });
+    }
+</script>

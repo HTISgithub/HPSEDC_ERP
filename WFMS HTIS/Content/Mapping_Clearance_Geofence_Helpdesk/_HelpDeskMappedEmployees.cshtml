@@ -1,0 +1,17 @@
+﻿<link href="~/Content/MappingStyle.css" rel="stylesheet" />
+<div class="" id="selected">
+    @foreach (var item in Model.Rows)
+    {
+        <div id="@item["EmployeeID"]" class="rectangle1" onclick="ShiftEmployee(this)">
+            <div class="div_Emp">
+                <span class="span_EmpImage"><img src="~/EmpImg/@item["EmployeeImage"]" class="img-circle" alt="Image" style="width:70px" /></span>
+            </div>
+            <div>
+                <span class="span_EmpName_Code">@item["EmployeeName"] (@item["EmployeeCode"])</span>
+                <span class="span_EmpDesignation_Branch">@item["EmployeeDesignation"], <b>@item["EmployeeBranch"]</b></span>
+                @*<span style="font: normal 12px arial, verdana; text-align:center; display:block; margin: 2px 2px 2px 2px;">@item["EmployeeDepartment"]</span>*@
+                <span class="span_EmpEmail">@item["Email"]</span>
+            </div>
+        </div>
+    }
+</div>

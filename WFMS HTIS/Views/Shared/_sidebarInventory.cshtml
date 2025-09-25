@@ -1,0 +1,626 @@
+﻿@{ commonFunctions comfun = new commonFunctions(); }
+
+ @if (Request.Cookies["DomainId"].Value == "1121")
+     {
+<ul class="nav nav-list">
+    <li class="active">
+    <a href="/?id=@(comfun.encryptString("invetory"))" class="invetory">
+            <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+            <span class="menu-text"> Dashboard </span>
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+
+<li class="">
+                <a href="" class="dropdown-toggle">
+                    <i class="menu-icon fa  fa-asterisk"></i>
+                    Master
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Master/Manufacturer">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Manufacturer
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li class="">
+                        <a href="/Master/ItemCategory">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Item Category
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>*@
+            
+            <li class="">
+                <a href="/Master/ItemGroupList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Group
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+ <li class="">
+                <a href="/Transaction/CategoryMaster">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                 Product  Category 
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+ <li class="">
+                <a href="/Transaction/ComponentMaster">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                  Product Component
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+
+
+
+            @*   <li class="">
+                    <a href="/Master/ItemSubCategory">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Item Sub Category
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            <li class="">
+                <a href="/Master/MeasurementUnit">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Measurement Unit
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            
+            @*<li class="">
+                    <a href="/Master/IGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        IGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/SGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        SGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/CGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        CGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+
+            <li class="">
+                <a href="/Master/ItemInfo">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Info
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/Warehouse">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Warehouse
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+ <li class="">
+                        <a href="/admin/department">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Department
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+ <li class="">
+                <a href="/Master/TermsConditions">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Terms Conditions
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+    </ul>
+
+    </li>
+<li class="">
+                 <a href="#" class="dropdown-toggle">
+            <i class="menu-icon glyphicon glyphicon-user"></i>
+            <span class="menu-text">
+                Customer Info
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+                <ul class="submenu">
+  <li class="">
+                  <a href="/Pm/CustomerType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerEntity">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Entity
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerCategory">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Category
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/AddressType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Address Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/SocialAddressType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Social Address
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/TaxType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Tax Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CurrencyType">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Currency Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerAccount">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Account
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/Industry">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Industry Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Pm/CustomerDetail">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Customer Detail
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+    </ul>
+
+    </li>
+   
+   <li class="">
+                <a href="/pm/SupplierDetail">
+                    <i class="menu-icon fa fa-file-text-o"></i>
+                    Supplier Detail
+                </a>
+                <b class="arrow"></b>
+            </li>
+    <li class="">
+        <a href="/Transaction/Indent">
+            <i class="menu-icon fa fa-clipboard"></i>
+            Indent
+        </a>
+        <b class="arrow"></b>
+    </li>
+    <li class="">
+        <a href="/Transaction/PurchaseInvoice">
+            <i class="menu-icon fa fa-file-text"></i>
+           Proforma Invoice        </a>
+        <b class="arrow"></b>
+    </li>
+    <li class="">
+        <a href="/pm/PurchaseOrderList">
+            <i class="menu-icon fa fa-shopping-bag"></i>
+            Purchase Order
+        </a>
+        <b class="arrow"></b>
+    </li>
+ <li class="">
+        <a href="/Transaction/CustomerInvoice">
+            <i class="menu-icon fa fa-files-o"></i>
+           Customer Invoice
+        </a>
+        <b class="arrow"></b>
+    </li>
+ <li class="">
+        <a href="/Transaction/SupplierPurchaseOrder">
+            <i class="menu-icon fa fa-suitcase"></i>
+            Supplier PO
+        </a>
+        <b class="arrow"></b>
+    </li>
+ <li class="">
+        <a href="/Transaction/DeliveryChallanList">
+            <i class="menu-icon fa fa-truck"></i>
+            Delivery Challan
+        </a>
+        <b class="arrow"></b>
+    </li>
+    <li class="">
+        <a href="/PM/PurchaseBill">
+            <i class="menu-icon fa fa-check-square"></i>
+            Purchase Bill
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+<li class="">
+        <a href="/Transaction/GoodRecieved">
+            <i class="menu-icon fa fa-plus-square"></i>
+          Goods Received
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-link" style="margin-left: 14px;"></i>
+            <span class="menu-text">
+                HTIS Connect
+            </span>
+
+
+        </a>
+        <b class="arrow"></b>
+
+    </li>
+</ul>
+}
+ @if (Request.Cookies["DomainId"].Value != "1121")
+     {
+<ul class="nav nav-list">
+    <li class="active">
+    <a href="/?id=@(comfun.encryptString("invetory"))" class="invetory">
+            <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+            <span class="menu-text"> Dashboard </span>
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-inbox" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Material Management
+            </span>
+
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Master/Manufacturer">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Manufacturer
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li class="">
+                <a href="/Master/ItemCategory">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Category
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>*@
+           @* <li class="">
+                <a href="/Master/ItemSubCategory">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Sub Category
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>*@
+<li class="">
+                <a href="/Master/ItemGroupList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Group
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/MeasurementUnit">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Measurement Unit
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Master/TaxGSTInformation">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Tax GST Information
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li class="">
+                    <a href="/Master/IGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        IGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/SGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        SGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/CGST">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        CGST
+
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            <li class="">
+                <a href="/Master/ItemInfo">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Info
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+            <li class="">
+                <a href="/Master/Warehouse">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Warehouse
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+
+           @* <li class="">
+                <a href="/Master/InHouse">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    In house
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="#">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Out Door
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>*@
+
+        </ul>
+    </li>
+ <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-wrench" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">Material Issue and Return </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/pm/MaterialIssue">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Material Issue
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="#">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Material Return
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+
+ @*<li class="">
+                <a href="/Finance/SaleBill">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Sale Bill
+                </a>
+                <b class="arrow"></b>
+            </li>
+<li class="">
+                <a href="/Finance/PurchaseBill">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Purchase Bill
+                </a>
+                <b class="arrow"></b>
+            </li>*@
+<li class="">
+        <a href="" class="dropdown-toggle">
+            <i class="menu-icon fa  fa-asterisk"></i>
+            Reports
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/AccountingReport/InventoryItemledgerReport">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Item Ledger
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/AccountingReport/InventoryStockSummaryReport">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                   Item Stock Summary
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/DailyStockConsumption">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Daily Stock Consumption
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/StockRunningItems">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Stock Running Items
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/ShowMovingItem">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Show Moving Item
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+
+            </li>
+            <li class="">
+                <a href="/Reports/DailyBalances">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Daily Balances
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/MonthlySummary">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Monthly Summary
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/StockDayBook">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Stock Day Book
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/EmployeeStockBalance">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Stock Balance
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/EmployeeItemIssueSummary">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Item Issue Summary
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/EmployeeStockBalance">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Stock Balance
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/SiteIssueStock">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Site Issue Stock
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/ProductBarCode">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Product Bar Code
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/EmployeeStockLedger">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Stock Ledger
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+     
+        </ul>
+  <li class="">
+                <a href="/AccountingReport/InventoryReportDashboard">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                   Final Report
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+    </li>
+
+  </ul>
+}
+
+

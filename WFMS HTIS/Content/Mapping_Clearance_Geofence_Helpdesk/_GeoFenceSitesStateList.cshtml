@@ -1,0 +1,7 @@
+﻿@using System.Data;
+
+<option value="0">---SELECT State---</option>
+@foreach (var item in Model.Rows)
+{
+    <option value="@item["StateId"]">@item["StateName"]</option>
+}

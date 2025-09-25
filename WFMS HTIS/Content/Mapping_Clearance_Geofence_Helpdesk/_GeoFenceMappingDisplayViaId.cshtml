@@ -1,0 +1,138 @@
+﻿@using System.Configuration;
+@{
+    string Google_API_Key = Convert.ToString(ConfigurationManager.AppSettings["Google_API_Key"]);
+}
+@{
+    ViewBag.Title = "Geo Fence Mapping Display";
+    ViewBag.PageTitle = "Geo Fence Mapping Display";
+    string GeoFenceAddress = "";
+    string GeoFenceLocation = "";
+    string GeoFenceLongitude = "";
+    string GeoFenceLatitude = "";
+    string GeoFenceRadius = "";
+    string CountryName = "";
+    string StateName = "";
+    string CityName = "";
+    string EmployeeCode = "";
+    string EmployeeName = "";
+    string DepartmentName = "";
+    string DesignationName = "";
+}
+
+@if (Model.Tables[0].Rows.Count > 0)
+{
+    GeoFenceAddress = Model.Tables[0].Rows[0]["GeoFenceAddress"].ToString();
+    GeoFenceLocation = Model.Tables[0].Rows[0]["GeoFenceLocation"].ToString();
+    GeoFenceLongitude = Model.Tables[0].Rows[0]["GeoFenceLongitude"].ToString();
+    GeoFenceLatitude = Model.Tables[0].Rows[0]["GeoFenceLatitude"].ToString();
+    GeoFenceRadius = Model.Tables[0].Rows[0]["GeoFenceRadius"].ToString();
+    CountryName = Model.Tables[0].Rows[0]["CountryName"].ToString();
+    StateName = Model.Tables[0].Rows[0]["StateName"].ToString();
+    CityName = Model.Tables[0].Rows[0]["CityName"].ToString();
+    EmployeeCode = Model.Tables[0].Rows[0]["EmployeeCode"].ToString();
+    EmployeeName = Model.Tables[0].Rows[0]["EmployeeName"].ToString();
+    DepartmentName = Model.Tables[0].Rows[0]["DepartmentName"].ToString();
+    DesignationName = Model.Tables[0].Rows[0]["DesignationName"].ToString();
+}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=@Google_API_Key&callback=GeoFenceSiteMapView" type="text/javascript"></script>
+
+<div class="row form-group">
+    <div class="col-md-12 col-sm-12">
+        <div style="background-color:#00476A; color:white; text-align:center;"><label>Site Details</label></div>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Country">Country</label></div>
+        <div><input type="text" id="Country" disabled="disabled" class="form-control" value="@CountryName"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="State">State</label></div>
+        <div><input type="text" id="State" disabled="disabled" class="form-control" value="@StateName"></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="City">City</label></div>
+        <div><input type="text" id="City" disabled="disabled" class="form-control" value="@CityName"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Location">Location</label></div>
+        <div><input type="text" id="Location" disabled="disabled" class="form-control" value="@GeoFenceLocation"></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Address">Address</label></div>
+        <div><input type="text" id="Address" disabled="disabled" class="form-control" value="@GeoFenceAddress"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Radius">Radius</label></div>
+        <div><input type="text" id="Radius" disabled="disabled" class="form-control" value="@GeoFenceRadius"></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Latitude">Latitude</label></div>
+        <div><input type="text" id="Latitude" disabled="disabled" class="form-control" value="@GeoFenceLatitude"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Longitude">Longitude</label></div>
+        <div><input type="text" id="Longitude" disabled="disabled" class="form-control" value="@GeoFenceLongitude"></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12 col-sm-12">
+        <div style="background-color:#00476A; color:white; text-align:center;"><label>Assigned Employee Details</label></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="EmployeeCode">Employee Code</label></div>
+        <div><input type="text" id="EmployeeCode" disabled="disabled" class="form-control" value="@EmployeeCode"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="EmployeeName">Employee Name</label></div>
+        <div><input type="text" id="EmployeeName" disabled="disabled" class="form-control" value="@EmployeeName"></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Department">Department</label></div>
+        <div><input type="text" id="Department" disabled="disabled" class="form-control" value="@DepartmentName"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div><label for="Designation">Designation</label></div>
+        <div><input type="text" id="Designation" disabled="disabled" class="form-control" value="@DesignationName"></div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12 col-sm-12">
+        <div style="background-color:#00476A; color:white; text-align:center;"><label>GeoFence Site Map</label></div>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col-md-12 col-sm-12">
+        <div id="GeoFenceSiteMapDisplay" style="height:400px;width:100%;"></div>
+    </div>
+</div>
+
+<script>
+    function GeoFenceSiteMapView() {
+        var Latitude = $('#Latitude').val();
+        var Longitude = $('#Longitude').val()
+        var PinLocation = new google.maps.LatLng(Latitude, Longitude);
+        var mapProp = {
+            center: PinLocation,
+            zoom: 12,
+            scrollwheel: true,
+            draggable: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("GeoFenceSiteMapDisplay"), mapProp);
+        var marker = new google.maps.Marker({ position: PinLocation });
+        marker.setMap(map);
+    }
+</script>

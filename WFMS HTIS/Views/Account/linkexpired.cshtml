@@ -1,0 +1,27 @@
+﻿ <style>
+     .minHeight{
+         min-height:500px;
+         background-color:#fff;
+     }
+ </style>
+@{
+    Layout = "~/Views/Shared/_layoutLogin.cshtml";
+    ViewBag.Title = "Link Expired";
+    ViewBag.PageTitle = "Reset password";
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+}
+<div class="container minHeight">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="">
+                Link expired
+            </h2>
+          
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12"> 
+            <h4 class=""><a href="@siteUrl/account/login">Click here</a> to Login</h4>
+        </div>
+    </div>
+</div>

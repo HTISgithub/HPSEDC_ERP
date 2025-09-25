@@ -1,0 +1,7 @@
+﻿@using System.Data;
+
+<option value="0">---SELECT City---</option>
+@foreach (var item in Model.Rows)
+{
+    <option value="@item["CityId"]">@item["CityName"]</option>
+}

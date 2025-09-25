@@ -1,0 +1,109 @@
+/// <summary>
+        /// GeoFence Mapping
+        /// </summary>
+        /// <returns></returns>
+        #region GeoFence Mapping
+        public ActionResult GeoFenceMappingList()
+        {
+            return View();
+        }
+        public ActionResult _GeoFenceMappingList()
+        {
+            DataTable dt = comfun.fillDataTable("sp_GeoFenceMappingList", "", null);
+            return PartialView(dt);
+        }
+        public ActionResult _GeoFenceMappingDisplayViaId()
+        {
+            SortedList list = new SortedList();
+            list.Add("@GeoFenceMappingId", Request.Form["GeoFenceMappingId"].ToString());
+            DataSet ds = comfun.fillDataSet("sp_GeoFenceMappingDetailsViaId", "", list);
+            return PartialView("_GeoFenceMappingDisplayViaId", ds);
+        }
+        public ActionResult _GeoFeneceUserMappingEdit()
+        {
+            SortedList list = new SortedList();
+            list.Add("@GeoFenceMappingId", Request.Form["GeoFenceMappingId"].ToString());
+            DataSet ds = comfun.fillDataSet("sp_GeoFenceMappingDetailsViaId", "", list);
+            return PartialView(ds);
+        }
+        public ActionResult _GeoFenceMapping()
+        {
+            DataSet ds = comfun.fillDataSet("sp_GeoFenceMapping_ddl", "", null);
+            return PartialView("_GeoFenceMapping", ds);
+        }
+        public ActionResult _GeoFenceSitesStateList()
+        {
+            SortedList list = new SortedList();
+            list.Add("@CountryId", Request.Form["CountryId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_GeoFenceSitesSatesList", "", list);
+            return PartialView("_GeoFenceSitesStateList", dt);
+        }
+        public ActionResult _GeoFenceSitesCityList()
+        {
+            SortedList list = new SortedList();
+            list.Add("@StateId", Request.Form["StateId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_GeoFenceSitesCityList", "", list);
+            return PartialView("_GeoFenceSitesCityList", dt);
+        }
+        public class GeoFenceSites
+        {
+            public string GeoFenceId { get; set; }
+            public string StateId { get; set; }
+            public string StateName { get; set; }
+            public string CityId { get; set; }
+            public string CityName { get; set; }
+            public string GeoFenceLocation { get; set; }
+            public string GeoFenceAddress { get; set; }
+            public string GeoFenceLatitude { get; set; }
+            public string GeoFenceLongitude { get; set; }
+            public string GeoFenceRadius { get; set; }
+
+        }
+        public ActionResult GeoFenceSitesListDisplay()
+        {
+            SortedList list = new SortedList();
+            list.Add("@CityId", Request.Form["GeoFenceCityId"].ToString());
+            list.Add("@EmpId", Request.Form["EmpId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_GeoFenceSitesDisplayViaCityId", "", list);
+            List<GeoFenceSites> GFSitesList = new List<GeoFenceSites>();
+            GFSitesList = (from DataRow dr in dt.Rows
+                           select new GeoFenceSites()
+                           {
+                               GeoFenceId = dr["GeoFenceId"].ToString(),
+                               StateId = dr["StateId"].ToString(),
+                               StateName = dr["StateName"].ToString(),
+                               CityId = dr["CityId"].ToString(),
+                               CityName = dr["CityName"].ToString(),
+                               GeoFenceLocation = dr["GeoFenceLocation"].ToString(),
+                               GeoFenceAddress = dr["GeoFenceAddress"].ToString(),
+                               GeoFenceLatitude = dr["GeoFenceLatitude"].ToString(),
+                               GeoFenceLongitude = dr["GeoFenceLongitude"].ToString(),
+                               GeoFenceRadius = dr["GeoFenceRadius"].ToString(),
+                           }).ToList();
+            return Json(GFSitesList, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult _GeoFenceMappedSites()
+        {
+            SortedList list = new SortedList();
+            list.Add("@GeoFenceMappingId", Request.Form["GeoFenceMappingId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_GeofenceEmpMappingListViaId", "", list);
+            return PartialView("_GeoFenceMappedSites", dt);
+        }
+        public JsonResult GeoFenceMappingSaveUpdateSubmit()
+        {
+            string mes = string.Empty;
+            try
+            {
+                SortedList list = new SortedList();
+                list.Add("@GeoFenceMappingId", Request.Form["GeoFenceMappingId"].ToString());
+                list.Add("@EmpId", Request.Form["EmpId"].ToString());
+                list.Add("@GeoFenceId", Request.Form["GeoFenceId"].ToString());
+                mes = comfun.executeNonQueryWMessage("sp_GeoFenceMapping_SaveUpdate", "", list).ToString();
+            }
+            catch (Exception ex)
+            {
+                mes = ex.Message;
+            }
+            return Json(mes);
+        }
+        #endregion GeoFence Mapping

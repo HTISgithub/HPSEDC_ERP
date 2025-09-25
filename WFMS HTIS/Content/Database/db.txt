@@ -1,0 +1,195 @@
+﻿-------------------------------Changes----------------------------
+---------Added Cost center filter Role wise filter----------------------------
+------------------------------30-aug-2018 02:18-----------------------------------
+Alter proc [dbo].[stpViksatAttendanceStatus] --stpViksatAttendanceStatus 0,0,null,null,'All','PayrollTeam'
+(
+	@costCenter INT=10,
+	@UserID int=0,
+	@loginID INT=0,
+	@FromDate datetime=null,
+	@ToDate datetime=null,
+	@Status varchar(10)='All',
+	@Role varchar(50)=null
+)
+as
+
+Declare @EmpIds varchar(max)
+Declare @ManagerId int 
+Create table #tbEmp (EmpId int)
+if(@Role='Manager') 
+Begin
+	insert into #tbEmp(EmpId)
+	select fiEmployeeId from tblViksatPayEmployees where (fiCostCenterID=@Costcenter or @Costcenter=0) And fiReportingManager=@LoginId
+End
+
+if(@Role='PayrollTeam') 
+Begin
+		insert into #tbEmp(EmpId)
+		select fiEmployeeId from tblViksatPayEmployees 
+		Where (fiCostCenterID=@Costcenter or @Costcenter=0)
+End;
+
+if(@Role='SuperAdmin') 
+Begin
+		insert into #tbEmp(EmpId)
+		select fiEmployeeId from tblViksatPayEmployees 
+End; 
+
+if(@Role='Employee') 
+Begin
+		insert into #tbEmp(EmpId) values(@UserID)
+
+End;
+Select UserId as EmpCode,b.fvEmployeeName as EmpName ,ShiftInDT as AttendanceDate,Convert(varchar(5),ShiftInDT,108) Intime,Convert(varchar(5),ShiftOutDT,108) outtime,[Status],
+c.fvEmployeeName  as  ReportingManager, c.fvEmployeeCode as ManagerCode ,StatusRemarks as Remarks 
+from [dbo].[tbDeviceInOutCmrP2] a  
+inner join tblviksatpayEmployees b on cast(a.[UserID] as BigInt)=cast(b.fvemployeecode  as BigInt)
+inner join #tbEmp ON b.fiEmployeeID=#tbEmp.EmpId
+Left Join tblVIKSATpayEmployees c on b.fiReportingManager=c.fiEmployeeid 
+where 
+isnull([Status],'N')=case @Status when 'p' then 'Pending' 
+					  When 'All' then 'N'
+					  When 'A' then 'Approve'
+					  When 'R' then 'Reject'
+					  else 'N'
+					  End
+ and ((Cast(ShiftInDT as date) >= Cast(@FromDate as date) and Cast(ShiftInDT as date) < Cast(@ToDate as date)) or @FromDate is null)
+
+ -------------------------------------------------------------------------------------------------------------------------------------
+ ---------Added Cost center filter Role wise filter----------------------------
+------------------------------30-aug-2018 02:18-----------------------------------
+--------------------------------------------------------------------------------------------------
+ --exec stpVIKSATLeaveHistoryj 0,'01/aug/2018','1-Sep-2018',4711,4711,'Employee'
+
+alter Proc [dbo].[stpVIKSATLeaveHistoryj] 
+@costCenter INT=0,
+@FromDate Datetime='01/Apr/2018',
+@toDate Datetime='31/Mar/2019',
+@loginID INT=0,
+@EmpID INT=0,
+@Role varchar(50)=null
+AS
+ 
+ 
+
+Create table #tbEmp (EmpId int)
+if(@Role='Manager') 
+Begin
+	insert into #tbEmp(EmpId)
+	select fiEmployeeId from tblViksatPayEmployees where (fiCostCenterID=@Costcenter or @Costcenter=0) And fiReportingManager=@LoginId
+End
+
+if(@Role='PayrollTeam') 
+Begin
+		insert into #tbEmp(EmpId)
+		select fiEmployeeId from tblViksatPayEmployees 
+		Where (fiCostCenterID=@Costcenter or @Costcenter=0)
+End;
+
+if(@Role='SuperAdmin') 
+Begin
+		insert into #tbEmp(EmpId)
+		select fiEmployeeId from tblViksatPayEmployees 
+End;
+
+
+if(@Role='Employee') 
+Begin
+		
+		insert into #tbEmp(EmpId) values(@LoginId)
+		
+		--print @@rowcount
+End;
+ 
+ 
+SELECT EL.fiEmployeeId ,E.fvEmployeeCode [EmployeeCode],E.fvEmployeeName[EmployeeName],
+fdLeaveDate[FromDate],fdLeaveDate [ToDate],NoOfDays [NoOfDays], 
+L.fvLeaveTypeName [LeaveType], El2.fiLeaveID [ApplicationNo],
+Isnull(ApprovedStatus,'') ApprovedStatus,  
+EL.CreatedDate, EL.ModifiedDate,
+cb.fvEmployeeCode [CreatedByCode],
+cb.fvEmployeeName[CreatedByName],
+mb.fvEmployeeCode[ModifiedByCode],
+mb.fvEmployeeName[ModifiedByName]
+FROM tblVIKSATEmployeeLeaves EL
+inner join tblVIKSATEmployeeLeavesPart2 eL2 on eL.fiLeaveID=El2.fiLeaveId 
+inner join #tbEmp ON EL.fiEmployeeID=#tbEmp.EmpId 
+inner join tblVIKSAtPayEmployees E ON El.fiEmployeeID=E.fiEmployeeID
+Left join tblVIKSAtPayEmployees cb ON cb.fiEmployeeID=EL.CreatedBy
+Left join tblVIKSAtPayEmployees mb ON mb.fiEmployeeID=EL.ModifiedBy
+Left Join tblVIKSATPayLeaveTypes L ON El.ftLeaveTypeId =L.ftLeavetypeId  
+Where 	Cast(fdLeaveDate  as date) >= Cast(@FromDate as date) and Cast(fdLeaveDate  as date)<= Cast(@ToDate as date)
+ 
+Drop table #tbEmp
+-----------------------------------------------------------------------------------------
+
+CREATE proc [dbo].[stpViksatReimbursement_Save]
+(
+@fiSessionId int,
+@fiBranchId int,
+@fiMonthid int,
+@fiMonthYearid int,
+@CreatedDate datetime,
+@fdDate datetime,
+--@CreatedBy int,
+--@mes varchar(max),
+@ReimbursementTable ReimbursementTable  readonly ,
+@Mes varchar(max) out
+)
+As
+declare @EmpID int
+declare @ChargeId int
+--declare @mes varchar(max)
+Set @EmpID=(Select top(1) Employee from @ReimbursementTable )
+Set @ChargeId=(Select chargeid from @ReimbursementTable where employee=@empid)
+if((Select count(1) from tblviksatReimbursement where fiCharges=@ChargeId and fiMonthId=@fiMonthid and fiEmployeeid=@EmpID 
+and fiSessionID=@fiSessionId and fiBranchID=@fiBranchId )>0)
+begin
+set @mes='Record already exists'
+return 
+end
+else
+Begin
+insert into tblviksatReimbursement
+(createddate,CreatedBy,fiemployeeID,fiMonthID,fiMonthYearid,fiSessionId,fiBranchId,fiCharges,ReimbursementAmount,Remarks,fdSalaryMonthDate) 
+Select @CreatedDate,Employee,Employee,@fiMonthid,@fiMonthYearid,@fiSessionId,@fiBranchId,ChargeId,Amount,Remarks,@fdDate from @ReimbursementTable
+set @mes='Record update successfully'
+End
+--Select * from tblviksatReimbursement
+--Sp_helptext stpViksatLeaveApprovalsubmit
+
+--truncate table tblviksatReimbursement
+
+--Delete from tblviksatReimbursement where fiReimbursementID>5
+--------------------------------------------------------------------------------------------------------------
+
+CREATE proc [dbo].[WeeklyOff_Save] 
+@CreatedBy int,
+@CreatedDate datetime,
+--@fdWeeklyoffDate datetime,
+@WeekOffTable WeekOffTable Readonly
+as
+declare @date datetime
+declare @mes varchar(max)
+declare @EmpID int
+Set @EmpID=(Select top(1) EmpId from @WeekOffTable)
+Set @date =(Select top(1) [Date] from @WeekOffTable)
+
+if (Select Count(*) from tblVIKSATSalaryPart1 Where fiEmployeeID =@empid and fiMonthYear =cast(month(@date) as Varchar(2))+Cast(Year(@Date) as Varchar(4)))=0
+Begin
+DELETE FROM tblViksatpayEmployeeWeeklyoff  WHERE Month(fdWeeklyoffDate)=Month(@date) And Year(fdWeeklyOffDate)=year(@Date) and fiEmployeeId=@EmpID 
+insert into tblViksatpayEmployeeWeeklyoff(fdWeeklyoffDate, fiEmployeeId, ftAttendanceTypeId,Islocked)
+Select [date],EmpId,AttendanceTypeId,'Y'  from @WeekOffTable	
+end
+--truncate table tblViksatpayEmployeeWeeklyoff
+
+--Select * from tblViksatpayEmployeeWeeklyoff
+-----------------------------------------------------------------------------------------------------------------------------------
+Create proc [dbo].[UserRoleActivityDefault_save]
+@RoleActivityTable RoleActivityTable Readonly
+as
+Declare @RoleId int=(Select Top 1 RoleId from @RoleActivityTable )
+Delete from tbUserActivityRoleDefault where RoleId=@RoleId
+Insert into tbUserActivityRoleDefault(RoleId,ActivityId)
+Select RoleId,ActivityId from @RoleActivityTable
+

@@ -1,0 +1,160 @@
+﻿@{
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+}
+<script src="@siteUrl/Scripts/autocomplete.js"></script>
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .table-form td {
+        padding: 1px;
+        margin: 0px;
+    }
+
+    .filterHead {
+        font-size: 20px;
+    }
+</style>
+
+
+<table class="table-form filtertable">
+    <tr>
+        <td colspan="2">
+            <span class="filterHead">Filters</span>
+            <input type="button" value="Apply" class="btn btn-default pull-right btn-applyfilters" onclick="applyGlobalFilters()" />
+            <input type="button" value="Close" class="btn btn-default pull-right btn-applyfilters" onclick="hideGlobalFilters('',200)" />
+        </td>
+
+    </tr>
+    <tr>
+        <td width="120px">Employee</td>
+        <td>
+            <input type="text" id="EmployeeIdGlobal" value="0" class="form-control hidden filterClear EmployeeIdGlobal" placeholder="Employee">
+            <input type="text" id="EmployeeNameGlobal" class="form-control filterClear EmployeeNameGlobal" placeholder="Employee">
+        </td>
+    </tr>
+    <tr>
+        <td>Designation</td>
+        <td>
+            <input type="text" id="DesignationIdGlobal" value="0" class="form-control hiddens filterClear" placeholder="Designation">
+            <input type="text" id="DesignationGlobal" class="form-control filterClear" placeholder="Designation">
+        </td>
+    </tr>
+    <tr>
+        <td>Grade</td>
+        <td>
+            <input type="text" id="GradeIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Grade">
+            <input type="text" id="GradeGlobal" class="form-control filterClear" placeholder="Grade">
+        </td>
+    </tr>
+    <tr>
+        <td>Category</td>
+        <td>
+            <input type="text" id="CategoryIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Category">
+            <input type="text" id="CategoryGlobal" class="form-control filterClear" placeholder="Category">
+        </td>
+    </tr>
+    <tr>
+        <td>Company</td>
+        <td>
+            <input type="text" id="CompanyIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Company">
+            <input type="text" id="CompanyGlobal" class="form-control filterClear" placeholder="Company">
+        </td>
+    </tr>
+    <tr>
+        <td>Region</td>
+        <td>
+            <input type="text" id="RegionIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Region">
+            <input type="text" id="RegionGlobal" class="form-control filterClear" placeholder="Region">
+        </td>
+    </tr>
+    <tr>
+        <td>Location</td>
+        <td>
+            <input type="text" id="LocationIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Location">
+            <input type="text" id="LocationGlobal" class="form-control filterClear" placeholder="Location">
+        </td>
+    </tr>
+    <tr>
+        <td>Division</td>
+        <td>
+            <input type="text" id="DivisionIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Division">
+            <input type="text" id="DivisionGlobal" class="form-control filterClear" placeholder="Division">
+        </td>
+    </tr>
+    <tr>
+        <td>Department</td>
+        <td>
+            <input type="text" id="DepartmentIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Department">
+            <input type="text" id="DepartmentGlobal" class="form-control filterClear" placeholder="Department">
+        </td>
+    </tr>
+    <tr>
+        <td>Cost Center</td>
+        <td>
+            <input type="text" id="CostCenterIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Cost Center">
+            <input type="text" id="CostCenterGlobal" class="form-control filterClear" placeholder="Cost Center">
+        </td>
+    </tr>
+    <tr>
+        <td>Payroll Area</td>
+        <td>
+            <input type="text" id="PayrollAreaIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Payroll Area">
+            <input type="text" id="PayrollAreaGlobal" class="form-control filterClear" placeholder="Payroll Area">
+        </td>
+    </tr>
+    <tr>
+        <td>Reporting Manager</td>
+        <td>
+            <input type="text" id="ReportingManagerIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Reporting Manager">
+            <input type="text" id="ReportingManagerGlobal" class="form-control filterClear" placeholder="Reporting Manager">
+        </td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>
+            <input type="text" id="StatusIdGlobal" value="0" class="form-control hidden filterClear" placeholder="Status">
+            <input type="text" id="StatusGlobal" class="form-control filterClear" placeholder="Status">
+        </td>
+    </tr>
+</table>
+
+<script>
+    autoTextReport('EmployeeNameGlobal', 'EmployeeIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+    autoTextReport('DesignationGlobal', 'DesignationIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+    autoTextReport('GradeGlobal', 'GradeIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'gradeId', 'GradeName', 'GradeCode', 'Grade');
+    autoTextReport('CategoryGlobal', 'CategoryIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'CategoryId', 'CategoryName', 'CategoryCode', 'Category');
+    autoTextReport('CompanyGlobal', 'CompanyIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'CompanyId', 'CompanyName', 'CompanyCode', 'Company');
+    //Region
+    autoTextReport('LocationGlobal', 'LocationIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'LocId', 'LocName', 'LocCode', 'Location');
+    autoTextReport('DivisionGlobal', 'DivisionIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'DivisionId', 'DivisionName', 'DivisionCode', 'Division');
+    autoTextReport('DepartmentGlobal', 'DepartmentIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+    autoTextReport('CostCenterGlobal', 'CostCenterIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'CostCenterId', 'CostCenterName', 'CostCenterCode', 'CostCenter');
+    //PayrollArea
+    autoTextReport('ReportingManagerGlobal', 'ReportingManagerIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'RMId', 'RMName', 'RMCode', 'ReportingManager');
+    autoTextReport('StatusGlobal', 'StatusIdGlobal', '@siteUrl/autoComplete/_autoSearch/', 'StatusId', 'StatusName', 'StatusCode', 'Status');
+
+    $('#EmployeeNameGlobal').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $(".EmployeeIdGlobal").val(ui.item.value);
+            $(".EmployeeNameGlobal").val(ui.item.label);
+        }
+    });
+    $('#EmployeeNameGlobal').keyup(function () {
+        if ($(this).val().trim() == '') {
+            $('#EmployeeName').val('');
+            $('#EmployeeId').val('0');
+            $('.EmployeeIdGlobal').val('0');
+
+        }
+    });
+    $('.filterClear').keyup(function () {
+        var ele = $(this).attr('id');
+        ele = ele.replace('Global', '');
+        if ($(this).val().trim() == '') {
+
+            $('#' + ele + 'IdGlobal').val('0');
+        }
+    });
+</script>

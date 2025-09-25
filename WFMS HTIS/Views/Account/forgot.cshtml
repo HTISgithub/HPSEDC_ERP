@@ -1,0 +1,56 @@
+﻿
+@{
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    ViewBag.Title = "Forgot password";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    string email = "";
+    string UserName = "";
+    if(Model.Rows.Count>0)
+    {
+        email = Model.Rows[0]["fvOfficialEmail"].ToString();
+        UserName = ViewData["EmpName"].ToString();
+
+    }
+}
+
+<div class="container minHeight" style="background-color:#fff;min-height:400px;padding-top:20px">
+    <div class="col-md-4">
+        <div class="form-group">
+            <h4>Please enter your Email Id to get password.</h4>
+            <input type="text"  class="form-control" value=@ViewData["EmpName"] id="UserName" />
+            <label>Email</label>
+           
+            <input type="text" class="form-control" disabled="disabled"  value="@email" id="Email" placeholder="Email Id"/>
+            &nbsp;
+            <div>
+                <input type="button" class="btn btn-default" value="Get Password" onclick="_sendPassword()" />
+                <a href="@siteUrl/account/login" class="btn pull-right">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+ <script>
+     $('#UserName').hide();
+   
+     function _sendPassword() 
+     {
+         $('#ProgressImg').show();
+         if ($('#Email').val().trim() == '')
+         {
+             alert('Please enter a valid email id');
+             return;
+         }
+         $.post('@siteUrl/account/_sendpassword', {
+             'Email': $('#Email').val().trim(),
+             'UserName': $('#UserName').val().trim()
+         }, function (data) {
+             $('#ProgressImg').hide();
+             alert(data);
+             if(data.indexOf('Error')==-1)
+             {
+                 $('#Email').val('');
+             }
+         });
+     }
+ </script>
+

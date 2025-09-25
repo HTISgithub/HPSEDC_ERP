@@ -1,0 +1,400 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Create User";
+    ViewBag.PageTitle = "Create User";
+
+}
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Emp Management</a>
+        </li>
+        @*<li>
+            @*<a href="#"> Create User</a>
+        </li>*@
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right btnAddModal" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New</a>
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    <div class="row">
+        <div class="col-xs-12">
+            &nbsp;
+            <div id="_ActivityList">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>User Name</th>
+                                <th>Mobile Number</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th class="editcol actionstatus">Is Active</th>
+                                <th class="editcol actionedit">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog  modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#00476a;color:white;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="_view">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="hidden" id="Id" hidden="hidden" value="0">
+                                <label for="FirstName">First Name</label><span class="error-message">*</span>
+                                <input type="text" id="FirstName" class="form-control cleartxt" placeholder="First Name" />
+
+                           
+                            </div>
+                            <div class="col-md-6">
+                                <label for="LastName">Last Name</label><span class="error-message">*</span>
+                                <input type="text" id="LastName" class="form-control cleartxt" placeholder="Last Name" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="Email">Email</label><span class="error-message">*</span>
+                                <input type="text" id="Email" class="form-control  cleartxt" placeholder="Email" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="CreatedBy">Mobile Number</label><span class="error-message">*</span>
+                                <input type="text" id="Mobile" class="form-control cleartxt" placeholder="Mobile Number" />
+                            </div>
+                        </div>
+       <div class="form-group row">
+ <div class="col-md-6">
+                                <label for="EntityId">Department</label><span class="error-message">*</span>
+                               <select id="EntityId" class="form-control clearddl" onchange="_Customerddl()">
+                                    <option value="0">---Select Department---</option>
+
+                                </select>
+                            </div>
+ <div class="col-md-6">
+                                <label for="CustomerId">Customer/Supplier</label><span class="error-message">*</span>
+
+                                <select id="CustomerId" class="form-control clearddl">
+                                    <option value="0">---Select Customer or Supplier---</option>
+                                    
+                                </select>
+                            </div>
+</div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="RoleId">Role</label><span class="error-message">*</span>
+                              
+                                <select id="RoleId" class="form-control clearddl">
+                                    <option value="0">---Select Role---</option>
+                                    @foreach(var item in Model.Rows)
+                                    {
+
+                                        <option value="@item["Id"]">@item["RoleName"]</option>
+                                    }
+                                </select>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                        <div class="col-md-8">
+                            <div class="modelalert"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    var mId = 0;
+    var mActivityID = 0;
+    var mSubActivityTitle = 0;
+    var mSubactivityDescription = 0;
+        var mCreatedDate = 0;
+    var    mCustomerId = 0;
+    var mCreatedBy = 0;
+    var mDemoImages = 0;
+    var sr = 0;
+    var IsActive = 'Y';
+    var tableRow;
+    var accessRights = {@ViewData["AccessRights"]};
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _CreateUserList();
+        _Customerddl();
+_CustomerEntityddl();
+    });
+
+    $('.btnModalSubmit').click(function () {
+        _CreateUserSubmit();
+    });
+
+    $('.modal-footer').show();
+
+   
+
+    function changeActiveStatus(id) {
+        var status = 'N';
+        if ($('#' + id).is(':checked')) {
+            status = 'Y';
+        }
+        switcStatus('/account/_CreateUserStatusUpdate', id, status);
+    }
+              function _CustomerEntityddl() {
+            $.post('/Pm/_CustomerEntityddl', {}, function (data) { $('#EntityId').html(data); });
+        }
+    function _Customerddl()  {
+              $.post('/Account/_Customerddl', { 'EntityId': $('#EntityId').val()}, function (data) {
+                var Customer = '<option value="0">--Select Customer--</option>';
+                var obj = $.parseJSON(data);
+                $.each(obj, function (key, value) {
+                    Customer += '<option value=' + value.CustomerId + '>' + value.CustomerName + '</option>'
+                    // $('#EmpId').html(Emplist);
+                });
+                $('#CustomerId').html(Customer);
+            $('#CustomerId').val(mCustomerId);
+            });
+        }
+       
+    function changestatus() {
+        console.log('chk');
+    }
+    function _CreateUserList() {
+        if (!accessRights.List) {
+            $('.dataTables_empty').addClass('unAuthList').html('You are not authorized to view');
+            return;
+        }
+        $('#ProgressImg').show();
+        $.post('/account/_CreateUserList', {
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                var btnStatus = '<label><input name="switch-field-1" id=' + value.Id + '  class="ace ace-switch ace-switch-2 chk" onchange="changeActiveStatus(id)"  type="checkbox" ' + (value.IsActive == "Y" ? "checked='checked'" : "") + ' /><span class="lbl"></span></label> ';
+
+                msr = msr + 1;
+                var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + value.Id + ',this,\'' + value.IsActive + '\',' + value.RoleId + ')" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+                if (!accessRights.Edit) { btnEdit = '<i data-toggle="tooltip" title="You Are Not Authorized" class="fa fa-ban fa-2x"></i>'; }
+                if (!accessRights.Status) { btnStatus = '<i data-toggle="tooltip" title="You Are Not Authorized" class="fa fa-ban fa-2x"></i>'; }
+                var elmntArray = [
+                     msr,
+                     value.EmpName,
+                     value.Mobile,
+                     value.Email,
+                     value.RoleName,
+                    btnStatus,
+                    btnEdit
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+    }
+
+    function OpenUpdateModel(Id, atag, status,RoleId) {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Update Create User");
+        $('#myModal').modal({
+            show: 'false'
+        });
+        tableRow = $(atag).parents('tr');
+        var tableRowColumnsData = $('#myTable').DataTable().row(tableRow).data();
+
+        mId = Id
+        sr = tableRowColumnsData[0];
+        fillForm();
+    
+        isActive = status;
+        root = '/account/_CreateUserSubmit';
+       
+    }
+    function fillForm() {
+        console.log('fillForm');
+        $('#ModalProgress').show();
+        $('.modelalert').html('Please wait');
+        $.post('/account/_CreateUserEdit', {
+            'Id': mId
+        }, function (data) {
+            $('#ModalProgress').hide();
+            $('.modelalert').html('');
+            var obj = $.parseJSON(data);
+            console.log(obj);
+            $('#FirstName').val(obj[0].FirstName),
+            $('#LastName').val(obj[0].LastName),
+            $('#Email').val(obj[0].Email),
+            $('#Mobile').val(obj[0].Mobile),
+                $('#RoleId').val(obj[0].RoleId),
+                $('#CustomerId').val(obj[0].CustomerId),
+ $('#EntityId').val(obj[0].EntityId),
+                mCustomerId=obj[0].CustomerId,
+                _Customerddl();
+            // $('#DemoImages').val(obj[0].DeviceConnectionTypeId)
+
+        });
+    }
+    function OpenAddModel() {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Create User ");
+        $('#myModal').modal({
+            show: 'false'
+        });
+
+        mId = 0;
+        IsActive = 'Y';
+        root = '/account/_CreateUserSubmit';
+    }
+
+    function createTblColmnBtns() {
+
+        var btnStatus = '<label><input name="switch-field-1" id=' + mId + '  class="ace ace-switch ace-switch-2 chk" onchange="changeActiveStatus(id)"  type="checkbox" ' + (IsActive == "Y" ? "checked='checked'" : "") + ' /><span class="lbl"></span></label> ';
+        console.log(IsActive);
+        console.log(btnStatus);
+        var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + mId + ',this,\'' + IsActive + '\')" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+        if (!accessRights.Edit) { btnEdit = '<i data-toggle="tooltip" title="You Are Not Authorized" class="fa fa-ban fa-2x"></i>'; }
+        if (!accessRights.Status) { btnStatus = '<i data-toggle="tooltip" title="You Are Not Authorized" class="fa fa-ban fa-2x"></i>'; }
+        var elmntArray = [
+            sr,
+            $('#FirstName').val() +' '+ $('#LastName').val(),
+            $('#Mobile').val(),
+            $('#Email').val(),
+            
+              $('#RoleId option:selected').text(),
+           
+            btnStatus,
+            btnEdit
+        ]
+        return elmntArray;
+    }
+
+    function _CreateUserSubmit() {
+      
+        if ($('#FirstName').val().trim() == '') {
+            $('.modelalert').html('Please enter First Name');
+            return;
+
+        }
+
+        if ($('#LastName').val().trim() == '') {
+            $('.modelalert').html('Please enter Last Name');
+           return;
+
+        }
+        if ($('#Email').val().trim() == '') {
+            $('.modelalert').html('Please enter Email ');
+            return;
+
+        }
+        if ($('#Mobile').val().trim() == '') {
+            $('.modelalert').html('Please Enter Mobile ');
+            return;
+
+        }
+        if ($('#RoleId').val().trim() == '0') {
+            $('.modelalert').html('Please Select Role');
+            return;
+
+        }
+     
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $('.btnModalSubmit').attr("disabled", "disabled");
+        $.post(root, {
+            'Id': mId,
+            'FirstName': $('#FirstName').val(),
+            'LastName': $('#LastName').val(),
+            'Email': $('#Email').val(),
+            'Mobile': $('#Mobile').val(),
+            'RoleId': $('#RoleId').val(),
+           'CustomerId':$('#CustomerId').val(),
+ 'EntityId': $('#EntityId').val()
+        }, function (data) {
+            if (data.indexOf('Error') > -1) {
+                $('.modelalert').html(data);
+            }
+            else {
+                var table = $('#myTable').DataTable();
+
+                var elmntCollection = createTblColmnBtns();
+
+                if (parseInt(mId) > 0) {
+                    $('.modelalert').html(data).delay(1000).queue(function () {
+                        $('.modelalert').dequeue();
+                        $('#myModal').modal('toggle');
+                    });
+                    table.row(tableRow).data(elmntCollection).draw(false);
+                }
+                else {
+                    sr = table.rows().count() + 1;
+                    console.log('sr=' + sr);
+                    $('.modelalert').html(data).delay(1000).queue(function () {
+                        $('.modelalert').dequeue();
+                        $('#myModal').modal('toggle');
+                        _CreateUserList();
+                    });
+                }
+            }
+            $('.btnModalSubmit').removeAttr("disabled");
+            $('#ModalProgress').hide();
+        });
+    }
+
+
+    </script>

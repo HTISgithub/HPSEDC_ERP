@@ -1,0 +1,660 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Employee Details List";
+    ViewBag.PageTitle = "Employee Details List";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+}
+@******************Breadcrumb Start**************@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    .input-sm {
+        margin-top: 30px;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+    .dt-buttons {
+        display: display-none;
+    }
+
+    #Zones {
+        margin-top: 0px !important;
+        padding-top: 5px !important;
+    }
+
+    #printData {
+        display: display-none;
+    }
+
+    #loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(8px);
+        background-color: rgba(255, 255, 255, 0.5); /* light blur overlay */
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Loader spinner */
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    /* Spin animation */
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .swal-ok-btn {
+        font-size: 18px !important;
+        padding: 10px 25px !important;
+    }
+</style>
+<div id="loader-overlay">
+    <div class="loader"> </div>
+</div>
+
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+    </div>
+    @*********Page End************@
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div style="margin-top:10px">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: -23px;">
+                            <label for="Complaint">Agency</label><span class="error-message">*</span>
+                            <select id="ddlAgencynew" style="width: 20rem" onchange="_Departmentddl(); EmployeeList();">
+                                <option value="0">Select Agency</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 258px;">
+                            <label for="Complaint">Department</label><span class="error-message">*</span>
+                            <select id="DeptId" style="width: 20rem" onchange="_WorkOrderDdl(); EmployeeList();">
+                                <option value="0">Select Department</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 561px;">
+                            <label for="Wokr">Work Order No.</label><span class="error-message">*</span>
+                            <select id="Work_Order" style="width: 20rem" onchange="EmployeeList();">
+                                <option value="0">Select Agency</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1" style=" margin-top: -85px; margin-left: 950px; display:flex;flex-direction:row">
+                            <button id="exportBtn" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 12px; border-radius: 5px;  margin-left:10px; " onclick="ExportEmployeeListToExcel()">Excel</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div align="left" id="Zones">
+            <div class="dt-responsive">
+                <table class="table table-striped table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="widthsr">Sr.No.</th>
+                            <th>Agency Name</th>
+                            <th>Department Name</th>
+                            <th>Employee Name</th>
+                            <th>Father's Name<br />Husband Name</th>
+                            <th>Designation</th>
+                            <th>Addhar No.</th>
+                            <th>Basic Salary</th>
+                            <th>Is EPF</th>
+                            <th>Is ESIC</th>
+                            <th class="editcol actionedit">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Employee">Employee Name</label><span class="error-message">*</span>
+                                    <input id="Employee" placeholder="Employee Name" class="form-control cleartxt required">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Father">Father's Name</label>
+                                    <input id="Father" placeholder="Father's Name" class="form-control cleartxt required">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="MobileNo">Mobile No.</label>
+                                    <input id="Mobile" class="form-control cleartxt required" placeholder="Mobile No.">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Email">Email Id</label>
+                                    <input id="Email" class="form-control cleartxt required" placeholder="Email Id">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Addhar">Addhar No.</label><span class="error-message">*</span>
+                                    <input id="Addhar" class="form-control cleartxt required" placeholder="Addhar No.">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Designation">Designation</label><span class="error-message">*</span>
+                                    <select id="Designation" class="clearddl" style="width:269px">
+                                        <option value="0">Select Designation</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Bank">Bank Account No.</label><span class="error-message">*</span>
+                                    <input id="Bank" class="form-control cleartxt required" placeholder="Bank Account No.">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Ifse">IFSC Code</label><span class="error-message">*</span>
+                                    <input id="Ifse" class="form-control cleartxt required" placeholder="IFSC Code">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Uan">UAN No.</label><span class="error-message">*</span>
+                                    <input id="Uan" class="form-control cleartxt required" placeholder="UAN No.">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Esic">ESIC (IP No.)</label><span class="error-message">*</span>
+                                    <input id="Esicno" class="form-control cleartxt required" placeholder="ESIC No.">
+                                </div>
+                                <div class="col-md-4" style="display:none;">
+                                    <label for="Complaint">Department</label><span class="error-message">*</span>
+                                    <select id="DeptIdUpdate" class="clearddl" style="width:269px">
+                                        <option value="0">Select Department</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Education">Education Level</label><span class="error-message">*</span>
+                                    <select id="EducationLevel" class="clearddl" style="width:269px">
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>
+                                        <input type="checkbox" id="ISFullTime" class="cleartxt required">
+                                        IS Full Time
+                                    </label>
+                                </div>
+
+                                <div class="form-group row" style="display:none;">
+                                    <div class="col-md-6">
+                                        <label for="Billing">Billing Address</label><span class="error-message">*</span>
+                                        <textarea rows="2" cols="51" id="Address" class="cleartxt" style="width: 842px; height: 31px;" placeholder="Billing Address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="display:none;">
+                                    <div class="col-md-6">
+                                        <label for="Deployment">Deployment Address</label><span class="error-message">*</span>
+                                        <textarea rows="2" cols="51" id="Address" class="cleartxt" style="width: 842px; height: 31px;" placeholder="Billing Address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Basic">Basic Salary</label>
+                                    <input id="Basic" class="form-control cleartxt required" placeholder="Basic Salary" onchange="calculateAdminCharge()">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>
+                                        <input type="checkbox" id="chkEpf" onchange="toggleEpf()"> EPF &#64;13%
+                                    </label>
+                                    <input id="epf" class="form-control cleartxt mt-2" placeholder="EPF Amount" onchange="calculateAdminCharge()" style="display:none;">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>
+                                        <input type="checkbox" id="chkEsic" onchange="toggleEsic()"> ESIC &#64;3.35%
+                                    </label>
+                                    <input id="Esic" class="form-control clearddl mt-2" placeholder="ESIC Amount" onchange="calculateAdminCharge()" style="display:none;">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Others">Other Allowance</label>
+                                    <input id="Others" class="form-control clearddl" placeholder="Other Allowance" onchange="calculateAdminCharge()">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Total">Total Amount</label>
+                                    <input id="Total" class="form-control clearddl required" placeholder="Total Amount" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<script>
+    var mAgencyId = 0, accessRights;
+    var sr = 0;
+    var IsActive = 'Y';
+    var tableRow;
+    $(document).ready(function () {
+        TableManageDefault.init();
+        EmployeeList();
+        $('#DeptId').select2();
+        $('#Designation').select2();
+        $('#ddlAgencynew').select2();
+        $('#loader-overlay').hide();
+    });
+
+    $('.btnModalSubmit').click(function () {
+        EmployeeDetailsSubmit();
+    });
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl2', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+                $('#ddlAgencynew').html(DeploymentOfficeId);
+            });
+        });
+    }
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlEmployee', { 'Id': 0, 'AgencyId': $("#ddlAgencynew").val() }, function (data) {
+            var DeptIdvar = '<option value="0">---select---</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptIdvar += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId').html(DeptIdvar);
+        });
+    }
+
+    function _WorkOrderDdl() {
+        $.post('/Invoice/_WorkOrderDdl', { 'AgencyId': 0, 'WorkOrderAgencyId': 0, 'DeptId': $("#DeptId").val() }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.WorkOrderAgencyId + '>' + value.WorkOrderId + '</option>'
+            });
+            $('#Work_Order').html(DeploymentOfficeId);
+        });
+    }
+    function EmployeeList() {
+        $('#ProgressImg').show();
+        $.post('/Invoice/EmployeeList',
+            {
+                'AgencyId': $("#ddlAgencynew").val(),
+                'DeptId': $("#DeptId").val(),
+                'Work_Order': $("#Work_Order").val()
+            },
+            function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+                var table = $('#myTable').DataTable();
+                table.clear().draw();
+                var msr = 0;
+                $.each(obj, function (key, value) {
+
+                    msr += 1;
+                    var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + value.EmpId + ', this)" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+
+                    var elmntArray = [
+                        msr,
+                        value.AgencyName,
+                        value.departmentName,
+                        value.Empname,
+                        value.FatherName,
+                        value.fvDesignationName,
+                        value.AADHARNO,
+                        value.BasicSalary,
+                        value.EpfAmt,
+                        value.EsiAmt,
+                        btnEdit
+
+                    ];
+                    table.row.add(elmntArray).draw(false);
+                });
+            });
+    }
+    var VId = 0;
+    function OpenUpdateModel(EmpId) {
+
+        $('.modal-title').html("Update Employee Details");
+        $('#myModal').modal('show');
+        vId = EmpId;
+        root = '/Invoice/EmployeeListGet';
+        EmployeeDataGet(EmpId);
+        $('.modal-footer').show();
+
+    }
+    function toggleEpf() {
+        if (document.getElementById("chkEpf").checked) {
+            document.getElementById("epf").style.display = "block";
+        } else {
+            document.getElementById("epf").style.display = "none";
+            document.getElementById("epf").value = "";
+        }
+        calculateAdminCharge();
+    }
+
+    function toggleEsic() {
+        if (document.getElementById("chkEsic").checked) {
+            document.getElementById("Esic").style.display = "block";
+        } else {
+            document.getElementById("Esic").style.display = "none";
+            document.getElementById("Esic").value = "";
+        }
+        calculateAdminCharge();
+    }
+    function calculateAdminCharge() {
+        var basic = parseFloat(document.getElementById("Basic").value) || 0;
+        var epf = 0;
+        if (document.getElementById("chkEpf").checked) {
+            epf = parseFloat(document.getElementById("epf").value) || 0;
+        }
+        var esic = 0;
+        if (document.getElementById("chkEsic").checked) {
+            esic = parseFloat(document.getElementById("Esic").value) || 0;
+        }
+        var others = parseFloat(document.getElementById("Others").value) || 0;
+        var total = basic + epf + esic + others;
+        document.getElementById("Total").value = total.toFixed(2);
+    }
+    var NemEmpId;
+    function EmployeeDataGet(EmpId) {
+        $.post('/Invoice/EmployeeListGet', {
+            'NemEmpId': EmpId
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#Employee').val(value.Empname);
+                $('#Father').val(value.FatherName);
+                $('#Addhar').val(value.AADHARNO);
+                $('#DeptIdUpdate').val(value.DeptId);
+
+                $('#Bank').val(value.AcNo);
+                $('#Esicno').val(value.ESICNO);
+                $('#Ifse').val(value.IfscCode);
+                $('#Uan').val(value.UANNO);
+                $('#Mobile').val(value.Contactno);
+                $('#Email').val(value.EmailId);
+
+                $('#Designation').val(value.fiDesignationID).trigger("change");
+                $('#Billing').val(value.AgencyId);
+                $('#Basic').val(value.BasicSalary);
+                if (value.IsFullTime == "Y") {
+                    $('#ISFullTime').prop("checked", true);
+
+                }
+                else {
+                    $('#ISFullTime').prop("checked", false);
+
+                }
+                if (value.IsPf == "Y") {
+                    $('#chkEpf').prop("checked", true);
+                    $('#epf').val(value.EpfAmt).show();
+                } else {
+                    $('#chkEpf').prop("checked", false);
+                    $('#epf').val("").hide();
+                }
+                if (value.IsEsi == "Y") {
+                    $('#chkEsic').prop("checked", true);
+                    $('#Esic').val(value.EsiAmt).show();
+                } else {
+                    $('#chkEsic').prop("checked", false);
+                    $('#Esic').val("").hide();
+                }
+
+                $('#Others').val(value.OthersAllowance);
+                $('#EducationLevel').val(value.EducationId);
+                calculateAdminCharge();
+            });
+        });
+    }
+    function showWarning(message) {
+        Swal.fire({
+            icon: 'warning',
+            title: message,
+            customClass: {
+                confirmButton: 'swal-ok-btn'
+            },
+            showClass: { popup: 'animate__animated animate__fadeInDown' },
+            hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+        });
+    }
+    function EmployeeDetailsSubmit() {
+
+        if ($('#Employee').val() == '') {
+            showWarning('Please Enter Employee Name');
+            return;
+        }
+        if ($('#Father').val() == '') {
+            showWarning('Please Enter Father Name');
+            return;
+        }
+        if ($('#Addhar').val() == '') {
+            showWarning('Please Enter Addhar No.');
+            return;
+        }
+        if ($('#Designation').val() == '0') {
+            showWarning('Please select  Designation');
+            return;
+        }
+
+        if ($('#Basic').val() == '') {
+            showWarning('Please Enter Basic Salary Amount');
+            return;
+        }
+
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $.post('/Invoice/EmployeeDetsilsUpdateSubmit', {
+            'EmpIdnew': vId,
+            'Employee': $('#Employee').val(),
+            'Father': $('#Father').val(),
+            'Addhar': $('#Addhar').val(),
+            'Mobile': $('#Mobile').val(),
+            'Email': $('#Email').val(),
+            'Designation': $('#Designation').val(),
+            'Account': $('#Bank').val(),
+            'Ifse': $('#Ifse').val(),
+            'Uan': $('#Uan').val(),
+            'Esic': $('#Esicno').val(),
+            'Basic': $('#Basic').val(),
+            'Others': $('#Others').val() === '' ? 0 : $('#Others').val(),
+            'chkEpf': $('#chkEpf').prop("checked") ? "Y" : "N",
+            'chkEsic': $('#chkEsic').prop("checked") ? "Y" : "N",
+            'ISFullTime': $('#ISFullTime').prop("checked") ? "Y" : "N",
+            'Education': $('#EducationLevel').val(),
+        }, function (data) {
+            alert(data);
+            EmployeeList();
+            $("#myModal").modal("hide");
+            $('.btnModalSubmit').removeAttr("disabled");
+            $('#ModalProgress').hide();
+
+
+        });
+    }
+    DesignationDDl();
+    function DesignationDDl() {
+        $.post('/Invoice/DesignationDll', { 'DesignationId': 0 }, function (data) {
+            var Designation = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                Designation += '<option value=' + value.fiDesignationID + '>' + value.FvDesignationName + '</option>'
+                $('#Designation').html(Designation);
+            });
+        });
+    }
+    EducationDDl();
+    function EducationDDl() {
+        $.post('/Invoice/EducationDll', { 'EducationID': 0 }, function (data) {
+            var EducationLevel = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                EducationLevel += '<option value=' + value.EducationID + '>' + value.EducationName + '</option>'
+                $('#EducationLevel').html(EducationLevel);
+            });
+        });
+    }
+    function ExportEmployeeListToExcel() {
+        $('#ProgressImg').show();
+        $.post('/Invoice/EmployeeList',
+            {
+                'AgencyId': $("#ddlAgencynew").val(),
+                'DeptId': $("#DeptId").val(),
+                'Work_Order': $("#Work_Order").val()
+            },
+            function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+                var dataForExport = [];
+                dataForExport.push(["Employee List Report"]);
+                dataForExport.push([]);
+                dataForExport.push([
+                    "Sr. No.",
+                    "Agency Name",
+                    "Department Name",
+                    "Employee Name",
+                    "Father Name",
+                    "Designation",
+                    "Aadhar No.",
+                    "Is Employee Full Timer",
+                    "Basic Salary",
+                    "IS EPF",
+                    "EPF Amount",
+                    "IS ESIC",
+                    "ESIC Amount",
+                    "Others Allowance",
+                ]);
+
+                var msr = 0;
+                $.each(obj, function (key, value) {
+                    msr++;
+                    dataForExport.push([
+                        msr,
+                        value.AgencyName,
+                        value.departmentName,
+                        value.Empname,
+                        value.FatherName,
+                        value.fvDesignationName,
+                        value.AADHARNO,
+                        value.IsFullTime,
+                        value.BasicSalary,
+                        value.IsPf,
+                        value.EpfAmt,
+                        value.IsEsi,
+                        value.EsiAmt,
+                        value.OthersAllowance
+                    ]);
+                });
+                const ws = XLSX.utils.aoa_to_sheet(dataForExport);
+                ws["!merges"] = [
+                    { s: { r: 0, c: 0 }, e: { r: 0, c: 9 } }
+                ];
+
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Employee List");
+                XLSX.writeFile(wb, "EmployeeList.xlsx");
+            });
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "redirecting";
+    Layout = null;
+}
+
+Please wait while redirecting...
+<script>
+    window.location = 'http://localhost:53809?account/logind?id=@Session["Email"].ToString()';
+</script>
+

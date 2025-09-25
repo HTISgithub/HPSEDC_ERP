@@ -1,0 +1,518 @@
+﻿@using System.Data;
+@using System.Collections;
+@{
+    ViewBag.Title = "DashBoard";
+}
+@{
+    //string roleId = Request.Cookies["RoleId"].Value;
+    //string proc = "MenuTree11";
+    commonFunctions comfun = new commonFunctions();
+    SortedList list = new SortedList();
+    list.Add("@ColumnId", 1);
+
+    int countChild = 1;
+
+}
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>*@
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 99;
+    }
+
+    .dashboard-body {
+        background-color: white;
+    }
+
+    #loading-image {
+        width: 100px;
+        left: 0%;
+        position: relative;
+        top: 50%;
+    }
+
+    .dashbox {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        border: solid 1px #c8dced;
+        min-height: 250px;
+        margin-bottom: 15px;
+        box-shadow: none !important;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .boxtitle {
+        font-family: "Raleway", sans-serif;
+    }
+
+    .dashbox:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<div style="background-color: white;">
+    <div class="page-content dashboard-body" style="background-color:white; margin-top:4rem; box-shadow:none">
+        <div class="row" style="margin-top: -3px;" id="Module">
+
+            @foreach (DataRow dr in Model.Rows)
+            {
+                // Retrieve the module-specific image
+                var iconSrc = dr["Icon"].ToString(); // Assuming 'Icon' column holds the image URL
+
+        <div class="col-md-3" onclick="OpenGenerateModel('@dr["ModuleId"]')">
+            <div class="widget-box dashbox pie-attendance" style="background-color: #d6f5fc;">
+                <div class="widget-body" style="background-color: #d6f5fc">
+                    <div class="widget-main">
+                        <div class="row">
+                            <h4 class="boxtitle" style="margin-left: 76px; margin-top: -5px; color: #0f1875">
+                                @dr["ModuleName"]
+                            </h4>
+
+                            <div class="col-md-4">
+                                <!-- Display the image specific to this row -->
+                                <img src="~/DashboardLogo/@iconSrc" style="width:80px;margin-top: -38px;margin-left: -21px;" />
+                            </div>
+
+                            <div class="col-md-4" style="font-size: 37px; text-align:center;">
+                                <label id="Total" style="font-size: 37px;font-weight:bold;color:#00476a" onclick=""></label>
+                            </div>
+                        </div>
+                    </div><!-- /.widget-main -->
+                </div><!-- /.widget-body -->
+            </div>
+  
+        </div>
+        }
+
+        </div>
+    </div>
+
+</div>
+}
+<script src="~/Scripts/autocomplete.js"></script>
+<script>
+    function OpenGenerateModel(id) {
+        var tt = '';
+
+        $('#ProgressImg').show();
+        $.post('/TimeSheet/DashboardList', {
+            'ModuleId': id,
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var msr = 0;
+            var SubMenuName = '';
+            $.each(obj, function (key, value) {
+                if (value.IsLink == 'Y') { window.location.href = value.link; }
+                else {
+                    SubMenuName += '\
+                         <div class="col-md-3" > \
+                         <div class="widget-box dashbox pie-attendance">\
+                               <div class="widget-body" onclick="OpenGenerateModel('+ value.ModuleId + ')">\
+                                 <div class="widget-main">\
+                                        <div class="row">\
+                                            <h4 class="boxtitle" style="margin-left: 76px;margin-top:-5px" ">' + value.ModuleName + '</h4>\
+                                            <div class="col-md-4">\
+                                                <img src="/images/today.png" style="width:80px;margin-top: -38px;margin-left: -21px;" onclick="" />\
+                                            </div>\
+                                            <div class="col-md-4" style="font-size: 37px; text-align:center;">\
+                                                <label id="Total" style="font-size: 37px;font-weight:bold;color:#00476a" onclick=""></label>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div> ';
+                }
+                //window.location.href = value.link;
+
+            });
+            $('#Module').html(SubMenuName);
+        });
+    }
+
+
+</script>
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #00476a;
+        color: white;
+    }
+
+    .Subtab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: burlywood;
+    }
+
+        /* Style the buttons inside the tab */
+        .Subtab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+    .Subtab button:hover {
+        background-color: #f1b72d;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+
+    .Subtab button.active {
+        background-color: #8cbaf3;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        height: stretch;
+        background-color: #d9edfe;
+    }
+
+    .subtabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    /**;;*/
+    .page-header {
+        border: 0 none;
+    }
+
+    .dashboard-body {
+        background-color: #d9edfe;
+    }
+
+    .dashtitle {
+        color: #00476a !important;
+        font-weight: bold !important;
+        font-size: 26px !important;
+    }
+
+    .boxtitle {
+        color: #00476a;
+        font-size: 18px;
+        padding-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .dashbox {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        border: solid 1px #c8dced;
+        min-height: 250px;
+        margin-bottom: 15px;
+        box-shadow: rgb(0, 0, 128) 2px 3px 20px;
+    }
+
+    .legendLabel {
+        font-size: 16px;
+    }
+
+    .legend table td {
+        padding-left: 20px;
+    }
+
+    ul.notice li {
+        list-style-type: none;
+    }
+
+    .noticetitle {
+        font-weight: 500;
+        font-size: 16px !important;
+        color: #555;
+    }
+
+    ul.notice li {
+        list-style-type: none;
+    }
+
+        ul.notice li > h4.noticetitle:before {
+            margin-left: -25px;
+            content: '\2714';
+            padding-left: 5px;
+            margin-right: 5px;
+        }
+
+    .noticedesc {
+        font-weight: normal;
+        font-size: 16px;
+        color: #222;
+    }
+
+    /*  ul hr {
+          @*border-top: 1px solid #dbdbdb !important;*@
+        }
+    */
+    /*  #myChart {
+            height: 250px !important;
+            width: 250px !important;
+        }*/
+
+    .attul {
+        max-width: 100px;
+        padding: 0px;
+        margin: 0px;
+        margin-top: 40px;
+    }
+
+        .attul li {
+            list-style-type: none;
+            padding: 5px;
+            color: #00476a;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+    .dot-present, .dot-absent, .dot-leave {
+        float: right;
+        font-size: 18px;
+    }
+
+    .dot-present {
+        color: #ffbd0c;
+    }
+
+    .dot-absent {
+        color: #994499;
+    }
+
+    .dot-leave {
+        color: #17b0fb;
+    }
+
+    /*  #bar-char{
+            width:300px !important;
+        }*/
+
+    /* #line-chart {
+            height: 250px !important;
+            width: 350px !important;
+        }*/
+
+    .widget-box {
+        /*min-height: 200px;*/
+        min-height: 160px;
+    }
+
+    .widget-box1 {
+        min-height: 200px;
+        min-height: 108px;
+        min-width: 4px;
+        width: 304px;
+        border-left: #00476a solid 10px;
+        border-left-style: solid;
+        box-shadow: 2px 3px 20px #00476a;
+    }
+
+    .dashnotice {
+        max-height: 200px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+
+        .dashnotice .noticetitle {
+            color: #00476a;
+        }
+
+    .ulBirthday {
+        padding: 0px;
+        margin: 0px;
+    }
+
+        .ulBirthday li {
+            list-style-type: none;
+        }
+
+    .birthdayempimg {
+        max-width: 100%;
+        border-radius: 50%;
+    }
+
+    .ulBirthday li.name {
+        font-size: 18px;
+        font-weight: 250;
+    }
+
+    .ulBirthday li.code, .ulBirthday li.date {
+        font-size: 15px;
+    }
+
+    .btn2 {
+        background-color: #00476a;
+        border: none;
+        color: white;
+        padding: 2px 12px;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 15px;
+        margin-left: -11px;
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+        background-color: RoyalBlue;
+    }
+</style>
+
+<style>
+    .stepper-wrapper {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+    }
+
+        .stepper-item::before {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid #ccc;
+            width: 100%;
+            top: 20px;
+            left: -50%;
+            z-index: 2;
+        }
+
+        .stepper-item::after {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid #ccc;
+            width: 100%;
+            top: 20px;
+            left: 50%;
+            z-index: 2;
+        }
+
+        .stepper-item .step-counter {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ccc;
+            margin-bottom: 6px;
+        }
+
+        .stepper-item.active {
+            font-weight: bold;
+        }
+
+        .stepper-item.completed .step-counter {
+            background-color: #4bb543;
+        }
+
+        .stepper-item.completed::after {
+            position: absolute;
+            content: "";
+            border-bottom: 2px solid #4bb543;
+            width: 100%;
+            top: 20px;
+            left: 50%;
+            z-index: 3;
+        }
+
+        .stepper-item:first-child::before {
+            content: none;
+        }
+
+        .stepper-item:last-child::after {
+            content: none;
+        }
+
+    .alert {
+        animation: mymove 1s alternate infinite;
+    }
+
+    @@keyframes mymove {
+        from {
+            width: 10px;
+            height: 10px;
+            top: 0px;
+            border-radius: 5px;
+        }
+
+        to {
+            width: 20px;
+            height: 20px;
+            top: 0px;
+            border-radius: 10px;
+        }
+    }
+</style>
+<style>
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+</style>

@@ -1,0 +1,48 @@
+﻿<style>
+    .nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: transparent;
+}
+</style>
+
+@using Microsoft.AspNet.Identity
+@{ 
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    payrollFunctions payfun = new payrollFunctions();
+}
+@if (Request.IsAuthenticated)
+{
+    string name = "";
+    if (payfun.sessionRecreate() != "expires")
+    {
+        name = Session["EmpName"].ToString();
+    }
+
+    using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+                    @Html.AntiForgeryToken()
+
+                    <ul class="nav navbar-nav navbar-right loginnav">
+            <li><a>Hello, @name</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                     @User.Identity.GetUserName() ! 
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="@siteUrl/Account/ChangePassword">Change Password</a></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li> 
+                </ul>
+            </li>
+               
+            
+            
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right"> 
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

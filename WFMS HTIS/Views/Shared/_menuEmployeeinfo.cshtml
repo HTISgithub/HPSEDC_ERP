@@ -1,0 +1,53 @@
+﻿@using System.Data
+@{
+    DataTable dt = (DataTable)HttpRuntime.Cache["dtMenu"];
+}
+<div class="sidebar-header">
+    <select class="form-control"  >
+        @for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            <option value="@dt.Rows[i]["RoleId"]">@dt.Rows[i]["RoleName"]</option>
+        }
+    </select>
+</div>
+<ul class="list-unstyled components">
+    <li class="active">
+        <a href="#Employeemenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-circle-arrow-right"></i>
+            Personal Detail
+        </a>
+        <ul class="collapse list-unstyled" id="Employeemenu">
+            <li><a href="/EmployeeInformation/GeneralDetail">General Detail</a></li>
+            <li><a href="/EmployeeInformation/ContactDetail">Contact Detail</a></li>
+            <li><a href="/EmployeeInformation/FamilyDetail">Family Detail</a></li>
+            <li><a href="#">Nominee Detail</a></li>
+            <li><a href="/EmployeeInformation/QualificationDetail">Qualification</a></li>
+            <li><a href="#">Languages Known</a></li>
+            </ul>
+</li>
+   
+</ul>
+<ul class="list-unstyled components">
+    <li class="active">
+        <a href="#Employeemenu1" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-circle-arrow-right "></i>
+            Official Detail
+        </a>
+        <ul class="collapse list-unstyled" id="Employeemenu1">
+            <li><a href="/EmployeeInformation/OrganisationAssignment">Org Assignment</a></li>
+            <li><a href="#">Bank A/C Detail</a></li>
+            <li><a href="#">Statutary Detail</a></li>
+            <li><a href="#">Current Employeement</a></li>
+            <li><a href="#">Previous Employeement</a></li>
+            <li><a href="#">Attached Documents</a></li>
+            <li><a href="#">Asset Detail</a></li>
+        </ul>
+    </li>
+
+</ul>
+<script>
+    $('.menua').click(function () {
+        $('#sidebar').removeClass('active');
+        //$('.list-unstyled ul').css('height', 'auto').addClass('in').removeClass('collapse');
+    });
+</script>

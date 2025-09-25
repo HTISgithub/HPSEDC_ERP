@@ -1,0 +1,1 @@
+http://nicolasbize.com/magicsuggest/doc.html

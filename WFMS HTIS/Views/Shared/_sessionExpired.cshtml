@@ -1,0 +1,21 @@
+﻿@{
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+}
+<style>
+    .session {
+        margin-top: 20%;
+        color: #ff0000;
+        opacity: 1;
+        text-align: center;
+    }
+</style>
+
+<div class="session text-center">
+    <h2 class="text-center">Session Expired !!</h2>
+    <a href="@siteUrl/account/login"> Click here To Login Again</a>
+</div>
+<script>
+        setTimeout(function () {
+            window.location.href = "/account/login";
+        }, 4000);
+</script>

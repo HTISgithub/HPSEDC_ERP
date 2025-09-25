@@ -1,0 +1,377 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@{ commonFunctions comfun = new commonFunctions(); }
+<ul class="nav nav-list">
+    <li class="active">
+        <a href="/?id=@(comfun.encryptString("hiring"))" class="compmgt">
+            <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+            <span class="menu-text"> Dashboard </span>
+
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Master
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/HrNew/Specification">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Skill Specification
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/HrNew/Qualification">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Education
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/HrNew/Category">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Executive Type
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/HrNew/Category">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Interview Round
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/HrNew/HiringExecutive">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Executive
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/HrNew/Category">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Approval Slab
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+
+        </ul>
+    </li>
+    <!--<li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-calendar-check-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"></i>
+            <span class="menu-text">
+                Complaint
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+
+        <ul class="submenu">-->
+    @*<li class="">
+            <a href="/Complaintsmanagement/ComplaintManagement">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Complaint Booking
+            </a>
+            <b class="arrow"></b>
+        </li>*@
+    <li class="">
+        <a href="/Complaintsmanagement/ComplaintResolved">
+            <i class="menu-icon fa fa-caret-right"></i>
+            Hiring Rquest
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Finance  Action
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Finance-Approval
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Management-Approval
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Management  Action
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Management-Approval
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+
+
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Hr-Action
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Request Approval
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Define Eligibility
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Create Vacancy
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Assign Executive
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Interview Schedule
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Interview Re-Schedule
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Forward Appli. Interview
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Lock Interview Interview
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Return to  Ex-Panel
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Executive Action
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Shortlist Application
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Forward Application
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-credit-card" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Interviewer Action
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    List of Applicant
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Submit Feedback
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Complaintsmanagement/ComplaintResolved">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Management-Approval
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+
+
+    <!--</ul>
+    </li>-->
+    <!--<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="fa fa-calendar-o" style="margin-left: 14px;">-->
+    <!--style="margin-left: 14px;"-->
+    <!--</i>
+            <span class="menu-text">
+                Comp-Off
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Employee/ApplyCompOff">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Apply Comp-Off
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Employee/CompOffRequest">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Approve Comp-Off
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-car" style="margin-left: 14px;">-->
+    <!--style="margin-left: 14px;"-->
+    <!--</i>
+            <span class="menu-text">
+                Exp.Management
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Task/Expenselist">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Expense Request
+                </a>
+                <b class="arrow"></b>
+            </li>
+
+        </ul>
+    </li>-->
+    @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-car" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Conveyance
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/Employee/ApplyConveyance">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Apply Conveyance
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                        <a href="/Attendance/LeaveAssignedList">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Print Conveyance
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                <li class="">
+                        <a href="/Attendance/LeaveBalanceList">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Faciliation
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+            </ul>
+        </li>*@
+
+
+
+
+</ul>

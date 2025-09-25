@@ -1,0 +1,362 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Department Address";
+    ViewBag.PageTitle = "Department Address";
+    commonFunctions comfun = new commonFunctions();
+}
+
+@******************Breadcrumb Start**************@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul>
+</div>
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    label {
+        font-weight: 800;
+    }
+
+        label[for="IsActive"] {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 18px;
+            color: #333;
+        }
+
+            /* Create a custom checkbox square for only this specific checkbox */
+            label[for="IsActive"]:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 22px;
+                height: 22px;
+                border: 2px solid #4CAF50;
+                background-color: #fff;
+                border-radius: 4px;
+                transition: background-color 0.3s, border 0.3s;
+            }
+
+    /* Checkbox checked state */
+    #IsActive:checked + label[for="IsActive"]:before {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    /* Checkmark (visible when checked) */
+    #IsActive:checked + label[for="IsActive"]:after {
+        content: "✔";
+        position: absolute;
+        left: 4px;
+        top: 0;
+        color: white;
+        font-size: 16px;
+    }
+
+    #IsActive {
+        display: none;
+    }
+</style>
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right btnAddModal" onclick="OpenAddModel()"><i class="fa fa-plus"> </i>  ADD Address</a>
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div class="row">
+        <div class="col-md-12">
+            <div align="left" id="Zones">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>Department</th>
+                                <th>Sub Office Address</th>
+                                <th>Email ID</th>
+                                <th>Nodel Name</th>
+                                <th>Mobile No.</th>
+                                <th class="editcol actionedit">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #0f1875; color: white;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="_view">
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Department">Department Name</label><span class="error-message">*</span>
+                                <select id="DeptId" class="clearddl" style="width:269px">
+                                    <option value="0">--Select Department--</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Nodel">Nodel Name</label><span class="error-message">*</span>
+                                <input type="text" id="Nodel" class="form-control cleartxt" placeholder="Nodel Name" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Email">Department Email ID</label><span class="error-message">*</span>
+                                <input type="text" id="Email" class="form-control cleartxt" placeholder="Email Id" />
+                            </div>
+
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="NodelMobile">Nodel Mobile No.</label><span class="error-message">*</span>
+                                <input type="text" id="Mobileno" class="form-control cleartxt" placeholder="Nodel Mobile No." />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-3 col-sm-6">
+                                <label for="Sub">Sub Office Address</label><span class="error-message">*</span>
+                                <textarea id="Address" class="form-control cleartxt" style="width: 578px; height: 50px" placeholder="Please Enter Address Here"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                        <div class="col-md-8">
+                            <div class="modelalert"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    var vId = 0, mDistrictId = 0;
+    var IsActive = 'Y';
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _DepartmentAddress_List();
+        _Districtddl1();
+        $('#DeptId').select2();
+    });
+
+    $('.btnModalSubmit').click(function () {
+        _DepartmentAddressSubmit();
+    });
+
+    function OpenAddModel() {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Add Department Address");
+        $('#myModal').modal({
+            show: true
+        });
+
+        vId = 0;
+        IsActive = 'Y';
+    }
+
+    function fillForm(Id) {
+        $('#ModalProgress').show();
+        $('.modelalert').html('Please wait');
+        $.post('/Invoice/_DepartmentAddress_List', {
+            'Id': vId,
+        }, function (data) {
+            $('#ModalProgress').hide();
+            $('.modelalert').html('');
+            var obj = $.parseJSON(data);
+            console.log(obj);
+            $('#DeptId').val(obj[0].DeptId);
+            $('#dlldist').val(obj[0].DistrictID);
+            $('#Address').val(obj[0].BillingAddress);
+            $('#Email').val(obj[0].EmailId);
+            $('#Nodel').val(obj[0].NodalName);
+            $('#Mobileno').val(obj[0].ContactNo);
+        });
+    }
+
+    function OpenUpdateModel(Id) {
+
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Update Department Address");
+        $('#myModal').modal({
+            show: 'false'
+        });
+        vId = Id;
+        fillForm(Id);
+        root = '/Invoice/_DepartmentAddress_List';
+        $('.modal-footer').show();
+
+    }
+
+
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('#DeptId').val('0');        
+        $('#dlldist').val('0');       
+        $('#Address').val('');        
+        $('.modelalert').html('');    
+    }
+
+    function _DepartmentAddress_List() {
+        $('#ProgressImg').show();
+        $.post('/Invoice/_DepartmentAddress_List',
+            {
+                'Id': 0
+            },
+            function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+                var table = $('#myTable').DataTable();
+                table.clear().draw();
+                var msr = 0;
+                $.each(obj, function (key, value) {
+
+                    msr += 1;
+                    var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + value.Id + ', this)" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+
+                    var elmntArray = [
+                        msr,
+                        value.departmentName,
+                        value.BillingAddress,
+                        value.EmailId,
+                        value.NodalName,
+                        value.ContactNo,
+                        btnEdit
+
+                    ];
+                    table.row.add(elmntArray).draw(false);
+                });
+            });
+    }
+    
+    function _DepartmentAddressSubmit() {
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+
+        var rawDistrictVal = $('#dlldist').val();
+        var districtId = (!rawDistrictVal || rawDistrictVal.trim() === '') ? '0' : rawDistrictVal;
+
+        $.post('/Invoice/_DepartmentAddressSubmit', {
+            'Id': vId,
+            'departmentID': $('#DeptId').val(),
+            'Address': $('#Address').val(),
+            'EmailId': $('#Email').val(),
+            'Nodel': $('#Nodel').val(),
+            'Mobileno': $('#Mobileno').val(),
+        },
+            function (data) {
+                if (data.indexOf('Error') > -1) {
+                    $('.modelalert').html(data);
+                } else {
+                    $('#myModal').modal('hide');
+                    alert(data);
+                    resetForm();
+                    _DepartmentAddress_List();
+                }
+            });
+    }
+
+
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId').html(DeptId);
+        });
+    }
+
+
+    function _Districtddl1() {
+        if ($('#dllstate').val() == '0') {
+            return;
+        }
+        $('#ProgressImg').show();
+        $.post('/Invoice/_District_selectddl1', {
+            'StateId': 13,
+        }, function (data) {
+            $('#ModalProgress').hide();
+            var District = '<option value="0">--District--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                District += '<option value=' + value.Id + '>' + value.DistrictName + '</option>';
+            });
+            $('#dlldist').html(District);
+            $('#dlldist').val(mDistrictId);
+           
+        });
+
+    }
+</script>

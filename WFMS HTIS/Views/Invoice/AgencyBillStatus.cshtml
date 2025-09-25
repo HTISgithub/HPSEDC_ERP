@@ -1,0 +1,328 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Agency Bill Status";
+    ViewBag.PageTitle = "Agency Bill Status";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+
+}
+
+@******************Breadcrumb Start**************@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+
+    .dt-buttons {
+        display: none;
+    }
+
+    label {
+        font-size: 15px;
+        font-weight: bold;
+    }
+</style>
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div style="margin-top:10px">
+                    <div class="form-group row">
+                        <div class="col-md-4" style=" margin-top: -71px; ">
+                            <label for="Month">Month Year</label><span class="error-message">*</span>
+
+                            <select id="ddlMonths" class="Month" onchange="_AgencyBillStatus_List()">
+                                <option>--Month--</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+
+                                    DateTime date = new DateTime(2020, i, 1);
+                                    mon = date.ToString("MMM");
+                                    <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                }
+                            </select>
+                            <select id="ddlYears" class="year" onchange="_AgencyBillStatus_List()">
+                                <option>--Year--</option>
+                                @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                {
+                                    if (i == DateTime.Now.Year)
+                                    {
+                                        <option value="@i" selected='selected'>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                }
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4" style=" margin-top: -73px; margin-left: 280px; ">
+                            <label for="Complaint">Agency</label><span class="error-message">*</span>
+                            <select id="ddlAgency" onchange="_AgencyBillStatus_List()">
+                                <option value="0">Select Agency</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            <div align="left" id="Zones">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>Agency Name</th>
+                                <th>Purchase Bill No.</th>
+                                <th>Bill For Month</th>
+                                <th>Purchase Bill Amt.</th>
+                                <th>IsDeptPaymentReceived</th>
+                                <th>IsEpfDeposited</th>
+                                <th>IsEpfDeposited</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="BillNumber">Bill Number</label>
+                                    <div class="" id="">00010</div>
+                                    @*<input placeholder="Bill Date" class="form-control text-box single-line datepicker" data-val="true" id="BillDate" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">*@
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="BillDate">Bill Date</label>
+                                    <div class="" id="">25-02-25</div>
+                                    @*<input id="WorkOrderNo" placeholder="WorkOrderNo" class="form-control cleartxt required">*@
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Amount">Amount</label>
+                                    <div class="" id="">50000</div>
+                                    @*<input id="Billno" class="form-control cleartxt required" placeholder="Bill No.">*@
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="esi">Deposited ESI</label>
+                                    <input type="checkbox" id="esi" name="esi" value="yes" style="margin-left: 10px; height: 13px;">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="epf"> Deposited EPF</label>
+                                    <input type="checkbox" id="epf" name="epf" value="yes" style="margin-left: 10px; height: 13px;">
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    var mAgencyId = 0, accessRights;
+    var vId = 0;
+    var sr = 0;
+
+    var IsActive = 'Y';
+    var tableRow;
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _AgencyBillStatus_List();
+
+    });
+
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+        });
+    }
+
+    function _AgencyBillStatus_List() {
+        var monthId = $('#ddlMonths').val() + $('#ddlYears').val()
+        $('#ProgressImg').show();
+        $.post('/Invoice/_AgencyBillStatus_List', {
+            'AgencyId': $('#ddlAgency').val(),
+            'MonthYearId': monthId,
+          
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                btn = '';
+
+                var btnEdit = '<a href="#" onclick="OpenAddModel(' + value.AgencyId + ',this,\'' + value.IsActive + '\',' + value.AgencyId + ')" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+
+                var elmntArray = [
+                    msr,
+                    value.AgencyName,
+                    value.Billno,
+                    value.BillforMonth,
+                    value.TotalAmt,
+                    value.IsDeptPaymentReceived,
+                    value.IsEpfDeposited,
+                    value.IsEpfDeposited,
+                    btnEdit
+
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+
+    }
+
+    function OpenAddModel() {
+        $('.modal-title').html("<table><tr><td>Add EPF ESI</td><td style=padding-inline:185px;align:center;!important></td></tr></table>");
+
+        $('#myModal').modal({
+
+            show: 'false'
+
+        });
+        // View(WorkOrderId, MonthYear);
+    }
+    $('.btnModalSubmit').click(function () {
+
+       // _NewInvoiceSubmit();
+
+    });
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+    }
+    $('.modal-footer').show();
+
+</script>
+
+

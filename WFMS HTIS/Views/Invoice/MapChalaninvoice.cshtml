@@ -1,0 +1,347 @@
+﻿@{
+    ViewBag.Title = "MapChalaninvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string mon = "";
+}
+<style>
+    #container {
+        padding-top: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    #border {
+        border: 3px solid #000080 !important;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    label {
+        font-weight: 700;
+    }
+
+    thead {
+        background: #000080;
+        color: white;
+    }
+
+    .agencyBillid {
+        display: none;
+    }
+
+    .rounded-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<div class="container-fluid" id="container">
+    <div id="border">
+        <div class="row">
+
+            <div class="col-lg-4 form-group">
+                <label>Month Year</label>
+                <div style="display:flex">
+                    <select id="ddlMonths" class="Month form-control" onchange="Chalanddl(),EpfesiList()">
+                        <option>--Month--</option>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+
+                            DateTime date = new DateTime(2020, i, 1);
+                            mon = date.ToString("MMM");
+                            <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                        }
+                    </select>
+                    <select id="ddlYears" class="year form-control" onchange="Chalanddl(),EpfesiList()">
+                        <option>--Year--</option>
+                        @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                        {
+                            if (i == DateTime.Now.Year)
+                            {
+                                <option value="@i" selected='selected'>@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 form-group">
+                <label>Agency Name</label>
+                <select class="form-control" id="agencyddl" onchange="Chalanddl(),EpfesiList()">
+                    <option value="0">--select--</option>
+                </select>
+            </div>
+            <div class="col-lg-4 form-group">
+                <label>Challan For</label>
+                <select class="form-control" id="chalanfor" onchange="Chalanddl(),EpfesiList()">
+                    <option value="0">--select--</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 form-group">
+                <label>Challan Number</label>
+                <select class="form-control" id="chalanddl" onchange="ResourcData()">
+                    <option value="0">--select--</option>
+                </select>
+            </div>
+            <div class="col-lg-4 form-group">
+                <label>Total Resources</label>
+                <input class="form-control" id="totalresource" placeholder="Total Resource" readonly />
+            </div>
+            <div class="col-lg-4 form-group">
+                <label>Allocated Resource</label>
+                <input class="form-control" id="allocatedresource" placeholder="Allocated Resource" readonly />
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-striped table-bordered rounded-table" id="resourcelist">
+                <thead>
+                    <tr>
+                        <th>Sr No.</th>
+                        <th><input type="checkbox" id="selectAllCheckbox" onchange="SelectAllCheck()"> Select All</th>
+                        <th style="display:none;">Agency bill id</th>
+                        <th>Agency Bill No.</th>
+                        <th>Agency Name</th>
+                        <th>Bill For Month</th>
+                        <th>Total Resources</th>
+                        <th>Enter No. <br />of Resources</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    @*<div style="display:flex;justify-content:end;">
+            <button class="btn btn-primary" onclick="SubmitEpfEsiMap()">Submit</button>
+        </div>*@
+    <button class="btn btn-primary" onclick="SubmitEpfEsiMap()" style="width:100% ; border-radius:10px !important;">Submit</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+
+    var table;
+    $(document).ready(function () {
+        Agencyddl();
+        ChalanForddl();
+        table = $('#resourcelist').DataTable(
+            {
+                createdRow: function (row, data, dataIndex) {
+                    $('td:eq(1)', row).addClass('selectallCheck');
+                    $('td:eq(2)', row).addClass('agencyBillid');
+                    $('td:eq(5)', row).addClass('billformonth');
+                    // $('td:eq(6)', row).addClass('totalresource');
+                }
+            }
+        );
+
+    });
+
+    function Agencyddl() {
+        $.post('/Invoice/_Agencyddl2', {}, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#agencyddl').html(DeploymentOfficeId);
+            $('#agencyddl').select2({
+
+            });
+        });
+    }
+
+    function ChalanForddl() {
+        $.post('/Invoice/ChalanForddl',
+            {},
+            function (data) {
+                var chalanfor = '<option value="0">---Select---</option>';
+                var obj = $.parseJSON(data);
+                $.each(obj, function (key, value) {
+                    chalanfor += '<option value=' + value.TypeId + '>' + value.TypeName + '</option>'
+                });
+                $('#chalanfor').html(chalanfor);
+            });
+    }
+
+    function Chalanddl() {
+        $.post('/Invoice/Chalanddl', {
+            'ChallanTypeId': $('#chalanfor').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'AgencyId': $('#agencyddl').val(),
+            'ChallanId': $('#chalanddl').val(),
+        }, function (data) {
+            var chalanno = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                chalanno += '<option value=' + value.ChallanId + '>' + value.ChallanNumber + '</option>'
+            });
+            $('#chalanddl').html(chalanno);
+        });
+    }
+
+    function ResourcData() {
+        $.post('/Invoice/Chalanddl', {
+            'ChallanTypeId': $('#chalanfor').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'AgencyId': $('#agencyddl').val(),
+            'ChallanId': $('#chalanddl').val(),
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $('#totalresource').val(obj[0].NoOfResource);
+            $('#allocatedresource').val(obj[0].InvoicePerson);
+        });
+    }
+
+    function EpfesiList() {
+        $.post('/Invoice/EpfesiList', {
+            'AgencyId': $('#agencyddl').val(),
+            'MonthYear': $('#ddlMonths').val() + $('#ddlYears').val(),
+            'ChallanId': 0,
+            'ChallanType': $('#chalanfor').val(),
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+
+
+            table.clear().draw();
+
+            var msr = 0;
+            var row = '';
+
+            $.each(obj, function (key, value) {
+                // var agencybillid = `<label style="display:none">${}</label>`;
+                msr = msr + 1;
+                var checkbox = `<input type="checkbox" class="epfesicheck"/>`;
+                var textbox = `<input type="number" class="noofresource"min="0" max="${value.NoOfResource}" oninput="if(this.value > ${value.NoOfResource}) {alert('Enter value less than or equal to ${value.NoOfResource}'); 
+                                this.value=''; }" />`;
+                var elmntArray = [
+                    msr,
+                    checkbox,
+                    value.AgencyBillId,
+                    value.Billno,
+                    value.AgencyName,
+                    value.BillforMonth,
+                    value.NoOfResource,
+                    textbox
+                ];
+                table.row.add(elmntArray).draw(false);
+
+                //row += `<tr>
+                //               <td>${msr}</td>
+                //               <td>${checkbox}</td>
+                //               <td class="agencyBillid">${value.AgencyBillId}</td>
+                //               <td>${value.Billno}</td>
+                //               <td>${value.AgencyId}</td>
+                //               <td class="billformonth">${value.BillforMonth}</td>
+                //               <td class="noofresource">${value.NoOfResource}</td>
+                //       </tr>`;
+            });
+            //$('#resourcelist tbody').html(row);
+        });
+    }
+
+
+    function getdata() {
+        var MapDetail = [];
+        var isValid = true;
+        table.rows().every(function () {
+            var row = $(this.node());
+
+            if (row.find('.epfesicheck').prop('checked')) {
+                var resourceVal = row.find('.noofresource').val();
+                if (resourceVal === '0' || resourceVal === '') {
+                    alert('No of Resource can not be 0 or blank');
+                    isValid = false;
+                    return false;
+                }
+
+                var Mapepfesi = {};
+                Mapepfesi.AgencyBillId = row.find('.agencyBillid').html();
+                Mapepfesi.ChallanFor = $('#chalanfor').val();
+                Mapepfesi.NoOfResource = resourceVal;
+                Mapepfesi.ChallanId = $('#chalanddl').val();
+                Mapepfesi.MonthYearId = $('#ddlMonths').val() + $('#ddlYears').val();
+
+                MapDetail.push(Mapepfesi);
+            }
+        });
+
+        if (!isValid) {
+            return 'failed';
+        }
+
+
+        if (MapDetail.length == 0) {
+            return 'notSelected';
+        }
+
+        return MapDetail;
+    }
+
+
+    function ResetData() {
+
+        $('#chalanfor').val(0);
+        $('#chalanddl').val('0');
+        $('#totalresource').val('');
+        $('#allocatedresource').val('');
+        EpfesiList();
+    }
+
+    function SubmitEpfEsiMap() {
+        if ($('#chalanfor').val() == 0) { alert('Please Select Chalan for'); return; }
+        if ($('#chalanddl').val() == 0) { alert('Please Select Chalan Number'); return; }
+
+        var rawData = getdata();
+        if (rawData === 'failed') {
+            console.log('in if condition');
+            return;
+        }
+        else if (rawData == 'notSelected') {
+            alert('Please Select Invoice first');
+            return;
+        }
+
+        var data = JSON.stringify(rawData);
+        console.log('Data:' + data);
+
+        var formData = new FormData();
+        formData.append("ChallanId", $('#chalanddl').val());
+        formData.append("MapEpfEsiData", data);
+
+        $.ajax({
+            type: "POST",
+            url: "/Invoice/SubmitEpfEsiMap",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.includes("Successfully") || data.includes("successfully")) {
+                    ResetData();
+                }
+                alert(data);
+            }
+        });
+    }
+
+
+    function SelectAllCheck() {
+        var checked = $('#selectAllCheckbox').is(':checked');
+
+        table.rows().every(function () {
+            $(this.node()).find('.epfesicheck').prop('checked', checked);
+        });
+    }
+</script>

@@ -1,0 +1,17 @@
+﻿<link href="~/Content/MappingStyle.css" rel="stylesheet" />
+<div class="" id="selected">
+    @foreach (var item in Model.Rows)
+    {
+        <div id="@item["GeoFenceId"]" class="rectangle1" onclick="ShiftSite(this)">
+            <div class="div_Emp">
+                <span class="span_EmpImage"><img src="/images/pin_img.png" class="img-circle" width="20"></span>
+            </div>
+            <div>
+                <span class="span_EmpName_Code">@item["GeoFenceLocation"]</span>
+                <span class="span_EmpDesignation_Branch">@item["GeoFenceAddress"]</span>
+                <span class="span_EmpEmail">@(item["StateName"] + ", " + item["CityName"])</span>
+                <span class="span_EmpEmail">@(item["GeoFenceLatitude"] + ", " + item["GeoFenceLongitude"])</span>
+            </div>
+        </div>
+    }
+</div>

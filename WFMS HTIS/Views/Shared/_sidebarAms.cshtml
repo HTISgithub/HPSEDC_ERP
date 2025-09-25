@@ -1,0 +1,2896 @@
+﻿<ul class="nav nav-list">
+    <li class="active">
+        <a href="/">
+            <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+            <span class="menu-text"> Dashboard </span>
+        </a>
+
+        <b class="arrow"></b>
+
+    </li>
+    @if (Request.Cookies["DomainId"].Value == "1121")
+    {
+        if (Request.Cookies["RoleId"].Value == "2")
+        {
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-asterisk" style="margin-left: 14px;"></i>
+                    <span class="menu-text">
+                        Master
+                    </span>
+                    <i class="fas fa-users-cog"></i>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="">
+                        <a href="" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Address
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/admin/country">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Country
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/admin/states">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    State
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/admin/District">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    District
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+
+                            <li class="">
+                                <a href="/TimeSheet/City">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    City
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+
+                        </ul>
+                    </li>
+
+                    @if (Request.Cookies["RoleId"].Value == "2")
+                    {
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                User Management
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Users/RoleList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Role
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/Users/RolePermission">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Role Permission
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+                    }
+
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Organization
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/admin/CompanyNatureList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Company Nature
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/admin/CompanyList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Company
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Category Master
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/Helpdesk/MainCategory">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Main Category
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/admin/EmployeeCategoryList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Category
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            @*<li class="">
+                                    <a href="/admin/Branch">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Branch
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>*@
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            General
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/admin/Designation">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Designation
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                                <a href="/TimeSheet/Department">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Department
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/TimeSheet/CustomerDetail">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Customer Detail
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/TimeSheet/Vendor">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Vendor Detail
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+
+
+
+                            @*<li class="">
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Bank Detail
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
+                                    <b class="arrow"></b>
+                                    <ul class="submenu">
+                                        <li class="">
+                                            <a href="/admin/banks">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Bank Name
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/master/banks">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Branch
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                    </ul>
+                                </li>*@
+
+                        </ul>
+                    </li>
+
+                    <li class="">
+                        <a href="/Master/GeneralItemInfo">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            General Item Info
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Pm/GeneralItemIssue">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            General Item Issue
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="/excel/exceldataimport">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Import Data
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+        }
+        if (Request.Cookies["RoleId"].Value == "2")
+        {
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-user-plus" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Emp Management
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    @if (Request.Cookies["RoleId"].Value != "11")
+                    {
+
+
+                        <li class="">
+                            <a href="/account/CreateUser">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Create User
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+
+                    <li class="">
+                        <a href="/TimeSheet/EmployeeList">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Employee
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    @if (Request.Cookies["RoleId"].Value != "11")
+                    {
+                        <li class="">
+                            <a href="/Employee/EmpTermination">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Deactive Employee
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+
+                        @* <li class="">
+                                <a href="/Employee/EmployeeExit">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee Exit
+                                </a>
+                                <b class="arrow"></b>
+                            </li>*@
+
+                        <li class="">
+                            <a href="/Attendance/WeekoffList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Week off
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="/master/email">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Email
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+
+                        <li class="">
+                            <a href="/master/sendsms">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Sms
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/Paygrouplist">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Pay Group
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/PayChargesList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Pay Charges
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/CtcFormula">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                CTC Formula
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/EmployeeCTList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee CTC
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+
+                </ul>
+            </li>
+        }
+        if (Request.Cookies["RoleId"].Value != "11")
+        {
+
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-calendar-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Attendance Mgt
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/attendance/attendancecalendar">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Attendance Calendar 5
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    @if (Request.Cookies["RoleId"].Value == "7" || Request.Cookies["RoleId"].Value == "2")
+                    {
+
+                        @*<li class="">
+                            <a href="" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Attendance Approval
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">*@
+                        <li class="">
+                            <a href="/TimeSheet/DepartmentAttendanceApproval">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Attendance Approval
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="/TimeSheet/AttendanceImport">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Attendance Bulk Upload
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/TimeSheet/DepartmentBillGenerate">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Att. Certificate Generate
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/TimeSheet/DepartmentAttendancApprovalPendingCustomer">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Vendor Invice Prepration
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/TimeSheet/PurchaseInvoiceList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Vendor Invice List
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                    @if (Request.Cookies["RoleId"].Value == "9")
+                    {
+
+                        @*<li class="">
+                                <a href="/TimeSheet/DepartmentWiseBill">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                 Department Bill
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>*@
+
+                        <li class="">
+                            <a href="/TimeSheet/AttendanceApprovedByCustomer">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Approval by Cont.
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/TimeSheet/CustomerBillGenerate">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Contractor Bill
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                    @if (Request.Cookies["RoleId"].Value == "2")
+                    {
+
+                        <li class="">
+                            <a href="/TimeSheet/DepartmentAttendancApprovalPending">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Bulk Customer Invoice
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="/TimeSheet/CustomerBill">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Customer Invoice
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        @*<li class="">
+                                     <a href="/TimeSheet/CustomerbillDetail">
+                                         <i class="menu-icon fa fa-caret-right"></i>
+                            Bill Detail
+                                         <!--<b class="arrow fa fa-angle-down"></b>-->
+                                     </a>
+                                     <b class="arrow"></b>
+                                 </li>*@
+                        @* <li class="">
+                                <a href="/TimeSheet/CustomerInvoicePayment">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Payment Detail
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>*@
+                        @*<li class="">
+                                    <a href="/TimeSheet/DepartmentAttendanceApproval">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                            Attendance Approval
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>*@
+
+                        @* </ul>
+                            </li>*@
+                    }
+                    @if (Request.Cookies["RoleId"].Value != "2")
+                    {
+                        <li class="">
+                            <a href="/TimeSheet/CustomerInvoiceList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Download Invoice
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                    <li class="">
+                        <a href="/TimeSheet/CustomerInvoicePayment">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Customer Invoice Payment
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                </ul>
+            </li>
+        }
+        if (Request.Cookies["RoleId"].Value != "3")
+        {
+            if (Request.Cookies["RoleId"].Value != "11")
+            {
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-bar-chart-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Reports
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/TimeSheet/EmployeeInfo">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee Info
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Reports/NewJoinee">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                New Joinee
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Daily Report
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Reports/AttendanceDetails">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Attendance Detail
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/AttendanceImport">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Attendance Import Report
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/Present">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Present
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/Absent">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Absent
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Monthly Report
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                @*<li class="">
+                                        <a href="/Reports/Basic">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Monthly Attendance
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>*@
+                                <li class="">
+                                    <a href="/Reports/WorkDuration">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Work Duration
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/Summary">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Summary
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <!--<li>-->
+                            </ul>
+                        </li>
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Other Report
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Reports/Holiday">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Holiday
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @*<li class="">
+                                        <a href="/Reports/LeaveDetails">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Leave Details
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>*@
+                                <li class="">
+                                    <a href="/Reports/LeaveSummary">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Leave Summary
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/EmployeeDepartmentSummary">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Department Summary
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/Reports/EmployeeWorkCostSheet">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Employee Work Cost Sheet
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/ContractorEmployeeDetail">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Contractor Employee Detail
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/EmployeeWeekOffDays">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Employee WeekOff Days
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/RegularisedEmployees">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Regularised Employees
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <!--<li>-->
+                            </ul>
+                        </li>
+
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Mis report
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Reports/GPSSummary">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Gps Summary
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/GPSDetails">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Gps Details
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/Logs">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Logs
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/LocationLog">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Location Logs
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/InOutPunch">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        In Out Punch
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <!--<li>-->
+                            </ul>
+                        </li>
+                        <li class="hidden">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Conveyance
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Reports/BillPrint">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Bill Print
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/ConveyanceSummary">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Summary
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <!--<li>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            }
+        }
+
+    }
+    else
+    {
+        if (Request.Cookies["RoleId"].Value != "24")
+        {
+
+            if (Request.Cookies["RoleId"].Value != "11")
+            {
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-asterisk" style="margin-left: 14px;"></i>
+                        <span class="menu-text">
+                            Master
+                        </span>
+                        <i class="fas fa-users-cog"></i>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Address
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/country">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Country
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/states">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        State
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/District">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        District
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @if (Request.Cookies["DomainId"].Value != "1121")
+                                {
+                                    @*<li class="">
+                                            <a href="/admin/Village">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Village
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>*@
+
+
+                                    <li class="">
+                                        <a href="/admin/Cities">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            City
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+                                @if (Request.Cookies["DomainId"].Value == "1121")
+                                {
+                                    <li class="">
+                                        <a href="/TimeSheet/City">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            City
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+                                @if (Request.Cookies["DomainId"].Value != "1121")
+                                {
+                                    <li class="">
+                                        <a href="/admin/Zone">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Zone
+                                        </a>
+
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/admin/TierList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Tier
+                                        </a>
+
+                                        <b class="arrow"></b>
+                                    </li>
+
+
+                                }
+                            </ul>
+                        </li>
+
+                        @if (Request.Cookies["RoleId"].Value == "2")
+                        {
+                            <li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    User Management
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Users/RoleList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Role
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/Users/RolePermission">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Role Permission
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Organization
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/CompanyNatureList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Company Nature
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/CompanyList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Company
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @if (Request.Cookies["DomainId"].Value != "1121")
+                                {
+                                    <li class="">
+                                        <a href="/admin/Branch">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Branch
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Category Master
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Helpdesk/MainCategory">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Main Category
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/EmployeeCategoryList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Category
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @if (Request.Cookies["DomainId"].Value != "1121")
+                                {
+                                    <li class="">
+                                        <a href="/Helpdesk/MappingMainCategoryWithCategory">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Category Mapping
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+                                @*<li class="">
+                                        <a href="/admin/Branch">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Branch
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>*@
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                General
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/Designation">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Designation
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @if (Request.Cookies["DomainId"].Value == "1121")
+                                {
+                                    <li class="">
+                                        <a href="/TimeSheet/Department">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Department
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/TimeSheet/CustomerDetail">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Customer Detail
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                }
+
+                                @if (Request.Cookies["DomainId"].Value != "1121")
+                                {
+                                    <li class="">
+                                        <a href="/admin/department">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Department
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/EmpTypeList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Employee Type
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/GradeList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Grade
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Master/Holiday">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Public Holiday
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/EmpStatusList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Employee status
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Master/RelationList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            RelationShip
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/MaritalStatusList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Marital Status
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/admin/policycategorylist">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Policy category
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    if (Request.Cookies["DomainId"].Value != "5157")
+                                    {
+                                        <li class="">
+                                            <a href="/Master/ContractorMaster">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Contractor Master
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                    }
+                                    if (Request.Cookies["DomainId"].Value == "5157")
+                                    {
+                                        <li class="">
+                                            <a href="/Admin/ContractorMaster">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Contractor Master
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                    }
+                                }
+                                @if (Request.Cookies["DomainId"].Value != "1121")
+                                {
+                                    <li class="">
+                                        <a href="/Master/Location">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Location Master
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Master/SubLocation">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Sub Location
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+
+                                @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Bank Detail
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/admin/banks">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Bank Name
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/master/banks">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Branch
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>*@
+
+                            </ul>
+                        </li>
+                        @if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            <li class="">
+                                <a href="" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Clearance
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Admin/Level">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Level List
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/Admin/CGList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Group
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/Admin/GroupandClearanceHeadMapping">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Mapping
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                        }
+                        @if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+
+                            <li class="">
+                                <a href="" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Bank Detail
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/admin/banks">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Bank
+                                        </a>
+
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/master/bankbranchlist">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Branch
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                        @if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            <li class="">
+                                <a href=# class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Advance
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Admin/NoticeBoardList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Notice Board
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/master/latecomingcategory">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Late Category
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+
+                                        <a href="/Master/Policy">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Policies
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    @*<li class="">
+                                            <a href="#">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                App Re-Initialize
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>*@
+                                </ul>
+                            </li>
+
+                            <li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Geofence
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/admin/GeofenceList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Master
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/GeoFenceMappingList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            User Mapping
+                                        </a>
+                                        <b class="arrow"></b>
+
+                                </ul>
+                            </li>
+
+                            <li class="">
+                                <a href="" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Help desk
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Admin/HelpdeskGroupList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Group
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/Admin/HelpdeskGroupMappingList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Mapping
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                        @if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            @*<li class="">
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Help desk
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
+                                    <b class="arrow"></b>
+                                    <ul class="submenu">
+                                        <li class="">
+                                            <a href="/admin/country">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Group
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/admin/helpdeskmapping">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Mapping
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                    </ul>
+                                </li>*@
+                            <li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Conveyance
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/admin/ConveyanceGroupList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Group
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/ConveyanceSettingList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Auto setting
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/master/Travalmodelist">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Mode
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                        <li class="">
+                            <a href="/Master/GeneralItemInfo">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                General Item Info
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Pm/GeneralItemIssue">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                General Item Issue
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        @if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            <li class="">
+                                <a href="/master/UniformRequest">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Uniform Request
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+                        <li class="">
+                            <a href="/excel/exceldataimport">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Import Data
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+            }
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-user-plus" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        Emp Management
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    @if (Request.Cookies["RoleId"].Value != "11")
+                    {
+                        if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            <li class="">
+                                <a href="/Master/HrVerifyChecklist">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hr Verify Checklist
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                                <a href="/Master/OnBoardcandidateList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Onboard Candidate
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Master/EmpRouteLocation">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee Route Location
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Users/CreateCustomerUser">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Create Customer User
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+                        if (Request.Cookies["DomainId"].Value == "1121")
+                        {
+                            <li class="">
+                                <a href="/TimeSheet/CustomerDetail">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Customer Detail
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+
+                        if (Request.Cookies["DomainId"].Value == "5157" || Request.Cookies["DomainId"].Value == "5242" || Request.Cookies["DomainId"].Value == "5216")
+                        {
+                            <li class="">
+                                <a href="/Employee/InsuranceRegister">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Insurance Register
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+                        if (Request.Cookies["DomainId"].Value == "5157" || Request.Cookies["DomainId"].Value == "5242" || Request.Cookies["DomainId"].Value == "5216")
+                        {
+                            <li class="">
+                                <a href="/Employee/EmployeeApproval">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee Approval
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+
+
+                        <li class="">
+                            <a href="/account/CreateUser">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Create User
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="/Employee/BankDetailBulkUpload">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                BankDetail BulkUpload
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Master/FamilyDetail">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Family Detail
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                    @if (Request.Cookies["DomainId"].Value != "1121")
+                    {
+                        <li class="">
+                            <a href="/Master/EmployeeList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="">
+                            <a href="/TimeSheet/EmployeeList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    }
+                    @if (Request.Cookies["RoleId"].Value != "11")
+                    {
+                        <li class="">
+                            <a href="/Employee/EmpTermination">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Deactive Employee
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Reports/BulkDeactiveEmployeeImportView">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Bulk Employee Left
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            <li class="">
+                                <a href="/Employee/RejoinEmployee">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee Rejoin
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+                        @* <li class="">
+                <a href="/Employee/EmployeeExit">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Employee Exit
+                </a>
+                <b class="arrow"></b>
+            </li>*@
+                        <li class="">
+                            <a href="/Attendance/WeekoffList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Week off
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        if (Request.Cookies["DomainId"].Value != "1121")
+                        {
+                            if (Request.Cookies["DomainId"].Value != "5157")
+                            {
+                                <li class="">
+                                    <a href="/Master/OutDoorAttendanceList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Outdoor Attendance
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            }
+                            if (Request.Cookies["DomainId"].Value == "5157")
+                            {
+
+                                <li class="">
+                                    <a href="/HundeiAttendance/OutDoorAttendanceList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Outdoor Attendance
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            }
+                            <li class="">
+                                <a href="/Master/HODAttendance">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    HOD Attendance
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Master/DirectAttendance">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Direct Attendance
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        }
+                        <li class="">
+                            <a href="/master/email">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Email
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Admin/LoginPassword">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Login Password
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/master/sendsms">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Sms
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/Paygrouplist">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Pay Group
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/PayChargesList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Pay Charges
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/CtcFormula">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                CTC Formula
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/EmployeeCTList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee CTC
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                </ul>
+            </li>
+            if (Request.Cookies["RoleId"].Value != "11")
+            {
+                if (Request.Cookies["DomainId"].Value != "1121")
+                {
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-calendar-minus-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                            <span class="menu-text">
+                                Leave Management
+                            </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/Hr/LeaveTypeList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Leave Type
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Attendance/LeaveAssignedList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Leave Assign
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Attendance/LeaveAssignedAutoList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Leave Assign(Auto)
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Attendance/LeaveBalanceList">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Leave Balance
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="#">
+                                <a href="/attendance/salaryAttMonthly">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Leave Deduct
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="#">
+                                <a href="/Attendance/LeaveRegister">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Leave Balance Register
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    @* <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="fa fa-motorcycle" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                                <span class="menu-text">
+                                    Conveyance
+                                </span>
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Master/ConveyanceDetail">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Conveyance Detail
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/ConveyanceRequest">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Conveyance Request
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/FacilitationTool">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Facilitation tool
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/MobileAppLog">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Mobile App Log
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/GradeTierMapping">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Grade Tier Mapping
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/ConveyancePaid">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Conveyance Paid
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            </ul>
+                        </li>*@
+                }
+            }
+            if (Request.Cookies["DomainId"].Value != "1121")
+            {
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-file" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            DMS
+                        </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Admin/DocumentCatgoryList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Category
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Admin/DocumentRepository">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Repository
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Hr/DocumentCatgoryStatistics">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Statistics
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        @if (Request.Cookies["RoleId"].Value != "3" || Request.Cookies["RoleId"].Value != "11")
+                        {
+                            <li class="">
+                                <a href="/Reports/DMSuploaded">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    DMS Uploaded
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+
+                            </li>
+                        }
+                        <!--<li>-->
+                    </ul>
+                </li>
+            }
+            if (Request.Cookies["RoleId"].Value != "11")
+            {
+                if (Request.Cookies["DomainId"].Value != "1121")
+                {
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-clock-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                            <span class="menu-text">
+                                Shift Management
+                            </span>
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/admin/ShiftMasterDisplay">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Shift Master
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Admin/ShiftGroup">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Shift Group
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Admin/ShiftAssign">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Shift Assign
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <!--<li>-->
+                        </ul>
+                    </li>
+                    if (Request.Cookies["RoleId"].Value != "3")
+                    {
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="fa fa-laptop" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                                <span class="menu-text">
+                                    Device Management
+                                </span>
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Admin/DeviceConnectionTypeList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Device Connection Type
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Admin/DeviceModelNumberList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Model Number
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Admin/DeviceList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Device
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/Master/DeviceLog">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Device log
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/MobileLog">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Mobile Log
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @*<li class="">
+                                        <a href="/Master/DeviceReq">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Device Req/Res
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>*@
+
+
+                            </ul>
+                        </li>
+                    }
+                }
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-calendar-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Attendance Mgt
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        @if (Request.Cookies["DomainId"].Value == "5157" || Request.Cookies["DomainId"].Value == "5242" || Request.Cookies["DomainId"].Value == "6255" || Request.Cookies["DomainId"].Value == "5216")
+                        {
+                            <li class="">
+                                <a href="/Hundeiattendance/attendancecalendar">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Attendance Calendar
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/attendance/EmpShiftWorkingHours">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee Working Hr.
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Attendance/EmployeeWorkinghours">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee WorkingHrs. List
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                                <a href="/Hundeiattendance/HudeiMissPunch">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    MissPunch BulkUpload
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                        }
+
+                        @if (Request.Cookies["DomainId"].Value != "5157" && Request.Cookies["DomainId"].Value != "5242" && Request.Cookies["DomainId"].Value != "6255" && Request.Cookies["DomainId"].Value != "5216")
+                        {
+                            <li class="">
+                                <a href="/attendance/attendancecalendar">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Attendance Calendar
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                        }
+                        @if (Request.Cookies["DomainId"].Value == "5242")
+                        {
+                            <li class="">
+                                <a href="/attendance/Manualemployeeworkinghrs">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Furnance Attendance
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                        }
+                        @if (Request.Cookies["DomainId"].Value == "1121")
+                        {
+                            if (Request.Cookies["RoleId"].Value == "7" || Request.Cookies["RoleId"].Value == "2")
+                            {
+
+                                @*<li class="">
+                <a href="" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Attendance Approval
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">*@
+                                <li class="">
+                                    <a href="/TimeSheet/DepartmentAttendanceApproval">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Attendance Approval
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/TimeSheet/AttendanceImport">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Attendance Bulk Upload
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/TimeSheet/DepartmentBillGenerate">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Att. Certificate Generate
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            }
+                            if (Request.Cookies["RoleId"].Value == "9")
+                            {
+
+                                @*<li class="">
+                    <a href="/TimeSheet/DepartmentWiseBill">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                     Department Bill
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+
+                                <li class="">
+                                    <a href="/TimeSheet/AttendanceApprovedByCustomer">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Approval by Cont.
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/TimeSheet/CustomerBillGenerate">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Contractor Bill
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            }
+                            if (Request.Cookies["RoleId"].Value == "2")
+                            {
+
+                                <li class="">
+                                    <a href="/TimeSheet/DepartmentAttendancApprovalPending">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Bulk Customer Invoice
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/TimeSheet/CustomerBill">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Customer Invoice
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @*<li class="">
+                         <a href="/TimeSheet/CustomerbillDetail">
+                             <i class="menu-icon fa fa-caret-right"></i>
+                Bill Detail
+                             <!--<b class="arrow fa fa-angle-down"></b>-->
+                         </a>
+                         <b class="arrow"></b>
+                     </li>*@
+                                <li class="">
+                                    <a href="/TimeSheet/CustomerPayment">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Payment Detail
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @*<li class="">
+                        <a href="/TimeSheet/DepartmentAttendanceApproval">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                Attendance Approval
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+
+                                @* </ul>
+                </li>*@
+                            }
+                        }
+
+
+                        @if (Request.Cookies["RoleId"].Value != "3" || Request.Cookies["RoleId"].Value != "11")
+                        {
+                            if (Request.Cookies["DomainId"].Value != "1121")
+                            {
+                                <li class="">
+                                    <a href="/Reports/Basic">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Monthly Attendance
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            }
+                            if (Request.Cookies["DomainId"].Value != "1121")
+                            {
+                                if (Request.Cookies["DomainId"].Value != "5242" && Request.Cookies["DomainId"].Value != "5157" && Request.Cookies["DomainId"].Value != "6255" && Request.Cookies["DomainId"].Value != "5216")
+                                {
+                                    <li class="">
+                                        <a href="/Payroll/FreezeAttendance">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Attendance Freeze
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+
+                                if (Request.Cookies["DomainId"].Value == "5242" || Request.Cookies["DomainId"].Value == "5157" || Request.Cookies["DomainId"].Value == "6255" || Request.Cookies["DomainId"].Value == "5216")
+                                {
+                                    <li class="">
+                                        <a href="/Timesheet/FreezeAttendances">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Attendance Freeze
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Employee/GatePass">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Gate Pass(Admin)
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/HundeiAttendance/TheftList">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Theft Case
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+
+                                if (Request.Cookies["DomainId"].Value == "75")
+                                {
+                                    <li class="">
+                                        <a href="/Attendance/AttendanceImport">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Attendance Bulk Upload
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                }
+                                <!--if (Request.Cookies["DomainId"].Value == "5157")
+            {
+                <li class="">
+                    <a href="/Attendance/AttendanceImportNew">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Attendance Bulk Upload-->
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                <!--</a>
+                    <b class="arrow"></b>
+                </li>
+            }-->
+
+                            }
+                            if (Request.Cookies["DomainId"].Value != "1121")
+                            {
+                                <li class="">
+                                    <a href="/Reports/LoginStatus">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        LogIn Status
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                @*<li class="">
+                    <a href="/Master/DeviceLog">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Device log
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Master/MobileLog">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Mobile Log
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/DeviceReq">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Device Req/Res
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Trainee Management
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Employee/HudeiApplicant">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Applicant
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="/Employee/Training">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Training
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Employee/TrainingSchedule">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Training Schedule
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/HundeiAttendance/FeedBackForm">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Feed Back
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Employee/ProbationAutoList">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Probation Period
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    HR Hiring
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/Hr/HiringType">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Hiring Type
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="#">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Eligibility Master
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Hr/HiringRequest">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Hiring Request
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="/Hr/HrApproval">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Hr Approval
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+                    <li class="">
+                        <a href="/Hr/ManagementApproval">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Management Approval
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Hr/FinanceApproval">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Finance Approval
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Hr/Shortlisted">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Shortlisted
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/Hr/InterviewSchedule">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Interview Round
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+
+
+
+
+                </ul>
+            </li>
+            if (Request.Cookies["RoleId"].Value != "3")
+            {
+                if (Request.Cookies["RoleId"].Value != "11")
+                {
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa fa-bar-chart-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                            <span class="menu-text">
+                                Reports
+                            </span>
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/Reports/EmployeeInfo">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Employee Info
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="">
+                                <a href="/Reports/NewJoinee">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    New Joinee
+                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            @if (Request.Cookies["DomainId"].Value != "1121")
+                            {
+                                <li class="">
+                                    <a href="/Reports/EmployeeAccountNoDetail">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Employee Account Detail
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Reports/Calculate">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Calculate
+                                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            }
+                            <li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Daily Report
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Reports/AttendanceDetails">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Attendance Detail
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/AttendanceImport">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Attendance Import Report
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/Present">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Present
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/Absent">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Absent
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    @if (Request.Cookies["DomainId"].Value != "1121")
+                                    {
+                                        <li class="">
+                                            <a href="/Reports/LateComing">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Late Coming
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/EarlyGoing">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Early Going
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/MissedPunch">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Missed Punch
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/MobileLoglist">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Mobile Lat Log
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        @* <li class="">
+                                                <a href="#">
+                                                    <i class="menu-icon fa fa-caret-right"></i>
+                                                    Over Time
+                                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                                </a>
+                                                <b class="arrow"></b>
+                                            </li>
+                                            <li class="">
+                                                <a href="#">
+                                                    <i class="menu-icon fa fa-caret-right"></i>
+                                                    InOut Time
+                                                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                                                </a>
+                                                <b class="arrow"></b>
+                                            </li>*@
+                                        <li class="">
+                                            <a href="/Reports/AttendanceDailyMode">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Attendance Daily Mode
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/LeaveDetail">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Leave Details
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                    }
+                                    <!--<li>-->
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Monthly Report
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    @*<li class="">
+                                            <a href="/Reports/Basic">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Monthly Attendance
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>*@
+                                    <li class="">
+                                        <a href="/Reports/WorkDuration">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Work Duration
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/Summary">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Summary
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <!--<li>-->
+                                </ul>
+                            </li>
+
+                            <li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Other Report
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Reports/Holiday">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Holiday
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    @if (Request.Cookies["DomainId"].Value == "5157")
+                                    {
+                                        <li class="">
+                                            <a href="/HundeiAttendance/OTReport">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                OT Report
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                    }
+                                    @if (Request.Cookies["DomainId"].Value == "5157")
+                                    {
+                                        <li class="">
+                                            <a href="/HundeiAttendance/MenDayReport">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Men Days Report
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                    }
+                                    @*<li class="">
+                                            <a href="/Reports/LeaveDetails">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Leave Details
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>*@
+                                    <li class="">
+                                        <a href="/Reports/LeaveSummary">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Leave Summary
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/EmployeeDepartmentSummary">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Department Summary
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="/Reports/EmployeeWorkCostSheet">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Employee Work Cost Sheet
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/ContractorEmployeeDetail">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Contractor Employee Detail
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/EmployeeWeekOffDays">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Employee WeekOff Days
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/RegularisedEmployees">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Regularised Employees
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <!--<li>-->
+                                </ul>
+                            </li>
+
+
+                            @* <li class="">
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Mis report
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
+                                    <b class="arrow"></b>
+                                    <ul class="submenu">
+                                        @*<li class="">
+                                            <a href="/Reports/GPSSummary">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Gps Summary
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/GPSDetails">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Gps Details
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/Logs">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Logs
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/LocationLog">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Location Logs
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <li class="">
+                                            <a href="/Reports/InOutPunch">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                In Out Punch
+                                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                                            </a>
+                                            <b class="arrow"></b>
+                                        </li>
+                                        <!--<li>-->
+                                    </ul>
+                                </li>*@
+                            <li class="hidden">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Conveyance
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/Reports/BillPrint">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Bill Print
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/Reports/ConveyanceSummary">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Summary
+                                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                    <!--<li>-->
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                }
+            }
+        }
+    }
+    @if (Request.Cookies["DomainId"].Value != "1121")
+    {
+        if (Request.Cookies["RoleId"].Value != "24")
+        {
+            <li class="">
+                <a href="/AccountingReport/AttendanceReportDashboard">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Final Report
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+
+            </li>
+            <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-user" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        My Account
+                    </span>
+
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+
+            </li>
+            <li class="">
+                <a href="/Admin/ApplicationSettings">
+                    <i class="fa fa-cog" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                    <span class="menu-text">
+                        App Setting
+                    </span>
+
+                    <!--<b class="arrow fa fa-angle-down"></b>-->
+                </a>
+                <b class="arrow"></b>
+
+            </li>
+        }
+    }
+    @if (Request.Cookies["RoleId"].Value != "24")
+    {
+        <li class="">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa fa-file" style="margin-left: 14px;"></i>
+                    <span class="menu-text">
+                        Helpdesk
+                    </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="">
+                        <a href="/HelpDesk">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Request
+
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="/HelpDesk/helpdeskadmin">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Approval
+
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-link" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    HTIS Connect
+                </span>
+
+                <!--<b class="arrow fa fa-angle-down"></b>-->
+            </a>
+            <b class="arrow"></b>
+
+        </li>
+    }
+</ul>

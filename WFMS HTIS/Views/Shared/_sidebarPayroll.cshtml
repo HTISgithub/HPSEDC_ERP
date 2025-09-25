@@ -1,0 +1,613 @@
+﻿@{ commonFunctions comfun = new commonFunctions(); }
+<ul class="nav nav-list">
+    <li class="active">
+        <a href="/?id=@(comfun.encryptString("payroll"))" class="payroll">
+            <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+            <span class="menu-text"> Dashboard </span>
+        </a>
+        <b class="arrow"></b>
+    </li>
+    @if (Request.Cookies["RoleId"].Value == "2" || Request.Cookies["RoleId"].Value == "7")
+    {
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-money" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Employee CTC
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/Payroll/Paygrouplist">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Pay Charges Group
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/PayChargesList">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Pay Charges
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/CtcFormula">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        CTC Formula
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/EmployeeCTList">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Employee CTC
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/EmployeeCTC">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Employee CTC Transfer
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+    }
+    @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-users" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                   Attendance
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Attendance Detail
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Regulize Attendance
+                       </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Approval
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Attendance Summary
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>*@
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-google-wallet" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Reimbursement
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/Payroll/EmployeeReimbursementAdd">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Reimbursement Add
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                       Calculation
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            @*<li class="">
+                    <a href="/Payroll/ReimbursementApproval">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Reimbursement Approval
+                    </a>
+                    <b class="arrow"></b>
+                </li>*@
+            <li class="">
+                <a href="/Payroll/ReimbursementCalculation">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Reimbursement Calculation
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Reports/EmployeeReimbursement">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Reimbursement Sheet
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-cny" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Loan Management
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="">
+                <a href="/admin/LoanTypeList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Loan Type
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/admin/LoanList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Loan List
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/admin/LoanPaid">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Loan Paid
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-cc-mastercard" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Employee Investment
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+
+            <li class="">
+                <a href="/Payroll/TDSList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    TDS Section
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Payroll/EmployeeInvestmentList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Investment
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Payroll/HRAList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    HRA
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/Payroll/PreviousEmployeeIncomeDetailsList">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Previous Employee Detail
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="#" class="dropdown-toggle">
+            <i class="fa fa-euro" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+            <span class="menu-text">
+                Salary
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            @if (Request.Cookies["RoleId"].Value == "2" || Request.Cookies["RoleId"].Value == "7")
+            {
+
+                <li class="">
+                    <a href="/admin/Allowances">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Allowances
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/admin/Deductions">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Dedcutions
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/Salaryfreeze">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Slip Appoval
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/SalaryCalculate">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Calculation
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Payroll/TDSCalculation">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TDS Calculation
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Reports/SalarySheet">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Sheet
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/GenerateSalary">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Generate Salary Slip
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            }
+
+            <li class="">
+                <a href="/reports/salaryslip">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Salary Slip
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    @if (Request.Cookies["RoleId"].Value == "2" || Request.Cookies["RoleId"].Value == "7")
+    {
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-gbp" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">Statutory Compliance</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/Payroll/EmpSalaryPF">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        PF
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/EmpESI">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ESI
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                @* <li class="">
+                        <a href="#">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Professional taxes
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+                @*<li class="">
+                        <a href="#">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            TDS deduction
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+                @* <li class="">
+                        <a href="#">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            EDLI
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+                <li class="">
+                    <a href="/Payroll/EmpSalaryGratuity">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Gratuity
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+    }
+    @if (Request.Cookies["RoleId"].Value == "2" || Request.Cookies["RoleId"].Value == "7")
+    {
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-cogs" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Payroll Setting
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="/Master/PfInformation">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        PF Setting
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/ESIInformation">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ESI Setting
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/LWFInformation">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        LWF Setting
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Payroll/TDSsetting">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        TDS Setting
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Master/SalaryEmployeePFDetail">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Employee PF
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+    }
+
+    @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-cogs" style="margin-left: 14px;"></i>
+                <span class="menu-text">
+                    Payroll Setting
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/Master/PfInformation">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                       PF Setting
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/admin/LoanList">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Loan List
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="#">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Loan Paid
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>*@
+
+
+    @if (Request.Cookies["RoleId"].Value == "2" || Request.Cookies["RoleId"].Value == "7")
+    {
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-bar-chart-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Reports
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+
+                <li class="">
+                    <a href="/Reports/SalaryRegister">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Register
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/SalaryRegisterMonthly">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Register Monthly
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/SalaryRegisterAnnualy">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Register Annual
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/SalaryCTCRegister">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary CTC Register
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Reports/RelienceSalaryRegister">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Salary Rel Register
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Reports/PFECR_Report">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        PF ECR Report
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/ESIECR_Report">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ESI ECR Report
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/ESIECR_Report1">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        ESI ECR Format
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/PFECR_Report1">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        PF ECR Format
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/NEFTReport">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        NEFT IDBI Report
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/Reports/NEFTAxisReport">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        NEFT Axis Report
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                @*<li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Monthly Report
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+                @*<li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Other Report
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+
+                @*<li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Mis report
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Conveyance
+                            <!--<b class="arrow fa fa-angle-down"></b>-->
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-bar-chart-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                <span class="menu-text">
+                    Audit Reports
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+
+
+                <li class="">
+                    <a href="/Reports/NMTList">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        NMT Report
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>
+    }
+<li class="">
+    <a href="/AccountingReport/PayrollReportDashboard">
+        <i class="fa fa-bar-chart-o" style="margin-left: 14px;"></i>
+        Finla Report
+        <!--<b class="arrow fa fa-angle-down"></b>-->
+    </a>
+    <b class="arrow"></b>
+</li>
+</ul>

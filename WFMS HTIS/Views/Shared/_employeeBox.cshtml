@@ -1,0 +1,96 @@
+﻿@using System.Collections
+@using System.Data
+@{ 
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    commonFunctions comfun = new commonFunctions();
+    SortedList list = new SortedList();
+    list.Add("@EmpCode", User.Identity.Name);
+    DataTable dtMenus = new DataTable();
+
+    if (HttpRuntime.Cache["dtMenu"] == null)
+    {
+        dtMenus = comfun.fillDataTable("Role_EmpWise", "", list);
+        HttpRuntime.Cache["dtMenu"] = dtMenus;
+    }
+
+    dtMenus = (DataTable)HttpRuntime.Cache["dtMenu"];
+
+    string empName = string.Empty;
+    string empId = "0";
+    string empCode = "";
+    //Employee_IdByEmpCode
+    list = new SortedList();
+    if (Session["EmpId"] == null || Session["EmpName"] == null || Session["EmpCode"] == null)
+    {
+        list.Add("@EmpCode", User.Identity.Name);
+        DataTable dt = comfun.fillDataTable("Employee_IdByEmpCode", "", list);
+        if(dt.Rows.Count>0)
+        {
+            Session["EmpId"] = dt.Rows[0]["EmpId"].ToString();
+            Session["EmpName"] = dt.Rows[0]["EmpName"].ToString();
+            Session["EmpCode"] = dt.Rows[0]["EmpCode"].ToString();
+
+            empName = dt.Rows[0]["EmpName"].ToString();
+            empCode= dt.Rows[0]["EmpCode"].ToString();
+            empId = dt.Rows[0]["EmpId"].ToString();
+        }
+    }
+    else
+    {
+        empId = Session["EmpId"].ToString();
+        empName = Session["EmpName"].ToString();
+        empCode = Session["EmpCode"].ToString();
+    }
+    DataRow[] dr = dtMenus.Select("RoleName='SuperAdmin'");
+
+    if(Session["RoleId"]==null)
+    {
+        Session["RoleId"] = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "Employee")).ToString();
+    }
+    else if(Session["RoleId"].ToString()=="0" || Session["RoleId"].ToString()=="")
+    {
+        Session["RoleId"] = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "Employee")).ToString();
+    }
+    string managerRoleId = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "Manager")).ToString();
+    string emplyeeRoleId = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "Employee")).ToString();
+    string payrollTeamId = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "PayrollTeam")).ToString();
+    string superAdminId = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "SuperAdmin")).ToString();
+
+
+}
+
+<input type="text" value="@Session["RoleId"].ToString()" id="txtRoleId" style="display:none"  />
+
+<input type="text" id="EmployeeId" class="hidden EmployeeIdGlobal filterClear" value="@empId" disabled="disabled" />
+@if (Session["RoleId"].ToString() != emplyeeRoleId.ToString())
+{
+    <input type="text" id="EmployeeName"  class="form-control EmployeeNameGlobal filterClear" placeholder="Employee name or Code" value="@empName - @empCode"  />
+}
+else
+{
+    <input type="text" id="EmployeeName" class="form-control EmployeeNameGlobal filterClear" placeholder="Employee name or Code" value="@empName - @empCode" disabled="disabled" />
+}
+
+<script src="/Scripts/autocomplete.js"></script>
+<script>
+    
+    @*$('#EmployeeName').keyup(function () {
+        if ($('#EmployeeName').val().trim() == '') {
+            $('#EmployeeId').val('0');
+            $('.EmployeeIdGlobal').val('0');
+        }
+    });
+    if ($('#txtRoleId').val() == '@emplyeeRoleId') {
+        autoText('EmployeeName', 'EmployeeId', '/autoComplete/_empAutoTextByRole/', 'Employee');
+    }
+    if ($('#txtRoleId').val() == '@managerRoleId') {
+        autoText('EmployeeName', 'EmployeeId', '/autoComplete/_empAutoTextByRole/', 'Manager');
+    }
+    if ($('#txtRoleId').val() == '@payrollTeamId') {
+        autoText('EmployeeName', 'EmployeeId', '/autoComplete/_empAutoTextByRole/', 'PayrollTeam');
+    }
+    if ($('#txtRoleId').val() == '@superAdminId') {
+        autoText('EmployeeName', 'EmployeeId', '/autoComplete/_empAutoTextByRole/', 'SuperAdmin');
+    }*@
+   
+</script>

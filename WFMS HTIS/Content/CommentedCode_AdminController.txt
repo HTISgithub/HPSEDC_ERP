@@ -1,0 +1,1686 @@
+﻿//[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult department()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return RedirectToAction("Login", "account");
+        //    }
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    comfun.saveformname("department", "/admin/department", "Departments", "Department Main form", "Y", "", "Department", "List");
+
+        //    return View();
+        //}
+        //public ActionResult _departmentList()
+        //{
+
+        //    decimal total_records = 0;
+        //    decimal pageno = 1;
+        //    decimal pagesize = 50;
+        //    if (Request.Form["PageNo"] != null)
+        //    {
+        //        pageno = Convert.ToDecimal(Request.Form["PageNo"]);
+        //    }
+        //    SortedList list = new SortedList();
+        //    list.Add("@PageNo", pageno);
+        //    list.Add("@PageSize", pagesize);
+        //    DataTable dt = comfun.fillDataTable("Department_Select", "", list);
+        //    if (dt.Rows.Count > 0)
+        //        total_records = Convert.ToDecimal(dt.Rows[0]["total"]);
+
+        //    string paging = comfun.create_paging_ajax(total_records, pagesize, pageno, "admin", "_departmentList", "_departmentList");
+
+        //    HtmlString htm = new HtmlString(paging);
+        //    ViewData["paging"] = htm;
+        //    return PartialView(dt);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult departmentAdd()
+        //{
+
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return RedirectToAction("Login", "account");
+        //    }
+        //    comfun.saveformname("departmentAdd", "/admin/departmentAdd", "Department Add", "Department add view", "N", "departmentAdd", "Department", "Add");
+        //    return View();
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult departmentEdit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return RedirectToAction("Login", "account");
+        //    }
+        //    comfun.saveformname("departmentEdit", "/admin/departmentEdit", "Department Edit", "Department edit view", "N", "departmentEdit", "Department", "Edit");
+        //    string departmentId = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("department");
+        //    }
+        //    departmentId = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@DepartmentId", departmentId);
+
+        //    DataTable dt = comfun.fillDataTable("Department_SelectWithId", "", list);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _departmentAddSubmit()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+
+        //        SortedList list = new SortedList();
+        //        list.Add("@DepartmentName", Request.Form["DepartmentName"].ToString());
+        //        list.Add("@DepartmentCode", Request.Form["DepartmentCode"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("Department_save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Add", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+        //public JsonResult _departmentEditSubmit()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+
+        //        SortedList list = new SortedList();
+        //        list.Add("@DepartmentName", Request.Form["DepartmentName"].ToString());
+        //        list.Add("@DepartmentCode", Request.Form["DepartmentCode"].ToString());
+        //        list.Add("DepartmentId", Request.Form["DepartmentId"].ToString());
+        //        list.Add("@Isactive", Request.Form["Isactive"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("Department_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Edit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult Designation()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return RedirectToAction("Login", "account");
+        //    }
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    comfun.saveformname("Designation", "/admin/Designation", "Designations", "Designation form", "Y", "", "Designation", "List");
+        //    return View();
+        //}
+        //public ActionResult _designationList()
+        //{
+
+        //    decimal total_records = 0;
+        //    decimal pageno = 1;
+        //    decimal pagesize = 50;
+        //    if (Request.Form["PageNo"] != null)
+        //    {
+        //        pageno = Convert.ToDecimal(Request.Form["PageNo"]);
+        //    }
+        //    SortedList list = new SortedList();
+        //    list.Add("@PageNo", pageno);
+        //    list.Add("@PageSize", pagesize);
+        //    DataTable dt = comfun.fillDataTable("Designation_Select", "", list);
+        //    if (dt.Rows.Count > 0)
+        //        total_records = Convert.ToDecimal(dt.Rows[0]["total"]);
+
+        //    string paging = comfun.create_paging_ajax(total_records, pagesize, pageno, "admin", "_designationList", "_designationList");
+
+        //    HtmlString htm = new HtmlString(paging);
+        //    ViewData["paging"] = htm;
+        //    return PartialView(dt);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult DesignationAdd()
+        //{
+
+        //    comfun.saveformname("DesignationAdd", "/admin/DesignationAdd", "Designation Add", "Designation add view", "N", "DesignationAdd", "Designation", "Add");
+        //    DataTable dt = comfun.fillDataTable("stpViksatPayGradeSelect", "", null);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _designationAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+
+        //        list.Add("@fiGradeId", Request.Form["GradeID"].ToString());
+        //        list.Add("@DesignationCode", Request.Form["DesignationCode"].ToString());
+        //        list.Add("@DesignationName", Request.Form["DesignationName"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("Designation_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_designationAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult designationEdit()
+        //{
+
+        //    comfun.saveformname("designationEdit", "/admin/designationEdit", "Designation Edit", "Designation Edit view", "N", "DesignationEdit", "Designation", "Edit");
+        //    string designationid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("Designation");
+        //    }
+        //    designationid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@DesignationId", designationid);
+        //    DataSet ds = comfun.fillDataSet("Designation_SelectWithId", "", list);
+        //    return View(ds);
+        //}
+
+        //public JsonResult _designationEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@GradeID", Request.Form["GradeID"].ToString());
+        //        list.Add("@DesignationName", Request.Form["DesignationName"].ToString());
+        //        list.Add("@fvDesignationCode", Request.Form["DesignationCode"].ToString());
+        //        list.Add("@DesignationId", Request.Form["DesignationId"].ToString());
+        //        list.Add("@Isactive", Request.Form["Isactive"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("Designation_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_designationEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult empcategories()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return RedirectToAction("Login", "account");
+        //    }
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    comfun.saveformname("empcategories", "/admin/empcategories", "empcategories", "empcategories Main form", "Y", "", "EmpCategory", "List");
+        //    DataTable dt = comfun.fillDataTable("EmpCategory_Select", "", null);
+        //    return View(dt);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult empcategoriesAdd()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return RedirectToAction("Login", "account");
+        //    }
+        //    comfun.saveformname("empcategoriesAdd", "/admin/empcategoriesAdd", "empcategories Add", "empcategories add view", "N", "empcategoriesAdd", "EmpCategory", "Add");
+
+        //    return View();
+        //}
+
+        //public JsonResult _EmpCategoryAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+
+        //        list.Add("@EmpCategoryName", Request.Form["EmployeeCategoryName"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("EmpCategory_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_EmpCategoryAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult empcategoryEdit()
+        //{
+        //    comfun.saveformname("empcategoryEdit", "/admin/empcategoryEdit", "Empcategory Edit", "Empcategory Edit view", "N", "empcategoryEdit", "EmpCategory", "Edit");
+
+        //    string empcategoryid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("empcategories");
+        //    }
+        //    empcategoryid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@EmpCategoryId", empcategoryid);
+        //    DataTable dt = comfun.fillDataTable("EmpCategory_SelectWithId", "", list);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _EmployeeCategoryEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+
+        //        list.Add("@EmpCategoryName", Request.Form["EmployeeCategoryName"].ToString());
+        //        list.Add("@EmpCategoryId", Request.Form["EmployeeCategoryId"].ToString());
+        //        list.Add("@IsActive", Request.Form["isActive"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("EmpCategory_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_EmployeeCategoryEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult Branch()
+        //{
+        //    //if (Request.QueryString["key"] != null)
+        //    //{
+        //    //    Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    //}
+        //    //comfun.saveformname("Branch", "/admin/Branch", "Cost Centre", "Cost Centre  form", "Y", "", "Branch", "List");
+        //    return View();
+        //}
+        //public ActionResult _branchList()
+        //{
+        //    decimal total_records = 0;
+        //    decimal pageno = 1;
+        //    decimal pagesize = 50;
+        //    if (Request.Form["PageNo"] != null)
+        //    {
+        //        pageno = Convert.ToDecimal(Request.Form["PageNo"]);
+        //    }
+        //    SortedList list = new SortedList();
+        //    list.Add("@PageNo", pageno);
+        //    list.Add("@PageSize", pagesize);
+        //    DataTable dt = comfun.fillDataTable("Branch_Select", "", list);
+        //    if (dt.Rows.Count > 0)
+        //        total_records = Convert.ToDecimal(dt.Rows[0]["total"]);
+
+        //    string paging = comfun.create_paging_ajax(total_records, pagesize, pageno, "admin", "_branchList", "_branchList");
+
+        //    HtmlString htm = new HtmlString(paging);
+        //    ViewData["paging"] = htm;
+        //    return PartialView(dt);
+        //}
+        ////[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult BranchAdd()
+        //{
+        //    comfun.saveformname("BranchAdd", "/admin/BranchAdd", "Branch Add", "Branch add view", "N", "BranchAdd", "Branch", "Add");
+
+        //    DataSet ds = comfun.fillDataSet("stpViksatBranchCompanyStateCity", "", null);
+        //    return View(ds);
+        //}
+        //public JsonResult _BranchAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+
+        //        list.Add("@fvBranchName", Request.Form["fvBranchName"].ToString());
+        //        list.Add("@fvBranchCode", Request.Form["BranchCode"].ToString());
+        //        list.Add("@fvAddress1", Request.Form["fvAddress1"].ToString());
+        //        list.Add("@fiStateId", Request.Form["fiStateId"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        list.Add("@fiDivisionID", Request.Form["fiDivisionID"].ToString());
+        //        list.Add("@fiCityId", Request.Form["fiCityId"].ToString());
+        //        //  list.Add("@fvPostalCode",Request.Form["PostalCode"].ToString());
+        //        list.Add("@fvPhoneNo", Request.Form["fvPhoneNo"].ToString());
+        //        list.Add("@fvMobileNo", Request.Form["fvMobileNo"].ToString());
+        //        // list.Add("@fvFaxNo",Request.Form["FaxNo"].ToString());
+        //        list.Add("@fvEmail", Request.Form["fvEmail"].ToString());
+        //        // list.Add("@fvTinNo",Request.Form["TinNo"].ToString());
+        //        list.Add("@ESINo", Request.Form["ESINo"].ToString());
+        //        list.Add("@fvPanNo", Request.Form["fvPanNo"].ToString());
+        //        list.Add("@fvPFCode", Request.Form["fvPFCode"].ToString());
+        //        list.Add("@IsActive", Request.Form["IsActive"].ToString());
+        //        list.Add("@GSTNo", Request.Form["GSTNo"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("Branch_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_BranchAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+        ////[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult BranchEdit()
+        //{
+        //    comfun.saveformname("BranchEdit", "/admin/BranchEdit", "Branch Edit", "Branch Edit view", "N", "BranchEdit", "Branch", "Edit");
+
+        //    string branchid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("branches");
+        //    }
+        //    branchid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@BranchId", branchid);
+        //    DataSet ds = comfun.fillDataSet("Branch_SelectWithId", "", list);
+        //    return View(ds);
+        //}
+        //public JsonResult _BranchEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@fiBranchId", Request.Form["BranchId"].ToString());
+        //        list.Add("@fvBranchName", Request.Form["BranchName"].ToString());
+        //        list.Add("@fvBranchCode", Request.Form["BranchCode"].ToString());
+        //        list.Add("@fvAddress1", Request.Form["Address"].ToString());
+        //        list.Add("@fiStateId", Request.Form["State"].ToString());
+        //        list.Add("@fiDivisionID", Request.Form["CompanyID"].ToString());
+        //        list.Add("@fiCityId", Request.Form["City"].ToString());
+        //        list.Add("@fvPhoneNo", Request.Form["PhoneNo"].ToString());
+        //        list.Add("@fvMobileNo", Request.Form["MobileNo"].ToString());
+        //        list.Add("@fvEmail", Request.Form["Email"].ToString());
+        //        list.Add("@fvPanNo", Request.Form["PanNo"].ToString());
+        //        list.Add("@fvPFCode", Request.Form["PFCode"].ToString());
+        //        //list.Add("@fvBranchName", Request.Form["BranchName"].ToString());
+        //        list.Add("@IsActive", Request.Form["IsActive"].ToString());
+        //        list.Add("@GSTNo", Request.Form["GSTNo"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("Branch_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_BranchEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+
+        //public JsonResult _CountriesAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CountryName", Request.Form["CountryName"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("Country_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_CountriesAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+		//public JsonResult _CountriesEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CountryName", Request.Form["CountryName"].ToString());
+        //        list.Add("@CountryId", Request.Form["CountryId"].ToString());
+        //        list.Add("@ModifiedBy", "1");
+        //        list.Add("@ModifiedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("Country_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_CountriesEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+		//public ActionResult States()
+        //{
+        //    comfun.saveformname("States", "/admin/States", "States", "States Main form", "Y", "", "States", "List");
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    DataTable dt = comfun.fillDataTable("Country_Select", "", null);
+        //    return View(dt);
+        //}
+
+        //        public ActionResult _state_selectddl()
+        //{
+        //    SortedList list = new SortedList();
+        //    list.Add("@CountryId", Request.Form["CountryId"].ToString());
+        //    DataTable dt = comfun.fillDataTable("State_SelectByCountryId", "", list);
+        //    return PartialView("_state_ddl", dt);
+        //}
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult StatesAdd()
+        //{
+        //    comfun.saveformname("StatesAdd", "/admin/StatesAdd", "States Add", "States view", "N", "StatesAdd", "States", "Add");
+
+        //    DataTable dt = comfun.fillDataTable("Country_Select", "", null);
+        //    return View(dt);
+        //}
+        //public JsonResult _StatesAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@StateName", Request.Form["StateName"].ToString());
+        //        list.Add("@CountryId", Request.Form["CountryId"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+
+        //        mes = comfun.executeNonQueryWMessage("State_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_StatesAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult StatesEdit()
+        //{
+        //    comfun.saveformname("StatesEdit", "/admin/StatesEdit", "States Edit", "States Edit view", "N", "StatesEdit", "States", "Edit");
+
+        //    string stateid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("States");
+        //    }
+        //    stateid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@StateId", stateid);
+        //    DataTable dt = comfun.fillDataTable("State_SelectWithId", "", list);
+        //    return View(dt);
+        //}
+        //public JsonResult _StatesEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@StateName", Request.Form["StateName"].ToString());
+        //        list.Add("@StateId", Request.Form["StateId"].ToString());
+        //        list.Add("@CountryId", Request.Form["CountryId"].ToString());
+        //        list.Add("@ModifiedBy", "1");
+        //        list.Add("@ModifiedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("State_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_StatesEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+		[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult Cities()
+        //{
+        //    comfun.saveformname("Cities", "/admin/Cities", "Cities", "Cities Main form", "Y", "", "Cities", "List");
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    DataTable dt = comfun.fillDataTable("State_Select", "", null);
+        //    //DataTable dt = comfun.fillDataTable("City_Select", "", null);
+        //    return View(dt);
+        //}
+
+        //public ActionResult _city_select()
+        //{
+        //    SortedList list = new SortedList();
+        //    list.Add("@StateId", Request.Form["StateId"].ToString());
+        //    DataTable dt = comfun.fillDataTable("City_SelectByStateId", "", list);
+        //    return PartialView("_city_select", dt);
+        //}
+
+
+
+        [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult CitiesAdd()
+        //{
+        //    comfun.saveformname("CitiesAdd", "/admin/CitiesAdd", "Cities Add", "Cities view", "N", "CitiesAdd", "Cities", "Add");
+
+        //    //DataSet ds = comfun.fillDataSet("CountryState_SelectDS", "", null);
+        //    DataTable dt = comfun.fillDataTable("Country_Select", "", null);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _CitiesAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CityName", Request.Form["CityName"].ToString());
+        //        list.Add("@StateId", Request.Form["StateId"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("City_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_CitiesAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult CitiesEdit()
+        //{
+        //    comfun.saveformname("CitiesEdit", "/admin/CitiesEdit", "Cities Edit", "Cities Edit", "N", "CitiesEdit", "Cities", "Edit");
+
+        //    string cityid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("Cities");
+        //    }
+        //    cityid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@CityId", cityid);
+        //    list.Add("@CostCenterId", Session["CostCenterId"].ToString());
+        //    DataTable dt = comfun.fillDataTable("City_SelectWithId", "", list);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _CitiesEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CityName", Request.Form["CityName"].ToString());
+        //        list.Add("@CityId", Request.Form["CityId"].ToString());
+        //        list.Add("@ModifiedBy", "1");
+        //        list.Add("@Distance", Request.Form["Distance"].ToString());
+        //        list.Add("@CostCenterId", Session["CostCenterId"].ToString());
+
+        //        list.Add("@ModifiedDate", comfun.dateISTstr());// comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("City_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_CitiesEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+		//[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+	   //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+	   //public ActionResult EmployeeContactEdit()
+        //{
+        //    SortedList list = new SortedList();
+        //    list.Add("@EmpID", comfun.decryptString(Request.QueryString["id"]));
+        //    DataSet ds = comfun.fillDataSet("Employee_ContactSelectWithIdM", "", list);
+        //    return View(ds);
+        //}
+
+		        // [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+				        // [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        // [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+		        //[customAuthorize(Roles = _roles)]
+
+				        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+//[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult Banks()
+        //{
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    comfun.saveformname("Banks", "/admin/Banks", "Bank List", "Bank Main form", "Y", "", "Bank", "List");
+
+        //    DataTable dt = comfun.fillDataTable("Banks_List", "", null);
+        //    return View(dt);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult BanksAdd()
+        //{
+        //    comfun.saveformname("BanksAdd", "/admin/BanksAdd", "Bank Add", "Bank Add view", "N", "BanksAdd", "Bank", "Add");
+        //    return View();
+        //}
+
+        //public JsonResult _BanksAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@BankName", Request.Form["BankName"].ToString());
+        //        // list.Add("@")
+        //        mes = comfun.executeNonQueryWMessage("Banks_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _BanksAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult BanksEdit()
+        //{
+        //    comfun.saveformname("BanksEdit", "/admin/BanksEdit", "Bank Edit", "Bank Edit", "N", "BanksEdit", "Bank", "Edit");
+
+        //    string bankid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("Banks");
+        //    }
+        //    bankid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@BankId", bankid);
+        //    DataTable dt = comfun.fillDataTable("Bank_SelectWithId", "", list);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _BankEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@BankName", Request.Form["BankName"].ToString());
+        //        list.Add("@BankId", Request.Form["BankId"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("Bank_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _BankEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+		//public ActionResult AllowancesDetailWithMonthId()
+        //{
+        //    SortedList list = new SortedList();
+        //    list.Add("MonthId", Request.Form["Month"].ToString());
+        //    DataTable dt = comfun.fillDataTable("stpVIKSATAllowanceGrid", "", list);
+        //    return PartialView("_PayAllowancesShow", dt);
+        //}
+
+		        //  [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //  [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+		        //  [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+				// public ActionResult _loanIssueGrid()
+        // {
+
+
+        //   }
+
+		        //[customAuthorize(Roles = _roles)]
+
+				//[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult GradeList()
+        //{
+        //    if (Request.QueryString["key"] != null)
+        //    {
+        //        Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    }
+        //    comfun.saveformname("GradeList", "/admin/GradeList", "Grade List", "Grade Main form", "Y", "", "Grade", "List");
+
+        //    DataTable dt = comfun.fillDataTable("stpViksatPayGradeSelect", "", null);
+        //    return View("GradeList", dt);
+        //}
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult GradeAdd()
+        //{
+        //    comfun.saveformname("GradeAdd", "/admin/GradeAdd", "Grade Add", "Grade Add view", "N", "GradeAdd", "Grade", "Add");
+        //    return View();
+        //}
+
+        //public JsonResult _GradesAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+
+        //        list.Add("@Grade", Request.Form["Grade"].ToString());
+        //        list.Add("@GradeCode", Request.Form["GradeCode"].ToString());
+        //        list.Add("@IsActive", 'Y');
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        mes = comfun.executeNonQueryWMessage("stpViksatpayGradeinsert", "", list).ToString();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _GradesAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult GradeEdit()
+        //{
+        //    comfun.saveformname("GradeEdit", "/admin/GradeEdit", "Grade Edit", "Grade Edit", "N", "GradeEdit", "Grade", "Edit");
+
+
+        //    string GradeID = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("GradeList");
+        //    }
+        //    GradeID = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@GradeID", GradeID);
+        //    DataTable dt = comfun.fillDataTable("stpViksatPayGradeSelectWithGradeID", "", list);
+        //    return View(dt);
+        //}
+
+        //public JsonResult _GradeEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@GradeID", Request.Form["GradeID"].ToString());
+        //        list.Add("@GradeName", Request.Form["Grade"].ToString());
+        //        list.Add("@GradeCode", Request.Form["GradeCode"].ToString());
+        //        list.Add("@IsActive", 'Y');
+        //        mes = comfun.executeNonQueryWMessage("stpViksatpayGradeupdate", "", list).ToString();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _GradeEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+        //[customAuthorize(Roles = _roles)]
+
+		        //[customAuthorize(Roles = _roles)]
+
+//public JsonResult _DivisionAddSubmit()
+        //{
+        //    //if (payfun.sessionRecreate() == "expires")
+        //    //{
+        //    //    return Json("Session expires");
+        //    //}
+        //    //  comfun.saveformname("_DivisionAddSubmit", "/admin/_DivisionAddSubmit", "Division Add Submit", "Division Add Submit", "N", "DivisionAdd", "Division", "");
+        //    string mes = string.Empty;
+        //    SortedList list = new SortedList();
+        //    try
+        //    {
+        //        list.Add("@fvDivisionName", Request.Form["fvDivisionName"].ToString());
+        //        list.Add("@fvAddress1", Request.Form["fvAddress1"].ToString());
+        //        list.Add("@fiStateId", Request.Form["fiStateId"].ToString());
+        //        list.Add("@fiCityId", Request.Form["fiCityId"].ToString());
+        //        list.Add("@fvEmail", Request.Form["fvEmail"].ToString());
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        list.Add("@fvPanNo", Request.Form["fvPanNo"].ToString());
+        //        list.Add("@fvPFCode", Request.Form["fvPFCode"].ToString());
+        //        list.Add("@fvDivisionCode", Request.Form["fvDivisionCode"].ToString());
+        //        list.Add("@GSTNO", Request.Form["GSTNo"].ToString());
+        //        list.Add("@fvPhoneNo", Request.Form["fvPhoneNo"].ToString());
+        //        list.Add("@fvMobileNo", Request.Form["fvMobileNo"].ToString());
+        //        list.Add("@IsActive", "Y");
+        //        list.Add("@fvWebSite", Request.Form["fvWebSite"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("stpviksatDivisionSave", "", list).ToString();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _DivisionAddSubmit", ex.Message);
+        //    }
+
+        //    return Json(mes);
+        //}
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+				//public JsonResult _DivisionEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    SortedList list = new SortedList();
+        //    try
+        //    {
+        //        list.Add("@fiDivisionId", Request.Form["DivisionID"].ToString());
+        //        list.Add("@fvDivisionName", Request.Form["Division"].ToString());
+        //        list.Add("@fvAddress1", Request.Form["Address"].ToString());
+        //        list.Add("@fiStateId", Request.Form["State"].ToString());
+        //        list.Add("@fiCityId", Request.Form["City"].ToString());
+        //        list.Add("@fvEmail", Request.Form["Email"].ToString());
+        //        list.Add("@fvPanNo", Request.Form["PanNo"].ToString());
+        //        list.Add("@fvPFCode", Request.Form["PFCode"].ToString());
+        //        list.Add("@fvCompanyCode", Request.Form["DivisionCode"].ToString());
+        //        list.Add("@IsActive", Request.Form["Isactive"].ToString());
+        //        list.Add("@fvPhoneNo", Request.Form["PhoneNo"].ToString());
+        //        list.Add("@fvMobileNo", Request.Form["MobileNo"].ToString());
+        //        list.Add("@GSTNO", Request.Form["GSTNO"].ToString());
+        //        list.Add("@fvWebSite", Request.Form["Website"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("stpviksatDivisionUpdate", "", list).ToString();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _DivisionEditSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+				//[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult UnitList()
+        //{
+        //    //if (Request.QueryString["key"] != null)
+        //    //{
+        //    //    Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    //}
+        //    //comfun.saveformname("UnitList", "/admin/UnitList", "Unit List", "Unit List form", "Y", "", "Unit", "List");
+
+        //    return View();
+        //}
+
+        //public ActionResult _UnitList()
+        //{
+        //    SortedList list = new SortedList();
+        //    decimal total_records = 0;
+        //    decimal pageno = 1;
+        //    decimal pagesize = 50;
+
+        //    if (Request.Form["PageNo"] != null)
+        //    {
+        //        pageno = Convert.ToDecimal(Request.Form["PageNo"]);
+        //    }
+
+        //    //paging_get_downline1
+        //    list.Add("@PageNo", pageno);
+        //    list.Add("@PageSize", pagesize);
+
+        //    DataTable dt = comfun.fillDataTable("StpViksatUnit_Select", "", list);
+        //    if (dt.Rows.Count > 0)
+        //        total_records = Convert.ToDecimal(dt.Rows[0]["total"]);
+
+        //    string paging = comfun.create_paging_ajax(total_records, pagesize, pageno, "admin", "_UnitList", "_UnitList");
+
+        //    HtmlString htm = new HtmlString(paging);
+        //    ViewData["paging"] = htm;
+        //    return PartialView("_UnitList", dt);
+        //}
+
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+				//public JsonResult _UnitAddSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CreatedBy", Session["EmpId"].ToString());
+        //        list.Add("@CreatedDate", comfun.dateISTstr());
+        //        list.Add("@fvUnitName", Request.Form["fvBranchName"].ToString());
+        //        list.Add("@fvAddress1", Request.Form["fvAddress1"].ToString());
+        //        list.Add("@fiStateId", Request.Form["fiStateId"].ToString());
+        //        list.Add("@fiCompanyID", Request.Form["fiDivisionID"].ToString());
+        //        list.Add("@fiCityId", Request.Form["fiCityId"].ToString());
+        //        //  list.Add("@fvPostalCode",Request.Form["PostalCode"].ToString());
+        //        list.Add("@fvPhoneNo", Request.Form["fvPhoneNo"].ToString());
+        //        list.Add("@fvMobileNo", Request.Form["fvMobileNo"].ToString());
+        //        // list.Add("@fvFaxNo",Request.Form["FaxNo"].ToString());
+        //        list.Add("@fvEmail", Request.Form["fvEmail"].ToString());
+        //        list.Add("@fvUnitCode", Request.Form["fvUnitCode"].ToString());
+        //        list.Add("@ESINo", Request.Form["ESINo"].ToString());
+        //        list.Add("@fvPanNo", Request.Form["fvPanNo"].ToString());
+        //        list.Add("@fvPFCode", Request.Form["fvPFCode"].ToString());
+        //        list.Add("@IsActive", Request.Form["IsActive"].ToString());
+        //        list.Add("@GSTNo", Request.Form["GSTNo"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("stpViksatUnit_Save", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _UnitAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+        //}
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+
+				//public JsonResult _UnitEditSubmit()
+        //{
+        //    if (payfun.sessionRecreate() == "expires")
+        //    {
+        //        return Json("Session expires");
+        //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@fiUnitId", Request.Form["UnitId"].ToString());
+        //        list.Add("@fvUnitName", Request.Form["UnitName"].ToString());
+        //        list.Add("@fvUnitCode", Request.Form["UnitCode"].ToString());
+        //        list.Add("@fvAddress1", Request.Form["Address"].ToString());
+        //        list.Add("@fiStateId", Request.Form["State"].ToString());
+        //        list.Add("@fiCompanyId", Request.Form["CompanyID"].ToString());
+        //        list.Add("@fiCityId", Request.Form["City"].ToString());
+        //        list.Add("@fvPhoneNo", Request.Form["PhoneNo"].ToString());
+        //        list.Add("@fvMobileNo", Request.Form["MobileNo"].ToString());
+        //        list.Add("@fvEmail", Request.Form["Email"].ToString());
+        //        list.Add("@fvPanNo", Request.Form["PanNo"].ToString());
+        //        list.Add("@fvPFCode", Request.Form["PFCode"].ToString());
+        //        list.Add("@IsActive", Request.Form["IsActive"].ToString());
+        //        list.Add("@GSTNo", Request.Form["GSTNo"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("stpviksatUnit_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("Admin _UnitEditSubmit", ex.Message);
+        //    }
+
+        //    return Json(mes);
+        //}
+
+		        // [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+				//public ActionResult getDesignationByGrade()
+        //{ 
+        //    ViewData["DisplayType"] = "Select";
+        //    ViewData["ActionResult"] = "DesignationByGrade";
+        //    SortedList list = new SortedList();
+        //    list.Add("@DesignationId", Request.Form["DesignationId"].ToString());
+        //    DataTable dt = comfun.fillDataTable("stpViksatGradeByDesignation", "", list);
+        //    return PartialView("_listOrDropDown", dt);
+        //}
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //  [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+		        //   [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+
+
+
+
+
+
+
+
+
+				#endregion
+        #region shaifal
+        ////To Display Dynamic dashboard//
+        //public ActionResult Dashboard()
+        //{
+        //    return View();
+        //}
+
+        ////To Display Attendance Statistics Pie Chart//
+        //public ActionResult _AttendanceStatistics()
+        //{
+        //    SqlCommand cmd = new SqlCommand("stpAttendance_statistics", con);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    //cmd.CommandTimeout = 0;
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataTable dt = new DataTable();
+        //    da.Fill(dt);
+        //    return PartialView("_AttendanceStatistics", dt);
+        //}
+
+        ////To Display Present Statistics//
+        //public ActionResult _PresentStatistics()
+        //{
+        //    SqlCommand cmd = new SqlCommand("stpAttendancePresent_statistics", con);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    //cmd.CommandTimeout = 0;
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataTable dt = new DataTable();
+        //    da.Fill(dt);
+        //    return PartialView("_PresentStatistics", dt);
+        //}
+
+        ////To Display Device Status//
+        //public ActionResult _DeviceStatus()
+        //{
+        //    SqlCommand cmd = new SqlCommand("stpAttendanceDevice_statistics", con);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    //cmd.CommandTimeout = 0;
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataTable dt = new DataTable();
+        //    da.Fill(dt);
+        //    return PartialView("_DeviceStatus", dt);
+        //}
+
+        ////To Display Current Month Trend//
+        //public ActionResult _CurrentMonthTrend()
+        //{
+        //    SqlCommand cmd = new SqlCommand("stpAttendanceMonthly_statistics", con);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    //cmd.CommandTimeout = 0;
+        //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    DataTable dt = new DataTable();
+        //    da.Fill(dt);
+        //    return PartialView("_CurrentMonthTrend", dt);
+        //}
+
+
+        //////////////////////////////
+        ///Tier Master                          (((DONE)))
+        /////////////////////////////
+        ///
+
+        public ActionResult AddNewTier()
+        {
+            //SqlCommand cmd = new SqlCommand("sp_CitiesList", con);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.CommandTimeout = 0;
+            //SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //DataTable dt = new DataTable();
+            //da.Fill(dt);
+            DataTable dt = comfun.fillDataTable("sp_CitiesList", "", null);
+            return View(dt);
+        }
+
+        //To Save/Update Tier//
+        public JsonResult TierSaveUpdateSubmit()
+        {
+            string mes = string.Empty;
+            try
+            {
+                SortedList list = new SortedList();
+                list.Add("@TierId", Request.Form["TierId"].ToString());
+                list.Add("@TierCode", Request.Form["TierCode"].ToString());
+                list.Add("@TierName", Request.Form["TierName"].ToString());
+                list.Add("@TierCities", Request.Form["TierCities"].ToString());
+                mes = comfun.executeNonQueryWMessage("sp_Tier_SaveUpdate", "", list).ToString();
+
+                //mes = comfun.executeNonQueryWMessage("sp_Tier_SaveUpdate", "", list).ToString();
+                //SqlCommand cmd = new SqlCommand("sp_Tier_SaveUpdate", con);
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.CommandTimeout = 0;
+                //cmd.Parameters.AddWithValue("@TierId", Request.Form["TierId"].ToString());
+                //cmd.Parameters.AddWithValue("@TierCode", Request.Form["TierCode"].ToString());
+                //cmd.Parameters.AddWithValue("@TierName", Request.Form["TierName"].ToString());
+                //cmd.Parameters.AddWithValue("@TierCities", Request.Form["TierCities"].ToString());
+                //cmd.Parameters.Add("@mes", SqlDbType.VarChar, 500);
+                //cmd.Parameters["@mes"].Direction = ParameterDirection.Output;
+                //con.Open();
+                //cmd.ExecuteNonQuery();
+                //con.Close();
+                //mes = cmd.Parameters["@mes"].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                mes = ex.Message;
+            }
+            return Json(mes);
+        }
+
+        //To Display Tier List//
+        //public ActionResult TierList()
+        //{
+        //    //SqlCommand cmd = new SqlCommand("sp_TierListDisplay", con);
+        //    //cmd.CommandType = CommandType.StoredProcedure;
+        //    //cmd.CommandTimeout = 0;
+        //    //SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //    //DataTable dt = new DataTable();
+        //    //da.Fill(dt);
+        //    DataTable dt = comfun.fillDataTable("sp_TierListDisplay", "", null);
+        //    return View(dt);
+        //}
+
+        //To Get Tier Details Via Id// ((PENDING))
+        public ActionResult UpdateTier()
+        {
+            string tierid = "0";
+            if (Request.QueryString["id"] == null)
+            {
+                return RedirectToAction("TierList", "TierList");
+            }
+            tierid = Request.QueryString["Id"].ToString();
+
+            //SqlCommand cmd = new SqlCommand("sp_TierListDisplayViaId", con);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.CommandTimeout = 0;
+            //cmd.Parameters.AddWithValue("@TierId", tierid);
+            //SqlDataAdapter da = new SqlDataAdapter(cmd);
+            //DataSet ds = new DataSet();
+            //da.Fill(ds);
+            DataSet ds = new DataSet();
+            SortedList list = new SortedList();
+            list.Add("@TierId", Request.QueryString["Id"].ToString());
+            ds = comfun.fillDataSet("sp_TierListDisplay", "", list);
+            return View(ds);
+        }
+
+        //To Delete Existing Tier//
+        public JsonResult DeleteTier()
+        {
+            string mes = string.Empty;
+            try
+            {
+                //SqlCommand cmd = new SqlCommand("sp_Tier_Delete", con);
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.CommandTimeout = 0;
+                //cmd.Parameters.AddWithValue("@TierId", Request.Form["TierId"].ToString());
+                //cmd.Parameters.Add("@mes", SqlDbType.VarChar, 500);
+                //cmd.Parameters["@mes"].Direction = ParameterDirection.Output;
+                //con.Open();
+                //cmd.ExecuteNonQuery();
+                //con.Close();
+                //mes = cmd.Parameters["@mes"].Value.ToString();
+
+                SortedList list = new SortedList();
+                list.Add("@TierId", Request.Form["TierId"].ToString());
+                mes = comfun.executeNonQueryWMessage("sp_Tier_Delete", "", list).ToString();
+            }
+            catch (Exception ex)
+            {
+                mes = ex.Message;
+            }
+            return Json(mes, JsonRequestBehavior.AllowGet);
+        }
+
+        //To Change Active/Deactive Status Tier//
+        public JsonResult TierStatusUpdate()
+        {
+            string mes = string.Empty;
+            try
+            {
+                //SqlCommand cmd = new SqlCommand("sp_Tier_Active_Deactive", con);
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.CommandTimeout = 0;
+                //cmd.Parameters.AddWithValue("@TierId", Request.Form["TierId"].ToString());
+                //cmd.Parameters.AddWithValue("@TierStatus", Request.Form["TierStatus"].ToString());
+                //cmd.Parameters.Add("@mes", SqlDbType.VarChar, 500);
+                //cmd.Parameters["@mes"].Direction = ParameterDirection.Output;
+                //con.Open();
+                //cmd.ExecuteNonQuery();
+                //con.Close();
+                //mes = cmd.Parameters["@mes"].Value.ToString();
+
+                SortedList list = new SortedList();
+                list.Add("@TierId", Request.Form["TierId"].ToString());
+                list.Add("@TierStatus", Request.Form["TierStatus"].ToString());
+                mes = comfun.executeNonQueryWMessage("sp_Tier_Active_Deactive", "", list).ToString();
+
+            }
+            catch (Exception ex)
+            {
+                mes = ex.Message;
+            }
+            return Json(mes);
+        }
+
+
+
+		//[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult BanksAdd()
+        //{
+        //    comfun.saveformname("BanksAdd", "/admin/BanksAdd", "Bank Add", "Bank Add view", "N", "BanksAdd", "Bank", "Add");
+        //    return View();
+        //}
+
+		//if (Request.QueryString["key"] != null)
+            //{
+            //    Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+            //}
+            // comfun.saveformname("Banks", "/admin/Banks", "Bank List", "Bank Main form", "Y", "", "Bank", "List");
+
+
+        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+		        //[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+
+				//if (payfun.sessionRecreate() == "expires")
+            //{
+            //    return RedirectToAction("Login", "account");
+            //}
+            //if (Request.QueryString["key"] != null)
+            //{
+            //    Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+            //}
+            //comfun.saveformname("empcategories", "/admin/empcategories", "empcategories", "empcategories Main form", "Y", "", "EmpCategory", "List");
+
+
+			// [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+			//if (payfun.sessionRecreate() == "expires")
+            //{
+            //    return RedirectToAction("Login", "account");
+            //}
+            //comfun.saveformname("empcategoriesAdd", "/admin/empcategoriesAdd", "empcategories Add", "empcategories add view", "N", "empcategoriesAdd", "EmpCategory", "Add");
+
+
+			//if (payfun.sessionRecreate() == "expires")
+            //{
+            //    return Json("Session expires");
+            //}
+
+			            // comfun.saveformname("DesignationAdd", "/admin/DesignationAdd", "Designation Add", "Designation add view", "N", "DesignationAdd", "Designation", "Add");
+
+						        // [customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+
+
+								            //comfun.saveformname("empcategoryEdit", "/admin/empcategoryEdit", "Empcategory Edit", "Empcategory Edit view", "N", "empcategoryEdit", "EmpCategory", "Edit");
+
+
+
+											//public ActionResult AddNewCompanyNature()
+        //{
+        //    return View();
+        //}
+        ////To Save/Update Company Nature//
+        //public JsonResult CompanyNatureSaveUpdateSubmit()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CompanyNatureId", Request.Form["CompanyNatureId"].ToString());
+        //        list.Add("@CompanyNature", Request.Form["CompanyNature"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("sp_CompanyNature_SaveUpdate", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes);
+        //}
+        ////To Display Company Nature List//
+        ////public ActionResult CompanyNatureList()
+        ////{
+        ////    DataTable dt = comfun.fillDataTable("sp_CompanyNatureListDisplay", "", null);
+        ////    return View(dt);
+        ////}
+
+        ////To Get Company Nature Details Via Id//
+        //public ActionResult UpdateCompanyNature()
+        //{
+        //    string companynatureid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("CompanyNatureList", "CompanyNatureList");
+        //    }
+        //    companynatureid = Request.QueryString["Id"].ToString();
+        //    SortedList list = new SortedList();
+        //    list.Add("@CompanyNatureId", companynatureid);
+        //    DataTable dt = comfun.fillDataTable("sp_CompanyNatureListDisplayViaId", "", list);
+        //    return View(dt);
+        //}
+        ////To Delete Existing Company Nature//
+        //public JsonResult DeleteCompanyNature()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CompanyNatureId", Request.Form["CompanyNatureId"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("sp_CompanyNature_Delete", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes, JsonRequestBehavior.AllowGet);
+        //}
+        ////To Change Active/Deactive Status Company Nature//
+        //public JsonResult CompanyNatureStatusUpdate()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CompanyNatureId", Request.Form["CompanyNatureId"].ToString());
+        //        list.Add("@CompanyNatureStatus", Request.Form["CompanyNatureStatus"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("sp_CompanyNature_Active_Deactive", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes);
+        //}
+
+
+        //public ActionResult GeofeneceList()
+        //{
+        //    //comfun.saveformname("Country", "/admin/Country", "Country", "Country  form", "Y", "", "Country", "List");
+        //    //if (Request.QueryString["key"] != null)
+        //    //{
+        //    //    Session["SelectedMenu"] = comfun.decryptString(Request.QueryString["key"].ToString());
+        //    //}
+        //    return View();
+        //}
+        //public ActionResult _geofeneceList()
+        //{
+        //    decimal total_records = 0;
+        //    decimal pageno = 1;
+        //    decimal pagesize = 50;
+        //    if (Request.Form["PageNo"] != null)
+        //    {
+        //        pageno = Convert.ToDecimal(Request.Form["PageNo"]);
+        //    }
+        //    SortedList list = new SortedList();
+        //    list.Add("@PageNo", pageno);
+        //    list.Add("@PageSize", pagesize);
+        //    DataTable dt = comfun.fillDataTable("sp_CompanyNatureListDisplay", "", list);
+        //    if (dt.Rows.Count > 0)
+        //        total_records = Convert.ToDecimal(dt.Rows[0]["total"]);
+        //    string paging = comfun.create_paging_ajax(total_records, pagesize, pageno, "admin", "_companyNatureList", "_companyNatureList");
+        //    HtmlString htm = new HtmlString(paging);
+        //    ViewData["paging"] = htm;
+        //    return PartialView(dt);
+        //}
+        ////[customAuthorize(Roles = payrollFunctions.roleAdmin + "," + payrollFunctions.roleManger + "," + payrollFunctions.rolePayrollTeam)]
+        //public ActionResult _GeofenceAdd()
+        //{// comfun.saveformname("CountriesAdd", "/admin/CountriesAdd", "Country Add", "Country view", "N", "Country Add", "Country", "Add");
+        //    return PartialView("_companyNatureAdd");
+        //}
+        //public JsonResult _GeofenceAddSubmit()
+        //{
+        //    //if (payfun.sessionRecreate() == "expires")
+        //    //{
+        //    //    return Json("Session expires");
+        //    //}
+        //    string mes = string.Empty;
+        //    try
+        //    {
+
+        //        SortedList list = new SortedList();
+        //        list.Add("@CompanyNature", Request.Form["CompanyNature"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("sp_CompanyNature_Save", "", list).ToString();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = comfun.errorMessage("_CompnayNatureAddSubmit", ex.Message);
+        //    }
+        //    return Json(mes);
+
+
+
+
+
+        //}
+        //public JsonResult _GeofenceStatusUpdate()
+        //{
+
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@Id", Request.Form["Id"].ToString());
+        //        list.Add("@IsActive", Request.Form["IsActive"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("stpCountryActivationStatusUpdate", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes);
+
+        //}
+        //public ActionResult _GeofenceEdit()
+        //{
+        //    //if (Request.QueryString["id"] == null)
+        //    //{
+        //    //    return RedirectToAction("Countries");
+        //    //}
+        //    // countryid = comfun.decryptString(Request.QueryString["Id"].ToString());
+        //    SortedList list = new SortedList();
+        //    list.Add("@CountryId", Request.Form["Ids"].ToString());
+        //    // list.Add("@CountryId", countryid);
+        //    DataTable dt = comfun.fillDataTable("Country_SelectWithId", "", list);
+        //    return PartialView("_CountriesEdit", dt);
+
+        //}
+        //public JsonResult _GeofenceEditSubmit()
+        //{
+        //    //{
+        //    //    if (payfun.sessionRecreate() == "expires")
+        //    //    {
+        //    //        return Json("Session expires");
+        //    //    }
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@CountryName", Request.Form["CountryName"].ToString());
+        //        list.Add("@CountryCode", Request.Form["CountryCode"].ToString());
+        //        list.Add("@CountryId", Request.Form["CountryId"].ToString());
+        //        list.Add("@ModifiedBy", "1");
+        //        list.Add("@ModifiedDate", DateTime.UtcNow.AddMinutes(330).ToString("dd-MMM-yyyy HH:mm:ss"));
+        //        mes = comfun.executeNonQueryWMessage("Country_Edit", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes);
+        //}
+
+
+        //public ActionResult AddNewGeoFence()
+        //{
+        //    DataTable dt = comfun.fillDataTable("stpVIKSATState_List", "", null);
+        //    return View(dt);
+        //}
+        ////To Display City List based on selected State//
+        //public ActionResult _CityListDisplay()
+        //{
+        //    SortedList list = new SortedList();
+        //    list.Add("@fiStateId", Request.Form["StateId"].ToString());
+        //    DataTable dt = comfun.fillDataTable("stpVIKSATCity_List", "", list);
+        //    return PartialView("_CityListDisplay", dt);
+        //}
+        ////To Save/Update GeoFence//
+        //public JsonResult GeoFenceSaveUpdateSubmit()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@GeoFenceId", Request.Form["GeoFenceId"].ToString());
+        //        list.Add("@StateId", Request.Form["GeofenceStateId"].ToString());
+        //        list.Add("@CityId", Request.Form["GeofenceCityId"].ToString());
+        //        list.Add("@Location", Request.Form["GeofenceLocation"].ToString());
+        //        list.Add("@Address", Request.Form["GeofenceAddress"].ToString());
+        //        list.Add("@Latitude", Request.Form["GeofenceLatitude"].ToString());
+        //        list.Add("@Longitude", Request.Form["GeofenceLongitude"].ToString());
+        //        list.Add("@Radius", Request.Form["GeofenceRadius"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("sp_Geofence_SaveUpdate", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes);
+        //}
+        ////To Display GeoFence List//
+        //public ActionResult GeoFenceList()
+        //{
+        //    DataTable dt = comfun.fillDataTable("sp_GeofenceListDisplay", "", null);
+        //    return View(dt);
+        //}
+        ////To Get GeoFence Details Via Id//
+        //public ActionResult UpdateGeoFence()
+        //{
+        //    string geofenceid = "0";
+        //    if (Request.QueryString["id"] == null)
+        //    {
+        //        return RedirectToAction("GeoFenceList", "GeoFenceList");
+        //    }
+        //    geofenceid = Request.QueryString["Id"].ToString();
+        //    SortedList list = new SortedList();
+        //    list.Add("@GeoFenceId", geofenceid);
+        //    DataSet ds = comfun.fillDataSet("sp_GeofenceDisplayViaId", "", list);
+        //    return View(ds);
+        //}
+        ////To Change Active/Deactive GeoFence Status//
+        //public JsonResult GeoFenceActivationStatusUpdate()
+        //{
+        //    string mes = string.Empty;
+        //    try
+        //    {
+        //        SortedList list = new SortedList();
+        //        list.Add("@GeoFenceId", Request.Form["GeoFenceId"].ToString());
+        //        list.Add("@GeoFenceStatus", Request.Form["GeoFenceStatus"].ToString());
+        //        mes = comfun.executeNonQueryWMessage("sp_Geofence_Active_Deactive", "", list).ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mes = ex.Message;
+        //    }
+        //    return Json(mes);
+        //}
+
+
+
+		public ActionResult _EmployeeCategorySubmitView()
+        {
+            // comfun.saveformname("CountriesAdd", "/admin/CountriesAdd", "Country Add", "Country view", "N", "Country Add", "Country", "Add");
+            ViewData["EmpCategoryId"] = "0";
+            ViewData["EmpCategoryCode"] = "";
+            ViewData["EmpCategoryName"] = "";
+            ViewData["IsOverTime"] = "";
+            ViewData["IsLateComingApplied"] = "";
+            ViewData["LCHalfDayAbsentMins"] = "";
+            ViewData["LCFullDayAbsentMins"] = "";
+            ViewData["IsContinuousLate"] = "";
+            ViewData["IsWorkDurationApplied"] = "";
+            ViewData["WDHalfDayAbsentMins"] = "";
+            ViewData["WDFulldayAbsentMins"] = "";
+
+            if (Request.Form["EmpCategoryId"].ToString() != "0")
+            {
+                ViewData["EmpCategoryId"] = Request.Form["EmpCategoryId"].ToString();
+                ViewData["EmpCategoryCode"] = Request.Form["EmpCategoryCode"].ToString();
+                ViewData["EmpCategoryName"] = Request.Form["EmpCategoryName"].ToString();
+                ViewData["IsOverTime"] = Request.Form["IsOverTime"].ToString();
+                ViewData["IsLateComingApplied"] = Request.Form["IsLateComingApplied"].ToString();
+                ViewData["LCHalfDayAbsentMins"] = Request.Form["LCHalfDayAbsentMins"].ToString();
+                ViewData["LCFullDayAbsentMins"] = Request.Form["LCFullDayAbsentMins"].ToString();
+                ViewData["IsContinuousLate"] = Request.Form["IsContinuousLate"].ToString();
+                ViewData["IsWorkDurationApplied"] = Request.Form["IsWorkDurationApplied"].ToString();
+                ViewData["WDHalfDayAbsentMins"] = Request.Form["WDHalfDayAbsentMins"].ToString();
+                ViewData["WDFulldayAbsentMins"] = Request.Form["WDFulldayAbsentMins"].ToString();
+
+            }
+            return PartialView(" _EmployeeCategorySubmit");
+        }
+
+
+
+

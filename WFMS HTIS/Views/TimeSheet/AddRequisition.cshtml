@@ -1,0 +1,2113 @@
+﻿@using System.Data
+
+@{ ViewBag.Title = "Department Requisition";
+    ViewBag.PageTitle = "Department Request Resource";
+    DateTime _date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    DateTime nextMonthDate = _date.AddMonths(1);
+    DateTime oldMonth = _date.AddDays(1);
+    DateTime currentMonth = new DateTime(nextMonthDate.Year, nextMonthDate.Month, 1).AddDays(-1);
+    oldMonth = new DateTime(oldMonth.Year, oldMonth.Month, 1);
+    string DepartName = "";
+    DepartName = Session["Empid"].ToString(); }
+<link href="~/Content/Bootstrap-Sweetalert/sweetalert.css" rel="stylesheet" />
+<link rel="preconnect" href=https://fonts.googleapis.com>
+<link rel="preconnect" href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Raleway:wght@100..900&display=swap" rel="stylesheet">
+<script src="~/Content/Bootstrap-Sweetalert/sweetalert.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="~/assets/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap-multiselect.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" />
+
+
+@*<script src="//code.jquery.com/jquery-1.10.2.js"></script>*@
+
+<script src="~/Scripts/jquery-uinew.js"></script>
+<style>
+
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #d6f5fc;
+        font-weight: 600;
+        font-family: "Raleway", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
+    .modal-title {
+        margin: 0;
+        color: white;
+        line-height: 1.42857143;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 2rem;
+        display: inline-block;
+        width: auto;
+    }
+
+    .modal-footer {
+        display: block;
+    }
+
+    input[type="text"] {
+        width: auto;
+        text-align: center;
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #48484b;
+        border-radius: 5px;
+        box-sizing: border-box;
+        max-width: 170px;
+    }
+
+    /* input {
+            width: 30%;
+            padding: 5px;
+            margin-right: 10px;
+        }
+    */
+    /* label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+    */
+
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+    td {
+        font-family: "Jost", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+    }
+
+    .error {
+        color: red;
+    }
+
+    .error2 {
+        color: red;
+    }
+
+
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+
+    .tab button.active {
+        background-color: #0f1875;
+        color: white;
+    }
+
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    th {
+        background-color: #0f1875;
+        color: white;
+        font-size: 15px;
+        border-radius: 5px;
+        font-weight: 700;
+        font-family: "Jost", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        padding-top: 0.85em;
+        white-space: nowrap;
+        font-size: 25px;
+        color: #0f1875;
+    }
+
+    div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+        position: relative;
+        margin-left: 78%;
+        margin-right: 1rem !important;
+    }
+
+    select {
+        width: 170px;
+        text-align: left;
+        padding: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #48484b;
+        box-sizing: border-box;
+        max-width: 170px;
+    }
+
+    label {
+        font-weight: 600;
+        font-family: "Jost", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-size: 16px;
+    }
+
+    div.dt-buttons {
+        position: relative;
+        float: left;
+        display: none;
+    }
+
+    .font {
+        font-weight: 600;
+        font-family: "Jost", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-size: 14px;
+        position: relative;
+        text-align: left;
+        color: #0f1875;
+    }
+
+    .tablinks {
+        transition: ease 0.3s;
+        font-family: "Jost", sans-serif;
+    }
+
+        .tablinks:hover {
+            transform: scale(1.1)
+        }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+
+    /*span {
+            font-weight: 700;
+            font-size: 15px;
+        }*/
+
+    div.dataTables_wrapper div.dataTables_info {
+        padding-top: 0.85em;
+        font-family: "Jost", sans-serif;
+        white-space: nowrap;
+        font-size: 20px;
+        color: #0f1875;
+    }
+
+    .button-container {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: 130px;
+        height: 55px;
+        margin-right: 10px;
+    }
+
+    .jost {
+        font-family: "Jost", sans-serif;
+    }
+
+    .tablinks {
+        margin-bottom: 8px;
+    }
+
+    .fa {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .fa {
+        font-size: 30px; /* Adjust the size of the icon */
+        color: inherit; /* Inherit color from parent if needed */
+    }
+</style>
+
+
+<h1 class="jost" style=" color: #0f1875;text-align:center;font-size:30px;margin-bottom:1rem;">@ViewBag.Title</h1>
+<div class="page-content">
+    <div class="page-content divborder">
+        <div class="button-container">
+            <input type="button" style="font-size:14px" class="btn btn-primary tablinks" id="btnVendor" onclick="opentab(event, 'Entry')" value="New Requisition" />
+            <input type="button" style="font-size:14px" class="btn btn-primary tablinks" id="btnList" onclick="opentab(event, 'List')" value="List" />
+            <input type="button" style="font-size:14px" class="btn btn-primary tablinks" id="btnVendor1" onclick="redirectToOldRequisition()" value="OLD Requisition" />
+
+
+        </div>
+        <div class="row form-group">
+            <div id="List" class="tabcontent">
+                <div class="row">
+                    <div class="col-xs-12">
+                        &nbsp;
+                        <div id="_CustomerTypeList">
+                            <div class="dt-responsive">
+                                <table class="table table-striped table-bordered testtable display" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No</th>
+                                            <th>Requisition Code</th>
+                                            <th>Department Name</th>
+                                            <th>Deployment Date</th>
+                                            <th>Request Date</th>
+                                            <th>Parent Office</th>
+                                            <th>Billing Address</th>
+                                            <th>Agency Name</th>
+                                            <th>Requisition Letter</th>
+                                            <th>Status</th>
+                                            <th>View Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="Entry" class="tabcontent">
+
+                <div class="row">
+                    <input type="hidden" value="0" id="MrnId" />
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row mt10">
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Department <span class="error-message">*</span>
+                                </div>
+                                <div>
+                                    <select id="DeptId" onchange="_ParentOfficeddl()">
+                                        <option value="0" style="text-align:center">Select Department</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Department HQ Address <span class="error-message">*</span>
+                                </div>
+                                <div class="Font1" hidden>
+                                    <select id="ddlParent" onchange="_ChildOfficeddl();" placeholder="">
+                                        <option value="0">---Select ---</option>
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <textarea placeholder="Enter HQ Address here..." id="ddlParentText" class="form-control cleartxt" style="width: 90%; height: 27px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Billing Address <span class="error-message">*</span>
+                                </div>
+                                <div hidden>
+                                    <select id="ddlChild" class="clearddl" placeholder="">
+                                        <option value="0">---Select ---</option>
+                                    </select>
+
+                                </div>
+                                <div>
+                                    <textarea placeholder="Enter Billing Address here..." id="BillingAddress" class="form-control cleartxt" style="width: 90%; height: 27px;"></textarea>
+
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+                                    Deployment  Date
+                                </div>
+                                <div>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="BillDate" id="BillDate" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div class="font">
+
+                                    <label class="checkbox-inline font">
+                                        <input type="checkbox" id="IsActive" value="" style="margin-top:23px; margin-left:31px" onclick="showAgency()"> Agency Preference?
+                                    </label>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-lg-2">
+                                <div id="agency" hidden>
+                                    <div class="font">
+                                        Selected Agency <font color="red">*</font>
+                                    </div>
+                                    <div>
+                                        <select id="ddlAgency" class="clearddl" placeholder="">
+                                            <option value="0">---Select ---</option>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <br />
+                        @*----------------------------------------------------TEMP PANEL-----------------------------------------------------------------*@
+
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-md-12">
+                                <div class="panel panel-default ">
+                                    <div class="panel-heading align12 font" align="left" style="background-color: #d6f5fc; color:#0f1875; font-size:16px;text-align:center">
+                                        <font style="color: #0f1875"><b>Add Requisition Details</b></font>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-lg-12" id="item">
+                                            <div class="row mt10 ">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered font" id="tblPurchase">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Designation <span class="error-message">*</span> </th>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Type <span class="error-message">*</span></th>
+                                                                <th style="color: #0f1875; background-color: #d6f5fc " class="font">Tenure of Deployment. <span class="error-message">*</span></th>
+                                                                @*<th style="color: #0f1875; background-color: #d6f5fc " class="font">Basic Salary [Min. Wage per Resource]. <span class="error-message">*</span></th>
+                                                                    <th style="color: #0f1875; background-color: #d6f5fc " class="font">Cost to Department [per Resource] <span class="error-message">*</span></th>*@
+                                                                <th style="color: #0f1875; background-color: #d6f5fc;  width: 5%; " class="font">No. of Resource(s) <span class="error-message">*</span></th>
+
+                                                                <th style="color: #0f1875; background-color: #d6f5fc; width: 10%; ">Action</th>
+                                                                <th id="itemid" class="hide"></th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="ResourceId" value="0" placeholder="Designation">
+                                                                    <input type="text" id="Resource" class="form-control" placeholder="Search Designation">
+
+                                                                </td>
+                                                                <td>
+                                                                    <select id="ResourceType">
+                                                                        <option value="0" style="text-align:center">Select Job Type</option>
+                                                                        <option value="1">Full-Timer</option>
+                                                                        <option value="2">Part-Timer</option>
+
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <select id="Tenure">
+                                                                        <option value="0" style="text-align:center">Select Tenure</option>
+                                                                        <option value="1">6 Months</option>
+                                                                        <option value="2">12 Months</option>
+                                                                        <option value="3">Till further Order</option>
+                                                                        <option value="3">Other</option>
+
+                                                                    </select>
+                                                                </td>
+                                                                @*<td>
+                                                                        <input type="text" id="BasicAmount" placeholder="0" class="form-control cleartxt tblcler " style="text-align:right;" />
+                                                                        <span id="error" class="error"></span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="text" id="DeptCost" placeholder="0" class="form-control cleartxt tblcler " style="text-align:right;" />
+                                                                        <span id="error2" class="error"></span>
+                                                                    </td>*@
+                                                                <td>
+                                                                    <input type="text" id="ResourceNo" placeholder="0" class="form-control cleartxt tblcler " style="text-align:right;" />
+                                                                    <span id="error" class="error"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="button" class="btn btn-primary pull-right" @*class="addmore btn-success"*@ id="btnAdd" onclick="Add()" value="ADD" style="width:60px; margin-right:15px;" />
+                                                                </td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-4">
+                                                <div class="font">Upload Requisition Document<span class="error-message">*</span></div>
+                                                <div>
+                                                    <input type="file" name="file" id="DeparmentOrderDocument" multiple="" required />
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-4" style="display:none">
+                                                <div class="font">Select Requisition Type<span class="error-message">*</span></div>
+                                                <div>
+                                                    <select name="RequisitionType" id="RequisitionType">
+                                                        <option value="0">select</option>
+                                                        <option value="1">New</option>
+                                                        <option value="2">Old</option>
+                                                        <option value="3">Replacement</option>
+                                                        <option value="4">Renewal/Extension</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-4" style="margin-left:46rem;">
+                                                <table align="right" class="font" style="margin:5px;background-color: #d6f5fc; color: #0f1875; height:70px;border-radius:10px;">
+                                                    <tbody>
+                                                        <tr id="totals">
+                                                            <td>Total Resources</td>
+                                                            <td><input type="text" id="txtTotalResource" value="0" readonly style=" margin: 13px; border-radius: 10px; width: 13rem;" /></td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-md-offset-5">
+                            @if (Request.Cookies["RoleId"].Value == "18")
+                            {
+                                <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" style="width: 80px" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Financial*@
+<div class="modal fade" id="myModal1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #d6f5fc; color: #0f1875; font-size: 28px; ">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title jost"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="row">
+                        <!-- Left column for labels and checkboxes -->
+                        @*id="Id"
+                             id="ResourceId"
+                             id="NoOfHours"
+                             id="IsAdminChargeFixed"
+
+                            id="IsSpecialEsi"*@
+                        <div class="col-lg-4">
+
+                            <div class="form-group">
+                                <label for="Basic" class="mr-2">Basic Amount</label>
+                                @*<input type="checkbox" class="ml-2" onclick="toggleTextbox('BasicText')">*@
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="epf" class="mr-2">EPF@13%</label>
+                                <input id="IsEsi" type="checkbox" class="ml-2" onclick="toggleTextbox('epfText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="esi" class="mr-2">ESI@3.25%</label>
+                                <input id="IsPf" type="checkbox" class="ml-2" onclick="toggleTextbox('esiText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="hra" class="mr-2">HRA Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('HRAText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Medical" class="mr-2">Medical Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('MedicalText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Tribal" class="mr-2">Tribal Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('TribalText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Dress">Dress Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('DressText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Tribalarea">Tribal Area Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('TribalareaText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Special">Special Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('SpecialText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Livery">Livery Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('LiveryText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Relivery">Relivery Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('ReliveryText')">
+                            </div>
+                            <div class="form-group">
+                                <label for="Other">Others Allowance</label>
+                                <input type="checkbox" class="ml-2" onclick="toggleTextbox('OthersText')">
+                            </div>
+                            <!-- Add more fields as needed -->
+                        </div>
+
+
+
+                        <!-- Right column for textboxes -->
+                        @*//id="AdminCharge"*@
+
+                        <div class="col-lg-5" style="gap:5px">
+                            <div class="form-group" id="BasicText">
+                                <input id="BasicSalary" onchange="RenummerationCost();" type="text" class="form-control" style="width:206px; height: 26px;" placeholder="Enter Basic Amount" value="0">
+                            </div>
+                            <div class="form-group" id="epfText" style="display:none;">
+                                <input type="text" id="EPFAmt" class="form-control" style="width:206px; height: 26px;" placeholder="Enter EPF Amount" value="0" readonly>
+                            </div>
+                            <div class="form-group" id="esiText" style="display:none;">
+                                <input type="text" id="ESIAmt" class="form-control" style="width:206px; height: 26px;" placeholder="Enter ESI Amount" value="0" readonly>
+                            </div>
+                            <div class="form-group" id="HRAText" style="display:none;">
+                                <input type="text" id="HRA" onchange="RenummerationCost();" class="form-control" style="width:206px; height: 26px;" placeholder="Enter HRA Amount" value="0">
+                            </div>
+                            <div class="form-group" id="MedicalText" style="display:none;">
+                                <input type="text" id="Medical" onchange="RenummerationCost();" class="form-control" style="width:206px; height: 26px;" placeholder="Enter Medical Amount" value="0">
+                            </div>
+                            <div class="form-group" id="TribalText" style="display:none;">
+                                <input type="text" id="Tribalallwoance" onchange="RenummerationCost();" class="form-control" style="width:206px; height: 26px;" placeholder="Enter Tribal Amount" value="0">
+                            </div>
+                            <div class="form-group" id="DressText" style="display:none;">
+                                <input type="text" id="DressCharge" onchange="RenummerationCost();" class="form-control" style="width:206px; height: 26px;" placeholder="Enter Dress Amount" value="0">
+                            </div>
+                            <div class="form-group" id="TribalareaText" style="display:none;">
+                                <input type="text" id="TribalAreaallwoance" onchange="RenummerationCost();" class="form-control" style="width:210px; height: 26px;" placeholder="Enter Tribal Area Amount" value="0">
+                            </div>
+                            <div class="form-group" id="SpecialText" style="display:none;">
+                                <input type="text" id="SpecialAllowance" onchange="RenummerationCost();" class="form-control" style="width:210px; height: 26px;" placeholder="Enter Special Amount" value="0">
+                            </div>
+                            <div class="form-group" id="LiveryText" style="display:none;">
+                                <input type="text" id="liblyAllowance" onchange="RenummerationCost();" class="form-control" style="width:210px; height: 26px;" placeholder="Enter Special Amount" value="0">
+                            </div>
+                            <div class="form-group" id="ReliveryText" style="display:none;">
+                                <input type="text" id="ReliverCharges" onchange="RenummerationCost();" class="form-control" style="width:210px; height: 26px;" placeholder="Enter Relivery Amount" value="0">
+                            </div>
+                            <div class="form-group" id="OthersText" style="display:none;">
+                                <input type="text" id="OtherAllowance" onchange="RenummerationCost();" class="form-control" style="width:210px; height: 26px;" placeholder="Enter Others Amount" value="0">
+                            </div>
+                            <!-- Add more fields as needed -->
+                        </div>
+                        <div class="col-lg-3">
+
+                            <div class="form-group">
+                                <label for="Net">Net Take Home</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="Nettakehome" class="form-control" style="width:206px; height: 26px;" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Gross">Gross Amount</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="ChargeAmount" class="form-control" style="width:206px; height: 26px;" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Admin">Adminstrative Charge@5%</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="HpsedcCharge" class="form-control" style="width:206px; height: 26px;" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Admin">Total Amount</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="TotalAmt" class="form-control" style="width:206px; height: 26px;" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Admin">GST Amount@18%</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="GST" class="form-control" style="width:206px; height: 26px;" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="Total">Grand Total</label>
+                            </div>
+                            <div class="form-group">
+                                <input id="GrandTotal" type="text" class="form-control" style="width:206px; height: 26px;" readonly>
+                            </div>
+
+                            <!-- Add more fields as needed -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer" style="display:flex;justify-content:space-between">
+
+                <input type="button" style="color: white; background-color: blue; height: 4rem; width: 9rem;" onclick="RenummerationCost1();" value="Calculate" />
+
+
+                <input type="button" style="color: white; background-color: blue; height: 4rem; width: 9rem;" onclick="SubmitSalary();" value="Submit" />
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@*Financial*@
+
+
+
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #d6f5fc; color: #0f1875; font-size: 28px; ">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title jost"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-md-12">
+                            <div class="panel panel-default ">
+                                <div class="panel-heading align12 font" align="left" style="background-color: #d6f5fc; color: #0f1875">
+                                    <font style="color: #0f1875; font-size: 20px; text-align:center !important" ;><b>Individual Post Details</b></font>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-lg-12" id="item">
+                                        <div class="row mt10 ">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="tblDetails">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="color: #0f1875; background-color: #d6f5fc ">Post UID </th>
+                                                            <th style="color: #0f1875; background-color: #d6f5fc ">Deployment Location</th>
+
+                                                            <th style="color: #0f1875; background-color: #d6f5fc; width: 5%; ">Attendance Verifying Officer</th>
+
+                                                            <th style="color: #0f1875; background-color: #d6f5fc; width: 10%; ">Action</th>
+
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <select id="Rid">
+                                                                    <option value="0">Select</option>
+                                                                    <option value="1">R001</option>
+                                                                    <option value="2">R002</option>
+
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <div hidden>
+                                                                    <select id="DeploymentOffice">
+                                                                        <option value="0">Select</option>
+                                                                        <option value="1">Full-Timer</option>
+                                                                        <option value="2">Part-Timer</option>
+
+                                                                    </select>
+                                                                </div>
+                                                                <input type="textarea" id="DeptOfficeText" placeholder="Enter Deployment Location" class="form-control" name="DeptOfficeText">
+                                                            </td>
+
+                                                            <td>
+                                                                <select id="AVOName">
+                                                                    <option value="0">Select</option>
+                                                                </select>
+                                                            </td>
+
+
+                                                            <td>
+                                                                <input type="button" class="btn btn-primary pull-right" @*class="addmore btn-success"*@ id="btnAddDetails1" onclick="AddPostDetails()" value="ADD" style="width:60px; margin-right:15px;" />
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-md-offset-5">
+                            <input id="finalsubmit" type="button" class="btnModalSubmit2 btn btn-primary" value="Submit" style="width:80px" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/autocomplete.js"></script>
+<script>
+
+
+
+    autoTextReport('Department', 'DepartmentId', '/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+    autoTextReport('Resource', 'ResourceId', '/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+    autoTextReport('DeploymentLoc', 'DeploymentLocId', '/autoComplete/_autoSearch/', 'DistrictId', 'DistrictName', 'DistrictCode', 'District');
+    var accessRights = {@ViewData["AccessRights"]};
+    var vaddress = 0, temprow, TotalResource = 0, mAgencyId=0 ,mDeptId=0, mParentOfficeId = 0 , PostTotalResource=0, RequisitionId = 0, totalNoResource=0 ,PostId = 0, msr = 0, storeid = 0, billingid = 0;
+
+    function redirectToOldRequisition() {
+        //window.location.href = 'TimeSheetNew", "AddRequisitionData'; // Replace 'your-url-here' with the actual URL you want to redirect to
+                        window.location.href = ("/TimeSheetNew/AddRequisitionData");
+
+    }
+    $(document).ready(function () {
+
+        opentab(event, 'Entry');
+    });
+
+    function FinancialDetails(button) {
+        OpenAddModel();
+    }
+
+    function OpenAddModel() {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Add Financial Details Per Resource");
+        $('#myModal1').modal("show");
+        IsActive = 'Y';
+        root = '/HrNew/AssingSubMenuSubmit';
+    }
+
+
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+   }
+
+
+
+
+    function toggleTextbox(textboxId, nextCheckboxId) {
+        var textbox = document.getElementById(textboxId);
+
+        // Check if textbox is visible
+        if (textbox.style.display === "none") {
+            textbox.style.display = "block"; // Show the textbox
+            textbox.value = 0; // Set default value to 0 when shown
+        } else {
+            if (textbox.value === "") {
+                alert("Please enter the amount before proceeding to the next field.");
+            } else {
+                textbox.style.display = "none"; // Hide the textbox if valid amount is entered
+                if (nextCheckboxId) {
+                    document.getElementById(nextCheckboxId).disabled = false; // Enable next checkbox if amount is valid
+                }
+            }
+        }
+    }
+
+    // Disable all checkboxes except the first one at the beginning
+    window.onload = function () {
+        var allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (var i = 1; i < allCheckboxes.length; i++) {
+            allCheckboxes[i].disabled = true;
+        }
+    };
+
+
+
+
+    function opentab(evt, tabName) {
+        clearform();
+        setvalue();
+        var i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        if (!tabName || tabName === "") {
+            tabName = "Entry";
+        }
+        document.getElementById(tabName).style.display = "block";
+        //  resetForm();
+        evt.currentTarget.className += " active";
+        $('.btnModalSubmit').val('Submit');
+
+    }
+    function opentabonedit(evt, tabName) {
+        clearform();
+        setvalue();
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+
+        $('#' + evt).addClass(" active");
+    }
+   function showAgency()
+    {
+        if ($('#IsActive').is(':checked')) {
+            $('#agency').show();
+        }
+
+        else { $('#agency').hide(); }
+    }
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/TimeSheet/_AvoDepartmentddlNew', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId').html(DeptId);
+        });
+        _HPSEDCAVOddl();
+
+
+    }
+    function _Departmentddl1() {
+        $.post('/TimeSheet/_CustomerEntityddlNew', {}, function (data) {
+        $('#DeptId').html(data);
+        });
+
+    }
+
+    function _HPSEDCAVOddl() {
+        $.post('/TimeSheet/_HPSEDCAVOddl', { 'DeptId': $('#DeptId').val() }, function (data) {
+            var AVOId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                AVOId += '<option value=' + value["AvoId"] + '>' + value["AvOName"] + '</option>';
+
+            });
+            $('#AVOName').html(AVOId);
+
+
+        });
+    }
+
+    function _ParentOfficeddl() {
+
+        mDeptId = $('#DeptId').val();
+        _HPSEDCAVOddl();
+       // mDeptId = mDeptId == 0 ? $('#DeptId').val() : mDeptId;
+        $.post('/TimeSheet/_DeptHQOfficeddl', { 'DeptId': mDeptId }, function (data) {
+            var ParentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ParentOfficeId += '<option value=' + value.ParentOfficeId + '>' + value.ParentOfficeName + '</option>'
+
+            });
+            $('#ddlParent').html(ParentOfficeId);
+            $('#ddlParent').val(mParentOfficeId);
+
+        });
+        _ChildOfficeddl();
+        _HPSEDCAVOddl();
+    }
+
+    function _ChildOfficeddl() {
+        mParentOfficeId = mParentOfficeId == 0 ? $('#ddlParent').val() : mParentOfficeId
+        $.post('/TimeSheet/_DeptChildOfficeddl', { 'ParentOfficeId': mParentOfficeId }, function (data) {
+            var ChildOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ChildOfficeId += '<option value=' + value.ChieldOfficeId + '>' + value.ChildOfficeName + '</option>'
+
+            });
+
+            $('#ddlChild').html(ChildOfficeId);
+            $('#ddlChild').val(mChildOfficeId);
+       });
+
+   }
+
+
+    _DeploymentOfficeddl(); _Agencyddl();
+    function _DeploymentOfficeddl() {
+        mParentOfficeId = mParentOfficeId == 0 ? $('#ddlParent').val() : mParentOfficeId
+        $.post('/TimeSheet/_DeptChildOfficeddl', { 'ParentOfficeId': mParentOfficeId }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.ChieldOfficeId + '>' + value.ChildOfficeName + '</option>'
+            });
+            $('#DeploymentOffice').html(DeploymentOfficeId);
+            $('#DeploymentOffice').val(mDeptId);
+        });
+
+    }
+    function _Agencyddl() {
+
+        $.post('/TimeSheet/_Agencyddl', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+        });
+
+    }
+
+    //document.getElementById('BasicAmount').addEventListener('input', function (event) {
+    //    var input = event.target.value;
+    //    var errorSpan = document.getElementById('error');
+    //    if (!/^\d*(,\d*)?$/.test(input)) {
+    //        errorSpan.textContent = "Error: Please enter only numbers.";
+    //    } else {
+    //        errorSpan.textContent = "";
+    //    }
+    //});
+
+    //document.getElementById('DeptCost').addEventListener('input', function (event) {
+    //    var input = event.target.value;
+    //    var errorSpan = document.getElementById('error');
+    //    if (!/^\d*(,\d*)?$/.test(input)) {
+    //        errorSpan.textContent = "Error: Please enter only numbers.";
+    //    } else {
+    //        errorSpan.textContent = "";
+    //    }
+    //});
+    document.getElementById('ResourceNo').addEventListener('input', function (event) {
+        var input = event.target.value;
+        var errorSpan = document.getElementById('error');
+        if (!/^\d*(,\d*)?$/.test(input)) {
+            errorSpan.textContent = "Error: Please enter only numbers and commas.";
+            event.target.value = input.replace(/[^\d,]/g, ''); // Remove any characters that are not numbers or commas
+        } else {
+            errorSpan.textContent = "";
+        }
+    });
+
+
+
+    $(document).ready(function () {
+        _PurchaseBillList();
+
+        document.getElementById('Entry').style.display = "block";
+      //  _SupplierBranch();
+        $('.tblcler').val('');
+        $('#Unit').val(0);
+    });
+
+    $('#txtTdsAmt').on('keyup', function () {
+        FinalTotal();
+    });
+
+    $('#txtRoundoffAmount').on('keyup', function () {
+        FinalTotal();
+    });
+    $('.btnModalSubmit2').click(function () {
+       Requisitiondetails_Submit();
+        //alert(JSON.stringify(getdataDetails()));
+    });
+
+
+    function getdataDetails() {
+        var RequisitionDetails = new Array();
+        $("#tblDetails TBODY TR").each(function () {
+            var row = $(this);
+            Details = {};
+            Details.PostId = PostId;
+            Details.ResourceId = row.find('.RId1').html();
+           //Details.DeploymentLocId = row.find('.DeploymentOfficeid').html();
+            Details.DeploymentLocId = row.find('.DeploymentOfficeText').html();
+          //Details.DeploymentLocId = row.find('.DeploymentOffice').html();
+            Details.AVOName = row.find('.AVONameId').html();
+            RequisitionDetails.push(Details);
+        });
+
+        return RequisitionDetails;
+    }
+
+    function Requisitiondetails_Submit(button) {
+        $(temprow).css('background-color', '');
+        var data = JSON.stringify(getdataDetails());
+        if (getdataDetails().length == totalNoResource) {
+        $.ajax({
+            type: "POST",
+            url: "/TimeSheet/_InsertDeptRequisitionDetails",
+            data: JSON.stringify({
+                'RequestDetails': data,
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+               alert('Record Saved Successfully !');
+                PostId = 0;
+                $(temprow).css('background-color', '#7CFC00');
+
+                $('#ModalProgress').hide();
+                PostTotalResource = 0;
+
+                if (TotalResource == $('#txtTotalResource').val()) {
+                    $(".btnModalSubmit").removeAttr("disabled");
+                }
+                else
+                {
+                    //$('.btnModalSubmit').attr("disabled", true);
+                    $(".btnModalSubmit").removeAttr("disabled");
+                }
+            }
+        });
+        var tblRequisitionDetails = [
+
+            { PostId: 1, ResourcePostId: $('#Rid').val(), DeploymentOffice: $('#DeploymentOffice').val(), AVOId: $('#AVOName').val() }
+
+
+            ];
+
+        } else { alert('Number of resource is less than Requested Resource'); }
+    }
+    function _SupplierBranch()
+    {
+        $('#Modalprogress').show();
+        $.post('/pm/_BillingAddressdll',
+            { 'Id': $('#Supplier').val() }, function (data) {
+                $('#ModalProgress').hide();
+                var obj = $.parseJSON(data);
+                var address = '<option value="0">--Select Address--</option>';
+                $.each(obj, function (key, value) {
+                    //address += '<option value='+value.Id+'>'+ value.BillAddress+'</option>';
+                    address += '<option value='+ value.Id +'>' + value.BillAddress + '</option>'
+                    // $("#SupplierBranch").append("<option value=" + value.Id+">" + value.BillAddress+"</option>");
+                });
+                $('#SupplierBranch').html(address);
+                $('#SupplierBranch').val(billingid);
+            });
+    }
+
+
+
+  function getStoreId()
+    {
+        $('#ModalProgress').show();
+        $.post('/Pm/_ShipingBillAddressDetail', { 'Id': $('#StoreId').val() }, function (data) {
+            $('#ModalProgress').hide();
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                $('#shipgst').val(value.fvGSTNO);
+            });
+        });
+    }
+
+    function getdataSearch() {
+        var ResourceId = $("#ResourceId").val();
+        var ResourceId1 = '';
+        $("#tblPurchase TBODY TR").each(function () {
+            var row = $(this);
+
+            ResourceId1 = row.find('.ResourceId').html();
+        });
+        if (ResourceId == ResourceId1) { return true; } else {return false;}
+    }
+
+
+    function Add() {
+
+
+        $('.btnModalSubmit').attr("disabled", true);
+
+       // $(":submit").removeAttr("disabled");
+        if (!getdataSearch()) {
+            //Reference the Name and Country TextBoxes.
+            var ResourceId = $("#ResourceId").val();
+            var Resource = $("#Resource").val();
+            var TenureId = $("#Tenure").val();
+            var Tenure = $("#Tenure  option:selected").text();
+            var ResourceTypeId = $("#ResourceType").val();
+
+            var ResourceType = $("#ResourceType option:selected").text();
+            //var BasicAmount = $("#BasicAmount").val();
+            //var DeptCost = $("#DeptCost").val();
+
+            var ResourceNo = $("#ResourceNo").val();
+
+            var btnRemove = $("<input />");
+            btnRemove.attr("type", "button");
+            btnRemove.attr("onclick", "Remove(this);");
+            btnRemove.val("Remove");
+
+            // cell.append(btnRemove);
+
+             if ($("#DeptId").val() == "0") {
+                alert("Please select Department ");
+                return;
+
+            }
+
+            if ($("#ddlParentText").val() == "") {
+                alert("Please Enter HQ Address");
+                return;
+
+            }
+
+            if ($("#BillingAddress").val() == "") {
+              alert("Please Enter Billing Address");
+                return;
+
+            }
+
+            if ($("#ResourceType").val() == "0") {
+                alert("Please select Resource Type ");
+                return;
+            }
+            if ($("#Tenure").val() == "0") {
+                alert("Please select Tenure of Deployment. ");
+                return;
+            }
+
+
+            //if ($("#BasicAmount").val() == "" || $("#DeptCost").val() == "") {
+            //    alert("Please Enter Either Basic Amount Or Cost To Company !");
+            //    return;
+            //}
+
+            if ($("#ResourceNo").val() == "") {
+                alert("Please Enter No of Resource !");
+                return;
+            }
+            msr = msr + 1;
+            var hiddenIds = '<div style="display:none"><span class="ResourceId">' + ResourceId + '</span>';
+            hiddenIds += '</div>';
+            var template1 = '<tr>';
+
+            template1 += '<td style="display:none"><span class="ResourceId">' + ResourceId + '</span><span class="TenureId" > ' + TenureId + '</span > <span class="ResourceTypeId">' + ResourceTypeId + '</span></td > ';
+            template1 += '<td style="display:none"><span class="srno">' + msr + '</span></td>';
+            template1 += '<td><span class="Resource">' + Resource + '</span></td>';
+            template1 += '<td><span class="ResourceType">' + ResourceType + '</span></td>';
+            template1 += '<td><span class="Tenure">' + Tenure + '</span></td>';
+            //template1 += '<td><span class="BasicAmount">' + BasicAmount + '</span></td>';
+            //template1 += '<td><span class="DeptCost">' + DeptCost + '</span></td>';
+            template1 += '<td style="text-align:right"><span class="ResourceNo">' + ResourceNo + '</span></td>';
+
+            //&nbsp;<button id="btnEdit"  onclick="EditEntry1($(this),1);">Edit</button>
+           template1 += '<td>\
+                    <button id="btnFinancialDetails"  style="width:9rem;margin-bottom:2px" onclick="AddSalary(this);">Financial Details</button>\
+                    <button id="btnDetails" class="btnDetails"  style="width:9rem;margin-bottom:2px" onclick="AddDetails(this);">AVO Details</button>\
+                    <button id="btnRemove"  style="width:9rem;margin-bottom:2px" onclick="Remove(this);">Remove</button>\
+                </td>';
+                template1 += '</tr>';
+
+
+            var oldBody1 = $("#tblPurchase > TBODY").html();
+            var tBody1 = $("#tblPurchase > TBODY").html(oldBody1 + template1);
+            $("#txtTotalResource").val(parseInt($("#txtTotalResource").val()) + parseInt($("#ResourceNo").val()))
+            TotalResource = TotalResource + parseInt($("#ResourceNo").val());
+            alert("Data Added Succesfully. Please fill Financial details And AVO Details ");
+            $('.tblcler').val('');
+            //$('#Unit').val(0);
+            // Sum();
+        }
+        else
+        {
+            alert('All ready added');
+      }
+    }
+
+
+    function AddPostDetails() {
+
+        var Rid = $('#Rid').val();
+        var DeptOfficeText = $('#DeptOfficeText').val();
+        var AVOName = $('#AVOName').val();
+        if (Rid === '0') {
+            alert('Please Choose Resources ID');
+            return;
+        }
+        else if (DeptOfficeText == '') {
+            alert('Please Enter DeploymentOffice');
+           return;
+        }
+        else if (AVOName == '0') {
+            alert('Please Choose AVO Name');
+            return
+        }
+
+        var RId = $("#Rid").val();
+        var DeploymentOfficeid = $("#DeploymentOffice").val();
+        var DeploymentOffice = $('#DeploymentOffice :selected').text();
+        var DeploymentOfficeText = $('#DeptOfficeText').val();
+        var AVONameId = $("#AVOName").val();
+        var AVOName = $("#AVOName :selected").text();
+
+
+        var btnRemove = $("<input />");
+        btnRemove.attr("type", "button");
+        btnRemove.attr("onclick", "Remove(this);");
+        btnRemove.val("Remove");
+
+
+
+        if ($('#btnAddDetails').val() == 'Update') {
+            UpdateTable(tableObj);
+
+
+        }
+        msr = msr + 1;
+        var hiddenIds = '<div style="display:none"><span class="">' + RId + '</span>';
+        hiddenIds += '</div>';
+        var template1 = '<tr>';
+
+        template1 += '<td style="display:none"><span class="RId1">' + RId + '</span><span class="DeploymentOfficeid" > ' + DeploymentOfficeid + '</span > <span class="AVONameId">' + AVONameId + '</span></td > ';
+        template1 += '<td style="display:none"><span class="srno">' + msr + '</span></td>';
+        template1 += '<td><span class="">' + RId  + '</span></td>';
+        //template1 += '<td><span style="display:none" class="DeploymentOffice">' + DeploymentOffice + '</span></td>';
+        template1 += '<td><span class="DeploymentOfficeText">' + DeploymentOfficeText + '</span></td>';
+        template1 += '<td><span class="AVOName">' +  AVOName + '</span></td>';
+
+
+        template1 += '<td><button id="btnRemove"  onclick="Removedetails(this);">Remove</button>  </td>';
+        template1 += '</tr>'
+        $("#Rid :selected").remove();
+        //&nbsp;<button id="btnEdit"  onclick="EditEntry1($(this),1);">Edit</button>
+        var oldBody1 = $("#tblDetails > TBODY").html();
+        var tBody1 = $("#tblDetails > TBODY").html(oldBody1 + template1);
+        TotalResource++;
+        PostTotalResource++;
+
+        $('.tblcler').val('');
+        //$('#Unit').val(0);
+        // Sum();
+
+    }
+    function FinalTotal()
+    {
+        var Amount = $("#txtAmount").val();
+        var Igst = $("#txtIGST").val();
+        var Cgst = $("#txtCGST").val();
+        var Sgst = $("#txtSGST").val();
+        var Sundry = $("#txtSundrAmt").val();
+        var Tcs = $("#txtTdsAmt").val();
+        var RoundOff = $("#txtRoundoffAmount").val();
+        var total = parseFloat(Amount) + parseFloat(Igst) + parseFloat(Cgst) + parseFloat(Sgst) + parseFloat(Sundry) + parseFloat(Tcs) + parseFloat(RoundOff);//+ parseFloat(RoundOff);
+        $("#txtTotalAmount").val(total.toFixed('2'));
+    }
+
+    function SumSundry() {
+        var total = 0;
+        $("#tblSundry TBODY TR").each(function () {
+            var value = parseFloat($(this).find('.SundryAmt1').html());
+           // alert($(this).find('.SundryAmt1').html());
+            if (!isNaN(value)) {
+               total += value;
+        }
+    });
+
+        $("#txtSundrAmt").val(total.toFixed('2'));
+        FinalTotal();
+
+        //$("#txtTotalAmount").val(total5.toFixed('2'));
+    }
+
+    function AddTax() {
+        if ($("#SundryHead").val() == '' || $("#SundryId").val()=='0') {
+            alert('Please Choose Account Id');
+            return;
+        }
+
+        if ($("#SundryAmt").val().length <= 0)
+        {
+            alert('Please Enter Sundry Amount');
+            return;
+        }
+
+        if ($('#btnAddTax').val() == 'Update') {
+            UpdateTax(tableObj);
+        }
+
+        //Reference the Name and Country TextBoxes. SundryId,SundryHead,SundryAmt
+        var SundryId = $("#SundryId").val();
+        var SundryHead = $("#SundryHead").val();
+        var SundryAmt = $("#SundryAmt").val();
+        msr = msr + 1;
+        var template1 = '<tr>';
+       // template1 += '<td><span class="srno">' + msr + '</span></td>';
+        template1 += '<td hidden><span class="SundryId">' + SundryId + '</span></td>';
+        template1 += '<td><span class="SundryHead">' + SundryHead + '</span></td>';
+        template1 += '<td class="SundryAmt1">' + SundryAmt + '</td>'
+        template1 += '<td><button id="btnRemove"  onclick="RemoveTax(this);">Remove</button>&nbsp;<button id="btnEdit"  onclick="EditTax($(this),1);">Edit</button></td>'
+        template1 += '</tr>'
+        //var SundryAmtTotal = parseInt(SundryAmt) + parseInt($('#txtSundrAmt').val());
+       // $('#txtSundrAmt').val(SundryAmtTotal);
+        var oldBody1 = $("#tblSundry > TBODY").html();
+        var tBody1 = $("#tblSundry > TBODY").html(oldBody1 + template1);
+        $("#SundryId").val('');
+        $("#SundryHead").val('');
+        $("#SundryAmt").val('');
+        SumSundry();
+       //  getTax();
+       // $('.tblcler').val('');
+       // Sum();
+    }
+
+    function Sum() {
+        var total = 0;
+        var total1 = 0;
+        var total2 = 0;
+        var total3 = 0;
+        var total4 = 0;
+        var total5 = 0;
+        $("#tblPurchase TBODY TR").each(function () {
+            //var row = $(this);
+            var value = parseFloat($(this).find('.Amount').val());
+            var value1 = parseFloat($(this).find('.DiscountAmount').val());
+            var value2 = parseFloat($(this).find('.IGSTAmount2').val());
+            var value3 = parseFloat($(this).find('.CGSTAmount2').val());
+            var value4 = parseFloat($(this).find('.SGSTAmount2').val());
+            var value5 = parseFloat($(this).find('.NetAmount').val());
+            if (!isNaN(value)) {
+                total += value;
+            }
+
+            if (!isNaN(value1)) {
+                total1 += value1;
+            }
+
+            if (!isNaN(value3)) {
+                total3 += value3;
+            }
+
+            if (!isNaN(value4)) {
+                total4 += value4;
+            }
+
+            if (!isNaN(value5)) {
+                total5 += value5;
+            }
+
+            if (!isNaN(value2)) {
+                total2 += value2;
+            }
+        });
+        $("#txtAmount").val(total.toFixed('2'));
+        $("#txtDiscountAmount").val(total1.toFixed('2'));
+        $("#txtIGST").val(total2.toFixed('2'));
+        $("#txtCGST").val(total3.toFixed('2'));
+        $("#txtSGST").val(total4.toFixed('2'));
+        $("#txtTotalAmount").val(total5.toFixed('2'));
+        //$("#txtTotalAmount").val(total5.toFixed('2'));
+    }
+
+    $('.btnModalSubmit').click(function () {
+
+       _RequisitionSubmit();
+    });
+
+    function getdata()
+    {
+        var PurchaseDetail = new Array();
+        $("#tblPurchase TBODY TR").each(function()
+            {
+            var row = $(this);
+            Purchase = {};
+            Purchase.ResourceId = row.find('.ResourceId').html();
+            Purchase.TenureId = row.find('.TenureId').html();
+            Purchase.ResourceTypeId = row.find('.ResourceTypeId').html();
+            Purchase.BasicAmount = 0;// row.find('.BasicAmount').html();
+            Purchase.DeptCost = 0;// row.find('.DeptCost').html();
+            Purchase.NoOfResource = row.find('.ResourceNo').html();
+            PurchaseDetail.push(Purchase);
+        });
+         return PurchaseDetail;
+    }
+
+
+    function getTax() {
+        var TaxDetail = new Array();
+        $("#tblSundry TBODY TR").each(function () {
+            var row = $(this);
+           Tax = {};
+            Tax.AccountID = row.find('.SundryId').html() == '' ? 0 : row.find('.SundryId').html();
+            Tax.Amount = row.find('.SundryAmt1').html() == '' ? 0 : row.find('.SundryAmt1').html();
+            TaxDetail.push(Tax);
+        });
+       // alert(JSON.stringify(TaxDetail));
+        return TaxDetail;
+    }
+
+
+
+
+    function _RequisitionSubmit() {
+        var data = JSON.stringify(getdata());
+
+
+        var IsActive = 'N'
+        if ($('#IsActive').is(':checked')) {
+            IsActive = 'Y';
+        }
+
+    var RequisitionFileUpload = $("#DeparmentOrderDocument").get(0);
+        var files = RequisitionFileUpload.files;
+
+
+
+        if (files.length === 0) {
+            alert('Please upload a Document');
+            return;
+        }
+
+        //if ($("#RequisitionType").val() == "0") {
+        //    alert("Please select Requisition Type ");
+        //    return;
+        //}
+
+        var files = RequisitionFileUpload.files;
+        var EmpImg = $("#DeparmentOrderDocument").get(0).files;
+        var formData = new FormData();
+        $.each(files, function (key, value) {
+            formData.append("DeparmentOrderDocument", files[key]);
+        });
+
+
+            formData.append("RequestDetails", data),
+            formData.append("RequisitionId", RequisitionId),
+            formData.append("DepartmentCode", $("#DeptId").val()),
+            formData.append("DeploymentDate", $("#BillDate").val()),
+            formData.append("ParentOffice", $("#ddlParent").val()),
+            formData.append("ParentOfficeText", $("#ddlParentText").val()),
+            formData.append("BillingAddress", $("#ddlChild").val()),
+            formData.append("BillingAddressText", $("#BillingAddress").val()),
+            formData.append("IsActive", $("#IsActive").val()),
+            formData.append("IsSuggestAgency", IsActive),
+            formData.append("SuggestAgencyId", $("#ddlAgency").val()),
+            formData.append("TotalResource", $("#txtTotalResource").val()),
+
+            formData.append("RequisitionType", "0"),
+        $.ajax({
+
+            type: "POST",
+            url: "/TimeSheet/_InsertDeptRequisition",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data);
+                RequisitionId = 0;
+                 clearform();
+                window.location.href = "@Url.Action("AddRequisition", "timeSheet")";
+               $('.btnModalSubmit').removeAttr("disabled");
+                $('#ModalProgress').hide();
+
+
+
+            }
+
+        });
+    }
+
+
+         $('#finalsubmit').click(function () {
+         $('#myModal').modal('hide');
+        });
+
+    function clearform()
+    {
+        $('.sclear').val('');
+        $("#tblPurchase TBODY").html('');
+    }
+
+    function setvalue()
+    {
+        $('.setclear').val('0');
+    }
+
+    function _PurchaseBillList() {
+        window.onload = function () {
+            opentab(event, 'List');
+        };
+
+        var url = new URL(window.location.href);
+        var Rid = 0;
+        if (url.searchParams.has('Rid')) {
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            Rid = urlParams.get('Rid');
+
+            $('#btnVendor').hide();
+            //const product = urlParams.get('product')
+            //alert(urlParams.get('Rid'));
+
+        }
+        $('#ProgressImg').show();
+        $.post('/TimeSheet/_RequisitionTempDetailsDelete', {
+            'PostId': "0",
+
+        }, function (data) {
+
+        });
+        $.post('/TimeSheet/_DeptRequisitionList',
+            {  'RequisitionId': Rid }, function (data) {
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+
+                var table = $('#myTable').DataTable();
+                table.clear().draw();
+                var msr = 0;
+                $.each(obj, function (key, value) {
+                    msr = msr + 1;
+
+                    if (value.DeparmentOrderDocument == '' || value.DeparmentOrderDocument == null) {
+                        Doc = '<label class="text-center" >-</label>';
+                    }
+                    else {
+                        Doc = '<a href="/RequisitionDept_Attachement/' + value.DeparmentOrderDocument + '"target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a>';
+                   }
+                    var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + value.RequisitionId + ' )" class="img-circle btnTblListEdit"><i class="fa fa-pencil-square fa-2x"></i></a>';
+                    var elmntArray = [
+                        msr,
+                        value.RequisitionCode,
+                        value.DeptName,
+                        value.DeploymentDate,
+                        value.RequestDate,
+                        value.ParentOfficeName,
+                        value.BillingAddress,
+                        value.AgencyName,
+                        Doc,
+                        value.Status,
+                        btnEdit
+                    ];
+                    table.row.add(elmntArray).draw(false);
+                });
+            });
+    }
+
+
+
+    function OpenUpdateModel(Id) {
+        clearform();
+        document.getElementById('List').style.display = "none";
+        document.getElementById('Entry').style.display = "block";
+        $('.btnModalSubmit').val('Update');
+        $.post("/TimeSheet/_InsertDeptRequisitionEdit", { 'Id': Id }, function (data) {
+            var obj = $.parseJSON(data);
+            var slno = 0;
+            $.each(obj, function (key, value) {
+                if (key == 'Table') {
+                    $.each(obj[key], function (key1, value1) {
+                        _ParentOfficeddl();
+                        //_ChildOfficeddl();
+                        $('#MrnId').val(value1.Id);
+                        $('#DeptId').val(value1.DepartmentCode);
+                        mParentOfficeId = value1.ParentOffice;
+                        _ChildOfficeddl();
+                        mChildOfficeId = value1.BillingAddress;
+                         $('#ddlParentText').val(value1.ParentOffice);
+                        $('#BillingAddress').val(value1.BillingAddress);
+                        $('#BillDate').val(value1.DeploymentDate);//value1.DeploymentDate
+
+                        if (value1.IsSuggestAgency=='Y')
+                        {
+
+                            $('#IsActive').prop('checked', true);
+                            mAgencyId = value1.SuggestAgencyId;
+                            _Agencyddl();
+                            showAgency();
+                        }
+                        $('#txtTotalResource').val(value1.TotalResource);
+                        TotalResource = value1.TotalResource;
+                      //  alert(TotalResource);
+                    });
+                }
+                if (key == 'Table1') {
+                    msr = 0;
+                  $.each(obj[key], function (key1, value1) {
+                        msr = msr + 1;
+                        RequisitionId = value1.RequisitionId;
+                        var hiddenIds = '<div style="display:none"><span class="ResourceId">' + value1.RequisitionId + '</span>';
+                        hiddenIds += '</div>';
+                        var template1 = '<tr>';
+
+                        template1 += '<td style="display:none"><span class="ResourceId">' + value1.ResourceId + '</span><span class="TenureId" > ' + value1.TenureofDeployment + '</span > <span class="ResourceTypeId">' + value1.ResourceType + '</span></td > ';
+                        template1 += '<td style="display:none"><span class="srno">' + msr + '</span></td>';
+                        template1 += '<td><span class="Resource">' + value1.fvDesignationName + '</span></td>';
+                        template1 += '<td><span class="ResourceType">' + value1.ResourceTypeName + '</span></td>';
+                        template1 += '<td><span class="Tenure">' + value1.TenureofDeploymentName + '</span></td>';
+                        //template1 += '<td><span class="BasicAmount">' + value1.BasicAmount + '</span></td>';
+                        //template1 += '<td><span class="DeptCost">' + value1.Costtodepartment + '</span></td>';
+                        template1 += '<td style="text-align:right"><span class="ResourceNo">' + value1.NoOfResource + '</span></td>';
+
+                       template1 += '<td>\
+                              <button id="btnFinancialDetails" style="background-color:#7CFC00" onclick="AddSalary(this);">Financial Details</button>\
+                              <button id="btnDetails" class="btnDetails" style="background-color:#7CFC00" onclick="AddDetails(this);">AVO Details</button>\
+                              <button id="btnRemove" onclick="Remove(this);">Remove</button>\
+                               </td>';
+
+                       template1 += '</tr>'
+
+                        var oldBody1 = $("#tblPurchase > TBODY").html();
+                        var tBody1 = $("#tblPurchase > TBODY").html(oldBody1 + template1);
+                        if (value1.CouuntT3  != $('#txtTotalResource').val()) {
+                            $(".btnModalSubmit").removeAttr("disabled");
+                        }
+                        else {
+                            alert(TotalResource);
+                            //$('.btnModalSubmit').attr("disabled", true);
+                        }
+
+                    });
+                }
+
+            });
+        });
+        //sum();
+        //$('.btnDetails').css('background-color', 'grey');
+        $('.btnModalSubmit').val('Submit');
+    }
+
+    function AddDetails(button)
+    {
+
+        temprow = button;
+        $("#tblDetails > TBODY").html('');
+        var row = $(button).closest("TR");
+
+        var ResourceNo = $(row).closest("tr").find(".ResourceNo").html();
+        PostId = $(row).closest("tr").find(".ResourceId").html();
+
+        _ResourceIdddl(ResourceNo);
+        _DeploymentOfficeddl();
+        AddDetailsEdit(PostId);
+        $("#tblDetails > TBODY").html('');
+
+        $('.modal-title').html("Add Details");
+        $('#myModal').modal({
+            show: 'false'
+        });
+        root = '/HrNew/CreateAssingUserRoleSubmit';
+        $('.modal-footer').show();
+
+    }
+
+    function AddDetailsEdit(PostId) {
+       // clearform();
+        $.post("/TimeSheet/_RequisitionDetailsEdit", { 'Id': PostId }, function (data) {
+            var obj = $.parseJSON(data);
+           // alert(obj);
+            var msr = 0;
+            $("#tblDetails > TBODY").html('');
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                //alert(value.ResourcePostId);
+
+                var hiddenIds = '<div style="display:none"><span class="">' + value.ResourcePostId + '</span>';
+                hiddenIds += '</div>';
+                var template1 = '<tr>';
+
+               template1 += '<td style="display:none"><span class="RId1">' + value.ResourcePostId + '</span><span class="DeploymentOfficeid" > ' + value.DeploymentOffice + '</span > <span class="AVONameId">' + value.AVOId + '</span></td > ';
+
+                template1 += '<td style="display:none"><span class="srno">' + msr + '</span></td>';
+                template1 += '<td><span class="">' + value.ResourcePostId + '</span></td>';
+                template1 += '<td><span class="DeploymentOfficeText">' + value.DeploymentOfficeName + '</span></td>';
+               template1 += '<td><span class="AVOName">' + value.AvoName + '</span></td>';
+
+                template1 += '<td><button id="btnRemove"  onclick="Removedetails(this);">Remove</button>  </td>';
+                template1 += '</tr>'
+               // alert(template1);
+
+                $("#Rid :selected").remove();
+                //&nbsp;<button id="btnEdit"  onclick="EditEntry1($(this),1);">Edit</button>
+                var oldBody1 = $("#tblDetails > TBODY").html();
+                var tBody1 = $("#tblDetails > TBODY").html(oldBody1 + template1);
+                TotalResource++;
+                PostTotalResource++;
+
+                $('.tblcler').val('');
+
+            });
+        });
+
+    }
+    function _ResourceIdddl(Id) {
+        totalNoResource = Id
+        ResourceId = "<option value='0'>Select</option>";
+        for (var i = 1; i <= Id; i++) {
+          ResourceId += '<option value=' + i + '>R00' + i + '</option>'
+        }
+        $('#Rid').html(ResourceId);
+
+        ResourceId = "";
+       // $('#Rid').val(0);
+
+
+    }
+
+    function Remove(button) {
+        //Determine the reference of the Row using the Button.
+        var row = $(button).closest("TR");
+        var ResourceId = $(row).closest("tr").find(".ResourceId").html();
+        var ResourceNo = $(row).closest("tr").find(".ResourceNo").html();
+
+       var name = $("TD", row).eq(0).html();
+        if (confirm("Do you want to delete ?")) {
+            //TotalResource = TotalResource - ResourceNo;
+            $.post('/TimeSheet/_RequisitionDetailsDelete', {
+                    'PostId': ResourceId,
+
+        }, function (data) {
+
+        });
+            //Get the reference of the Table.
+            var table = $("#tblPurchase")[0];
+            //Delete the Table row using it's Index.
+            $("#txtTotalResource").val(parseInt($("#txtTotalResource").val()) - parseInt(ResourceNo))
+            TotalResource = TotalResource - parseInt(ResourceNo);
+            if ((TotalResource == parseInt($("#txtTotalResource").val())) && TotalResource!=0 ) {
+                alert(TotalResource);
+                //$('.btnModalSubmit').attr("disabled", true);
+                $(".btnModalSubmit").removeAttr("disabled");
+            }
+            else {
+                $('.btnModalSubmit').attr("disabled", true);
+            }
+
+            table.deleteRow(row[0].rowIndex);
+        }
+    }
+
+    function Removedetails(button) {
+        var row = $(button).closest("TR");
+        var RidNo = $(row).closest("tr").find(".RId1").html();
+        if (confirm("Do you want to delete?")) {
+           $('#Rid').html($('#Rid').html() + "<option value=\'" + RidNo + "\'>R00" + RidNo + "</option>");
+            var table = $("#tblDetails")[0];
+            table.deleteRow(row[0].rowIndex);
+            TotalResource--;
+            PostTotalResource--;
+        }
+    }
+    function RemoveTax(button) {
+        var row = $(button).closest("TR");
+        var name = $("TD", row).eq(0).html();
+       if (confirm("Do you want to delete?")) {
+            var table = $("#tblSundry")[0];
+            table.deleteRow(row[0].rowIndex);
+            SumSundry();
+        }
+    }
+
+    $('#txtSundrAmt').change(function () {
+
+    })
+
+    function EditEntry1(row, Id) {
+        tableObj = row;
+        var Product = $(row).closest("tr").find(".ItemName").html();
+        var Unit = $(row).closest("tr").find(".UnitId").html();
+        var HSN = $(row).closest("tr").find(".HSN").html();
+        var Quantity = $(row).closest("tr").find(".Qty").html();
+        var Rate = $(row).closest("tr").find(".Rate").html();
+        var GST = $(row).closest("tr").find(".IGST").html();
+        var Amount = $(row).closest("tr").find(".Amount1").html();
+        var NetAmount = $(row).closest("tr").find(".NetAmount2").html();
+        $("#ProductName").val(Product);
+        $("#Unit").val(Unit);
+        $("#HSN").val(HSN);
+        $("#ReqQty").val(Quantity);
+        $("#Rate").val(Rate);
+        $("#IGST").val(GST);
+        $("#NetAmt").val(NetAmount);
+        $("#Amount").val(Amount);
+        $('#btnAdd').val('Update');
+    }
+
+    function EditTax(row, Id) {
+        tableObj = row;
+        var SundryId = $(row).closest("tr").find(".SundryId").html();
+        var SundryHead = $(row).closest("tr").find(".SundryHead").html();
+        var SundryAmount = $(row).closest("tr").find(".SundryAmt1").html();
+        $("#SundryId").val(SundryId);
+        $("#SundryHead").val(SundryHead);
+        $("#SundryAmt").val(SundryAmount);
+        $('#btnAddTax').val('Update');
+    }
+
+    function UpdateTax(tableObj) {
+        var row = $(tableObj).closest("tr");
+        var tbl = $("#tblSundry")[0];
+        tbl.deleteRow(row[0].rowIndex);
+        $('#btnAddTax').val('+');
+    }
+
+    function UpdateTable(tableObj) {
+        var row = $(tableObj).closest("tr");
+        var tbl = $("#tblPurchase")[0];
+        tbl.deleteRow(row[0].rowIndex);
+        $('#btnAdd').val('+');
+    }
+        function AddDetailsEdit(PostId) {
+       // clearform();
+        $.post("/TimeSheet/_RequisitionDetailsEdit", { 'Id': PostId }, function (data) {
+            var obj = $.parseJSON(data);
+           // alert(obj);
+            var msr = 0;
+            $("#tblDetails > TBODY").html('');
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                //alert(value.ResourcePostId);
+
+                var hiddenIds = '<div style="display:none"><span class="">' + value.ResourcePostId + '</span>';
+                hiddenIds += '</div>';
+                var template1 = '<tr>';
+
+               template1 += '<td style="display:none"><span class="RId1">' + value.ResourcePostId + '</span><span class="DeploymentOfficeid" > ' + value.DeploymentOffice + '</span > <span class="AVONameId">' + value.AVOId + '</span></td > ';
+
+                template1 += '<td style="display:none"><span class="srno">' + msr + '</span></td>';
+                template1 += '<td><span class="">' + value.ResourcePostId + '</span></td>';
+                template1 += '<td><span class="DeploymentOfficeText">' + value.DeploymentOfficeName + '</span></td>';
+               template1 += '<td><span class="AVOName">' + value.AvoName + '</span></td>';
+
+                template1 += '<td><button id="btnRemove"  onclick="Removedetails(this);">Remove</button>  </td>';
+                template1 += '</tr>'
+               // alert(template1);
+
+                $("#Rid :selected").remove();
+                //&nbsp;<button id="btnEdit"  onclick="EditEntry1($(this),1);">Edit</button>
+                var oldBody1 = $("#tblDetails > TBODY").html();
+                var tBody1 = $("#tblDetails > TBODY").html(oldBody1 + template1);
+                TotalResource++;
+                PostTotalResource++;
+
+                $('.tblcler').val('');
+
+            });
+        });
+
+    }
+    function AddSalaryEdit(PostId) {
+        //clearform();
+        $.post("/TimeSheet/_RequisitionSalaryEdit", { 'Id': PostId }, function (data) {
+            var obj = $.parseJSON(data);
+            // alert(obj);
+
+
+            $.each(obj, function (key, value) {
+
+                $('#BasicSalary').val(value.BasicAmount);
+                // var AdminCharge = $('#AdminCharge').val();
+                $('#SpecialAllowance').val(value.SpecialAllowance);
+                $('#liblyAllowance').val(value.liblyAllowance);
+                $('#Medical').val(value.Medical);
+                $('#HRA').val(value.HRA);
+                $('#Tribalallwoance').val(value.Tribalallwoance);
+                $('#TribalAreaallwoance').val(value.TribalAreaallwoance);
+                $('#ReliverCharges').val(value.ReliverCharges);
+                $('#DressCharge').val(value.DressCharge);
+                $('#OtherAllowance').val(value.Other);
+                //var EPFAmt = $('#EPFAmt').val(value.BasicAmount);
+                //var ESIAmt = $('#ESIAmt').val(value.BasicAmount);
+
+                $('#EPFAmt').val(value.EpfAmount);
+                $('#ESIAmt').val(value.ESIAmount);
+
+                $('#ChargeAmount').val(value.ChargeAmount);
+
+                $('#HpsedcCharge').val(value.HpsedcCharge);
+
+                $('#TotalAmt').val(value.TaxableAmt)
+
+                $('#GST').val(parseFloat(value.TaxableAmt) * 18 / 100);
+
+                $('#GrandTotal').val(value.GrandTotal);
+
+
+            });
+        });
+
+    }
+    function AddSalary(button) {
+        temprow = button;
+        $("#tblDetails > TBODY").html('');
+        var row = $(button).closest("TR");
+
+        var ResourceNo = $(row).closest("tr").find(".ResourceNo").html();
+        PostId = $(row).closest("tr").find(".ResourceId").html();
+        AddSalaryEdit(PostId);
+        ResourceId = PostId;
+        $('.modal-title').html("Add Financial Details Per Resource");
+        $('#myModal1').modal("show");
+
+
+    }
+    function SubmitSalary() {
+       $.post('/TimeSheet/_RequisitionSalarySubmit', {
+            'PostId': ResourceId,
+            'Id': 0,
+            'ResourceId': 0, //$('#').val(),
+            'NoOfHours': 8,
+            'IsAdminChargeFixed': 'N',
+            'IsEsi': $('#IsEsi').val(),
+            'IsPf': $('#IsPf').val(),
+            'IsSpecialEsi': 'N', //$('#').val(),
+            'BasicAmount': $('#BasicSalary').val(),
+            'AdminCharge': '0', //$('#').val(),
+            'SpecialAllowance': $('#SpecialAllowance').val(),
+            'liblyAllowance': $('#liblyAllowance').val(),
+            'Medical': $('#Medical').val(),
+            'HRA': $('#HRA').val(),
+            'Tribalallwoance': $('#Tribalallwoance').val(),
+            'TribalAreaallwoance': $('#TribalAreaallwoance').val(),
+            'ReliverCharges': $('#ReliverCharges').val(),
+            'DressCharge': $('#DressCharge').val(),
+            'OtherAllowance': $('#OtherAllowance').val(),
+            'ChargeAmount': $('#ChargeAmount').val(),
+            'HpsedcCharge': $('#HpsedcCharge').val(),
+            'TaxableAmt': $('#TotalAmt').val(),
+            'CGST': $('#GST').val() / 2,
+            'SGST': $('#GST').val() / 2,
+            'GrandTotal': $('#GrandTotal').val(),
+
+        }, function (data) {
+            alert(data);
+           // alert("Add Financial Details Succesfully");
+            $('#myModal1').modal('hide');
+            document.getElementById("btnFinancialDetails").style.backgroundColor = "#7CFC00";
+
+        });
+    }
+    function RenummerationCost1() {
+        var IsEsi = $('#IsEsi').is(':checked') ? 'Y' : 'N'; // ESIAmt toggle
+        var IsPf = $('#IsPf').is(':checked') ? 'Y' : 'N'; // EPFAmt toggle
+        var BasicAmount = parseFloat($('#BasicSalary').val()) || 0;
+
+        var SpecialAllowance = parseFloat($('#SpecialAllowance').val()) || 0;
+        var liblyAllowance = parseFloat($('#liblyAllowance').val()) || 0;
+        var Medical = parseFloat($('#Medical').val()) || 0;
+        var HRA = parseFloat($('#HRA').val()) || 0;
+        var Tribalallwoance = parseFloat($('#Tribalallwoance').val()) || 0;
+        var TribalAreaallwoance = parseFloat($('#TribalAreaallwoance').val()) || 0;
+        var ReliverCharges = parseFloat($('#ReliverCharges').val()) || 0;
+        var DressCharge = parseFloat($('#DressCharge').val()) || 0;
+        var OtherAllowance = parseFloat($('#OtherAllowance').val()) || 0;
+
+        // EPF calculation: Apply 13% only up to ₹15,000
+        var EPFAmt = BasicAmount > 15000 ? 15000 * 13 / 100 : BasicAmount * 13 / 100;
+        $('#EPFAmt').val(EPFAmt.toFixed(2));
+
+        // ESI calculation: Apply 3.25% only up to ₹21,000
+        var ESIAmt = BasicAmount > 21000 ? 21000 * 3.25 / 100 : BasicAmount * 3.25 / 100;
+        $('#ESIAmt').val(ESIAmt.toFixed(2));
+
+        // Total Charge Amount
+        var ChargeAmount = BasicAmount + EPFAmt + ESIAmt;
+        $('#ChargeAmount').val(ChargeAmount.toFixed(2));
+
+        // Hpsedc Charge (5% of Charge Amount)
+        var HpsedcCharge = ChargeAmount * 5 / 100;
+        $('#HpsedcCharge').val(HpsedcCharge.toFixed(2));
+
+        // Total Amount
+        var TotalAmt = ChargeAmount + HpsedcCharge + SpecialAllowance + liblyAllowance + Medical + HRA + Tribalallwoance + TribalAreaallwoance + ReliverCharges + DressCharge + OtherAllowance;
+        $('#TotalAmt').val(TotalAmt.toFixed(2));
+
+        // GST (18% of Taxable Amount)
+        var GST = TotalAmt * 18 / 100;
+        $('#GST').val(GST.toFixed(2));
+
+        // Grand Total
+        var GrandTotal = TotalAmt + GST;
+        $('#GrandTotal').val(GrandTotal.toFixed(2));
+
+        // Net Take Home
+        var EPFAmt1 = BasicAmount > 15000 ? 15000 * 12 / 100 : BasicAmount * 12 / 100;
+        var ESIAmt1 = BasicAmount > 21000 ? 21000 * 0.75 / 100 : BasicAmount * 0.75 / 100;
+        var kum = EPFAmt1 + ESIAmt1;
+        var netTakeHome = BasicAmount - kum;
+        $('#Nettakehome').val(netTakeHome.toFixed(2));
+    }
+
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('.btnModalSubmit').attr("disabled", true);
+
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        });
+    });
+
+</script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+    });
+</script>
+<script>
+    function toggleInput() {
+        const checkbox = document.getElementById('myCheckbox');
+        const input = document.getElementById('myInput');
+
+        // Show or hide the input based on checkbox status
+        if (checkbox.checked) {
+            input.style.display = 'inline';
+            input.value = 0; // Set default value when shown
+        } else {
+            input.style.display = 'none';
+            input.value = 0; // Reset to 0 when hidden
+        }
+    }
+
+    // Set initial value to 0
+    window.onload = function () {
+        const input = document.getElementById('myInput');
+        input.value = 0;
+    };
+</script>

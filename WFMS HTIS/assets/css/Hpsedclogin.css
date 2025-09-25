@@ -1,0 +1,109 @@
+﻿
+
+body, html {
+    height: 100%;
+    margin: 0;
+    
+}
+
+.control-label, .login-heading h3 {
+    color: #333;
+}
+
+body {
+    /*  background-color: #d9edfe;*/
+    background-image: url('/images/bg2.jpg');
+    background-repeat: repeat-y;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.center {
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+}
+
+.font {
+    color: #0F1875;
+    font-family: Montserrat;
+}
+
+.loginbutton {
+    background-color: #0F1875;
+    color: #fff;
+    width: 100%
+}
+
+.button1:hover {
+    background-color: #0F1875;
+    color: white;
+    width: 100%;
+}
+
+.topmargin {
+    margin-top: -19px;
+}
+
+.ssofont {
+    font-size: large;
+}
+
+.maxbutton-3.maxbutton.maxbutton-button3 {
+    position: relative;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    /* width: 105px;*/
+    height: 42px;
+    border-width: 0px;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #0F1875;
+    -webkit-box-shadow: 0px 0px 4px 3px #ffffff;
+    -moz-box-shadow: 0px 0px 4px 3px #ffffff;
+    padding-top: 10px;
+    padding-left: 1px;
+}
+
+    .maxbutton-3.maxbutton.maxbutton-button3 .mb-text {
+        color: #ffffff;
+        font-family: Tahoma;
+        font-size: 16px;
+        text-align: center;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1em;
+        box-sizing: border-box;
+        display: block;
+        background-color: unset;
+        padding: 12px 0px 0px 0px;
+        padding-top: 2px;
+        padding-left: 1px;
+    }
+
+    .maxbutton-3.maxbutton.maxbutton-button3:hover .mb-text {
+        color: #ffffff
+    }
+
+.font2 {
+    color: #fff
+}
+
+.footerdiv1 {
+    color: #0f1875;
+    margin-top: 1vw;
+}
+
+.footerdiv2 {
+    display: flex;
+    flex-direction: row
+}
+
+.footerfont {
+    color: #0f1875;
+}
+
+

@@ -1,0 +1,42 @@
+﻿<script src="~/Scripts/jquery.magicsearch.min.js"></script>
+<link href="~/Content/jquery.magicsearch.css" rel="stylesheet" />
+@{
+}
+<section>
+    <input class="magicsearch" id="basic" placeholder="search names...">
+    
+</section>
+<script> 
+    $(function () {
+        var dataSource = [
+            { id: 1, firstName: 'Tim', lastName: 'Cook' },
+            { id: 2, firstName: 'Eric', lastName: 'Baker' },
+            { id: 3, firstName: 'Victor', lastName: 'Brown' },
+            { id: 4, firstName: 'Lisa', lastName: 'White' },
+            { id: 5, firstName: 'Oliver', lastName: 'Bull' },
+            { id: 6, firstName: 'Zade', lastName: 'Stock' },
+            { id: 7, firstName: 'David', lastName: 'Reed' },
+            { id: 8, firstName: 'George', lastName: 'Hand' },
+            { id: 9, firstName: 'Tony', lastName: 'Well' },
+            { id: 10, firstName: 'Bruce', lastName: 'Wayne' },
+        ];
+        $('#basic').magicsearch({
+            dataSource: dataSource,
+            fields: ['firstName', 'lastName'],
+            id: 'id',
+            format: '%firstName% · %lastName%',
+            multiple: true,
+            maxShow: 5,
+            dropdownMaxItem: 4,
+            dropdownBtn: false,
+            multiField: 'firstName',
+            multiStyle: {
+                space: 5,
+                width: 80
+            },
+            success: function ($input, data) { 
+                return true; 
+            },
+        });  
+    }); 
+</script>

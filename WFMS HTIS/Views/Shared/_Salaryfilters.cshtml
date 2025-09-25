@@ -1,0 +1,297 @@
+﻿@{
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+}
+<style>
+    .form-control {
+        padding: 0px;
+        box-shadow: none;
+        margin: 0px;
+        margin-bottom: 0px;
+        height: 25px;
+        padding-left: 10px;
+    }
+
+    .table-form td {
+        padding: 0px;
+        padding-bottom: 2px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table-form">
+            <tr>
+                <td>
+                    
+                    @*<label class="radio-inline"><input type="radio" name="rdoFreeze">Un Freeze</label>*@
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  
+                   
+                </td>
+            </tr>
+        </table>
+        <table class="table-form">
+            <tr>
+                <td>From</td>
+                <td>
+                    <input type="text" id="FromDate" data-date-format="MMM-yyyy" class="form-control datepicker" readonly placeholder="From Date" value="@DateTime.Now.AddMonths(-1).ToString("MMM-yyyy")">
+                </td>
+            </tr>
+            <tr>
+                <td>Employee</td>
+                <td>
+                    <input type="text" id="EmpId" value="0" class="form-control hidden" placeholder="Employee">
+                    <input type="text" id="EmpName" class="form-control" placeholder="Employee">
+                </td>
+            </tr>
+            <tr>
+                <td>Designation</td>
+                <td>
+                    <input type="text" id="DesignationId" value="0" class="form-control hiddenss" placeholder="Designation">
+                    <input type="text" id="Designation" class="form-control" placeholder="Designation">
+                </td>
+            </tr>
+            <tr>
+                <td>Grade</td>
+                <td>
+                    <input type="text" id="GradeId" value="0" class="form-control hidden" placeholder="Grade">
+                    <input type="text" id="Grade" class="form-control" placeholder="Grade">
+                </td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>
+                    <input type="text" id="CategoryId" value="0" class="form-control hidden" placeholder="Category">
+                    <input type="text" id="Category" class="form-control" placeholder="Category">
+                </td>
+            </tr>
+            <tr>
+                <td>Company</td>
+                <td>
+                    <input type="text" id="CompanyId" value="0" class="form-control hidden" placeholder="Company">
+                    <input type="text" id="Company" class="form-control" placeholder="Company">
+                </td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td>
+                    <input type="text" id="RegionId" value="0" class="form-control hidden" placeholder="Region">
+                    <input type="text" id="Region" class="form-control" placeholder="Region">
+                </td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>
+                    <input type="text" id="LocationId" value="0" class="form-control hidden" placeholder="Location">
+                    <input type="text" id="Location" class="form-control" placeholder="Location">
+                </td>
+            </tr>
+            <tr>
+                <td>Division</td>
+                <td>
+                    <input type="text" id="DivisionId" value="0" class="form-control hidden" placeholder="Division">
+                    <input type="text" id="Division" class="form-control" placeholder="Division">
+                </td>
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>
+                    <input type="text" id="DepartmentId" value="0" class="form-control hidden" placeholder="Department">
+                    <input type="text" id="Department" class="form-control" placeholder="Department">
+                </td>
+            </tr>
+            <tr>
+                <td>Cost Center</td>
+                <td>
+                    <select id="CostCenterId" class="form-control">
+                        <option value="@ViewData["CostCenterId"]">@ViewData["CostCenterName"]</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Payroll Area</td>
+                <td>
+                    <input type="text" id="PayrollAreaId" value="0" class="form-control hidden" placeholder="Payroll Area">
+                    <input type="text" id="PayrollArea" class="form-control" placeholder="Payroll Area">
+                </td>
+            </tr>
+            <tr>
+                <td>Reporting Manager</td>
+                <td>
+                    <input type="text" id="ReportingManagerId" value="0" class="form-control hidden" placeholder="Reporting Manager">
+                    <input type="text" id="ReportingManager" class="form-control" placeholder="Reporting Manager">
+                </td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>
+                    <input type="text" id="StatusId" value="0" class="form-control hidden" placeholder="Status">
+                    <input type="text" id="Status" class="form-control" placeholder="Status">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="button" value="View" class="btn btn-default" onclick="_loadFilteredData()" />
+                    <input type="button" value="Submit" class="btn btn-default" onclick="_freezeSubmit()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div id="divReportViewer"></div>
+
+<script src="@siteUrl/Scripts/autocomplete.js"></script>
+<script>
+    $('.datepicker').datepicker(
+    {
+        format: "M-yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+    $('.datepicker').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+
+    });
+
+    autoTextReport('EmpName', 'EmpId', '@siteUrl/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+    autoTextReport('Designation', 'DesignationId', '@siteUrl/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+    autoTextReport('Grade', 'GradeId', '@siteUrl/autoComplete/_autoSearch/', 'gradeId', 'GradeName', 'GradeCode', 'Grade');
+    autoTextReport('Category', 'CategoryId', '@siteUrl/autoComplete/_autoSearch/', 'CategoryId', 'CategoryName', 'CategoryCode', 'Category');
+    autoTextReport('Company', 'CompanyId', '@siteUrl/autoComplete/_autoSearch/', 'CompanyId', 'CompanyName', 'CompanyCode', 'Company');
+    //Region
+    autoTextReport('Location', 'LocationId', '@siteUrl/autoComplete/_autoSearch/', 'LocId', 'LocName', 'LocCode', 'Location');
+    autoTextReport('Division', 'DivisionId', '@siteUrl/autoComplete/_autoSearch/', 'DivisionId', 'DivisionName', 'DivisionCode', 'Division');
+    autoTextReport('Department', 'DepartmentId', '@siteUrl/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+    //autoTextReport('CostCenter', 'CostCenterId', '@siteUrl/autoComplete/_autoSearch/', 'CostCenterId', 'CostCenterName', 'CostCenterCode', 'CostCenter');
+    //PayrollArea
+    autoTextReport('ReportingManager', 'ReportingManagerId', '@siteUrl/autoComplete/_autoSearch/', 'RMId', 'RMName', 'RMCode', 'ReportingManager');
+    autoTextReport('Status', 'StatusId', '@siteUrl/autoComplete/_autoSearch/', 'StatusId', 'StatusName', 'StatusCode', 'Status');
+
+    $('#EmpName').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Designation').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Grade').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Category').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Company').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Location').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Division').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Department').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#ReportingManager').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    $('#Status').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $('#EmployeeList').html('');
+        }
+    });
+    function setMethod(method) {
+        $('#ProgressImg').show();
+        $('#Method').val(method);
+        $('#ProgressImg').hide();
+    }
+
+    function _loadFilteredData() {
+        if ($('#EmpName').val().trim() == '') {
+            $('#EmpId').val(0);
+        }
+        if ($('#CostCenterId').val().trim() == '') {
+            $('#CostCenterId').val(0);
+        }
+        if ($('#Category').val().trim() == '') {
+            $('#CategoryId').val(0);
+        }
+        if ($('#Department').val().trim() == '') {
+            $('#DepartmentId').val(0);
+        }
+        if ($('#Designation').val().trim() == '') {
+            $('#DesignationId').val(0);
+        }
+        if ($('#Company').val().trim() == '') {
+            $('#CompanyId').val(0);
+        }
+
+        if ($('#Division').val().trim() == '') {
+            $('#DivisionId').val(0);
+        }
+        if ($('#Grade').val().trim() == '') {
+            $('#GradeId').val(0);
+        }
+        if ($('#Location').val().trim() == '') {
+            $('#LocationId').val(0);
+        }
+        if ($('#ReportingManager').val().trim() == '') {
+            $('#ReportingManagerId').val(0);
+        }
+        var method = $('#Method').val();
+        var FromDate = $('#FromDate').val();
+        var ToDate = $('#ToDate').val();
+        var EmpId = $('#EmpId').val();
+        var CostCenterId = $('#CostCenterId').val();
+        var CategoryId = $('#CategoryId').val();
+        var DesignationId = $('#DesignationId').val();
+        var DepartmentId = $('#DepartmentId').val();
+        var CompanyId = $('#CompanyId').val();
+        var DivisionId = $('#DivisionId').val();
+        var GradeId = $('#GradeId').val();
+        var LocationId = $('#LocationId').val();
+        var ReportingManagerId = $('#ReportingManagerId').val();
+        var StatusId = $('#StatusId').val();
+        $('#EmployeeList').html('<img src="@siteUrl/images/ajax-loading.gif" />/');
+        $.post('@siteUrl/payroll/_SalaryFilterResult', {
+            'PageSize':20,
+            'FromDate':FromDate,
+            'EmpId': EmpId,
+            'CostCenterId': CostCenterId,
+            'CategoryId': CategoryId,
+            'DesignationId': DesignationId,
+            'DepartmentId': DepartmentId,
+            'CompanyId': CompanyId,
+            'DivisionId': DivisionId,
+            'GradeId': GradeId,
+            'LocationId': LocationId,
+            'ReportingManagerId': ReportingManagerId,
+            'StatusId': StatusId
+        }, function (data) {
+            $('#EmployeeList').html(data);
+        });
+    }
+</script>

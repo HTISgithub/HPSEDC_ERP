@@ -1,0 +1,622 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Customer Approval ";
+    ViewBag.PageTitle = "Customer Approval";
+
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    commonFunctions comfun = new commonFunctions();
+}
+@{
+    int StartYear = Convert.ToInt32(DateTime.Now.Year);
+    int StartMonth = Convert.ToInt32(DateTime.Now.Month);
+    DateTime oBeginnngOfThisMonth = new DateTime(StartYear, StartMonth, 1);
+    int daysInMonth = oBeginnngOfThisMonth.AddMonths(1).AddDays(-1).Day;
+    DateTime startDate = new DateTime(StartYear, StartMonth, 1).AddDays(-1);
+    string dayName = "";
+    DateTime iDate = new DateTime();
+    string colName = "";
+    string tdId = "";
+    string dayTag = "";
+    DataTable dtDayTags = comfun.fillDataTable("stpviksatLeaveTypeListShow", "", null);
+    DateTime currentMonth = new DateTime(DateTime.Now.Year, DateTime.Now.AddMonths(1).Month, 1).AddDays(-1);
+    DateTime oldMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    DateTime now = DateTime.Now;
+    var FromDate = new DateTime(now.Year, now.Month, 1);
+    var endDate = FromDate.AddMonths(1).AddDays(-1);
+
+}
+<style>
+    .ui-helper-hidden-accessible {
+        display: none !important;
+    }
+
+    #_salaryAttMonthly {
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    .ddl {
+        max-width: 40px;
+    }
+
+    .attendanceContainer {
+        width: 100%;
+        margin: 0px;
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        border: 0;
+        padding: 0px;
+        height: auto;
+        scrollbar-width: thin;
+    }
+
+    #_salaryAttMonthly {
+        max-height: 80vh;
+        overflow: auto;
+        scrollbar-width: thin;
+        /*scrollbar-color: #00476a white;*/
+    }
+
+    .tdays {
+        padding: 0px;
+    }
+
+    .tsr {
+    }
+
+    .tnames {
+        text-transform: capitalize;
+        padding-left: 5px !important;
+    }
+
+    .tempid {
+        padding-left: 5px !important;
+    }
+
+    .tul li {
+        list-style-type: none;
+    }
+
+    .bd-example-modal-lg .modal-dialog {
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(45% - 24px);
+    }
+
+        .bd-example-modal-lg .modal-dialog .modal-content {
+            background-color: transparent;
+            border: none;
+        }
+
+    .table-form td {
+        padding: 4px;
+    }
+</style>
+
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+        <li>
+            <a href="#">Organisation</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            @*<a class="btn btn-primary pull-right btnAddModal" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New</a>*@
+        </h1>
+    </div>
+    @*********Page End************@
+    <div class="attendanceContainer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-10">
+                        <table class="table-form">
+                            <tr>
+                                <td>Employee</td>
+                                <td>@Html.Partial("_employeeBox")</td>
+                                <td>Customer/Customer/Vendor</td>
+                                <td>
+                                    <select id="ContractorId" class="form-control select2" onchange="View()">
+                                        <option value="0">--Customer--</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>From Date</td>
+                                <td><input type="text" data-date-format="dd-M-yyyy" class="datepicker form-control readonly" name="FromDate" id="FromDate" readonly="readonly" value="@(FromDate.ToString("dd-MMM-yyyy"))" /></td>
+                                <td>To Date</td>
+                                <td><input type="text" data-date-format="dd-M-yyyy" class="datepicker form-control readonly" name="ToDate" id="ToDate" readonly="readonly" value="@endDate.ToString("dd-MMM-yyyy")" /></td>
+                                <td colspan="3">
+                                    <input type="button" value="UnApproved List" onclick="View()" class="btn btn-primary pull-left" />
+                                    @*<input type="button" onclick="showGlobalFilters()" class="btn btn-default" id="filter" value="Filters" />
+                                        <input type="button" onclick="filterGlobalClear()" class="btn btn-default " id="filterclear" value="Clear Filters" />*@
+
+                                </td>
+                                <td>
+                                    <input type="button" class="btn btn-primary pull-left" value="Approved List" onclick="Certificate()" />
+                                </td>
+                            </tr>
+                            @*<tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="button" value="Refresh" onclick="_salaryAttMonthly(1)" class="btn btn-default btnRefresh" />
+                                        <input type="button" onclick="showGlobalFilters()" class="btn btn-default" id="filter" value="Filters" />
+                                        <input type="button" onclick="filterGlobalClear()" class="btn btn-default" id="filterclear" value="Clear Filters" />
+
+                                    </td>
+                                </tr>*@
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="_salaryAttMonthly"></div>
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color:#00476A;">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse1" style="color:white">UnApproved List</a>
+                                <a data-toggle="collapse" href="#collapse1"> <span class="pull-right clickable" style="color:white"><i class="glyphicon glyphicon-chevron-down"></i></span></a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="col-md-12 col-sm-12 col-lg-12">
+                                    <div class="table-responsive" style="overflow-y:auto;max-height:200px;">
+                                        <table class="table table-bordered" id="tblDepartmentApproval">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:150px">Sr No</th>
+                                                    <th style="width:150px">Code</th>
+                                                    <th style="width:150px">Name</th>
+                                                    <th style="width:150px">Designation</th>
+                                                    <th style="width:150px">Department</th>
+
+
+                                                    <th style="width:150px">Pay Days</th>
+
+                                                    <th style="width:150px">
+                                                        <input type="checkbox" class="SelectAll" />  Select All
+
+                                                    </th>
+                                                    @*<th style="width:150px">Remove</th>*@
+                                                    <th id="itemid" class="hide"></th>
+                                                    <th id="UnitId" class="hide"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row show1" hidden="hidden">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <input type="button" id="Show" class="btn btn-primary pull-right" value="Submit" onclick="GenerateCertificate()" />
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color:#00476A;">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse2" style="color:white">Approved List</a>
+                    <a data-toggle="collapse" href="#collapse2"> <span class="pull-right clickable" style="color:white"><i class="glyphicon glyphicon-chevron-down"></i></span></a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="table-responsive" style="overflow-y:auto;max-height:200px;">
+                            <table class="table table-bordered" id="tblGeneratedCertificate">
+                                <thead>
+                                    <tr>
+                                        <th style="width:150px">Sr No</th>
+                                        <th style="width:150px">Code</th>
+                                        <th style="width:150px">Name</th>
+                                        <th style="width:150px">Department</th>
+
+                                        <th style="width:150px">Designation</th>
+                                        <th style="width:150px">Pay Days</th>
+                                        @*<th style="width:150px">Remove</th>*@
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" role="dialog" id="spinnerModal" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <h4 class="text-center">Please wait</h4>
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+    @{
+
+        string Employee = ((int)Enum.Parse(typeof(payrollFunctions.roleIds), "Employee")).ToString();
+    }
+</div>
+<script src="~/Scripts/autocomplete.js"></script>
+<script>
+    var mId = 0;
+    $(document).ready(function () {
+        autoTextReport('EmployeeName', 'EmployeeId', '/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+    });
+    // _Department();
+    _Contractorddl();
+    function showModalProgress() {
+        $('.modal').modal('show');
+    }
+    function hideModalProgress() {
+        $('.modal').modal('hide');
+    }
+    $('.datepicker').datepicker()
+    $('.datepicker').on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+
+    });
+    function _Department() {
+        $('#ModalProgress').show();
+        $.post('/TimeSheet/_Department', {
+        }, function (data) {
+            $('#ModalProgress').hide();
+            var department = '<option value="0">--Select Scrum--</option>';
+            var obj = $.parseJSON(data);
+            $('#notinotavialable').hide();
+            $.each(obj, function (key, value) {
+                department += '<option value=' + value.DepartmentID + '>' + value.DepartmentName + '</option>';
+            });
+            $('#ScrumId').html(department);
+        });
+    }
+    $(document).ready(function () {
+        $('.SelectAll').click(function () {
+            $('.chkProduct').prop('checked', this.checked);
+        })
+    });
+    function _Contractorddl() {
+        $('#ModalProgress').show();
+        $.post('/TimeSheet/_Customerddl', {
+        }, function (data) {
+            $('#ModalProgress').hide();
+            var Contractor = '<option value="0">--Select Customer--</option>';
+            var obj = $.parseJSON(data);
+            $('#notinotavialable').hide();
+            $.each(obj, function (key, value) {
+                Contractor += '<option value=' + value.CustomerId + '>' + value.CustomerName + '</option>'
+            });
+            $('#ContractorId').html(Contractor);
+        });
+    }
+
+    $('#EmployeeName').bind('autocompleteselect', function (event, ui) {
+        if (ui.item) {
+            $(".EmployeeIdGlobal").val(ui.item.value);
+            $(".EmployeeNameGlobal").val(ui.item.label);
+            $("#CategoryIdGlobal").val('');
+            $("#DesignationIdGlobal").val('');
+            $("#GradeIdGlobal").val('');
+            $("#CompanyIdGlobal").val('');
+            $("#LocationIdGlobal").val('');
+            $("#DivisionIdGlobal").val('');
+            $("#DepartmentIdGlobal").val('');
+            $("#CostCenterIdGlobal").val('');
+            $("#ReportingManagerIdGlobal").val('');
+            $("#StatusIdGlobal").val('');
+            View();
+        }
+    });
+
+    function applyGlobalFilters() {
+        hideGlobalFilters(' View()', 200);
+    }
+    $(".EmployeeIdGlobal").val('0');
+    $('#EmployeeName').val('');
+    // _salaryAttMonthly(1);
+    function Certificate() {
+        //Reference the Name and Country TextBoxes.
+        //var IndentNo = $("#indentno").val();
+        $("#tblGeneratedCertificate > TBODY TR").html('');
+        //var IndentNo = [];
+        //     $.each($("#indentno :selected"), function () {
+        //         IndentNo.push($(this).val());
+        //     });
+        $('#collapse1').hide();
+        $('#collapse2').show();
+        $.post('/TimeSheet/_ContrcatorApprovedList1', {
+            'FromDate': $('#FromDate').val(),
+            'ContractorId': $('#ContractorId').val(),
+            'EmpId': $(".EmployeeIdGlobal").val(),
+            'ToDate': $('#ToDate').val(),
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            // var table4 = $('#Contact').DataTable();
+            //table4.clear().draw();
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                var hiddenIds = '<div style="display:none"><span class="Id">' + value.ID + '</span>';
+
+                hiddenIds += '</div>';
+                var template2 = '<tr>';
+                template2 += '<td style="display:none"><input type="text" value="' + msr + '" class="txtSr" />';
+                template2 += '<td style="display:none"><input type="text" value="' + value.ID + '" class="EmpId" />';
+                template2 += '<td style="display:none"><input type="text" value="' + value.CertificateId + '" class="CertificateId" />';
+
+                template2 += '<td><span class="SNo">' + msr + '</span></td>';
+                template2 += '<td><span class="EmpCode">' + value.EmpCode + '</span></td>';
+
+                template2 += '<td><span class="EmpName">' + value.EmpName + '</span></td>';
+                template2 += '<td><span class="Designation">' + value.Designation + '</span></td>';
+
+                template2 += '<td><span class="Department">' + value.Department + '</span></td>';
+                template2 += '<td><span class="PayDays">' + value.PayDays + '</span></td>';
+
+                //   template2 += '<td style="align:center;"><input type=checkbox id="chkProduct_' + msr + '" class="chkProduct" value=' + value.ID + '"></></td>'
+
+
+
+
+
+                template2 += '</tr>'
+
+
+
+                var oldBody2 = $("#tblGeneratedCertificate > TBODY").html();
+
+                var tBody2 = $("#tblGeneratedCertificate > TBODY").html(oldBody2 + template2);
+
+
+
+            });
+            $('.show1').hide();
+        });
+
+    }
+    function View() {
+        //Reference the Name and Country TextBoxes.
+        //var IndentNo = $("#indentno").val();
+        $("#tblDepartmentApproval > TBODY TR").html('');
+        //var IndentNo = [];
+        //     $.each($("#indentno :selected"), function () {
+        //         IndentNo.push($(this).val());
+        //     });
+        $('#collapse1').show();
+        $('#collapse2').hide();
+
+        $.post('/TimeSheet/_AttendanceApprovedCustomerwiseList', {
+            'FromDate': $('#FromDate').val(),
+            'ContractorId': $('#ContractorId').val(),
+            'EmpId': $(".EmployeeIdGlobal").val(),
+            'ToDate': $('#ToDate').val(),
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            // var table4 = $('#Contact').DataTable();
+            //table4.clear().draw();
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var hiddenIds = '<div style="display:none"><span class="Id">' + value.ID + '</span>';
+
+                hiddenIds += '</div>';
+                var template2 = '<tr>';
+                template2 += '<td style="display:none"><input type="text" value="' + msr + '" class="txtSr" />';
+                template2 += '<td style="display:none"><input type="text" value="' + value.ID + '" class="EmpId" />';
+                template2 += '<td style="display:none"><input type="text" value="' + value.CertificateId + '" class="CertificateId" />';
+
+                template2 += '<td><span class="SNo">' + msr + '</span></td>';
+                template2 += '<td><span class="EmpCode">' + value.EmpCode + '</span></td>';
+
+                template2 += '<td><span class="EmpName">' + value.EmpName + '</span></td>';
+                template2 += '<td><span class="Designation">' + value.Designation + '</span></td>';
+
+                template2 += '<td><span class="Department">' + value.Department + '</span></td>';
+                template2 += '<td><span class="PayDays">' + value.PayDays + '</span></td>';
+
+                template2 += '<td style="align:center;"><input type=checkbox id="chkProduct_' + msr + '" class="chkProduct" value=' + value.ID + '"></></td>'
+
+
+
+
+
+                template2 += '</tr>'
+
+
+
+                var oldBody2 = $("#tblDepartmentApproval > TBODY").html();
+
+                var tBody2 = $("#tblDepartmentApproval > TBODY").html(oldBody2 + template2);
+
+
+
+            });
+            $('.show1').show();
+        });
+
+    }
+
+
+
+
+    function getdata() {
+        var data = [];
+        $("#tblDepartmentApproval TBODY TR").each(function () {
+
+            var EmpId = $(this).find('.EmpId').val();
+            var sr = $(this).find('.txtSr').val();
+            var CertificateId = $(this).find('.CertificateId').val();
+            var PayDays = $(this).find('.PayDays').text();
+
+
+            var alldata = {
+                'EmpId': EmpId,
+                //'CertificateId': CertificateId,
+                'PayDays': PayDays,
+
+                //'Remarks':remarks
+            }
+            if ($('#chkProduct_' + sr + ':checkbox:checked').length > 0) {
+                data.push(alldata);
+            }
+
+
+        });
+
+        return data;
+    }
+
+    function GenerateCertificate() {
+
+
+        var data = JSON.stringify(getdata());
+
+        if (data.length < 3) {
+            alert('Please Enter Employee List');
+            return;
+        }
+
+
+
+
+
+
+
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/TimeSheet/_AttendanceApprovalBillContractorSubmit',
+
+
+            data: JSON.stringify({
+                'BillDetail': data,
+
+                'FromDate': $('#FromDate').val(),
+
+                'Id': mId,
+
+
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+
+            success: function (r) {
+                if (r.indexOf('Error') > -1) {
+                    $('.modelalert').html(data);
+                }
+                else {
+                    // var table = $('#update-Country').DataTable();
+
+                    //   var elmntCollection = createTblColmnBtns();
+
+                    if (parseInt(mId) > 0) {
+                        $('.modelalert').html(r).delay(1000).queue(function () {
+                            $('.modelalert').dequeue();
+                            $('#update-Country').modal('toggle');
+                        });
+                        //table.row(tableRow).r(elmntCollection).draw(false);
+
+                    }
+                    else {
+                        // sr = table.rows().count() + 1;
+                        // console.log('sr=' + sr);
+                        $('.modelalert').html(r).delay(1000).queue(function () {
+                            $('.modelalert').dequeue();
+                            $('#update-Country').modal('toggle');
+
+                            // fillPONo();
+                            //  AddPerson();
+                        });
+                    }
+                }
+                $('.btnModalSubmit1').removeAttr("disabled");
+                $('#ModalProgress').hide();
+                View();
+
+
+            }
+        });
+
+
+    }
+
+
+    function _salaryAttMonthly(pageNo) {
+
+        //if ($(".EmployeeIdGlobal").val().trim() == '' || $(".EmployeeIdGlobal").val().trim() == '0') {
+        //    alert('Error: Please select Employee');
+        //    return;
+        //}
+        if ($('#EmployeeName').val().trim() == '') {
+            $(".EmployeeIdGlobal").val('0');
+        }
+        $('#ProgressImg').show();
+        $.post('/TimeSheet/_AttendanceApprovedCustomerwiseList',
+            {
+                //'PageNo': pageNo,
+                'EmpId': $(".EmployeeIdGlobal").val(),
+                'ContractorId': $('#ContractorId').val(),
+                //'CategoryId': $("#CategoryIdGlobal").val(),
+                //'Role': $("#roleId").val(),
+                //'DesignationId': $("#DesignationIdGlobal").val(),
+                //'GradeId': $("#GradeIdGlobal").val(),
+                //'CompanyId': $("#CompanyIdGlobal").val(),
+                //'LocationId': $("#LocationIdGlobal").val(),
+                //'DivisionId': $("#DivisionIdGlobal").val(),
+                //'DepartmentId': $("#DepartmentIdGlobal").val(),
+                //'CostCenterId': $("#CostCenterIdGlobal").val(),
+                //'ReportingManagerId': $("#ReportingManagerIdGlobal").val(),
+                //'StatusId': $("#StatusIdGlobal").val(),
+                'FromDate': $('#FromDate').val(),
+                'ToDate': $('#ToDate').val(),
+            }, function (data) {
+                $('#_salaryAttMonthly').html(data);
+                $('#ProgressImg').hide();
+            });
+    }
+
+</script>

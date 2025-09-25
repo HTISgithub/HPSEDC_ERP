@@ -1,0 +1,526 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Verify EpfEsi";
+    ViewBag.PageTitle = "Verify EpfEsi";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+
+}
+
+@******************Breadcrumb Start**************@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+
+    .dt-buttons {
+        display: none;
+    }
+
+    label {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    #EpfEsiCheckId {
+        transform: scale(1.5);
+        cursor: pointer;
+        accent-color: gray; /* default color */
+        width: 14px;
+        height: 14px;
+    }
+
+        #EpfEsiCheckId:checked {
+            accent-color: red; /* changes the checkbox color when checked */
+        }
+</style>
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div style="margin-top:10px">
+                <div class="form-group row">
+                    <div class="col-md-4" style=" margin-top: -71px; ">
+                        <label for="Month">Month Year</label><span class="error-message">*</span>
+
+                        <select id="ddlMonths" class="Month" onchange="_VerifyEPFESIlist()">
+                            <option>--Month--</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+
+                                DateTime date = new DateTime(2020, i, 1);
+                                mon = date.ToString("MMM");
+                                <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                            }
+                        </select>
+                        <select id="ddlYears" class="year" onchange="_VerifyEPFESIlist()">
+                            <option>--Year--</option>
+                            @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                            {
+                                if (i == DateTime.Now.Year)
+                                {
+                                    <option value="@i" selected='selected'>@i</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            }
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4" style=" margin-top: -73px; margin-left: 280px; ">
+                        <label for="Complaint">Agency Name</label><span class="error-message">*</span>
+                        <select id="ddlAgency" onchange="_VerifyEPFESIlist()">
+                            <option value="0">Select Agency</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4" style=" margin-top: -73px; margin-left: 550px; ">
+                        <label for="Complaint">Challan Type </label><span class="error-message">*</span>
+                                                                    <select id="ChllanType" onchange="_VerifyEPFESIlist()">
+                                                                        <option value="0">Select Challan Type</option>
+                                                                        <option value="2">EPF</option>
+                                                                        <option value="1">ESIC</option>
+                                                                    </select>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div align="left" id="Zones">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>Agency Name</th>
+                                <th>Month Year</th>
+                                <th>Challan No.</th>
+                                <th>Challan Type</th>
+                                <th>Challan Amount</th>
+                                <th>No. of HPSEDC Resources</th>
+                                <th>Verify EPF ESIC</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="AgencyName">Agency Name</label>
+                                    @*<div class="" id="AgencyName"></div>*@
+                                    <input id="AgencyName" placeholder="Agency Name" class="form-control cleartxt required" readonly>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="Monthyear">Month Year</label>
+                                    <input id="Monthyear" placeholder="Month Year" class="form-control cleartxt required" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Challan">Challan Type</label>
+                                    <input id="Challanfor" class="form-control cleartxt required" placeholder="Challan for" readonly>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="ChallanNo">Challan No.</label>
+                                    <input id="ChallanNo" class="form-control cleartxt required" placeholder="Challan No" readonly>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="TotalAmount">Challan Amount</label>
+                                    <input id="TotalAmount" placeholder="Total Amount" class="form-control cleartxt required" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Amount">No.of HPSEDC Resources</label>
+                                    <input id="Noofresource" class="form-control cleartxt required" placeholder="No.Of Resource" readonly>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Mapped">Mapped Resources</label>
+                                    @*<div class="" id="MappedId">00010</div>*@
+                                    <input id="MappedId" class="form-control cleartxt required" placeholder="Mapped Id" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="font">Upload Challan Copy</label><span class="error-message">*</span><br />
+                                    <a onclick="ViewDocument()" id="ChallanAttachment" style="font-size: 20px; margin-left: 40px;">View</a><br />
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="font">Upload Employee Details</label><span class="error-message">*</span><br />
+                                    <a onclick="ViewDocument2()" id="ChallanAttachment2" style="font-size: 20px; margin-left: 40px;">View</a><br />
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<div style="overflow-x:auto;">*@
+                        <table id="myTable1" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="widthsr">Sr.No.</th>
+                                    <th>Invoice No.</th>
+                                    <th>Bill For Month</th>
+                                    <th>No.of Resources on Bill</th>
+                                    <th>EPf Deposited (No. of Resouces)</th>
+                                    <th>Esic Deposited (No. of Resources)</th>
+                                    <th>Challan Type</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        @*</div>*@
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <div class="row">
+
+                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                <div class="col-md-8">
+
+                    <div class="modelalert"></div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="" style="color:red;">Is Verify EPF & ESI</label><span class="error-message">*</span>
+                    <input type="checkbox" id="EpfEsiCheckId" />
+
+                </div>
+                <div class="col-md-4">
+
+                    <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+
+                </div>
+                <div class="col-md-4">
+
+                    <input type="button" class="btnModalSubmit1 btn btn-danger" value="Close" />
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    var mAgencyId = 0, accessRights;
+    var vId = 0;
+    var sr = 0;
+
+    var IsActive = 'Y';
+    var tableRow;
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _VerifyEPFESIlist();
+        //_VerifyEPFESIlistModel();
+        $('#ddlAgency').select2(
+            {
+                dropdownAutoWidth: 'false'
+
+            });
+
+    });
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+
+        });
+    }
+
+    function _VerifyEPFESIlist() {
+        var monthyear = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+        console.log($('#ddlAgency').val());
+
+        $.post('/Invoice/_VerifyEPFESIlist', {
+            'AgencyId': $('#ddlAgency').val(),
+            'MonthYear': monthyear,
+            'ChallanId': vId,
+            'ChllanType': $('#ChllanType').val(),
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                //alert(value.IsVarified);
+
+                var colorStyle = "";
+                if (value.IsVarified == 'Y') {
+                    colorStyle = "style='color:green;'";
+                } else if (value.IsVarified == 'N') {
+                    colorStyle = "style='color:red;'";
+                } // if null or undefined, leave as default
+
+                var btnEpfEsi = '<a href="#" onclick="OpenAddModel(' + value.ChallanId + ')" class="img-circle">' +
+                    '<center><i class="fa fa-check-circle fa-3x" ' + colorStyle + '></i></center></a>';
+
+                var elmntArray = [
+                    msr,
+                    value.AgencyName,
+                    value.BillForMonth,
+                    value.ChallanNumber,
+                    value.ChallanType,
+                    value.Amount,
+                    value.NoOfResource,
+                    btnEpfEsi
+                ];
+
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+
+    var chId;
+    function OpenAddModel(ChallanId) {
+
+        $('.modal-title').html("<table><tr><td>Add EPF ESI</td><td style=padding-inline:185px;align:center;!important></td></tr></table>");
+        $('#myModal').modal({
+            show: 'false'
+
+        });
+        vId = ChallanId;
+        chId = ChallanId;
+        _VerifyEPFESIlistGet(ChallanId);
+        root = '/Invoice/_VerifyEPFESIlistGet';
+        _VerifyEPFESIlistModel(ChallanId);
+        root = '/Invoice/_VerifyEPFESIlistModel';
+
+        // View(WorkOrderId, MonthYear);
+    }
+    $('.btnModalSubmit').click(function () {
+        _VerifyEPFESISubmit();
+
+    });
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        $('.clearchk').val('');
+    }
+    $('.modal-footer').show();
+
+    function ViewDocument() {
+        window.open(`/ChallanDoc/${ChallanDocument}`, target = "_blank");
+    }
+    function ViewDocument2() {
+        window.open(`/ChallanDetailsDoc/${ChallanDocument2}`, target = "_blank");
+    }
+    function _VerifyEPFESIlistModel(ChallanId) {
+        //var monthyear = $('#ddlMonths').val() + $('#ddlYears').val();
+
+        $('#ProgressImg').show();
+        $.post('/Invoice/_VerifyEPFESIlistModel', {
+            'AgencyId': 0,
+            'MonthYear': 0,
+            'ChallanId': ChallanId
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable1').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                var elmntArray = [
+                    msr,
+                    value.Billno,
+                    value.BillforMonth,
+                    value.NoOfResource,
+                    value.EpfPerson,
+                    value.EsiPerson,
+                    value.ChallanType,
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+
+    }
+
+    var ChallanDocument = '';
+    var ChallanDocument2 = '';
+    function _VerifyEPFESIlistGet(ChallanId) {
+
+        $.post('/Invoice/_VerifyEPFESIlistGet', {
+            'AgencyId': 0,
+            'MonthYear': 0,
+            'ChallanId': chId
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#AgencyName').val(value.AgencyName);
+                $('#Monthyear').val(value.BillForMonth);
+                $('#Challanfor').val(value.ChallanType);
+                $('#ChallanNo').val(value.ChallanNumber);
+                $('#MappedId').val(value.InvoicePerson);
+                $('#Noofresource').val(value.NoOfResource);
+                $('#TotalAmount').val(value.Amount);
+
+                // $('#ChallanAttachment').attr('href', '/ChallanDoc/' + value.AttacheChallan);;
+                ChallanDocument = value.AttacheChallan;
+
+                //$('#ChallanAttachment2').attr('href', '/ChallanDetailsDoc/' + value.AttacheChallanDetails);;
+                ChallanDocument2 = value.AttacheChallanDetails;
+
+            });
+        });
+    }
+    var EpfEsiCheckId = 'N';
+    $('#EpfEsiCheckId').change(function () {
+
+        if ($(this).is(':checked')) {
+            EpfEsiCheckId = 'Y';
+        } else {
+            EpfEsiCheckId = 'N';
+        }
+
+    });
+
+    function _VerifyEPFESISubmit() {
+
+        if (!$('#EpfEsiCheckId').is(':checked')) {
+            alert('Please check EPF $ ESI ?');
+            return;
+        }
+        $.post('/Invoice/_VerifyEPFESISubmit', {
+            'ChallanId': chId,
+            'IsVarified': EpfEsiCheckId,
+        }, function (data) {
+            alert(data);
+            $('#EpfEsiCheckId').prop('checked', false);
+            $('.btnModalSubmit').removeAttr("disabled");
+        });
+    }
+    $('.btnModalSubmit1').click(function () {
+        $('#myModal').modal('hide');
+    });
+</script>

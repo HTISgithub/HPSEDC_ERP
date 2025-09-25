@@ -1,0 +1,391 @@
+﻿ .loginbody {
+    min-height: 100vh !important;
+}
+
+body, button, input, select, textarea, .ast-button, .ast-custom-button {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+    font-weight: inherit;
+    font-size: 15px;
+    font-size: 1rem;
+}
+
+.custom-top-bar {
+    background-color: #00476A;
+    width: 100%;
+}
+
+.main-header-bar-wrap {
+    position: relative;
+}
+
+.custom-top-bar-in {
+    font-weight: bold !important;
+    color: #fff;
+    background-color: #00476A;
+    width: 1170px;
+    margin: 0 auto;
+    text-align: right;
+    padding: 3px 0px;
+}
+
+.main-header-bar {
+    border-bottom-width: 1px;
+}
+
+.main-header-bar {
+    z-index: 4;
+    position: relative;
+    line-height: 4;
+}
+
+.main-header-bar {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-header-bar {
+    background-color: #fff;
+    border-bottom-color: #eaeaea;
+    border-bottom-style: solid;
+}
+
+.header-main-layout-1 .main-header-container {
+    align-items: stretch;
+}
+
+.ast-flex {
+    -js-display: flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-header-container {
+    position: relative;
+}
+
+.site-branding {
+    line-height: 1;
+    align-self: center;
+}
+
+.ast-mobile-menu-buttons {
+    display: none;
+}
+
+.header-main-layout-1 .ast-main-header-bar-alignment {
+    margin-left: auto;
+}
+
+.main-header-bar .main-header-bar-navigation {
+    height: 100%;
+}
+
+.header-main-layout-1 .main-header-bar-navigation {
+    text-align: right;
+}
+
+.main-header-bar-navigation {
+    flex: 1;
+}
+
+#site-navigation {
+    height: 100%;
+}
+
+.ast-flex-grow-1 {
+    flex-grow: 1;
+}
+
+article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
+    display: block;
+}
+
+.header-main-layout-1 .main-navigation {
+    padding-left: 15px;
+    vertical-align: top;
+}
+
+.main-navigation {
+    -js-display: inline-flex;
+    display: inline-flex;
+    height: 100%;
+}
+
+    .main-navigation ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 0;
+        position: relative;
+    }
+
+.ast-justify-content-flex-end {
+    justify-content: flex-end;
+}
+
+.ast-flex {
+    -js-display: flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-header-menu .menu-item, .main-header-bar .ast-masthead-custom-menu-items {
+    -js-display: flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.main-header-menu li {
+    position: relative;
+}
+
+.ast-masthead-custom-menu-items.widget-custom-menu-item {
+    text-align: left;
+}
+
+li.ast-masthead-custom-menu-items {
+    padding: 0 1em;
+}
+
+.main-header-menu li {
+    position: relative;
+}
+
+.ast-header-widget-area {
+    line-height: 1.65;
+}
+
+    .ast-header-widget-area .widget:last-child {
+        margin-bottom: .5em;
+        margin-right: 0;
+    }
+
+.widget:last-child {
+    margin-bottom: 0;
+}
+
+.ast-header-widget-area .widget {
+    margin: .5em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.maxbutton-2.maxbutton.maxbutton-button2 {
+    position: relative;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    width: 105px;
+    height: 42px;
+    border-width: 0px;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #02a2f2;
+    -webkit-box-shadow: 0px 0px 4px 3px #ffffff;
+    -moz-box-shadow: 0px 0px 4px 3px #ffffff;
+    box-shadow: 0px 0px 4px 3px #ffffff;
+}
+
+    .maxbutton-2.maxbutton.maxbutton-button2 .mb-text {
+        color: #ffffff;
+        font-family: Tahoma;
+        font-size: 16px;
+        text-align: center;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1em;
+        box-sizing: border-box;
+        display: block;
+        background-color: unset;
+        padding: 12px 0px 0px 0px;
+    }
+
+.maxbutton-1.maxbutton.maxbutton-button1 {
+    position: relative;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    width: 136px;
+    height: 42px;
+    border-width: 0px;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #ee7928;
+    -webkit-box-shadow: 0px 0px 3px 3px #ffffff;
+    -moz-box-shadow: 0px 0px 3px 3px #ffffff;
+    box-shadow: 0px 0px 3px 3px #ffffff;
+}
+
+    .maxbutton-1.maxbutton.maxbutton-button1 .mb-text {
+        color: #ffffff;
+        font-family: Tahoma;
+        font-size: 16px;
+        text-align: center;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1em;
+        box-sizing: border-box;
+        display: block;
+        background-color: unset;
+        padding: 12px 0px 0px 0px;
+    }
+
+.main-header-menu > .menu-item > a {
+    height: 100%;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -js-display: flex;
+    display: flex;
+}
+
+.fa, .fas {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.main-header-menu a {
+    text-decoration: none;
+    padding: 0 1em;
+    display: inline-block;
+    transition: all .2s linear;
+}
+
+.ast-small-footer > .ast-footer-overlay {
+    background-color: #00476a;
+}
+
+.ast-footer-overlay {
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+}
+
+.site-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+
+ .loginbg {
+    background-image: url('../../images/signup1.jpg');
+    background-size: 100%;
+    background-position-x: -100px;
+    background-position-y: top;
+    background-repeat: no-repeat;
+}
+
+body {
+    background-color: #d9edfe;
+}
+
+.control-label, .login-heading h3 {
+    color: #333;
+}
+
+.login-heading h3 {
+    margin-top: 25px;
+}
+
+.control-label {
+    margin-bottom: 5px;
+}
+
+.loginpage {
+    min-height: 450px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.panel {
+    border-radius: 10px;
+}
+
+.site-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+
+#loginForm {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 7px;
+}
+
+.btn100 {
+    width: 100% !important;
+    background-color: #ee7928 !important;
+}
+
+.terms {
+    color: #ee7928;
+}
+
+.selectdiv {
+    position: relative;
+    /*Don't really need this just for demo styling*/
+    float: left;
+    width: 100%;
+}
+
+    .selectdiv label {
+        display: inherit !important;
+    }
+/* IE11 hide native button (thanks Matt!) */
+select::-ms-expand {
+    display: none;
+}
+
+.selectdiv:after {
+    content: '<>';
+    font: 17px "Consolas", monospace;
+    color: #333;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    right: 10px;
+    /*Adjust for position however you want*/
+    top: 7px;
+    padding: 0 0px 5px 0px;
+    border-bottom: 1px solid #999;
+    /*left line */
+    position: absolute;
+    pointer-events: none;
+}
+
+.selectdiv select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Add some styling */
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: calc(1.5em + .75rem + 2px);
+    float: right;
+    padding: 0px 44px 0px 5px;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #333;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+    -ms-word-break: normal;
+    word-break: normal;
+}
+
+
+

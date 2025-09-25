@@ -1,0 +1,56 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Group and Clearance Head Mapping";
+    ViewBag.PageTitle = "Group and Clearance Head Mapping";
+}
+
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+        <li>
+            <a href="#">Clearance</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            @*<a class="btn btn-primary pull-right" onclick="_AddNew()"><i class="fa fa-plus"></i> Add New</a>*@
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12 col-sm-12">
+            <div align="left" id="CGMlist"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    _cgmlist(1);
+    function _cgmlist() {
+        $('#ProgressImg').show();
+        $.post('/Admin/_GroupandClearanceHeadMapping',
+            {
+            }, function (data) {
+                $('#CGMlist').html(data);
+                tableOptions();
+            $('#ProgressImg').hide();
+        });
+    }
+</script>

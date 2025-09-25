@@ -1,0 +1,71 @@
+﻿span.SiteDetails {
+    display: block;
+    width: 200px;
+    height: 12px;
+    font: 12px arial, verdana;
+    margin: 5px 5px 5px 5px;
+}
+
+.rectangle {
+    height: 300px;
+    width: 270px;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+.rectangle3 {
+    height: 300px;
+    width: 270px;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+.rectangle1 {
+    height: 120px;
+    width: 200px;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    border: double solid;
+    margin: 0px 10px 15px 10px;
+    text-align: center;
+    background-color:whitesmoke;
+}
+    .rectangle1:hover {
+        background-color: #00476A;
+        color: white;
+    }
+.fa:hover {
+    color: red
+}
+
+
+.div_Emp {
+    margin:5px 0px 5px 0px;
+}
+.span_EmpImage {
+    display:inline-block; 
+    border-radius:50%;
+}
+.span_EmpName_Code {
+    font: bold 12px arial, verdana;
+    text-align: center;
+    display: block;
+    margin: 2px 2px 2px 2px;
+}
+.span_EmpDesignation_Branch {
+    font: normal 12px arial verdana; 
+    text-align:center; 
+    display:block; 
+    margin: 2px 2px 2px 2px;
+}
+.span_EmpEmail {
+   font: normal 12px arial, verdana; 
+   text-align:center; 
+   display:block; 
+   margin: 2px 2px 2px 2px;
+}

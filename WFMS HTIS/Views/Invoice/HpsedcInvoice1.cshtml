@@ -1,0 +1,1235 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Department Invoice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+          rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Lato", sans-serif;
+        }
+
+        p {
+            font-weight: 400;
+        }
+
+        .tax-invoice {
+            text-align: center;
+            font-size: 24px;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 2px;
+            width: 100%;
+        }
+
+        .a4-page {
+            width: 203mm;
+            height: 280mm;
+            border: 2px solid black !important;
+            margin-top: 0 !important;
+            margin: 28px auto 0 auto;
+            box-sizing: border-box;
+            position: relative;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .page-heading {
+            text-align: center;
+            font-size: 15px;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 20mm);
+            box-sizing: border-box;
+            padding: 0 10mm;
+        }
+
+            .page-heading h3 {
+                margin: 0;
+                padding-bottom: 5px;
+            }
+
+        .horizontal-line_1 {
+            position: absolute;
+            top: 43mm;
+            left: 0mm;
+            width: 766px;
+        }
+
+        .horizontal-line {
+            position: absolute;
+            top: 43mm;
+            left: 0mm;
+            width: 766px;
+            margin-top: -2rem;
+            height: 1px;
+            background-color: black;
+        }
+
+        .horizontal-line_EINV {
+            position: absolute;
+            top: 30mm;
+            left: 0mm;
+            width: 766px;
+            margin-top: -2rem;
+            height: 1px;
+            background-color: black;
+        }
+
+
+        .horizontal-line1 {
+            position: absolute;
+            top: 90mm;
+            left: 0mm;
+            width: 791px;
+            height: 0px;
+            background-color: black;
+        }
+
+        .horizontal-line3 {
+            position: absolute;
+            top: 80mm;
+            left: 0mm;
+            width: 791px;
+            height: 0px;
+            background-color: black;
+        }
+
+        .vertical-liney {
+            position: absolute;
+            top: 69mm;
+            left: 0mm;
+            width: 766px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .vertical-liney1 {
+            position: absolute;
+            top: 49mm;
+            left: 137.5mm;
+            width: 246px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .vertical-liney4 {
+            display: flex;
+            position: absolute;
+            top: 84mm;
+            left: 91mm;
+            width: 421px;
+            height: 1px;
+            background-color: black;
+            margin-top: 55px;
+        }
+
+        .vertical-liney2 {
+            position: absolute;
+            top: 82mm;
+            left: 137.5mm;
+            width: 246px;
+            height: 1px;
+            background-color: black;
+        }
+
+        .vertical-line {
+            position: absolute;
+            top: 39mm;
+            right: 65mm;
+            height: 59mm;
+            width: 1px;
+            background-color: black;
+        }
+
+        @@page {
+            size: auto;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+
+            .a4-page {
+                visibility: visible;
+            }
+
+            title {
+                display: none;
+            }
+
+            .a4-page * {
+                visibility: visible;
+            }
+        }
+
+        .vertical-line1 {
+            position: absolute;
+            top: 95.5mm;
+            right: 118mm;
+            height: 14mm;
+            width: 1px;
+            background-color: black;
+        }
+
+        .vertical-liney8 {
+            display: flex;
+            position: absolute;
+            top: 26mm;
+            left: 91mm;
+            width: 421px;
+            height: 2px;
+            background-color: black;
+            margin-top: 55px;
+        }
+
+        /* Table styling */
+        table {
+            width: 96.8%;
+            border-collapse: collapse;
+            margin-top: 29px;
+            text-align: center;
+        }
+
+        .infobox {
+            flex: 1;
+            margin: 5px;
+        }
+
+        th,
+        td {
+            padding: 4px 10px;
+            /* border-left: 1px solid #000;  Add left border */
+            border-right: 1px solid #000; /* Add right border */
+            border-top: none; /* Remove top border */
+            border-bottom: none;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        th {
+            font-weight: normal;
+            border-bottom: 1px solid #000 !important;
+            border-top: 1px solid #000 !important;
+        }
+
+        .style {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        .new {
+            background-color: #f2f2f2;
+        }
+
+        th.sr-no {
+            width: 5%;
+        }
+
+        th.Description {
+            width: 40%;
+            text-align: center;
+        }
+
+        th.manpower,
+        th.working-days {
+            width: 3%;
+        }
+
+        th.rate,
+        th.amount {
+            width: 10%;
+        }
+
+        th.per {
+            width: 5%;
+        }
+
+        th.equal-width {
+            width: 12.66%;
+        }
+
+        th[colspan="2"] {
+            width: 33.32%;
+        }
+
+        p {
+            margin-left: 10px;
+        }
+
+        label {
+            margin-left: 7px;
+            margin-top: 4px;
+        }
+
+        img {
+            width: 11rem;
+            margin-top: 7px;
+            margin-left: -2rem;
+        }
+
+        .table_account p {
+            margin: 6px 0;
+        }
+
+        .table_account {
+            text-align: left;
+            width: 205px;
+            position: relative;
+            top: -2px;
+            /* border-left: 1px solid black; */
+        }
+
+        .table_account1 {
+            text-align: left;
+            padding: 0;
+            padding-top: 5px;
+        }
+        /* Covering letter */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Lato", sans-serif;
+        }
+
+        p {
+            font-weight: 400;
+        }
+
+
+
+        .a4-page1 {
+            width: 203mm;
+            height: 275mm;
+            margin: 28px auto 0 auto;
+            box-sizing: border-box;
+            position: relative;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .page-heading1 {
+            text-align: right;
+            font-size: 16px;
+        }
+
+            .page-heading1 h3 {
+                margin: 0;
+                padding-bottom: 5px;
+            }
+
+
+
+        @@page {
+            size: auto;
+            margin: 0mm;
+        }
+
+        @@media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+
+            .a4-page {
+                visibility: visible;
+            }
+
+            title {
+                display: none;
+            }
+
+            .a4-page * {
+                visibility: visible;
+            }
+        }
+        /*
+        .vertical-line1 {
+            position: absolute;
+            top: 79.7mm;
+            right: 118mm;
+            height: 25mm;
+            width: 1px;
+        }*/
+
+        Table styling
+        table {
+            width: 96.8%;
+            border-collapse: collapse;
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .infobox {
+            flex: 1;
+            margin-top: 31px;
+        }
+
+        th, td {
+            padding: 4px 10px;
+            border-left: 1px solid #000;
+            Add left border border-right: 1px solid #000;
+            Add right border border-top: none;
+            Remove top border border-bottom: none;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        th {
+            font-weight: bold;
+            border-bottom: 1px solid #000 !important;
+            border-top: 1px solid #000 !important;
+        }
+
+        .style {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+
+        .new {
+            background-color: #f2f2f2;
+        }
+
+        th.sr-no {
+            width: 5%;
+        }
+
+        th.Description {
+            width: 40%;
+            text-align: center;
+        }
+
+        th.manpower, th.working-days {
+            width: 3%;
+        }
+
+        th.rate, th.amount {
+            width: 10%;
+        }
+
+        th.per {
+            width: 5%;
+        }
+
+        th.equal-width {
+            width: 16.66%;
+        }
+
+        th[colspan="2"] {
+            width: 33.32%;
+        }
+
+        p {
+            margin-left: 10px;
+        }
+
+        label {
+            margin-top: 4px;
+        }
+
+        img {
+            margin-top: 6px;
+        }
+
+        .a4-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .qrcode {
+            display: block;
+            height: 6rem;
+            width: 6rem;
+            margin-left: 43rem;
+            margin-top: -90px;
+            position: relative;
+        }
+
+            .qrcode img, .qrcode canvas {
+                width: 105% !important;
+                height: 88% !important;
+            }
+    </style>
+</head>
+<body>
+    <h6 style="text-align: center; margin-top: 10px; margin-bottom: 0; font-size: 18px">
+        Tax Invoice
+    </h6>
+    <button class="no-print"
+            style="
+        float: right;
+        height: 4rem;
+        width: 7rem;
+        cursor: pointer;
+        margin-right: 2rem;
+      "
+            onclick="window.print()">
+        Print
+    </button>
+
+    <div class="a4-page">
+        <img src="~/images/HPSEDC-removebg-preview.png" />
+
+        <div class="page-heading">
+            <h4 style="margin-top: -1px" id="DeptName">
+                Himachal Pradesh State Electronics Development Corporation Limited<br />
+                IT BHAWAN,1st FLOOR,Beolia Road, Mehli Shimla 171013 H.P.
+            </h4>
+            <p style="margin-top: -14px; font-size: 14px">
+                GSTIN/UIN:02AAACH3904P2ZO<br />State Name: Himachal Pradesh, Code:02
+            </p>
+            <p style="margin-top: -17px; font-size: 14px">
+                Email: manpower@hpsedc.in
+            </p>
+
+            <h4 style="float: right; font-size: 14px; margin: -67px"
+                id="RefNo"></h4>
+
+        </div>
+        <div id="qrcodeview" class="qrcode"></div>
+        <img style="margin-left:436px;" id="image" src="" />
+        <div class="horizontal-line_EINV" style="margin-top: -1rem">
+            <label for="irn" style="font-size: 10px">IRN No:-</label>
+            <h6 style="margin-top: -15px; margin-bottom: 9px; margin-left: 50px; font-size: 10px" ; id="irn"></h6>
+
+
+            <div style="display: flex;  margin-left: 7px;">
+                <h6 style="margin-top: 4px;">Ack Date:-</h6>
+                <h6 id="Ackdate" style="margin-left: 10px; margin-top: 4px;"></h6>
+
+                <h6 style="margin-left: 89px;margin-top: 4px;">Ack No:-</h6>
+                <h6 id="AckNo" style="margin-left: 10px; margin-top: 4px;"></h6>
+
+                <h6 style="margin-left: 178px;margin-top: 4px;">GST No:-</h6>
+                <h6 id="GSTNo" style="margin-left: 6px; margin-top: 4px;"></h6>
+            </div>
+            @*<h6 style="font-size: 10px; margin-top: 8px; margin-left: 7px;">Ack Date:-</h6>
+                <h6 style="margin-top: -37px; margin-left: 59px; font-size: 10px" ; id="Ackdate"></h6>*@
+
+
+        </div>
+
+
+        <div class="horizontal-line" style="margin-top: -1rem">
+            <label for="consignee-name" style="font-size: 10px">Consignee(Ship to)</label><br />
+            <p style="font-size: 12px; margin-top: 5px;" id="deptname"></p>
+
+            <div style="width: 31rem; margin-top: -4px">
+                <h5 style="margin-top: -8px; margin-left: 12px"
+                    id="BillingAddressText"></h5>
+            </div>
+
+            <p style="margin-top: -17px; margin-bottom: 0px" id="Address">
+                State Name:Himachal Pradesh, Code:02
+            </p>
+        </div>
+
+        <div class="horizontal-line_1" style="margin-top: 6rem">
+            <label for="Buyer" style="margin-top: 1px; font-size: 12px">Buyer (Bill to)</label><br />
+            <p style="font-size: 10px" id="dname"></p>
+
+            <div style="width: 31rem; margin-top: 31px">
+                <h5 style="margin-top: -30px; margin-left: 12px"
+                    id="BillingAddressText2"></h5>
+            </div>
+
+            <p style="margin-top: -22px" id="Address">
+                State Name:Himachal Pradesh, Code:02
+            </p>
+        </div>
+
+        <div class="vertical-line">
+            <label for="date">Date</label>
+            <h4 style="
+            width: 157px;
+            margin-top: 0px;
+            text-align: center;
+            margin-left: -28px;
+          "
+                id="Date"></h4>
+        </div>
+        <div class="vertical-liney">
+            <label for="paymentMode" style="margin-left: 526px">Agency Invoice Ref. No.</label>
+            <h4 style="margin-left: 525px; font-size: 12px" id="PaymentMode"></h4>
+        </div>
+        <div class="vertical-liney1">
+            <label for="invoiceNo">HPSEDC Invoice & WO.Ref No.</label><br />
+            <h4 style="margin: 4px; font-size: 12px" id="InvoiceNo"></h4>
+            <label for="invoiceNo"></label><br />
+            <h4 style="margin-left: 3px; font-size: 8px; margin-top: -16px; " id="WorkOrderNo"></h4>
+        </div>
+        <div class="vertical-liney2">
+            <label for="paymentDate">Date</label><br />
+            <h4 id="PaymentDate" style="margin-top: -1px;"></h4>
+        </div>
+        <div class="horizontal-line1">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sr-no">Sr. No.</th>
+                        <th>Description</th>
+                        <th class="manpower">No.of Res.</th>
+                        @*<th class="manpower">HSN/SAC</th>*@
+                        <th class="rate">Rate</th>
+                        <th class="per">Per</th>
+                        <th class="amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="billData">
+                    <tr>
+                        <td>1</td>
+                        <td id="description"></td>
+                        <td id="HSN"></td>
+                        <td></td>
+                        <td></td>
+                        <td id="chargeAmount"></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Administrative Charge</td>
+                        <td></td>
+                        <td>5</td>
+                        <td>%</td>
+                        <td id="AdminCharge1"></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Output CGST</td>
+                        <td></td>
+                        <td>9</td>
+                        <td>%</td>
+                        <td id="CGST"></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Output SGST</td>
+                        <td></td>
+                        <td>9</td>
+                        <td>%</td>
+                        <td id="SGST"></td>
+                    </tr>
+                </tbody>
+                <tbody class="new">
+                    <tr>
+                        <th></th>
+                        <th>TOTAL</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="amount" id="TotalAmount"></th>
+                    </tr>
+                </tbody>
+            </table>
+
+            <label for="Word">Amount Chargeable (In Words)</label><br />
+            <p id="Amount" style="font-weight: bold; font-size: 11px"></p>
+
+
+            <div class="horizontal-line3">
+                <table id="hsnTable" style="margin-top: 0rem">
+                    <thead>
+                        <tr>
+                            <th class="equal-width">HSN/SAC</th>
+                            <th class="equal-width">Taxable Value</th>
+                            <th colspan="2" class="equal-width">Central Tax</th>
+                            <th colspan="2" class="equal-width">State Tax</th>
+                            <th class="equal-width">Total Tax Amount</th>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th class="equal-width">Rate</th>
+                            <th class="equal-width">Amount</th>
+                            <th class="equal-width">Rate</th>
+                            <th class="equal-width">Amount</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>998513</td>
+                            <td id="BasicAmount"></td>
+                            <td class="equal-width">9%</td>
+                            <td class="equal-width" id="AgencyBillAmt"></td>
+                            <td class="equal-width">9%</td>
+                            <td class="equal-width" id="AgencyBillAmt2"></td>
+                            <td class="equal-width" id="BasicTaxTotal"></td>
+
+                        </tr>
+                        <tr>
+                            <td>998519</td>
+                            <td class="equal-width" id="AdminCharge2"></td>
+                            <td class="equal-width">9%</td>
+                            <td class="equal-width" id="AdminAmtCgst"></td>
+                            <td class="equal-width">9%</td>
+                            <td class="equal-width" id="AdminAmtCgst2"></td>
+                            <td class="equal-width" id="BasicTaxTotal1"></td>
+
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+
+                    <tbody class="new">
+                        <tr>
+                            <th class="style" colspan="6" style="text-align: left">
+
+                            </th>
+                            <td class="style"
+                                style="font-weight: 400; font-size: 13px"
+                                id="TotalTaxAmount">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="margin-top: -7px;">
+                    <td class="table_account1">
+                        <label for="Word">Tax Amount (In Words)</label><br />
+                        <p id="Taxinword" style="font-weight: bold; margin-bottom: 8px; margin-top: 8px; font-size: 10px"></p>
+                        <label for="Remarks">Remarks:</label><br />
+                        <p id="Remarks" style="font-weight: bold; margin-top: 4px; font-size: 12px">
+                            DEPLOYMENT OF MANPOWER ON OUTSOURCE BASIS FOR THE M/O
+                            <span id="MonthYear"></span>
+                        </p>
+                        <h4 id="MonthYear"></h4>
+                        <br />
+                        <p style="font-size: 11px; margin-top: -22px">
+                            <strong>Declaration:</strong><br />We declare that this invoice
+                            <br />
+                            shows the actual cost of manpower deployed and <br />
+                            that all particulars are true and correct.
+                        </p>
+                    </td>
+                    <td class="table_account">
+                        <p>
+                            <strong>Bank : </strong>
+                            <span id="bankName1">BANK OF BARODA</span>
+                        </p>
+                        <p>
+                            <strong>Branch Name : </strong>
+                            <span id="branchName">Mehli Shimla, Himachal Pradesh</span>
+                        </p>
+                        <p>
+                            <strong>Account Name : </strong>
+                            <span id="accountHolder1">MD HP STATE ELECTRONICS DEV CO LTD MEHLI,SHIMLA</span>
+                        </p>
+                        <p>
+                            <strong>Account No : </strong>
+                            <span id="AccountNo1">54140200000159</span>
+                        </p>
+                        <p>
+                            <strong>IFSC Code : </strong>
+                            <span id="ifscCode1">BARB0NEWSIM</span>
+                        </p>
+                    </td>
+
+                </table>
+
+                <div>
+                    <p style="margin-top: -17px">
+                        <strong>HPSEDC VAT TIN:02010300179</strong> <br /><strong>HPSEDC CST No.:CST-CSI-2831</strong>
+                        <br /><strong>HPSEDC PAN:AAACH3904P</strong>
+                    </p>
+                </div>
+                <div class="vertical-liney4" style="margin-top : 41px">
+                    <div class="infobox" style="margin-left: 5px">
+
+                        <label for="SAKSHAM" style="margin-top: 5rem; font-size: 11px">Prepared By</label><br />
+                    </div>
+                    <div class="infobox">
+
+                        <label for="Preparedby" style="margin-top: 5rem; font-size: 11px">Verified By</label>
+                    </div>
+                    <div class="infobox" style="margin-top : -4px">
+                        @*<img scr="~/images/hpsedc_sign.png"/>*@
+                        <img src="~/images/dcsign.png" style="height: 30px; width: 60px; margin-right:15px; margin-left: 10px;" />
+                        <label for="Preparedby" style="margin-top: 5rem; font-size: 11px">
+                            Authorized Signatory
+                        </label>
+                    </div>
+                </div>
+                <div class="vertical-line1">
+                    <label for="date"></label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <p style="font-size: 11px; text-align: center; margin-top: -1px">
+        This is a Saksham System Generated Bill.
+    </p>
+
+    @*<br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /><br /><br />*@
+
+
+    <div class="a4-page1">
+        <div class="a4-header">
+
+
+            <h4 style="margin-top: 42px; font-size: 17px" id="DeptName">
+                <span>HIMACHAL PRADESH STATE </span>
+                <br>ELECTRONICS DEVELOPMENT</br>
+                <span>CORPORATION LIMITED </span>
+            </h4>
+
+            <img style="width: 210px; margin-top: 40px; " src="/images/HPSEDC-removebg-preview.png" />
+            <div class="page-heading1">
+
+                <h4 style="margin-top: 42px;font-size:15px;">IT Bhawan, Ground & 1st Floor Beolia<br />Road, Mehli Shimla H.P. -171013</h4>
+                <h4 style=" margin-top: -19px; ">Ph. 0177-2623513,    2628473,<br />GSTIN/UIN: 02AAACH3904P2ZO<br /></h4>
+                <h4 style=" margin-top: -19px; ">State Name : Himachal Pradesh, Code : 02 <br /> E-Mail : hpsedc@hpsedc.in<br /></h4>
+
+
+                <h4 style="float: right; margin-left: 40px; font-size: 14px; margin: -67px" id="RefNo"></h4>
+            </div>
+        </div>
+        <div class="">
+            <label id="InvoiceCombined" style="font-size: 18px; margin-left: 40px; margin-top:10px; font-weight: bold;"></label>
+            @*<label for="HPSEDC" style="font-size: 18px; margin-left: 40px;" id="InvoiceNo3">HPSEDC/A.B.E /Bill-2023-24</label>*@
+            <span style="margin-left: 198px; font-weight: bold; ">
+                Dispatch Date : <span id="dispatcDate"></span>
+            </span>
+            <br /><br />
+
+
+            <label for="HPSEDC" style="font-size: 15px; margin-left: 40px; ">To</label><br />
+
+            <div style="width: 31rem; margin-top: -8px; margin-left: 100px;">
+                <h5 style="margin-top: 2px; margin-left: 12px; margin-bottom:0;  font-size: 16px;" id="BillingAddressText3">
+                </h5>
+            </div>
+
+            <label for="HPSEDC"><h4 style=" margin-left: 40px; ">Subject :</h4> <h4 style="margin-left: 7rem; margin-top: -42px;">Deployment of Manpower (outsource basis) final bill there of.</h4></label>
+            <div class="" style=" margin-left: 40px; ">Dear Sir/Madam,</div>
+        </div>
+
+        <div class="letterbody">
+            <p style="font-size: 14px; margin-top: -14px; margin-left: 102px; margin-right: 59px;">
+                <br /><br />
+                <span style="text-align: left; display: block; text-align: justify;">
+                    Please find enclosed herewith the sales bill(s) No.<span id="InvoiceNo2" style="">HP/ABE/23-24/ 1526</span> Dated <span id="Date2" style="">05.01.2024 </span> amounting to Rs. <span for="" id="NumberinAmount2" style="">/-</span>
+                    <span for="word" id="TaxWord2" style="">
+                    </span>
+                    on account of deployment of manpower services on outsourced basis, <span id="MonthYear1" style=""> Dec-2023.</span>
+                </span><br />
+
+                <span style="text-align: left; display: block; text-align: justify;">
+                    It is therefore requested that necessary payment may kindly be released to this office through cheque, Demand Draft or RTGS in favour of MD HP STATE ELECTRONICS DEV CO LTD MEHLI SHIMLA (MANPOWER). The detail of Bank Account is as under:
+                </span><br />
+                <span style="margin-left: 136px; font-style: italic; font-weight: 600; font-family: 'Times New Roman', Times, serif;">
+                    i) Account No. : <span id="AccountNo"></span><br />
+                    <span style="margin-left: 136px;">
+                        ii) Bank Name : <span id="bankName">BANK OF BARODA</span>
+                    </span><br />
+                    <span style="margin-left: 136px;">
+                        iii) IFSC Code : <span id="ifscCode">BARB0NEWSIM</span>
+                    </span>
+                </span>
+
+
+
+                <span>
+                    <h4 style="text-decoration:underline; margin-left: 40px; "> Important Note :-</h4>
+                </span>
+
+            <p style="font-size: 14px; margin-top: -15px; margin-left: 82px; margin-right: 59px;">
+                1. Please share the details of payment i.e. UTR No. in case of Bank to Bank transfer or Payee
+                code in case of Treasury payment to this office through official letter and/or e-mail :
+                manpowerpayment@hpsedc.in
+            </p><br />
+
+            <p style="font-size: 14px; margin-top: -15px; margin-left: 82px; margin-right: 59px;">
+                2. In case the payment being released has been clubbed for different bills generated by
+                HPSEDC, then the bill-wise details of the payment is to be provided separately by your
+                organisation so that proper reconciliation is done by HPSEDC with the bank statement.
+            </p><br />
+
+            <p style="font-size: 14px; margin-top: -15px; margin-left: 82px; margin-right: 59px;">
+                3. Please note that in case Bill-wise payment details are not received in HPSEDC, it will be
+                difficult to reconcile the payments and it will result in non-payment of wages to the
+                deployed manpower on outsource basis for which HPSEDC may not be held responsible.
+            </p><br />
+
+
+            <span style="margin-left: 176px;">
+                Thanking you and assuring our best service always.
+            </span></br>
+
+            <p style="margin-left: 548px; margin-top: 30px; ">
+                Yours faithfully
+            </p>
+            <img src="~/images/dcsign.png" style="height: 42px; width: 72px; margin-left:569px; margin-bottom:10px;" />
+            <p style="margin-left: 548px; margin-top: -12px; ">
+                Authorized Signatory
+            </p>
+            </p>
+        </div>
+
+
+    </div>
+
+</body>
+</html>
+<script src="~/Scripts/autocomplete.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<script>
+    var WorkOrderId = 0,
+        YearMonth = 0;
+    $(document).ready(function () {
+        HpsedcInvoieDetails1();
+        HpsedcInvoieDetails2();
+    });
+
+
+
+
+
+    function HpsedcInvoieDetails1() {
+        $("#ProgressImg").show();
+        var MonthYear =
+            "01-" +
+            $("#ddlMonths option:selected").text() +
+            "-" +
+            $("#ddlYears").val();
+        var url = new URL(window.location.href);
+        var Rid = 0;
+        if (url.searchParams.has("AgencyBillId")) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            WorkOrderId = urlParams.get("DeptBillId");
+            AgencyBillId = urlParams.get("AgencyBillId");
+        }
+
+        $.post(
+            "/Invoice/HpsedcInvoieDetails1",
+            { DeptBillId: 0, AgencyBillId: AgencyBillId },
+            function (data) {
+                var obj = JSON.parse(data);
+
+
+                if (obj.length > 0) {
+                    $("#Date").html(obj[0].BillDate);
+
+                    $("#BillingAddressText").html(obj[0].DepartmentAddress);
+                    $("#BillingAddressText2").html(obj[0].DepartmentAddress);
+                    $('#InvoiceNo').html(obj[0].SaleBillNo);
+                    $('#WorkOrderNo').html(obj[0].WorkOrderNo);
+
+                    $("#MonthYear").html(obj[0].MonthYear);
+                    $("#PaymentMode").html(obj[0].fvBillNo);
+                    $("#PaymentDate").html(obj[0].PurchaseBillDate);
+
+                    $("#CGST").html(parseFloat(obj[0].CGSTAmount).toFixed(2));
+                    $("#SGST").html(parseFloat(obj[0].SGSTAmount).toFixed(2));
+                    $("#MonthYear").html(obj[0].MonthYear);
+                    $("#oemail").html(obj[0].OfficialEmail);
+                    $("#chargeAmount").html(parseFloat(obj[0].AgencyBillAmt).toFixed(2));
+                    $("#agencysign").html(obj[0].AgencyName);
+                    $("#RefNo").html(obj[0].RefNo);
+                    $("#AdminCharge1").html(parseFloat(obj[0].HpsedcCharges).toFixed(2));
+                    $("#description").html(obj[0].Description);
+                    $("#dname").html(obj[0].departmentName);
+                    $("#deptname").html(obj[0].departmentName);
+                    $("#new").html(parseFloat(obj[0].GSTAmount).toFixed(2));
+                    $("#Remarks").html(obj[0].Narration);
+
+                    /* Bank*/
+
+                    $("#AccountNo1").html(obj[0].AccountNo);
+                    $("#bankName1").html(obj[0].BankName);
+                    $("#ifscCode1").html(obj[0].IfscCode);
+                    /* Bank*/
+                    $("#TotalAmount").html(parseFloat(obj[0].BillAmount).toFixed(2));
+
+
+                    $("#BasicAmount").html(parseFloat(obj[0].AgencyBillAmt).toFixed(2));
+                    $("#AgencyBillAmt").html(parseFloat(obj[0].AgencyBillAmtCgst).toFixed(2));
+                    $("#AgencyBillAmt2").html(parseFloat(obj[0].AgencyBillAmtCgst).toFixed(2));
+                    $("#BasicTaxTotal").html(parseFloat(obj[0].BaseGSTTotal).toFixed(2));
+
+
+                    $("#AdminCharge2").html(parseFloat(obj[0].HpsedcCharges).toFixed(2));
+                    $("#AdminAmtCgst").html(parseFloat(obj[0].AdminAmtCgst).toFixed(2));
+                    $("#AdminAmtCgst2").html(parseFloat(obj[0].AdminAmtCgst).toFixed(2));
+                    $("#BasicTaxTotal1").html(parseFloat(obj[0].AdminGSTTotal).toFixed(2));
+
+                    $("#irn").html(obj[0].IRN);
+                    $("#Ackdate").html(obj[0].AckDt);
+                    $("#AckNo").html(obj[0].AcKNo);
+
+                    $("#GSTNo").html(obj[0].BGSTIN);
+
+                    if (obj[0].AckDt !== "1900-01-01T00:00:00") {
+                        $("#Ackdate").html(obj[0].AckDt);
+                    } else {
+                        $("#Ackdate").html("");
+                    }
+                    if (obj[0].AckDt !== "1900-01-01T00:00:00") {
+                        let formattedDate = obj[0].AckDt.substring(0, 10);
+                        $("#Ackdate").html(formattedDate);
+                    } else {
+                        $("#Ackdate").html("");
+                    }
+
+
+                    let textValue1 = obj[0].SignedQrCode;//'eyJhbGciOiJSUzI1NiIsImtpZCI6IjE1MTNCODIxRUU0NkM3NDlBNjNCODZFMzE4QkY3MTEwOTkyODdEMUYiLCJ4NXQiOiJGUk80SWU1R3gwbW1PNGJqR0w5eEVKa29mUjgiLCJ0eXAiOiJKV1QifQ.eyJkYXRhIjoie1wiU2VsbGVyR3N0aW5cIjpcIjA1QUFBUEc3ODg1UjAwMlwiLFwiQnV5ZXJHc3RpblwiOlwiMDlBQUFQRzc4ODVSMDAyXCIsXCJEb2NOb1wiOlwidGVzdC8xMS8yNlwiLFwiRG9jVHlwXCI6XCJJTlZcIixcIkRvY0R0XCI6XCIxNC8wOS8yMDIzXCIsXCJUb3RJbnZWYWxcIjo0LjIsXCJJdGVtQ250XCI6MSxcIk1haW5Ic25Db2RlXCI6XCIxMDAxXCIsXCJJcm5cIjpcIjM1ZDNiMzU3NGZkNDJhMmQwNTg2NzBjOGYwYjUzZjA4MGNiNzY0OTQ3ZGNhZmZmMzIyZjQyOWE0NDE2ODkzMDhcIixcIklybkR0XCI6XCIyMDI0LTAzLTA2IDEzOjUxOjAyXCJ9IiwiaXNzIjoiTklDIFNhbmRib3gifQ.3rb8J7fS-AEjuEFZc4G_y3oXk6FIz_5PzBV0ozhr9yz1j97NmcYXXL_LePylgS5zxzRNZYHmRCCdTIete72htS_Uvp4EuOSmXbji07qrhNAm9zITqgUp6-PWunhXaLk_aGtdJBtM-WJt07SPOf2U4ueBGoiS2Ilcy3G5C0s1EpzRK68mxZRhaHVstAokyirfquB2lKefVNJBAW3bfsgnnPQAEyLCAjbx1AtaIQ5q1i-TpjDBfJOaVxeSFW8tsu-dkZ9s8_rjDWUj37PrkZzdkZb5UdT6fWyVQ4U-66pEVYjpGnNRkYqyhbuhXN2dXTwQtBxjlq5OQaTtAsKJRLwwCQ';
+
+                    document.getElementById("qrcodeview").innerHTML = "";
+
+                    var qrcode = new QRCode(document.getElementById("qrcodeview"), {
+                        text: textValue1,
+                        width: 86,
+                        height: 72,
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+
+
+                    $("#HSN").html(obj[0].NoOfResource);
+
+                    var billDataHtml = "";
+                    var hsnTableHtml = "";
+                    var totalAmount = 0;
+                    var taxAmount = 0;
+
+                    $.each(obj, function (index, value) {
+                        billDataHtml += "</tr>";
+
+                        totalAmount += parseFloat(value.BillAmount) || 0;
+                        taxAmount += parseFloat(value.BillAmount) || 0;
+                        hsnTableHtml += "<td> <b>Total</b>" + (value.HSN || "") + "</td>";
+
+                        hsnTableHtml += "<td><b>" + (parseFloat(value.tax).toFixed(2) || "") + "</b></td>";
+                        hsnTableHtml += "<td></td>";
+                        hsnTableHtml += "<td><b>" + parseFloat(value.CGSTAmount).toFixed(2) + "</b></td>";
+
+
+
+                        hsnTableHtml += "<td></td>";
+                        hsnTableHtml += "<td><b>" + parseFloat(value.SGSTAmount).toFixed(2) + "</b></td>";
+                        hsnTableHtml += "<td><b>" + parseFloat(value.Taxableamttotal).toFixed(2) + "</b></td>";
+                        //$("#TotalTaxAmount").html((value.GrandBillAmount).toFixed(2));
+                        $("#Taxinword").html(value.TaxableamttotalWord);
+                        $("#Amount").html(value.GrandBillAmountWord);
+
+
+                        $("#hsnTable tbody").first().append(hsnTableHtml);
+
+                    });
+
+                    $("#billData").append(billDataHtml);
+                    //$("#TotalTaxAmount").html(totalAmount);
+                    // $("#Amount").html(toWords(totalAmount));
+                    //$("#TotalTaxAmount").html(taxAmount);
+
+                }
+            }
+        );
+    }
+
+
+    function toWords(num) {
+        var ones = [
+            "",
+            "One",
+            "Two",
+            "Three",
+            "Four",
+            "Five",
+            "Six",
+            "Seven",
+            "Eight",
+            "Nine",
+            "Ten",
+            "Eleven",
+            "Twelve",
+            "Thirteen",
+            "Fourteen",
+            "Fifteen",
+            "Sixteen",
+            "Seventeen",
+            "Eighteen",
+            "Nineteen",
+        ];
+        var tens = [
+            "",
+            "",
+            "Twenty",
+            "Thirty",
+            "Forty",
+            "Fifty",
+            "Sixty",
+            "Seventy",
+            "Eighty",
+            "Ninety",
+        ];
+        var thousands = ["", "Thousand", "Lakh", "Crore"];
+
+        function convertNumberToWords(num) {
+            if (num === 0) return "zero";
+            if (num < 20) return ones[num];
+            if (num < 100)
+                return (
+                    tens[Math.floor(num / 10)] + (num % 10 ? " " + ones[num % 10] : "")
+                );
+            if (num < 1000)
+                return (
+                    ones[Math.floor(num / 100)] +
+                    " Hundred" +
+                    (num % 100 ? " and " + convertNumberToWords(num % 100) : "")
+                );
+
+            var result = "";
+            var i = 0;
+            while (num > 0) {
+                var chunk = num % 1000;
+                if (chunk) {
+                    result =
+                        convertNumberToWords(chunk) +
+                        " " +
+                        thousands[i] +
+                        (result ? " " + result : "");
+                }
+                num = Math.floor(num / 1000);
+                i++;
+            }
+            return result.trim();
+        }
+
+        function convertDecimalToWords(decimal) {
+            if (decimal === 0) return "";
+            return convertNumberToWords(decimal) + " paise";
+        }
+
+        var integerPart = Math.floor(num);
+        var decimalPart = Math.round((num - integerPart) * 100);
+
+        var integerPartWords = convertNumberToWords(integerPart);
+        var decimalPartWords = convertDecimalToWords(decimalPart);
+
+        var result = integerPartWords + " rupees";
+        if (decimalPartWords) {
+            result += " and " + decimalPartWords;
+        }
+        result += " only";
+
+        return result;
+    }
+
+
+    function HpsedcInvoieDetails2() {
+
+        $("#ProgressImg").show();
+        var MonthYear =
+            "01-" +
+            $("#ddlMonths option:selected").text() +
+            "-" +
+            $("#ddlYears").val();
+        var url = new URL(window.location.href);
+        var Rid = 0;
+        if (url.searchParams.has("AgencyBillId")) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            WorkOrderId = urlParams.get("DeptBillId");
+            AgencyBillId = urlParams.get("AgencyBillId");
+        }
+
+        $.post(
+            "/Invoice/HpsedcInvoieDetails2",
+            { DeptBillId: 0, AgencyBillId: AgencyBillId },
+            function (data) {
+                var obj = JSON.parse(data);
+
+                if (obj.length > 0) {
+                    $("#Date1").html(obj[0].BillDate);
+                    $("#Date2").html(obj[0].BillDate);
+                    var toAddress = obj[0].DepartmentAddress.replace(/,/g, ",<br>");
+                    $("#BillingAddressText3").html(toAddress);
+                    //$("#BillingAddressText2").html(obj[0].DepartmentAddress);
+                    $('#InvoiceNo1').html(obj[0].SaleBillNo);
+                    $('#InvoiceNo2').html(obj[0].SaleBillNo);
+                    $('#InvoiceCombined').html(obj[0].SaleBillNo + '  -  ' + obj[0].DispatchNo);
+                    $('#dispatcDate').html(obj[0].DispatchDate);
+                    //$('#dispatchNo').html(obj[0].DispatchNo);
+                    $("#MonthYear1").html(obj[0].Narration);
+
+
+                    /*  Bank*/
+
+                    $("#AccountNo").html(obj[0].AccountNo);
+                    $("#bankName").html(obj[0].BankName);
+                    $("#ifscCode").html(obj[0].IfscCode);
+
+                    /*  Bank*/
+
+                    //var formattedAmount1 = parseFloat(obj[0].BillAmount) || 0;
+                    //var amountWithCommas1 = formattedAmount1.toLocaleString('en-IN');
+                    //$("#NumberinAmount2").html(amountWithCommas1 + " /-");
+
+                    $("#NumberinAmount").html(parseFloat(obj[0].BillAmount).toFixed(2));
+                    $("#NumberinAmount2").html(parseFloat(obj[0].BillAmount).toFixed(2));
+
+
+                    var BillAmount = parseFloat(obj[0].BillAmount) || 0;
+                    // $("#TaxWord1").html(toWords(BillAmount));
+                    var amountInWords = toWords(BillAmount);
+                    $("#TaxWord1").html("(" + amountInWords + ")");
+
+
+                    var BillAmount = parseFloat(obj[0].BillAmount) || 0;
+                    var amountInWord2 = toWords(BillAmount);
+                    //$("#TaxWord2").html(toWords(amountInWord2));
+                    // $("#TaxWord2").html("(" + amountInWord2 + ")");
+                    $("#TaxWord2").html("(" + obj[0].GrandBillAmountWord + ")");
+                    // $("#TaxWord2").text(obj[0].GrandBillAmountWord);
+
+
+
+                }
+            }
+        );
+    }
+</script>

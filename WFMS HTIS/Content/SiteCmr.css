@@ -1,0 +1,669 @@
+﻿body {
+    background-color: #f6f6f6;
+    font-size: 13px;
+}
+
+/*.container {
+    width: 1000px;
+}*/
+.navbar {
+    background-color: #fff;
+}
+
+.logo {
+    width: 100px;
+    margin-top: -5px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #A1529F;
+}
+
+    .navbar-default .navbar-nav > li > a:hover {
+        color: #88c33b;
+    }
+
+.navbar-nav > li > a {
+    padding-bottom: 15px;
+    padding-top: 23px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-brand {
+    color: #777;
+    margin-right: 35px;
+}
+
+.dashLinks {
+    margin: 0px;
+    padding: 0px;
+}
+
+    .dashLinks li {
+        margin: 0px;
+        padding: 0px;
+        padding-left: 5px;
+        margin-left: 15px;
+        margin-top: 3px;
+    }
+
+        .dashLinks li a {
+            color: #333;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+.btnSubmit {
+    background-color: #974895;
+    border-color: #974895;
+    color: #fff;
+}
+
+    .btnSubmit:hover, .btnSubmit:active, .btnSubmit:focus {
+        background-color: #b05aad !important;
+        border-color: #974895 !important;
+        color: #fff;
+    }
+
+.btn-danger {
+    /*background-color: #974895;
+    border-color: #974895;
+    color: #fff;*/
+}
+
+    .btn-danger:hover, .btn-danger:active, .btn-danger:focus {
+        /*background-color: #b05aad !important;
+    border-color: #974895 !important;
+    color: #fff;*/
+    }
+
+.alert {
+    padding: 10px;
+}
+
+.crossX {
+    position: absolute;
+    font-weight: bold;
+    color: #333;
+    left: 63%;
+    top: 3%;
+    z-index: 99999;
+    display: none;
+}
+
+
+
+.errorOuter {
+}
+
+#errorDiv {
+    display: none;
+    top: 1%;
+    width: 30%;
+    left: 35%;
+    float: none;
+    margin: auto;
+    position: fixed;
+    z-index: 99998;
+    font-weight: bold;
+    min-height: 40px;
+    /*background-color:#fff;
+    color:black;*/
+    /*border:solid 1px #e4e4e4;*/
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+    /*transform: translateX(-50%) translateY(-50%);*/
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.table-border-none, .table-border-none tr, .table-border-none td {
+    border: 0 none !important;
+}
+
+    .table-border-none td {
+        padding: 3px !important;
+    }
+
+.widthTiming {
+    width: 65px;
+}
+
+.margin-bottom-zero {
+    margin-bottom: 0px !important;
+}
+
+.margin-top-20 {
+    margin-top: 20px !important;
+}
+
+.datepicker {
+    z-index: 9999;
+}
+
+.datepicker-switch {
+    cursor: pointer;
+}
+
+.datepicker th.next, .datepicker th.prev {
+    cursor: pointer;
+}
+
+.trHighlight {
+    background-color: #fafafa;
+}
+
+.widthsr {
+    width: 60px;
+}
+
+.editCol {
+    width: 80px;
+    text-align: center;
+}
+
+.page-header {
+    border-bottom: 1px solid #eee;
+    margin: 0px 0px 15px 0px;
+    padding: 0px 0px 10px 0px;
+}
+
+.titleArea {
+    padding-top: 5px;
+    border-bottom: 1px solid #e9e3e3;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.page-title {
+    margin: 0px;
+    color: #333;
+    font-weight: normal;
+    font-size: 22px;
+}
+
+#ActionbtnArea {
+    padding-bottom: 5px;
+}
+
+.pagehead {
+    margin: 0px;
+    margin-left: 15px;
+    color: #333;
+    font-weight: normal;
+    font-size: 22px;
+}
+
+.tableOuterCal, .tableInnerCal {
+    border-collapse: collapse;
+}
+
+.tableOuterCal, th, td, .tdCal {
+    border: 1px solid #e0e0e0;
+}
+
+.tdCal, .thCal {
+    height: 40px;
+    text-align: center;
+}
+
+.tdCal {
+    width: 60px;
+    height: 80px;
+    text-align: center;
+}
+
+    .tdCal a, .tdCal a span {
+        width: 60px;
+        height: 60px;
+        text-align: center;
+    }
+
+.disabledtd {
+    color: #c3c3c3;
+}
+
+.yellow {
+    background-color: yellow;
+    color: black;
+}
+
+.red {
+    background-color: red;
+    color: white;
+}
+
+.blue {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.brown {
+    background-color: brown;
+    color: white;
+}
+
+.green {
+    background-color: #029835;
+    color: white;
+}
+
+.gray {
+    background-color: lightgray;
+    color: black !important;
+}
+
+.pink {
+    background-color: pink;
+    color: white;
+}
+
+.colorWidth {
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
+    color: white;
+    float: right;
+    text-align: center;
+    padding-top: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.colorBlack {
+    color: #333;
+}
+
+    .colorBlack a span {
+        color: #333 !important;
+    }
+
+.foreColorWhite {
+    color: #fff;
+}
+
+    .foreColorWhite a span {
+        color: #fff;
+    }
+
+.form-control {
+    box-shadow: none;
+    border-radius: 0px;
+}
+
+.btnedit {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+
+/*------------------------------------------------------------*/
+.topbar {
+    background-color: #892285;
+    color: #fff;
+}
+
+.loginnav a {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    color: #fff;
+    font-size: 14px !important;
+}
+
+.navTimer {
+    padding: 0px;
+    margin: 10px;
+}
+
+    .navTimer li {
+        padding: 0px;
+        margin: 0px;
+        margin-left: 10px;
+        display: inline;
+        list-style-type: none;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        color: #fff;
+        font-size: 14px !important;
+        font-weight: bold;
+    }
+
+        .navTimer li .glyphicon-calendar {
+            font-size: 11px;
+        }
+
+#spanTime {
+    margin-left: 2px;
+}
+
+
+
+.panels {
+}
+
+
+.index-box h4 {
+    color: #892285;
+}
+
+.index-box ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+    .index-box ul li {
+        list-style-type: none;
+    }
+
+.index-box .glyphicon-ok {
+    margin-right: 5px;
+    color: #95cb4c;
+}
+
+
+
+.bodybg {
+    background-color: #f6f6f6;
+}
+
+#loginForm {
+    margin-top: 23px;
+}
+
+    #loginForm input[type=text] {
+        padding-top: 05px;
+        padding-bottom: 05px;
+    }
+
+    #loginForm input[type=password] {
+        padding-top: 05px;
+        padding-bottom: 5px;
+    }
+
+.loginpage .col-md-pull-1 {
+    right: 5.33333333% !important;
+}
+
+#loginForm .panel {
+    border-radius: 0px;
+}
+
+#loginForm .panel-heading {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    color: #974895;
+}
+
+#loginForm .panel-body {
+    padding: 10px;
+}
+
+#loginForm h3 {
+    margin-top: 7px;
+}
+
+#loginForm label {
+    font-weight: normal;
+    font-size: 15px;
+}
+
+#loginForm .btn {
+    width: 100%;
+}
+
+
+
+.loginbody {
+    overflow: hidden;
+}
+
+    .loginbody .navbar {
+        border: 0 none;
+    }
+
+footer {
+    padding-top: 10px;
+}
+
+.ulCompInfo {
+}
+
+    .ulCompInfo li {
+        padding-top: 10px;
+        list-style-type: none;
+    }
+
+        .ulCompInfo li a {
+            padding-top: 10px;
+            color: #fff;
+        }
+
+.panelMinHight {
+    min-height: 120px;
+}
+
+.panelMinHightNews {
+    min-height: 203px;
+    max-height: 203px;
+    overflow-y: auto;
+}
+
+.mainimg {
+    width: 100%;
+}
+
+.panelIndex {
+    border-radius: 0px;
+}
+
+    .panelIndex .panel-heading {
+        padding: 10px 10px;
+    }
+
+.panel-heading {
+    padding: 0px 10px;
+    background-color: #ededed;
+    border-radius: 0px !important;
+    background: #fff;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    color: #851f82 !important;
+}
+
+.panelIndex .panel-body {
+}
+
+.fontnormal {
+    font-weight: normal;
+}
+
+.indexPanelImg {
+    max-width: 70px;
+    max-height: 70px;
+}
+
+.panelEmpName {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #851f82;
+}
+
+.panelBirthday {
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.menua {
+    font-weight: bold !important;
+}
+
+.panelServiceAn {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+@media (min-width: 320px ) and (max-width:420px) {
+    .loginpage .col-md-pull-1 {
+        right: unset !important;
+    }
+
+    .loginpage {
+        margin-top: 30px;
+    }
+}
+
+#ListFilterOptions {
+    padding: 0px;
+    margin: 0px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.list-group-item {
+    padding: 5px 15px;
+}
+
+.globalfiltersModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index:99999; /* Sit on top */
+    padding-top: 40px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+#globalfilterDiv {
+    background-color: #fff;
+    border: solid 1px #ccc;
+    padding: 5px;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 10px 15px 20px 15px;
+    border: 1px solid #888;
+    width: 50%;
+    display: none;
+}
+
+.btn-applyfilters {
+    margin-bottom: 10px;
+}
+
+.alertBox {
+    top: 20% !important;
+    background-color: #fff;
+    min-height: 200px !important;
+    display: none;
+}
+
+.okX {
+    z-index: 99999;
+    left: 48%;
+    top: 43%;
+    position: fixed;
+    display: none;
+}
+
+.limitText100 {
+}
+
+.limitText50 {
+}
+
+.limitText150 {
+}
+
+.limitText500 {
+}
+
+.limitText250 {
+}
+
+.limitN12 {
+    text-align: right;
+}
+
+.limitN18 {
+    text-align: right;
+}
+
+.divDropDownNav {
+    min-width: 170px !important;
+}
+
+.cancelled {
+    color: #ff6a00;
+    font-weight: bold;
+}
+
+.pending {
+    color: #808080;
+    font-weight: bold;
+}
+
+.rejected {
+    color: #ff6a00;
+    font-weight: bold;
+}
+
+.approved {
+    color: #049417;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    height: auto;
+}
+
+.navbar {
+    margin-bottom: 15px;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    z-index: 99999 !important;
+}
+
+.liSideBarActive, .liSideBarActive:hover {
+    background-color: #fff;
+    color: #09714f !important;
+    font-weight: bold !important;
+}
+
+
+.ACTIVE {
+    color: #049417;
+}
+
+.PAYHOLD {
+}
+
+.ABSCONDING {
+}
+
+.RESIGNED {
+    color: #ff6a00;
+}
+
+.TERMINATED {
+}
+
+.TRANSFER-OUT {
+}
+
+.STOP-PROCESSING {
+}
+.dropdown-menu
+{
+    z-index:9999;
+}

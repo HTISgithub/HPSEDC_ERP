@@ -1,0 +1,4395 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Order Details";
+    ViewBag.PageTitle = "Order Details";
+    string user = Session["RoleId"].ToString();
+
+
+
+}
+
+@******************Breadcrumb Start**************@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.2/css/bootstrap-multiselect.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=inventory" />
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    .input-sm {
+        margin-top: 30px;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+
+    .dt-buttons {
+        display: none;
+    }
+
+    #Zones {
+        margin-top: 0px !important;
+        padding-top: 5px !important;
+    }
+
+    #printData {
+        display: none;
+    }
+
+    /*input.form-control {*/
+    /*height: 35px !important;*/
+    /*border-radius: 5px !important;
+            padding: 3px !important;
+            border: 1px solid #ccc !important;
+            box-sizing: border-box;
+        }*/
+
+    .box {
+        border: 3px solid #000080 !important;
+        padding: 15px;
+    }
+
+    .form-check label {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+
+    .form-check input {
+        height: 1.5em;
+        width: 1.5em;
+    }
+
+    #loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(8px);
+        background-color: rgba(255, 255, 255, 0.5);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .select2-container {
+        z-index: 9999 !important;
+    }
+
+    .select2-dropdown {
+        z-index: 9999 !important;
+    }
+
+    /* Fix for Select2 in Bootstrap modals */
+    .modal .select2-container--default .select2-selection--multiple {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+    }
+
+    .blink-text {
+        /*        animation: blinkColorChange 10s infinite;*/
+        color: red;
+        text-align: center
+    }
+
+    @@keyframes blinkColorChange {
+        0% {
+            color: red;
+            opacity: 1;
+        }
+
+        50% {
+            color: blue;
+            opacity: 0;
+        }
+
+        100% {
+            color: green;
+            opacity: 1;
+        }
+    }
+
+    /* Custom Tab Navigation Styles with Smooth Transitions */
+    #myTab .nav-link {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        color: #495057;
+        border-radius: 0.25rem 0.25rem 0 0;
+        margin-right: 2px;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        /* Smooth hover effects */
+        #myTab .nav-link:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+            color: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Active tab styling with smooth transitions */
+        #myTab .nav-link.active {
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0,123,255,0.3);
+        }
+
+        /* Ensure active tab stays on top */
+        #myTab .nav-link.active {
+            z-index: 10;
+            border-bottom-color: transparent;
+        }
+
+    /* Tab content styling with smooth container transitions */
+    .tab-content {
+        border: 1px solid #dee2e6;
+        border-top: 0;
+        padding: 20px;
+        background-color: #ffffff;
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        perspective: 1000px; /* For 3D effects */
+    }
+
+        /* Base state for all tab panes - hidden by default */
+        .tab-content .tab-pane {
+            display: block !important; /* Always visible for animation */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            width: calc(100% - 40px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(50px) rotateY(15deg) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+            /* Active tab pane - slide in with 3D effect */
+            .tab-content .tab-pane.active {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: translateX(0) rotateY(0deg) scale(1) !important;
+                z-index: 5;
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100% !important;
+            }
+
+            /* Show class support with animation */
+            .tab-content .tab-pane.show {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: translateX(0) rotateY(0deg) scale(1) !important;
+                z-index: 5;
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100% !important;
+            }
+
+            /* Enhanced fade transitions with multiple effects */
+            .tab-content .tab-pane.fade {
+                opacity: 0;
+                visibility: hidden;
+                transform: translateX(60px) translateY(20px) scale(0.9) rotateX(10deg);
+                transition: opacity 0.7s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.7s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.7s ease;
+                filter: blur(2px);
+            }
+
+                .tab-content .tab-pane.fade.show,
+                .tab-content .tab-pane.fade.active {
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    transform: translateX(0) translateY(0) scale(1) rotateX(0deg) !important;
+                    filter: blur(0px);
+                }
+
+            /* Slide from left animation variant */
+            .tab-content .tab-pane.slide-left {
+                transform: translateX(-50px) scale(0.95);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+
+                .tab-content .tab-pane.slide-left.active,
+                .tab-content .tab-pane.slide-left.show {
+                    transform: translateX(0) scale(1);
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+            /* Bounce effect animation */
+            .tab-content .tab-pane.bounce-in {
+                animation: bounceIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+
+    @@keyframes bounceIn {
+        0% {
+            opacity: 0;
+            transform: scale(0.3) translateX(50px);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.05) translateX(-10px);
+        }
+
+        70% {
+            transform: scale(0.98) translateX(5px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1) translateX(0);
+        }
+    }
+
+    /* Flip animation */
+    .tab-content .tab-pane.flip-in {
+        animation: flipIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    @@keyframes flipIn {
+        0% {
+            opacity: 0;
+            transform: rotateY(-90deg) scale(0.8);
+        }
+
+        50% {
+            opacity: 0.5;
+            transform: rotateY(-45deg) scale(0.9);
+        }
+
+        100% {
+            opacity: 1;
+            transform: rotateY(0deg) scale(1);
+        }
+    }
+
+    /* Zoom and fade animation */
+    .tab-content .tab-pane.zoom-fade {
+        animation: zoomFade 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    @@keyframes zoomFade {
+        0% {
+            opacity: 0;
+            transform: scale(0.8) translateY(30px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+
+
+
+    #ProductDeliveryModal .nav-pills .nav-link.active {
+        background-color: #000080 !important; /* Match your modal header color */
+        border-color: #000080 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 128, 0.4);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    #ProductDeliveryModal .nav-pills .nav-link {
+        color: #000080;
+        border: 1px solid #000080;
+        background-color: transparent;
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+
+        #ProductDeliveryModal .nav-pills .nav-link:hover {
+            background-color: rgba(0, 0, 128, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0, 0, 128, 0.2);
+        }
+
+    /* Additional animation for tab content */
+    .slide-in {
+        animation: slideInFromRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    @@keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+    }
+
+    /* Pulse effect for active tab */
+    #myTab .nav-link.active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.1);
+        opacity: 0;
+        border-radius: inherit;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            opacity: 0;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.1;
+            transform: scale(1.05);
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(1);
+        }
+    }
+
+    /* Loading state animation */
+    .tab-loading {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .tab-loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+    @@keyframes loading {
+        0% {
+            left: -100%;
+        }
+
+        100% {
+            left: 100%;
+        }
+    }
+
+    /* Smooth focus states */
+    #myTab .nav-link:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        transition: box-shadow 0.2s ease;
+    }
+
+    /* Custom scrollbar for tab content if needed */
+    .tab-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .tab-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    .tab-content::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+        transition: background 0.3s ease;
+    }
+
+        .tab-content::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+    /* Force display for debugging - remove if not needed */
+    /*
+    #pod_tab.force-show {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    #ir_tab.force-hide {
+        display: none !important;
+    }
+    */
+
+    .poddeliveryid {
+        display: none;
+    }
+
+    .irdeliveryid {
+        display: none;
+    }
+
+    .podproductid {
+        display: none;
+    }
+
+    .podorderdeliveryid, .irorderdeliveryid {
+        display: none;
+    }
+
+    .select2-container {
+        z-index: 1 !important;
+    }
+
+    #select2-DeptIdFilter-container #select2-ddlAgencyFilter-container {
+        z-index: 1 !important;
+    }
+
+    .swal-ok-btn {
+        width: 80px;
+        height: 40px;
+        background-color: #ffcc00; /* Optional: change background */
+        color: #000; /* Optional: text color */
+        font-weight: bold;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+    }
+
+    .select2-option-generated {
+        background-color: #28a745;
+        color: white !important;
+    }
+</style>
+<div id="loader-overlay">
+    <div class="loader"></div>
+</div>
+<div class="page-content">
+    @*********Page Title************@
+    @*<div class="page-header">
+
+        </div>*@
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    @if (user == "56" || user == "61")
+    {
+        <div class="row">
+            @*<div class="col-md-1 col-sm-1 col-lg-1">
+
+                </div>*@
+            <div class="col-md-2 col-sm-2 col-lg-2">
+
+                <label>  Department Name Filter </label>
+
+                <div>
+                    <select id="DeptIdFilter" onchange="PurchaseOrderDetailList()" style="z-index:0">
+                        <option value="0">Select Department</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2 col-lg-2">
+                <label>
+                    Agency Name Filter
+                </label>
+                <div>
+                    <select id="ddlAgencyFilter" onchange="PurchaseOrderDetailList()" style="z-index:0">
+                        <option value="0">Select Agency</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (user == "55")
+    {
+
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-lg-2">
+
+                <label>  Department Name Filter </label>
+
+                <div>
+                    <select id="DeptIdFilter" onchange="PurchaseOrderDetailList()" style="z-index:0">
+                        <option value="0">Select Department</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        &nbsp;
+
+        <div align="left" id="Zones">
+            <div class="dt-responsive">
+                <table class="table table-striped table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+
+                            @if (user == "55")
+                            {
+                                <th class="widthsr">Sr.No.</th>
+                                <th> Order No.<br />Purchase Order<br /> Date</th>
+                                <th>Department Name<Br></th>
+                                <th>Agency Name</th>
+                                <th>Amount</th>
+                                <th>Consignee<br /> Location</th>
+                                <th>Add Location</th>
+                                <th>View Detail</th>
+                                <th>HPSEDC <br />Purchase Order</th>
+                                <th>Product <br />Delivery</th>
+                                <th>Agency Invoice</th>
+                                <th>View Agency<br />Invoice</th>
+                            }
+                            @if (user == "56")
+                            {
+                                <th class="widthsr">Sr.No.</th>
+                                <th> Order No.<br />Purchase Order<br /> Date</th>
+                                <th>Sale Order <br />Reference No.</th>
+                                <th>Sale Inv No</th>
+                                <th>Department Name<Br></th>
+                                <th>Agency Name</th>
+                                <th>Amount</th>
+                                <th>Consignee<br /> Location</th>
+                                <th>View Detail</th>
+                                <th>Verify <br />POD/IR</th>
+                                <th>HPSEDC <br />Purchase Order</th>
+                                <th>View Agency<br />Invoice</th>
+                                <th>Sale Invoice</th>
+                                <th>Print Sale<br />Inovice</th>
+                            }
+                            @if (user == "61")
+                            {
+                                <th class="widthsr">Sr.No.</th>
+                                <th> Order No.<br />Purchase Order<br /> Date</th>
+                                <th>Sale Order <br />Reference No.</th>
+                                <th>Department Name<Br></th>
+                                <th>Agency Name</th>
+                                <th>Amount</th>
+                                <th>Advance Amount</th>
+                                <th>Consignee<br /> Location</th>
+                                <th>View Detail</th>
+                                <th>Verify <br />POD/IR</th>
+                                <th>View Agency<br />Invoice</th>
+                                <th>Print Sale<br />Inovice</th>
+                                <th>Agency Payment</th>
+                            }
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!--Purchase Bill Modal-->
+<div class="modal fade" id="PurchaseModal" role="dialog">
+    <div class="modal-dialog  modal-lg" style="width:75%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Purchase Order Detail</h4>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; height: 75vh; ">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Purchase Bill Date</label>
+                                <input class="form-control datepicker" id="purchaseBillDate" placeholder=" " data-val="true" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Sale Order No.</label>
+                                <input type="text" class="form-control" id="workOrderNo" placeholder="Enter Order No." readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Purchase Order No.</label>
+                                <input type="text" class="form-control" id="purchaseNo" placeholder="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Bill From</label>
+                                <select class="form-control" id="billForm" onchange="showAddress()">
+                                    <option value="0">Select</option>
+                                </select>
+                                <label id="billforaddress"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Agency Name</label>
+                                <input type="text" id="agencyName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Department Name</label>
+                                <input type="text" id="depName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Billing Address</label>
+                                <textarea type="text" class="form-control" id="billingAddress" placeholder="" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Purchase Invoice No.</label>
+                            <input type="text" id="invoiceNo" placeholder="Purchase Invoice No." class="form-control" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label>Purchase Invoice</label>
+                            <input type="file" id="purchaseBill" class="form-control-file" />
+                            <div class="mt-2 d-block" id="viewBillContainer">
+                                <button id="viewBill" class="btn-sm btn btn-primary" onclick="ViewBill()">View</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Naration</label>
+                            <textarea class="form-control" id="naration" placeholder="Enter Naration"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="PurchaseTable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sr.</th>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                    <th>Bill Qty</th>
+                                    <th>Quantity</th>
+                                    <th>HSN Code</th>
+                                    <th>Rate</th>
+                                    <th>GST</th>
+                                    <th>Total</th>
+                                    <th>GTotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="PurchaseTableTbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box" id="purchaseAmountBox" style="margin-top:10px">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="AgencyBill">Basic Bill Amount</label>
+                            <input id="AgencyBill" class="form-control" placeholder="Base Amount" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">IGST</label>
+                            <input id="igst" class="form-control" placeholder="CGST" readonly value="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="Cgst">CGST</label>
+                            <input id="cgst" class="form-control" placeholder="CGST" readonly value="0">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="SGST">SGST</label>
+                            <input id="SGST" class="form-control " placeholder="SGST" readonly value="0">
+                        </div>
+                        <div class="col-md-4" hidden>
+                            <label for="gst">GST</label>
+                            <input id="GST" class="form-control" value=0 readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="Total">Total Amount</label>
+                            <input id="Total" class="form-control " placeholder="Total" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary" id="purchaseSubmit" onclick="SubmitPurchaseBill()">Submit</button>
+                        <button class="btn btn-primary" data-dismiss="modal" id="purchaseOk">Ok</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Order Detail Modal-->
+<div class="modal fade" id="OrderDetailModal" role="dialog">
+    <div class="modal-dialog  modal-lg" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Order Detail</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="OrderDetail" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sr.</th>
+                                    <th>Sale Order Id</th>
+                                    <th>Purchase Order Id</th>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Amount Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary" id="" data-dismiss="modal">Ok</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Add Product Detail Modal-->
+<div class="modal fade" id="ProductDeliveryModal" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:75%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                <h4 class="modal-title">Product Delivery</h4>
+            </div>
+            <div class="modal-body" style="max-height: 75vh; overflow-y: auto;">
+                @if (user == "55")
+                {
+                    <div class="row">
+                        <div class="col-md-11">
+                            <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="home-tab" data-toggle="pill" href="#pod_tab" role="tab" aria-controls="home" aria-selected="true">POD and IR both or POD only</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="profile-tab" data-toggle="pill" href="#ir_tab" role="tab" aria-controls="ir" aria-selected="false">IR only</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" style="margin-top: 10px;padding:0px;border:0px;min-height:0px;">
+                        <!-- First Tab Content: POD and IR both or POD only -->
+                        <div class="tab-pane fade show active" id="pod_tab" role="tabpanel" aria-labelledby="home-tab" style="margin-left:0px">
+                            <form id="addProductfrom" class="box" style="margin-bottom:10px;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Consignee Name And Address</label>
+                                            <select class="form-control" id="consigneeAddressDdl" onchange="GetDeliveryDetail()">
+                                                <option value="0">Select</option>
+                                                <option value="1">John Doe - 123 Main St, City</option>
+                                                <option value="2">Jane Smith - 456 Oak Ave, Town</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Contact Number</label>
+                                            <input type="number" id="contact" class="form-control" placeholder="Contact Number" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Delivery Date</label>
+                                        <input type="text" class="form-control datepicker datepickertxt" id="deliveryDate" data-date-format="d-M-yyyy" />
+                                    </div>
+                                </div>
+
+                                <div class="row" style="padding:0px 10px 0px 10px;">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped table-bordered" id="poductdeliverytable" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr.</th>
+                                                    <th><input type="checkbox" id="selectAllCheckbox" onchange="SelectAllCheck()"> Select All</th>
+                                                    <th style="display:none">Product Id</th>
+                                                    <th style="display:none">Order Detail Id</th>
+                                                    <th style="display:none">Order Delivery Id</th>
+                                                    <th>Product Name</th>
+                                                    <th>Available Qty</th>
+                                                    <th>Delivery Qty</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Proof of Delivery(POD)</label>
+                                        <input type="file" class="form-control-file" id="pod" />
+                                        <p id="podtext" class="text-success" style="display:none;">Already Uploaded</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Installation Report(IR)</label>
+                                        <input type="file" class="form-control-file" id="ir" />
+                                        <p id="irtext" class="text-success" style="display:none;">Already Uploaded</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" id="productdeliverysubmit" style="margin-top: 23px;" class="btn btn-primary" onclick="SubmitProductDelivery1()">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Second Tab Content: IR only -->
+                        <div class="tab-pane fade" id="ir_tab" role="tabpanel" aria-labelledby="profile-tab" style="margin-left:0px">
+                            <form id="addProductfromIR" class="box" style="margin-bottom:10px;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Consignee Name And Address</label>
+                                            <select class="form-control" id="consigneeAddressDdlIR" onchange="UploadIrList()">
+                                                <option value="0">Select</option>
+                                                <option value="1">John Doe - 123 Main St, City</option>
+                                                <option value="2">Jane Smith - 456 Oak Ave, Town</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Contact Number</label>
+                                            <input type="number" id="contact_ir" class="form-control" placeholder="Contact Number" readonly />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" style="padding:0px 10px 0px 10px;">
+                                    <div class="col-12">
+                                        <table class="table table-striped table-bordered" id="productInstallationTable" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr.</th>
+                                                    <th><input type="checkbox" id="selectAllCheckboxIR" onchange="SelectAllCheckIR()"> Select All</th>
+                                                    <th>Product Name</th>
+                                                    <th style="display:none">Delivery Id</th>
+                                                    <th style="display:none">Order Delivery Id</th>
+                                                    <th>Delivered Qty</th>
+                                                </tr>
+                                            </thead>
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Installation Report(IR)</label>
+                                        <input type="file" class="form-control-file" id="irOnly" />
+                                        <p id="irOnlyText" class="text-success" style="display:none;">Already Uploaded</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" id="installationSubmit" style="margin-top: 23px;" class="btn btn-primary" onclick="SubmitProductIRDelivery()">Submit IR</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+
+                <div class="box mt-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="addProductTemp" class="table table-active table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        @if (user == "55")
+                                        {
+                                            <th>Sr.</th>
+                                            <th>Product Name</th>
+                                            <th>Consignee Name And Address</th>
+                                            <th>Delivery Quantity</th>
+                                            <th>Contact No.</th>
+                                            <th>POD</th>
+                                            <th>IR</th>
+                                            <th>Actions</th>
+                                        }
+                                        @if (user == "56")
+                                        {
+                                            <th>Sr.</th>
+                                            <th>Product Name</th>
+                                            <th>Consignee Name And Address</th>
+                                            <th>Delivery Quantity</th>
+                                            <th>Contact No.</th>
+                                            <th>POD</th>
+                                            <th>IR</th>
+                                            <th>Verify POD</th>
+                                            <th>Verify IR</th>
+                                            <th>Actions</th>
+                                        }
+                                        @if (user == "61")
+                                        {
+                                            <th>Sr.</th>
+                                            <th>Product Name</th>
+                                            <th>Consignee Name And Address</th>
+                                            <th>Delivery Quantity</th>
+                                            <th>Contact No.</th>
+                                            <th>POD</th>
+                                            <th>IR</th>
+                                        }
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row w-100">
+                    <div class="col-md-2">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/themes/default/assets/images/loader-large.gif" id="ModalProgress" style="width: 30px; display: none;" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Sale Invoice view Modal-->
+<div class="modal fade" id="SaleInvoiceView" role="dialog">
+    <div class="modal-dialog  modal-lg" style="width:75%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Print Sale Invoice</h4>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="viewsaleInvioce" class="table table-active table-bordered table-striped table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.</th>
+                                        <th>Sale Invoice No</th>
+                                        <th>Sale Invoice Date</th>
+                                        <th>Purchase Inv No</th>
+                                        <th>Bill Amount</th>
+                                        <th>Gst</th>
+                                        <th>Total</th>
+                                        <th>Original Copy</th>
+                                        <th>Dublicate Copy</th>
+                                        <th>Triplate Copy</th>
+                                        <th>Bill Status</th>
+                                        <th>Sale Invoice Cancel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary" id="" data-dismiss="modal">Ok</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="PurchaseInvoiceView" role="dialog">
+    <div class="modal-dialog  modal-lg" style="width:75%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View Purchase Invoice</h4>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="viewpurchaseInvioce" class="table table-active table-bordered table-striped table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.</th>
+                                        <th>Purchase Inovie No</th>
+                                        <th>Invoice Date</th>
+                                        <th>Bill Amount</th>
+                                        <th>Gst</th>
+                                        <th>Total</th>
+                                        <th>Attached Invoice</th>
+                                        <th>Sale Invoice Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary" id="" data-dismiss="modal">Ok</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="productDeliveyModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal"><h4>Close</h4></button>
+                <h4 class="modal-title">Product Delivery Details</h4>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <div id="_view">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label style="margin-right:10px;">Choose Product</label>
+                                <select id="productddl" onchange="ProductDevliveryListOnDdl()"><option value="0">Select</option></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div align="left" id="Zones">
+                                <div class="dt-responsive">
+                                    <table class="table table-striped table-bordered" id="productDeliveryTable">
+                                        <thead>
+                                            <tr>
+                                                <th class="widthsr">Sr.No.</th>
+                                                <th>Product Name</th>
+                                                <th>Agency Name</th>
+                                                <th>Delivery Address</th>
+                                                <th>Quantity</th>
+                                                <th>Delivery To</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="~/images/ajax-loader.gif" id="ModalProgress" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" class="btnModalSubmit3 btn btn-primary" id="okButton" style="margin-left: -7rem; width: 72px;" value="OK" data-dismiss="modal" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Sale Invoice Modal-->
+<div class="modal fade" id="SaleModal" role="dialog">
+    <div class="modal-dialog  modal-lg" style="width:75%">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Generate Sale Invoice</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:auto;height:75vh;">
+                <div class="box">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Sale Bill Date</label>
+                                <input class="form-control datepicker" id="saleBillDate" placeholder=" " data-val="true" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Sale Order No.</label>
+                                <input type="text" class="form-control" id="workOrderNoSale" placeholder="Enter Order No." readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Department Name</label>
+                                <input type="text" id="depNameSale" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Purchase Invoice No</label>
+                                <select id="purchaseNoDdl" class="form-control" style="width: 100%;">
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*<div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Agency Name</label>
+                                    <input type="text" id="agencyName" class="form-control" readonly />
+                                </div>
+                            </div>*@
+                        <div class="col-md-4 form-group">
+                            <label>Sale Invoice No.</label>
+                            <input type="text" class="form-control" id="saleBillNo" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Billing Address</label>
+                                <textarea type="text" class="form-control" id="salebillingAddress" placeholder="" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4" hidden>
+                            <label>Naration</label>
+                            <textarea class="form-control" id="narationSale" placeholder="Enter Naration"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*<div class="col-md-4">
+                                <label>Purchase Invoice No.</label>
+                                <input type="text" id="invoiceNo" placeholder="Purchase Invoice No." class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Purchase Invoice</label>
+                                <input type="file" id="purchaseBill" class="form-control-file" />
+                            </div>*@
+
+                    </div>
+                </div>
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-12">
+                        <table id="saleInvoiceTable" class="table table-responsive table-bordered table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th>Sr.</th>
+                                    <th></th>
+                                    <th>Product Name</th>
+                                    <th>Purchase <br />Bill Qty</th>
+                                    <th>Quantity</th>
+                                    <th>HSN Code</th>
+                                    <th>Unit Rate</th>
+                                    <th>Total</th>
+                                    <th>Admin Charge</th>
+                                    <th>GST/IGST</th>
+                                    <th>Grand Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box" style="margin-top:10px">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="AgencyBill">Basic Bill Amount</label>
+                            <input id="AgencyBillSale" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="Cgst">CGST</label>
+                            <input id="cgstSale" class="form-control" placeholder="CGST" readonly value="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="SGST">SGST</label>
+                            <input id="SGSTSale" class="form-control " placeholder="SGST" readonly value="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        @*<div class="col-md-4">
+                                <label for="gst">GST</label>
+                                <input id="saleGst" class="form-control" readonly>
+                            </div>*@
+                        <div class="col-md-4">
+                            <label for="gst">Admin Charge</label>
+                            <input id="saleAdmin" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="Total">Total Amount</label>
+                            <input id="saleTotal" class="form-control " placeholder="Total" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary" id="" onclick="SubmitSaleBill()">Submit</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Payment modal-->
+<div class="modal fade" id="myModalAgencyPatialPayment" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg" style="width:75%">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Agency Payment</h4>
+            </div>
+            <div class="modal-body" style="height:75vh;overflow-y:auto">
+                <div id="_view">
+
+
+                    <div style="border: 2px solid #000; padding: 10px; position: relative;">
+                        <form id="AgencyPaymentForm">
+                            <div class="form-group row">
+
+                                <div class="col-md-3">
+                                    <label for="invoice">Purchase Invoice</label><span class="error-message">*</span>
+                                    <select id="PurchaseinvoiceDdl" class="form-control clearddl" onchange="GetAgencyPaymentData()">
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Transaction">Transaction ID</label><span class="error-message">*</span>
+                                    <input id="TransactionApp" class="form-control cleartxt required" placeholder="Transaction ID">
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <label for="PaymentDate">Payment Date</label><span class="error-message">*</span>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString(" d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="PaymentDat" id="PaymentDateApp" />
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Mode">Mode Of Payment</label><span class="error-message">*</span>
+                                    <select id="ModePaymentApp" class="form-control clearddl" onchange="">
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group row">
+
+                                <div class="col-md-3">
+                                    <label for="Bill">Purchase Bill Amount(INR)</label>
+                                    <input id="PurchaseBillApp" class="form-control cleartxt required" placeholder="Bill Amount" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="PaymentAmount">Payment Amount (INR)</label><span class="error-message">*</span>
+                                    <input id="PaymentAmountApp" class="form-control cleartxt required" placeholder="Payment Amount">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="GSTTDS">GST TDS </label><span class="error-message">*</span>
+                                    <input id="GSTTDS1App" class="form-control cleartxt required" placeholder="GST TDS" value="0">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="TDS">TDS </label><span class="error-message">*</span>
+                                    <input id="TDS1App" class="form-control cleartxt required" placeholder="TDS" value="0">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+
+
+                                <div class="col-md-3">
+                                    <label for="Balance">Balance Payment Due (INR)</label>
+                                    <input id="BalanceApp" class="form-control cleartxt required" placeholder="Balance" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="PBG">PBG</label><span class="error-message">*</span>
+                                    <input id="PBG" class="form-control  required" placeholder="PBG" value="0">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Penalty">Penalty</label><span class="error-message">*</span>
+                                    <input id="Penalty" class="form-control  required" placeholder="Penalty" value="0">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Remarks/Narration</label>
+                                    <textarea id="RemarksApp" class="form-control cleartxt required" placeholder="Please Enter Remark Here "></textarea>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12" style="display: flex; justify-content: end; align-items: center; height: 100%;">
+
+                                    <button type="button" id="agencypaymentsubmit" class=" btn btn-primary" onclick="SubmitAgencyPayment()">Submit</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div align="left" id="Zones">
+                                <div class="dt-responsive">
+
+                                    <table class="table table-striped table-bordered" id="AgencyPartialPaymentTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr.</th>
+                                                <th>P. Inv No.</th>
+                                                <th>Transaction ID</th>
+                                                <th>Mode Of Payment</th>
+                                                <th>Released Amount</th>
+                                                <th>GSTTDS</th>
+                                                <th>TDS</th>
+                                                <th>PBG</th>
+                                                <th>Penalty</th>
+                                                <th>Due Balance</th>
+                                                <th>Payment Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <div class="row">
+
+                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                <div class="col-md-8">
+
+                </div>
+                <div class="col-md-2">
+
+                    <button class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--Add Delivery Location Modal-->
+<div class="modal fade" id="OpenDeliveryLocationModal" role="dialog">
+    <div class="modal-dialog  modal-lg" style="width:65%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Product Delivery Location</h4>
+            </div>
+            <div class="modal-body">
+                <form id="AddDeliveryLocationfrom">
+
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label>Product Name</label><span class="error-message">*</span>
+                            <select class="form-control clearddl3" id="ProductName2" onchange="HardWareDeliveryItem_get()" style="width:100%">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Available Quantity</label>
+                            <input type="text" class="form-control clearddl3" id="availaleqty" style="text-align:center" readonly>
+                        </div>
+                        @*<div class="col-md-3" style="visibility:hidden;">
+                                <label>Product Id</label><span class="error-message">*</span>
+                            </div>*@
+                        <div class="col-md-3">
+                            <label>Delivery Quantity</label><span class="error-message">*</span>
+                            <input type="number" id="DeliveryQuantity" class="form-control cleartxt3" style="text-align:center" placeholder="Delivery Quantity" />
+
+                        </div>
+                        <div class="col-md-3">
+                            <label>Consignee Name</label><span class="error-message">*</span>
+                            <input type="text" id="ConsigneeName" class="form-control cleartxt3" style="text-align:center" placeholder="Consignee Name" />
+
+                        </div>
+
+
+                    </div>
+                    <div class="row" style="height:100px;">
+                        <div class="col-md-4 form-group">
+                            <label>Contact Number</label><span class="error-message">*</span>
+                            <input type="number" id="ContactNumber" class="form-control cleartxt3" style="text-align:center" placeholder="Contact Number" />
+                            <input type="number" id="DeliveryQuantity1" class="form-control cleartxt3" style="text-align:center;visibility:hidden" placeholder="Product Id" readonly />
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <label>Consignee Address</label><span class="error-message">*</span>
+                            <textarea rows="2" cols="15" id="consigneeAddress" class="form-control cleartxt4" placeholder="Enter consigneeAddress Here..."></textarea>
+                        </div>
+
+                        <div class="col-md-4" style="display: flex;justify-content: center;align-items: center;height: 100%;">
+                            <button type="button" class="btn btn-danger" onclick="Restfrom()">Reset </button>
+                            <button type="button" class="btn btn-primary" onclick="ProductDeliveryLocationSubmit()">Submit</button>
+
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<div style="overflow-x:auto;">*@
+                        <table id="DeliveryLocationTable" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Sr.</th>
+                                    <th>Product Name</th>
+                                    <th>Delivery Quantity</th>
+                                    <th>Consignee Name </th>
+                                    <th>Contact Nu.</th>
+                                    <th>Consignee Address </th>
+                                    <th>Delete Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary" id="" data-dismiss="modal">Ok</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Cancel SaleInvoice-->
+<div class="modal fade" id="SaleInvCancelModel" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #000080; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cancellation Sale Invoice</h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+
+                            <div class="form-group row">
+
+
+                                <div class="col-md-8">
+                                    <label>Remarks/Narration</label><span class="error-message">*</span>
+                                    <textarea id="CancelRemarks" class="form-control cleartxt required" style=" height: 40px;" placeholder="Please Enter Remark Here "></textarea>
+
+                                </div>
+
+                                <div class="col-md-4" style=" margin-top: 21px; ">
+
+                                    <button type="button" class="btnModalSubmit6 btn btn-primary" onclick="_CancellSaleInvSubmit()">Submit</button>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div align="left" id="Zones">
+                                <div class="dt-responsive">
+
+                                    @*<table class="table table-striped table-bordered" id="TrackingStatusTable" style="width=100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr.</th>
+                                                    <th>Action Name</th>
+                                                    <th>Remarks</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <div class="row">
+
+                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                <div class="col-md-8">
+
+                    <div class="modelalert"></div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <input type="button" class="btnModalSubmit9 btn btn-success" value="Close" />
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--Cancel SaleInvoice-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.2/js/bootstrap-multiselect.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+
+
+<script>
+    var ProductTempTable = '';
+    var producttable = '';
+    var saleinvoicetable = '';
+    var productIrTable = '';
+
+
+    $(document).ready(function () {
+        productIrTable = $('#productInstallationTable').DataTable({
+            createdRow: function (row, data, dataIndex) {
+                $('td:eq(3)', row).addClass('irdeliveryid');
+                $('td:eq(4)', row).addClass('irorderdeliveryid');
+
+                // $('td:eq(6)', row).addClass('totalresource');
+            }
+        });
+        TableManageDefault.init();
+        $('#ddlAgency').select2();
+        PurchaseOrderDetailList();
+        $('#PurchaseTable').DataTable();
+        ProductTempTable = $('#addProductTemp').DataTable();
+        $('#loader-overlay').hide();
+        producttable = $('#poductdeliverytable').DataTable(
+            {
+                createdRow: function (row, data, dataIndex) {
+                    $('td:eq(3)', row).addClass('poddeliveryid');
+                    $('td:eq(2)', row).addClass('podproductid');
+                    $('td:eq(4)', row).addClass('podorderdeliveryid');
+
+                    // $('td:eq(6)', row).addClass('totalresource');
+                }
+            }
+        );
+        saleinvoicetable = $('#saleInvoiceTable').DataTable();
+        var activeTab = sessionStorage.getItem('activeTab');
+        if (activeTab) {
+
+            if (activeTab === '#pod_tab') {
+                switchToTab('#home-tab', '#pod_tab');
+            } else if (activeTab === '#ir_tab') {
+                switchToTab('#profile-tab', '#ir_tab');
+            }
+        } else {
+
+            initializeTabs();
+        }
+
+        $('#home-tab').click(function (e) {
+            e.preventDefault();
+            switchToTabWithAnimation('#home-tab', '#pod_tab', 'flip-in');
+            $('#consigneeAddressDdl').val(0).trigger('change');
+            $('#addProductfrom').trigger('reset');
+        });
+
+        $('#profile-tab').click(function (e) {
+            e.preventDefault();
+            switchToTabWithAnimation('#profile-tab', '#ir_tab', 'zoom-fade');
+            clearIr();
+        });
+
+
+
+        $('[data-toggle="pill"]').on('click', function (e) {
+            e.preventDefault();
+            var target = $(this).attr('href');
+            var tabId = $(this).attr('id');
+
+            if (target === '#pod_tab') {
+                switchToTabWithAnimation('#home-tab', '#pod_tab', 'bounce-in');
+            } else if (target === '#ir_tab') {
+                switchToTabWithAnimation('#profile-tab', '#ir_tab', 'flip-in');
+            }
+        });
+
+
+        $('#myTab .nav-link').keydown(function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                $(this).click();
+            }
+        });
+
+
+        setTimeout(function () {
+            if (!$('#myTab .nav-link.active').length) {
+
+                initializeTabs();
+            }
+        }, 100);
+
+        $('#pageSizeSelector').on('change', function () {
+            const newPageSize = parseInt($(this).val());
+            ProductDeliveryList(1, newPageSize, productListState.term);
+        });
+
+        // Bind the search input event using delegation for better performance
+        $('#addProductTemp_filter').on('input', '#searchInput', performSearch);
+    });
+
+    $('#myTab a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+        sessionStorage.setItem('activeTab', e.target.getAttribute('href'));
+    });
+
+    function clearIr() {
+        $('#consigneeAddressDdlIR').val(0).trigger('change');
+        $('#irOnly').val('');
+        $('#selectAllCheckboxIR').prop('checked', false);
+        SelectAllCheckIR();
+        $('#contact_ir').val('');
+    }
+
+    function initializeTabs() {
+
+        $('#myTab .nav-link').removeClass('active').attr('aria-selected', 'false');
+        $('.tab-content .tab-pane').removeClass('show active');
+
+
+        $('#home-tab').addClass('active').attr('aria-selected', 'true');
+        $('#pod_tab').addClass('active show');
+
+
+        $('#profile-tab').removeClass('active').attr('aria-selected', 'false');
+        $('#ir_tab').removeClass('active show');
+
+
+    }
+
+
+    function switchToTab(tabId, paneId) {
+
+        $('#myTab .nav-link').removeClass('active').attr('aria-selected', 'false');
+
+
+        var currentPane = $('.tab-content .tab-pane.active');
+        currentPane.removeClass('active show bounce-in flip-in zoom-fade');
+
+
+        currentPane.addClass('slide-left');
+
+
+        $(tabId).addClass('active').attr('aria-selected', 'true');
+
+
+        setTimeout(function () {
+
+            $('.tab-content .tab-pane').removeClass('active show bounce-in flip-in zoom-fade slide-left');
+
+
+            var animations = ['bounce-in', 'flip-in', 'zoom-fade'];
+            var randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+
+            $(paneId).addClass('active show fade ' + randomAnimation);
+
+
+
+        }, 300);
+
+
+        sessionStorage.setItem('activeTab', paneId);
+
+
+    }
+
+
+    function switchToTabWithAnimation(tabId, paneId, animationType) {
+        $('#myTab .nav-link').removeClass('active').attr('aria-selected', 'false');
+
+
+        var currentPane = $('.tab-content .tab-pane.active');
+        currentPane.removeClass('active show bounce-in flip-in zoom-fade');
+
+        $(tabId).addClass('active').attr('aria-selected', 'true');
+
+        setTimeout(function () {
+            $('.tab-content .tab-pane').removeClass('active show bounce-in flip-in zoom-fade slide-left');
+            $(paneId).addClass('active show fade ' + animationType);
+        }, 200);
+
+        sessionStorage.setItem('activeTab', paneId);
+    }
+
+    function showPODTab() {
+        switchToTab('#home-tab', '#pod_tab');
+    }
+
+    function showIRTab() {
+        switchToTab('#profile-tab', '#ir_tab');
+    }
+
+
+    if (@user == '55') {
+        $('.page-header').html('<h3 class="blink-text">All terms & conditions shall be governed as per the Tender Document, Corrigenda & Agreement/ NIQ.</h3>');
+    }
+    //$('#SaleModal').on('shown.bs.modal', function () {
+    //    $('#purchaseNoDdl').select2({
+    //        placeholder: "Select purchase orders",
+    //        dropdownParent: $('#SaleModal'),
+    //        width: '100%'
+    //    });
+    //});
+    $('#ProductDeliveryModal').on('hidden.bs.modal', function () {
+        PurchaseOrderDetailList();
+    });
+
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+           //$('#ddlAgency').val(mAgencyId);
+        });
+    }
+
+
+    function PurchaseOrderDetailList() {
+    var RoleId = @Session["RoleId"];
+
+
+    var scrollTop = $('.page-content').scrollTop();
+    var table = $('#myTable').DataTable();
+    var currentPage = table.page();
+        var agencyid = $('#ddlAgencyFilter').val() || 0;
+        var deptid = $('#DeptIdFilter').val() || 0
+
+        $.post('/HardwareInvoice/PurchaseOrderDetailList', {
+            'AgencyId': agencyid,
+            'DeptId': deptid,
+        }, function (data) {
+
+        $('#ProgressImg').hide();
+        var obj = $.parseJSON(data);
+        table.clear().draw();
+
+        var msr = 0;
+        var DeliveryLocationDoc;
+        var amount;
+        var ProductDeliveryBtn;
+
+        $.each(obj, function (key, value) {
+            var PurchaseBtn = '';
+            var SaleBillBtn = '';
+            var purchaseBtnColor = "";
+
+            if (value.IsInvoiceGenerated == 'Y') purchaseBtnColor = "#008000";
+            else if (value.IsInvoiceGenerated == 'P') purchaseBtnColor = "#FFA500";
+
+            if (value.DeliveryStatus == 'N') {
+                PurchaseBtn = `<button class="btn btn-secondary disabled">Agency Invoice</button>`;
+                SaleBillBtn = `<button class="btn btn-secondary disabled">Sale Invoice</button>`;
+            } else {
+                SaleBillBtn = `<button class="btn btn-primary btn-sm" onclick="OpenSaleBillModel('${value.SaleOrderId}','${value.PurchaseOrderNoId}')">Sale Invoice</button>`;
+                PurchaseBtn = `<button class="btn btn-primary btn-sm" style="background:${purchaseBtnColor} !important;border-color:${purchaseBtnColor} !important; color:white" onclick="OpenPurchaseInvoiceModal('${value.PurchaseOrderNoId}','${value.IsInvoiceGenerated}')">Agency Invoice</button>`;
+            }
+
+            let orderDetailBtn = `
+                <a onclick="OpenOrderDetailModal('${value.PurchaseOrderNoId}')" title="View Details">
+                    <i class="fa fa-eye fa-2x" aria-hidden="true" style="font-size:30px;"></i>
+                </a>`;
+
+            let deliveryColor = value.DeliveryStatus == 'Y' ? '#28a745' :
+                                value.DeliveryStatus == 'P' ? '#FFA500' : '#6c757d';
+
+            if (RoleId == '55') {
+                ProductDeliveryBtn = `<a onclick="OpenProductDeliveryModal('${value.PurchaseOrderId}','${value.PurchaseOrderNoId}', '${value.SaleOrderId}', '${value.DeliveryId}')" title="Product Delivery">
+                     <i class="fas fa-truck" style="font-size: 30px; color: ${deliveryColor};"></i>
+                 </a>`;
+            } else {
+                ProductDeliveryBtn = `<a onclick="OpenProductDeliveryModal('${value.PurchaseOrderId}','${value.PurchaseOrderNoId}', '${value.SaleOrderId}', '${value.DeliveryId}')" title="Product Delivery">
+                    <span class="material-symbols-outlined">inventory</span>
+                </a>`;
+            }
+
+            DeliveryLocationDoc = (value.DeliveryAttachement)
+                ? `<center><a href="/HWDeliveryDoc/${value.DeliveryAttachement}" target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a></center>`
+                : '<center><label class="text-center">-</label></center>';
+
+            if (value.IGST == 'Y') {
+                amount = `Basic : ₹${value.Total}<br/>IGST : ₹${value.Sgst + value.Cgst}<br/>TOTAL : ₹${value.GTotal}`;
+            } else {
+                amount = `Basic : ₹${value.Total}<br/>SGST : ₹${value.Sgst}<br/>CGST : ₹${value.Cgst}<br/>TOTAL : ₹${value.GTotal}`;
+            }
+
+            var ViewPurchaseInvoice = `<center><a onclick="OpenPurchaseInvViewModal('${value.PurchaseOrderNoId}')"><i class="fa fa-eye fa-2x" aria-hidden="true" style="font-size:30px;"></i></a></center>`;
+            var ViewSaleInvoice = `<center><a onclick="OpenSaleInvViewModal('${value.PurchaseOrderNoId}')"><i class="fa fa-print fa-2x" aria-hidden="true" style="font-size:30px;"></i></a></center>`;
+            var AgencyPaymentBtn = `<button onclick="OpenPaymentModal('${value.PurchaseOrderNoId}')" class="btn btn-primary btn-sm">Payment</button>`
+            var annextureBtn = `<a onclick="printAnnextur('${value.SaleOrderId}','${value.PurchaseOrderNoId}','${value.PurchaseOrderDate}')" class="img-circle"><center><i class="fa-solid fa-print fa-2x"></i></center></a>`;
+            var addlocation = `<a onclick="OpenDeliveryLocationModal('${value.PurchaseOrderNoId}','${value.SaleOrderId}')" class="img-circle"><center><i class="fa-solid fa-location-dot fa-2x"></i></center></a>`;
+            msr++;
+            var elmntArray = [];
+            if (RoleId == '55') {
+                 elmntArray = [
+                    msr,
+                    value.PurchaseOrderNoId + '<br>' + value.PurchaseOrderDate,
+                    value.departmentName,
+                    value.AgencyName,
+                    amount,
+                     DeliveryLocationDoc,
+                     addlocation,
+                     `<center>${orderDetailBtn}</center>`,
+                     annextureBtn,
+                    `<center>${ProductDeliveryBtn}</center>`,
+                    PurchaseBtn,
+                    ViewPurchaseInvoice
+                ];
+            }
+            else if (RoleId == '56') {
+                 elmntArray = [
+                    msr,
+                     value.PurchaseOrderNoId + '<br>' + value.PurchaseOrderDate,
+                     value.HWSaleOrderNo,
+                     value.SaleInvNo,
+                    value.departmentName,
+                    value.AgencyName,
+                    amount,
+                    DeliveryLocationDoc,
+                    `<center>${orderDetailBtn}</center>`,
+                     `<center>${ProductDeliveryBtn}</center>`,
+                     annextureBtn,
+                    ViewPurchaseInvoice,
+                    SaleBillBtn,
+                    ViewSaleInvoice,
+                    /*AgencyPaymentBtn,*/
+                ];
+            }
+            else if (RoleId == '61') {
+                 elmntArray = [
+                    msr,
+                     value.PurchaseOrderNoId + '<br>' + value.PurchaseOrderDate,
+                    value.HWSaleOrderNo,
+                    value.departmentName,
+                    value.AgencyName,
+                     amount,
+                     value.AdvanceAmt,
+                    DeliveryLocationDoc,
+                    `<center>${orderDetailBtn}</center>`,
+                    `<center>${ProductDeliveryBtn}</center>`,
+                    ViewPurchaseInvoice,
+                    ViewSaleInvoice,
+                    AgencyPaymentBtn,
+                ];
+            }
+
+            table.row.add(elmntArray).draw(false);
+        });
+        table.page(currentPage).draw(false);
+        $('.page-content').scrollTop(scrollTop);
+    });
+}
+
+
+
+    function ProductDeliveryLocationList(SaleOrderId) {
+
+        var table = $('#productDeliveryTable').DataTable();
+        table.clear().draw();
+        $.post(
+            //"/HardwareInvoice/ProductDeliveryList",
+            '/HardwareInvoice/HardwareProductDeliveryList', {
+            'Id': 0,
+            'PurchaseOrderId': PurchaseId,
+        },
+
+            function (data) {
+                var sr = 0;
+                var obj = $.parseJSON(data);
+                $.each(obj, function (key, value) {
+                    sr += 1;
+                    var deliverTo = ` <input type="text" placeholder="Enter Data" id="deliverTo" value='${value.DeliveredTo}' style="height: 35px;">`;
+                    var action = `<div style="display:inline-flex; gap:10px">
+                        <div class="input-group mb-3">
+                    <input type="file" class="form-control-files" id="deliveryDocument" style=" height: 35px;">
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="SubmitProductDelivery(this,'${value.OrderDetailsId}','${value.DeliveryQty}','${value.DeliveredTo}')" style=" height: 35px;">Deliver</button>
+                   </div>`;
+
+                    var elements = [
+                        sr,
+                        value.ProductName,
+                        //value.AgencyName,
+                        'Agency Name',
+                        value.ConsigneeName,
+                       value.DeliveredQty,
+                        //value.DeliveredTo,
+                        deliverTo,
+                        action
+                    ]
+                    table.row.add(elements).draw(false);
+                });
+            }
+        );
+
+    }
+
+    function ProductDevliveryListOnDdl() {
+        ProductDeliveryLocationList(SaleIdDdl);
+    }
+
+    function OpenProductDeliveryLocationModal(PurchaseOrderId,SaleOrderId,DeliveryId) {
+        $('.modal-title').html("Product Delivery Details");
+        SaleId = SaleOrderId;
+        PurchaseId = PurchaseOrderId;
+        PIProductCategory_ddl1(SaleOrderId);
+        $('#productddl').val(0);
+        SaleIdDdl = SaleOrderId;
+        ProductDeliveryLocationList(SaleOrderId);
+        $('#productDeliveyModal').modal({
+            show: 'false'
+        });
+    }
+
+    function OpenPurchaseInvoiceModal(Id,InvoiceGenerated) {
+        GetPurchaseOrderDetail(Id);
+        BillForDdl();
+        //if (InvoiceGenerated == 'Y') {
+        //    $('#purchaseOk').show();
+        //    $('#purchaseSubmit').hide();
+        //    $('#purchaseBill').hide();
+        //    $('#viewBillContainer').show();
+        //    $('#invoiceNo').attr('readonly', true);
+        //}
+        //else {
+            $('#purchaseOk').hide();
+            $('#purchaseSubmit').show();
+            $('#purchaseBill').show();
+            $('#viewBillContainer').hide();
+            $('#invoiceNo').removeAttr('readonly');
+        //}
+        PurchaseOrderDetail(Id, InvoiceGenerated);
+        $('#PurchaseModal').modal('show');
+        $('#purchaseAmountBox input').val('');
+        $('#billforaddress').html('');
+    }
+
+    function GetPurchaseOrderDetail(Id) {
+
+        $('#ProgressImg').show();
+        $.post('/HardwareInvoice/GetOrderDetail1', {
+            'Id': Id,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            //var table = $('#PurchaseTable').DataTable();
+            //table.clear().draw();
+
+            var msr = 0;
+            var data = '';
+            $.each(obj, function (key, value) {
+                var checkbox = `<input type="checkbox" class="purchase_checkbox1" onclick="getdataCalculateion()">`;
+                var total = `<label class="purchase_totalAmount" >0</label>`;
+                var gstamount = (value.rate * (value.GstP / 100));
+                var gtotal = (value.rate + parseFloat(gstamount));
+                var quantity = `<input type="text"  class="purchase_qty form-control" oninput="CalculatePurchaseTotal(this,'${value.rate}','${gtotal}','${gstamount}')"/>`;
+                var hsncode = `<input type="text" class="hsnpurchase form-control"/>`;
+                msr = msr + 1;
+                data = data + '<tr><td class="AdminCharge" hidden>' + value.HPSEDCCharges + '</td><td class="ProductId1" hidden>' + value.ProductId + '</td><td class="Gst1" hidden>' + value.Gst + '</td><td>' + msr + '</td><td class="chk1">' + checkbox + '</td><td>' + value.ProductName + '</td><td class="PBillqty">' + value.BillQty + '</td><td class="quantity1">' + quantity + '</td><td>' + hsncode + '</td><td class="rate1">' + value.rate + '</td><td class="purchasegstamount">' + 0 + '</td><td class="total1">' + total + '</td><td class="Purchasegtotal">' + 0 + '</td></tr>';
+                     //'<td class="ProductId1" hidden>' + value.ProductId + '</td>' /
+                     //'<td class="Gst1" hidden>' + value.Gst + '</td>' /
+                   // '<td class="AdminCharge">' + value.HPSEDCCharges + '</td><tr>';
+               // alert(value.ProductId);
+                //var elmntArray = [
+                //    msr,
+                //    checkbox,
+                //    value.ProductName,
+                //    quantity,
+                //    //value.Qty,
+                //    value.rate,
+                //    total,
+                //];
+                //table.row.add(elmntArray).draw(false);
+
+            });
+            $('#PurchaseTableTbody').html(data);
+
+        });
+
+    }
+
+    function CalculatePurchaseTotal(input, unitPrice,gtotal,gst) {
+
+        var row = $(input).closest("TR");
+        var bqty = row.find('.PBillqty').text()
+        var qty = row.find('.purchase_qty').val();
+
+        if (qty > bqty) {
+            alert("Quantity can not be greater than Bill Qty");
+            row.find('.purchase_qty').val('');
+            return;
+        }
+        //else if (qty<1) {
+        //    alert("Quantity can not be less than 1");
+        //    row.find('.purchase_qty').val('');
+        //    return;
+        //}
+        var total = qty * unitPrice;
+        var gtotal = qty * gtotal;
+        var gst = qty * gst;
+        row.find('.purchase_totalAmount').html(total.toFixed(2));
+        row.find('.Purchasegtotal').html(gtotal.toFixed(2));
+        row.find('.purchasegstamount').html(gst.toFixed(2));
+        getdataCalculateion();
+    }
+
+    function getdataCalculateion() {
+       // alert('methd');
+        var BaseAmount = 0, Gst = 0, AdminCharge = 0, GTotal = 0;
+        $("#PurchaseTable TBODY TR").each(function () {
+            var row = $(this);
+
+
+
+            if ($(this).find('input[type="checkbox"]').prop('checked') == true) {
+                Gst = Gst + parseFloat(row.find('.purchasegstamount').html());
+                AdminCharge = AdminCharge + parseFloat(row.find('.AdminCharge').html());
+                BaseAmount = BaseAmount + parseFloat(row.find('.purchase_totalAmount').html());
+                GTotal = GTotal + parseFloat(row.find('.Purchasegtotal').html());
+            }
+
+        });
+        $('#AgencyBill').val((BaseAmount).toFixed(2));
+        if (igstStatus == 'Y') {
+            $('#igst').val((Gst).toFixed(2));
+            $('#SGST').val(0);
+            $('#cgst').val(0);
+        }
+        else {
+            $('#SGST').val((Gst / 2).toFixed(2));
+            $('#cgst').val((Gst / 2).toFixed(2));
+            $('#igst').val(0);
+        }
+        $('#Total').val((GTotal).toFixed(2));
+
+    }
+
+
+    function getdataCalculationforsale() {
+
+        var BaseAmount = 0, Gst = 0, AdminCharge = 0, GTotal = 0,Total=0;
+        saleinvoicetable.rows().every(function () {
+
+            var row = $(this.node());
+            if (row.find('.salecheckbox').prop('checked') === true) {
+                Gst = Gst + parseFloat(row.find('.gstsale').html());
+                AdminCharge = AdminCharge + parseFloat(row.find('.adminsale').html());
+                BaseAmount = BaseAmount + parseFloat(row.find('.ratesale').html());
+                Total = Total + parseFloat(row.find('.totalAmount').html());
+                GTotal = GTotal + parseFloat(row.find('.gtotalsale').html());
+
+            }
+        });
+        $('#AgencyBillSale').val(parseFloat(Total).toFixed(2));
+        $('#SGSTSale').val(parseFloat(Gst/2).toFixed(2));
+        $('#cgstSale').val(parseFloat(Gst / 2).toFixed(2));
+        $('#saleTotal').val(Math.round(GTotal));
+        $('#saleAdmin').val(parseFloat(AdminCharge).toFixed(2));
+
+    }
+
+
+    function GetSaleOrderDetail(Id) {
+        //console.log(Id);
+        $('#ProgressImg').show();
+        $.post('/HardwareInvoice/GetSaleOrderDetail', {
+            'Id': Id,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+
+            saleinvoicetable.clear().draw();
+
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+                //var InvoiceDoc = '<center><a href="/PurchaseInvoice/' + value.InvAttachement + '"target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a></center>';
+                msr = msr + 1;
+                var calculateAdminCharge = parseFloat((parseFloat(value.rate) * (value.HPSEDCCharges / 100)));
+                var calculateGst = ((parseFloat(value.rate) + parseFloat(calculateAdminCharge)) * (parseFloat(value.GstP) / 100));
+
+                var checkbox = `<input type="checkbox" class="salecheckbox" onclick="getdataCalculationforsale()">`;
+                var total = `<label class="totalAmount">0</label>`;
+                var quantity = `<input type="text" class="qty form-control" oninput="CalculateTotal(this,'${value.rate}','${calculateAdminCharge}','${calculateGst}')"/>`;
+                var adminCharge = `<label class= "adminsale" >0</label>`;
+                var productid = `<label class="productidsale" hidden>${value.ProductId}</label>`;
+                var gst = `<label class="gstsale" >0</label>`;
+                var rate = `<label class="ratesale">${(value.rate)}</label>`;
+                var hsncode = `<input type="text" class="hsnsale form-control" value='${value.HSNCode}'/>`;
+                var gtotal = `<label class="gtotalsale">0</label>`;
+                var purchaseQty = `<label class="salepqty">${value.PurchaseQty}</label>`;
+                var elmntArray = [
+                    msr,
+                    checkbox,
+                    value.ProductName + productid,
+                    purchaseQty,
+                    quantity,
+                    hsncode,
+                    rate ,
+                    total,
+                    adminCharge,
+                    gst,
+                    gtotal,
+                ];
+                saleinvoicetable.row.add(elmntArray).draw(false);
+
+            });
+        });
+    }
+
+    function CalculateTotal(input,unitPrice,admincharge,gst) {
+        var row = $(input).closest("TR");
+        var pqty = row.find('.salepqty').text();
+        var qty = row.find('.qty').val();
+        if (qty > pqty) {
+            alert('Quantity can not be greater than Purchase Qty');
+            row.find('.qty').val('');
+            return;
+        }
+        //var total = qty * (parseFloat(unitPrice) + parseFloat(admincharge));
+        var total = qty * (parseFloat(unitPrice));
+        var admin = qty * admincharge;
+        var Gst = qty * gst;
+        var gtotal = total + admin + Gst;
+        //var gtotal = total + Gst;
+        row.find('.totalAmount').html(total.toFixed(2));
+        row.find('.adminsale').html(admin.toFixed(2));
+        row.find('.gstsale').html(Gst.toFixed(2));
+        row.find('.gtotalsale').html(gtotal.toFixed(2));
+        getdataCalculationforsale();
+
+    }
+
+    var InvoiceFile;
+    var igstStatus;
+    function PurchaseOrderDetail(Id, InvoiceGenerated) {
+        $.post('/HardwareInvoice/PurchaseOrderDetail', {
+            'Id': Id,
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var igst = obj[0].Cgst + obj[0].Sgst;
+            $('#depName').val(obj[0].departmentName);
+            $('#agencyName').val(obj[0].AgencyName);
+            igstStatus = obj[0].IGST;
+            //if (obj[0].IGST == 'Y') {
+            //    $('#igst').val(igst);
+            //    $('#cgst').val('0');
+            //    $('#SGST').val('0');
+            //}
+            //else {
+            //    $('#igst').val(0);
+            //    $('#cgst').val(obj[0].Cgst);
+            //    $('#SGST').val(obj[0].Sgst);
+            //}
+            //$('#AgencyBill').val(obj[0].Total);
+            //$('#GST').val(obj[0].Gst);
+            //$('#Total').val(obj[0].GTotal);
+            $('#workOrderNo').val(obj[0].SaleOrderId);
+            $('#purchaseNo').val(obj[0].PurchaseOrderNoId);
+            $('#billingAddress').val(obj[0].BillingAddressText);
+            //if (InvoiceGenerated == 'Y') {
+            //    $('#invoiceNo').val(obj[0].PurchaseInvNo);
+            //    InvoiceFile = obj[0].InvAttachement;
+            //}
+            //else {
+            //    $('#invoiceNo').val('');
+            //    InvoiceFile = '';
+            //}
+        });
+    }
+
+    function ViewBill() {
+        window.open('/PurchaseInvoice/' + InvoiceFile, '_blank');
+    }
+
+    function GetOrderDetail(Id) {
+        $.post('/HardwareInvoice/GetOrderDetail', {
+            'Id': Id,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#OrderDetail').DataTable();
+            table.clear().draw();
+            var amount;
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                    if (value.IGST == 'Y') {
+                        amount = 'Basic Rs.: -' + value.Total + ' <br/> ' + 'IGST Rs.: -' + (value.Sgst + value.Cgst) + ' <br/> ' + 'TOTAL Rs.: -' + value.GTotal;
+                    }
+                    else {
+                        amount = 'Basic Rs.: -' + value.Total + ' <br/> ' + 'SGST Rs.: -' + value.Sgst + ' <br/> ' + 'CGST Rs.: -' + value.Cgst + ' <br/> ' + 'TOTAL Rs.: -' + value.GTotal;
+                    }
+                var elmntArray = [
+                    msr,
+                    value.SaleOrderId,
+                    value.PurchaseOrderNoId,
+                    value.ProductName,
+                    value.Qty,
+                    amount,
+                ];
+                table.row.add(elmntArray).draw(false);
+
+            });
+        });
+    }
+
+    function PIProductCategory_ddl1(purchaseOrderId) {
+
+        $.post('/HardwareInvoice/PIProductCategory_ddl1',
+            {
+                'Id': purchaseOrderId,
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var ProductCategory = '<option value="0">-Select-</option>';
+                $.each(obj, function (key, value) {
+                    ProductCategory += '<option value=' + value.OrderDetailsId + '>' + value.ProductName + '</option>';
+                });
+                $('#productName').html(ProductCategory);
+                $('#productddl').html(ProductCategory);
+
+            });
+        $('#productName').select2({
+            dropdownParent: $('#ProductDeliveryModal'),
+            dropdownAutoWidth: 'false',
+            width:'100%'
+        });
+    }
+
+    function SubmitProductDelivery() {
+        if ($('#productName').val() == '0') { alert('Please Select Product'); return; }
+        if ($('#consigneeAddressDdl').val() == '0') { alert('Please Select Address'); return; }
+        if ($('#pod').is(':visible')) {
+            if ($('#pod').val() == '') { alert('Please Upload Proof of Delivery Document'); return; }
+        }
+        if ($('#dquantity').val() <= 0) { alert('Please Enter Valid Delivery Quantity'); return; }
+        $('#loader-overlay').show();
+        var formData = new FormData();
+        formData.append("OrderDetailId", $('#productName').val() );
+        formData.append("DeliveryId", $('#consigneeAddressDdl').val() );
+
+        formData.append("DeliveredQty", $('#dquantity').val());
+        formData.append("DeliveredDate", $('#deliveryDate').val());
+
+        var orderDetailId = $('#productName').val();
+        var DeliveryId = $('#consigneeAddressDdl').val();
+
+        //if ($('#podtext').is(':visible')) {
+        //    console.log('Pod text is available');
+        //}
+
+        var timestamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+        var podFile = $('#pod')[0].files[0];
+        if (podFile) {
+            var fileExtensionPod = podFile.name.split('.').pop();
+            var newPodName = `POD_${orderDetailId}_${DeliveryId}_${timestamp}.${fileExtensionPod}`;
+            var renamedPod = new File([podFile], newPodName, { type: podFile.type });
+            formData.append("POD", renamedPod);
+        }
+        else {
+            formData.append("POD", '');
+        }
+
+
+        var irFile = $('#ir')[0].files[0];
+        if (irFile) {
+            var fileExtensionIr = irFile.name.split('.').pop();
+            var newIrName = `IR_${orderDetailId}_${DeliveryId}_${timestamp}.${fileExtensionIr}`;
+            var renamedIr = new File([irFile], newIrName, { type: irFile.type });
+            formData.append("IR", renamedIr);
+        }
+
+
+        $.ajax({
+            url: '/HardwareInvoice/SubmitProductDelivery',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#loader-overlay').hide();
+                if (data.includes("Successfully") || data.includes("successfully")) {
+
+                    $('#addProductfrom').trigger('reset');
+                    $('#productName').trigger('change');
+
+                    //SubmitProductDelivery();
+                    $('#pod').show();
+                    $('#ir').show();
+                    $('#podtext').hide();
+                    $('#irtext').hide();
+                    ProductDeliveryList();
+                    setTimeout(function () {
+                        BlankDeliveryAddress();
+                    }, 10);
+
+                }
+                alert(data);
+            },
+            error: function (xhr, status, error) {
+                $('#loader-overlay').hide();
+                alert("Error: " + error);
+            }
+        });
+    }
+
+
+    function getProductDeliverydata() {
+        var DeliveryData = [];
+        var isValid = true;
+        let consignee = $('#consigneeAddressDdl option:selected').text();
+        let result = consignee.split(",");
+        let consigneeaddress = $('#consigneeAddressDdl').val();
+        var timestamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+        var podFile = $('#pod')[0].files[0];
+        var irFile = $('#ir')[0].files[0];
+
+
+
+        producttable.rows().every(function () {
+            var row = $(this.node());
+
+            if (row.find('.productcheck').prop('checked')) {
+                var productQty = row.find('.productQty').val();
+
+                if (productQty <= 0 || productQty === '') {
+                    alert('Quantity can not be 0 or blank');
+                    isValid = false;
+                    return false;
+                }
+                var data = {};
+
+                data.OrderDetailsId = row.find('.orderdeatil').text();
+                data.ProductId = row.find('.productid').text();
+                data.OrderDeliveryId = row.find('.orderdeliveryid').text();
+                data.ConsigneeName = result[0];
+
+                data.ConsigneeContactNo = 0;
+                data.consigneeAddress = consigneeaddress;
+                data.DeliveredQty = row.find('.productQty').val();
+                data.DeliveredTo = '';
+                data.DeliveredDate = $('#deliveryDate').val();
+                data.Document = '';
+                data.Document2 = '';
+
+                DeliveryData.push(data);
+            }
+        });
+
+        if (!isValid) {
+            return 'failed';
+        }
+
+
+        if (DeliveryData.length == 0) {
+            return 'notSelected';
+        }
+
+        return DeliveryData;
+    }
+
+
+    var renamedPod = '';
+    var renamedIr = '';
+    async function SubmitProductDelivery1() {
+        //if ($('#productName').val() == '0') { alert('Please Select Product'); return; }
+        if ($('#consigneeAddressDdl').val() == '0') { alert('Please Select Address'); return; }
+        if ($('#deliveryDate').val() == '') { alert('Please Select Delivery Date'); return; }
+        var rawData = getProductDeliverydata();
+        if (rawData === 'failed') {
+            return;
+        }
+        else if (rawData == 'notSelected') {
+            alert('Please Select Product');
+            return;
+        }
+        if ($('#pod').is(':visible')) {
+            if ($('#pod').val() == '') { alert('Please Upload Proof of Delivery Document'); return; }
+        }
+        //if ($('#dquantity').val() <= 0) { alert('Please Enter Valid Delivery Quantity'); return; }
+        $('#loader-overlay').show();
+        let consignee = $('#consigneeAddressDdl option:selected').text();
+        let result = consignee.split(",");
+
+
+
+        var formData = new FormData();
+
+
+        var timestamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+        var podFile = $('#pod')[0].files[0];
+        if (podFile) {
+            var fileExtensionPod = podFile.name.split('.').pop();
+            var newPodName = `POD_${result[0]}_${timestamp}.${fileExtensionPod}`;
+            renamedPod = await new File([podFile], newPodName, { type: podFile.type });
+            //console.log(renamedPod);
+            formData.append("POD", renamedPod);
+        }
+        else {
+            formData.append("POD", '');
+        }
+
+
+        var irFile = $('#ir')[0].files[0];
+        if (irFile) {
+            var fileExtensionIr = irFile.name.split('.').pop();
+            var newIrName = `IR_${result[0]}_${timestamp}.${fileExtensionIr}`;
+            renamedIr = await new File([irFile], newIrName, { type: irFile.type });
+            formData.append("IR", renamedIr);
+        }
+
+        var data = JSON.stringify(rawData);
+        formData.append("data",data);
+        formData.append("PurchaseOrderid", PurchaseNoId);
+        formData.append("ItemDetailsIdTxt", '');
+
+        $.ajax({
+            url: '/HardwareInvoice/SubmitProductDelivery1',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#loader-overlay').hide();
+                if (data.includes("Successfully") || data.includes("successfully")) {
+
+                    $('#addProductfrom').trigger('reset');
+                    $('#productName').trigger('change');
+
+                    //SubmitProductDelivery();
+                    $('#pod').show();
+                    $('#ir').show();
+                    $('#podtext').hide();
+                    $('#irtext').hide();
+                    ProductDeliveryList(productListState.page, productListState.size, productListState.term);
+                    $('#consigneeAddressDdl').val(0).trigger('change');
+                }
+                alert(data);
+            },
+            error: function (xhr, status, error) {
+                $('#loader-overlay').hide();
+                alert("Error: " + error);
+            }
+        });
+    }
+
+
+    var productListState = {
+        page: 1,
+        size: 10,
+        term: ''
+    };
+
+
+    function ProductDeliveryList(pageNumber, pageSize, searchTerm) {
+
+
+        productListState.page = pageNumber;
+        productListState.size = pageSize;
+        productListState.term = searchTerm;
+
+
+        var scrollTop = $('#ProductDeliveryModal .modal-body').scrollTop();
+
+        $('#ProgressImg').show();
+
+        $.post('/HardwareInvoice/GetConsigneeAddressOptimized', {
+            'OrderDetailId': 0,
+            'PurchaseOrderNo': PurchaseNoId,
+            'consigneeAddress': '',
+            'PageNumber': productListState.page,
+            'PageSize': productListState.size,
+            'SearchTerm': productListState.term
+        }, function (data) {
+            $('#ProgressImg').hide();
+
+
+            try {
+                var obj = JSON.parse(data);
+                if (!obj || obj.length === 0) {
+                    ProductTempTable.clear().draw();
+                    $('.pagination-container').remove();
+                    $('#addProductTemp_info').html('No records found.');
+                    return;
+                }
+
+                ProductTempTable.clear();
+
+                var msr = ((productListState.page - 1) * productListState.size);
+
+                var totalRecords = obj[0].TotalRecord || 0;
+                var totalPages = Math.ceil(totalRecords / productListState.size);
+
+                $.each(obj, function (key, value) {
+
+                    let podfile = 'File not<br/> uploaded';
+                    if (value.Document !== 'N') {
+                        podfile = `<div style="text-align:center;"><a href="/ProofOfDelivery/${value.Document}" target="_blank" data-toggle="tooltip" title="Download file" style="font-size:30px;"><i class="fa fa-download"></i></a></div>`;
+                    }
+
+                    let irfile = 'File not<br/> uploaded';
+                    if (value.Document2 !== 'N' && value.Document2 !== '') {
+                        irfile = `<div style="text-align:center;"><a href="/InstallationReport/${value.Document2}" target="_blank" data-toggle="tooltip" title="Download file" style="font-size:30px;"><i class="fa fa-download"></i></a></div>`;
+                    }
+
+                    let deliveredQty = (value.DeliveredQty != 0) ? value.DeliveredQty : 'Not Delivered yet';
+                    msr++;
+
+                    let DeleteButton = `<a onclick="DeletePod('${value.OrderDeliveryId}','${value.DeliveryId}')" style="cursor:pointer;"><div style="text-align:center;"><i class="fa fa-trash-o" style="font-size:28px;color:red"></i></div></a>`;
+                    if ((value.Document === 'N') && (value.Document2 === 'N')) {
+                        DeleteButton = '---';
+                    }
+
+                    const podcheckbox = `<input type="checkbox" class="podcheckbox" id="podVerification">`;
+                    const ircheckbox = `<input type="checkbox" class="ircheckbox" id="irVerification">`;
+                    const submitVerifycheck = `<button class="btn btn-primary btn-sm submitVerifycheckdata" onclick="SubmitVerificationDetail(this,${value.OrderDeliveryId},${value.DeliveryId})">Verify</button>`;
+
+                    // --- 3. Avoiding Code Duplication (DRY Principle) ---
+                    let elmntArray = [
+                        msr,
+                        value.ProductName,
+                        `${value.ConsigneeName}, ${value.consigneeAddress}`,
+                        deliveredQty,
+                        value.ConsigneeContactNo,
+                        podfile,
+                        irfile
+                    ];
+
+                    if (@user == '55') {
+                        elmntArray.push(DeleteButton);
+                    }
+
+                    elmntArray.push(podcheckbox, ircheckbox, submitVerifycheck);
+                    // --- End of DRY block ---
+
+                    const rowNode = ProductTempTable.row.add(elmntArray).draw(false).node();
+                    const $row = $(rowNode);
+                    const isPOD = value.IsPOdVerified === 'Y';
+                    const isIR = value.IsIRVerified === 'Y';
+
+                    $row.find('.podcheckbox').prop({ 'checked': isPOD, 'disabled': isPOD });
+                    $row.find('.ircheckbox').prop({ 'checked': isIR, 'disabled': isIR });
+                    $row.find('.submitVerifycheckdata').prop('disabled', isPOD && isIR);
+                });
+
+                // Restore scroll position
+                $('#ProductDeliveryModal .modal-body').scrollTop(scrollTop);
+
+                if (totalRecords > 0) {
+                    createPaginationControls(totalRecords, totalPages);
+                }
+
+            } catch (e) {
+                console.error("Failed to parse JSON or process data:", e);
+                $('#addProductTemp_info').html('Error loading data.');
+            }
+        });
+    }
+
+
+    function createPaginationControls(totalRecords, totalPages) {
+        // This function now reads from the global productListState object
+        console.log('from paggination control');
+        console.log(productListState);
+        const { page, size, term } = productListState;
+
+        let paginationdata;
+        if (term && term.trim() !== '') {
+            paginationdata = `Showing ${((page - 1) * size) + 1} to ${Math.min(page * size, totalRecords)} of ${totalRecords} entries (filtered)`;
+        } else {
+            paginationdata = `Showing ${((page - 1) * size) + 1} to ${Math.min(page * size, totalRecords)} of ${totalRecords} entries`;
+        }
+
+        // --- Using Template Literals for the search box ---
+        const paginationSearch = `
+            <div class="search-box">
+                <input type="text" id="searchInput" class="form-control search-input" placeholder="Search..." autocomplete="off" value="${term}">
+                <button type="button" class="clear-search" onclick="clearSearch()" title="Clear search">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>`;
+
+        let paginationHtml = '';
+        // Previous button
+        if (page > 1) {
+            paginationHtml += `<button onclick="ProductDeliveryList(${page - 1}, ${size}, '${term}')" class="btn btn-sm btn-primary" style="margin: 0 2px;">Previous</button>`;
+        }
+
+        // Page numbers logic (remains the same)
+        var startPage = Math.max(1, page - 2);
+        var endPage = Math.min(totalPages, page + 2);
+
+        if (startPage > 1) {
+            paginationHtml += `<button onclick="ProductDeliveryList(1, ${size}, '${term}')" class="btn btn-sm btn-outline-primary" style="margin: 0 2px;">1</button>`;
+            if (startPage > 2) paginationHtml += '<span style="margin: 0 5px;">...</span>';
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const activeClass = i === page ? 'btn-primary' : 'btn-outline-primary';
+            paginationHtml += `<button onclick="ProductDeliveryList(${i}, ${size}, '${term}')" class="btn btn-sm ${activeClass}" style="margin: 0 2px;">${i}</button>`;
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) paginationHtml += '<span style="margin: 0 5px;">...</span>';
+            paginationHtml += `<button onclick="ProductDeliveryList(${totalPages}, ${size}, '${term}')" class="btn btn-sm btn-outline-primary" style="margin: 0 2px;">${totalPages}</button>`;
+        }
+
+        // Next button
+        if (page < totalPages) {
+            paginationHtml += `<button onclick="ProductDeliveryList(${page + 1}, ${size}, '${term}')" class="btn btn-sm btn-primary" style="margin: 0 2px;">Next</button>`;
+        }
+
+        // Remove existing pagination and add new one
+        $('.pagination-container').remove();
+        $('#addProductTemp_paginate').html(`<div class="pagination-container" style="text-align: right;">${paginationHtml}</div>`);
+        $('#addProductTemp_info').html(paginationdata);
+        $('#addProductTemp_length').remove();
+        $('#addProductTemp_filter').html(paginationSearch);
+    }
+
+
+    // A simple debounce timer to prevent search from firing on every keypress
+    let searchTimeout;
+    function performSearch() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const searchTerm = $('#searchInput').val();
+            ProductDeliveryList(1, productListState.size, searchTerm);
+        }, 500); // Reduced delay for better user experience
+    }
+
+    function clearSearch() {
+        $('#searchInput').val('');
+        ProductDeliveryList(1, productListState.size, '');
+    }
+
+
+
+
+
+
+
+    function DeletePod(OrderDeliveryId, OrderDetailsId) {
+        let result = confirm("Are sure want to Delete this delivery data");
+        if (result) {
+            $.post('/HardwareInvoice/DeleteConsigneeAddress', {
+                'ItemDetailsId': OrderDetailsId,
+                'OrderDeliveryId': OrderDeliveryId,
+            }, function (data) {
+                if (data.includes("Successfully") || data.includes("successfully")) {
+                    ProductDeliveryList(productListState.page, productListState.size, productListState.term);
+                }
+                alert(data);
+            }
+            );
+        }
+    }
+
+    function OpenOrderDetailModal(Id) {
+        GetOrderDetail(Id);
+        $('#OrderDetailModal').modal('show');
+    }
+
+    function UploadIrList() {
+        $.post('/HardwareInvoice/GetConsigneeAddress', {
+            'OrderDetailId': 0,
+            'PurchaseOrderNo': PurchaseNoId,
+            'consigneeAddress': $('#consigneeAddressDdlIR').val()
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            //var table = $('#productInstallationTable').DataTable();
+            productIrTable.clear().draw();
+
+            var msr = 0;
+            var element = [];
+            var checkbox = `<input type="checkbox" class="ir_upload_check">`;
+
+            let consigneeAddress = $('#consigneeAddressDdlIR').val();
+
+            console.log(consigneeAddress);
+            let i = 0;
+            $.each(obj, function (key, value) {
+
+                var OrderdeliveryId = `<span class="Ir_deliveryid">${value.OrderDeliveryId}</span>`;
+                var deliveryId = `<span class="Ir_deliveryid1">${value.DeliveryId}</span>`;
+
+                i++;
+                //console.log("Consignee from ddl " + consigneeAddress);
+                //console.log("Consignee from list " + value.consigneeAddress);
+                //console.log(consigneeAddress == value.consigneeAddress);
+                //if (i == 4 || i == 5) {
+                //    console.log("Consignee from list " + value.consigneeAddress);
+                //}
+
+                //if (value.consigneeAddress == consigneeAddress) {
+                    $('#contact_ir').val(value.ConsigneeContactNo);
+
+                //    console.log(value.Document);
+                //    console.log(value.Document2);
+                    if ((value.Document != 'N') && (value.Document2 == 'N' || value.Document2== '')) {
+                        msr++;
+                        element = [
+                            msr,
+                            checkbox,
+                            value.ProductName,
+                            OrderdeliveryId,
+                            deliveryId,
+                            value.DeliveredQty,
+                        ]
+                        productIrTable.row.add(element).draw();
+                    }
+                //}
+
+            });
+
+            console.log("value of i " + i);
+
+        });
+    }
+
+    var PurchaseId;
+    var SaleId;
+    var DeliveryId = 0;
+    var PurchaseNoId;
+    function OpenProductDeliveryModal(PurchaseOrderId, PurchaseOrderNoId, SaleOrderId, DelId) {
+        ProductTempTable.clear().draw();
+        PurchaseId = PurchaseOrderId;
+        PurchaseNoId = PurchaseOrderNoId;
+        SaleId = SaleOrderId;
+        DeliveryId = DelId;
+        PIProductCategory_ddl1(PurchaseOrderNoId);
+        $('#addProductfrom').trigger('reset');
+        ProductDeliveryList(1,10,'');
+        DeliveryAddressDdl();
+       // BlankDeliveryAddress();
+        $('#consigneeAddressDdl').val(0).trigger('change');
+        $('#pod').show();
+        $('#ir').show();
+        $('#podtext').hide();
+        $('#irtext').hide();
+        $('#productdeliverysubmit').show();
+        clearIr();
+        // ProductTempTable.clear().draw();
+        $('#ProductDeliveryModal').modal('show');
+
+    }
+
+    function BlankDeliveryAddress() {
+        var ConsigneeAddress = '<option value="0">-Select-</option>';
+        $('#consigneeAddressDdl').html(ConsigneeAddress);
+        $('#consigneeAddressDdl').select2({
+            dropdownParent: $('#ProductDeliveryModal'),
+            dropdownAutoWidth: 'false',
+            width :'100%'
+        });
+    }
+
+    function DeliveryAddressDdl() {
+        $.post('/HardwareInvoice/ConsigneeAddressDdl',
+            {
+                //'OrderDetailId': $('#productName').val(),
+                //'OrderDetailId': 0,
+                'PurchaseOrderNo': PurchaseNoId
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var ConsigneeAddress = '<option value="0">-Select-</option>';
+                var statusType = '';
+
+                $.each(obj, function (key, value) {
+                    if (value.Document != null && (value.Document2 == null || value.Document2 == '')) {
+                        statusType = 'partial';
+                    }
+                    else if (value.Document != null && value.Document2 != null) {
+                        statusType = 'complete';
+                    }
+                    else {
+                        statusType = 'default';
+                    }
+
+                    ConsigneeAddress += `<option data-status="${statusType}" value='${value.consigneeAddress}'>${value.ConsigneeName},${value.consigneeAddress}</option>`;
+                });
+
+                $('#consigneeAddressDdl').html(ConsigneeAddress);
+                $('#consigneeAddressDdl').select2({
+                    dropdownParent: $('#ProductDeliveryModal .modal-content'),
+                    dropdownAutoWidth: 'false',
+                    width: '100%'
+                });
+
+                $('#consigneeAddressDdlIR').html(ConsigneeAddress);
+                $('#consigneeAddressDdlIR').select2({
+                    dropdownParent: $('#ProductDeliveryModal .modal-content'),
+                    dropdownAutoWidth: 'false',
+                    width: '100%'
+                });
+                applySelect2Styling();
+            }
+        );
+    }
+
+    $('#consigneeAddressDdl, #consigneeAddressDdlIR').on('select2:open', function (e) {
+        $('.select2-dropdown').on('mousedown', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+
+    function applySelect2Styling() {
+        // Apply styling to Select2 options based on data attributes
+        $('#consigneeAddressDdl').on('select2:open', function () {
+            setTimeout(function () {
+                $('.select2-results__option').each(function () {
+                    var $option = $(this);
+                    var originalOption = $('#consigneeAddressDdl option[value="' + $option.attr('aria-describedby') + '"]');
+                    var status = $('#consigneeAddressDdl option').eq($option.index()).attr('data-status');
+
+                    if (status === 'partial') {
+                        $option.css({
+                            'background-color': '#FFA500',
+                            'color': '#FFFFFF'
+                        });
+                    } else if (status === 'complete') {
+                        $option.css({
+                            'background-color': '#008000',
+                            'color': '#FFFFFF'
+                        });
+                    }
+                });
+            }, 50);
+        });
+    }
+
+    function GetDeliveryDetail() {
+
+        if ($('#consigneeAddressDdl').val() === '0') {
+
+            $('#contact').val('');
+            $('#tquantity').val('');
+            producttable.clear().draw();
+            return;
+        }
+        else {
+
+            //let consignee = $('#consigneeAddressDdl option:selected').text();
+            //let result = consignee.split(",");
+            let consigneeAddress = $('#consigneeAddressDdl').val();
+            //for (i = 1; i < result.length; i++) {
+            //    if (i == 1) {
+            //        consigneeAddress = result[i];
+            //    }
+            //    else {
+            //        consigneeAddress += ',' + result[i];
+            //    }
+            //}
+            $.post('/HardwareInvoice/PodProductList',
+                {
+                    'consigneeAddress': consigneeAddress,
+                    'SaleOrderId': SaleId,
+                    'PurchaseOrderId': PurchaseNoId,
+                },
+                function (data) {
+                    var obj = $.parseJSON(data);
+                    //var table = $('#poductdeliverytable').DataTable();
+                    $('#contact').val(obj[0].ConsigneeContactNo);
+                    producttable.clear().draw();
+                    let checkbox = '<input type="checkbox" class="productcheck" />';
+                    let deliveryQty = '<input type="text" class="productQty" oninput="CheckQty(this)"/>';
+                    let sr = 0;
+                    $.each(obj, function (key, value) {
+                        //console.log(value.DeliveryQty);
+                        //console.log(value.DeliveredQty);
+                        sr++;
+                        let availableQty = `<span class="availableqty">${value.DeliveryQty - value.DeliveredQty}</span>`;
+                        let orderdetailis = `<span class="orderdeatil">${value.OrderDetailsId}</span>`;
+                        let productid = `<span class="productid">${value.ProductId}</span>`;
+                        let OrderDeliveryId = `<span class="orderdeliveryid">${value.OrderDeliveryId}</span>`;
+
+
+                        var element = [
+                            sr,
+                            checkbox,
+                            productid,
+                            orderdetailis,
+                            OrderDeliveryId,
+                            value.ProductName,
+                            availableQty,
+                            deliveryQty
+                        ]
+                       producttable.row.add(element).draw();
+                    });
+                }
+            )
+        }
+
+    }
+
+    function CheckQty(qty) {
+        //alert("test");
+        var row = $(qty).closest("TR");
+        let deliveryqty = (row.find('.productQty').val()) || 0;
+        let availableqty = (row.find('.availableqty').text()) ;
+
+        if (availableqty < deliveryqty) {
+            alert('Delivery Qty Should Not be grater than available qty');
+            row.find('.productQty').val('');
+            return;
+        }
+    }
+
+    function BillForDdl() {
+        $.post('/HardwareInvoice/BillForDdl',
+            {
+                'AgencyId':0,
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var BillFor = '<option value="0">-Select-</option>';
+                $.each(obj, function (key, value) {
+                    BillFor += '<option value=' + value.AgencyId + '>' + value.AgencyName  + '</option>';
+                });
+                $('#billForm').html(BillFor);
+            }
+        );
+    }
+
+
+
+    function SubmitVerificationDetail(input, orderdeliveryid, OrderDetailsId) {
+        var row = $(input).closest("TR");
+        var podCheckbox = row.find('#podVerification');
+        var irCheckbox = row.find('#irVerification');
+
+        if (!podCheckbox.is(':checked') && !irCheckbox.is(':checked')) {
+            alert("Please check at least one verification option (POD or IR).");
+            return;
+        }
+
+        var pod = row.find('#podVerification').is(':checked') == true ? 'Y' : 'N';
+        var ir = row.find('#irVerification').is(':checked') == true ? 'Y' : 'N';
+
+        $.post('/HardwareInvoice/SubmitVerificationDetailPODIR',
+            {
+                // 'PurchaseOrderNo': PurchaseNoId,
+                'orderdeliveryid': orderdeliveryid,
+                'OrderDetailsId': OrderDetailsId,
+                'IsPODVerified': pod,
+                'IsIRVerified': ir,
+            },
+            function (data) {
+                alert(data);
+                ProductDeliveryList(productListState.page, productListState.size, productListState.term);
+            });
+    }
+
+    function showAddress() {
+        $.post('/HardwareInvoice/BillForDdl',
+            {
+                'AgencyId': $('#billForm').val()
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var address = 'Address: ' + obj[0].AddressDetails;
+                $('#billforaddress').html(address)
+            }
+        );
+    }
+
+    var SalePurchaseOrderNo;
+    var SaleSaleorderId;
+    function OpenSaleBillModel(SaleOrderId, PurchaseOrderId) {
+        SalePurchaseOrderNo = PurchaseOrderId;
+        SaleSaleorderId = SaleOrderId;
+        GetSaleInvoiceData(SaleOrderId);
+        GetSaleOrderDetail(PurchaseOrderId);
+        PurchaseInvoiceSaleDdl(PurchaseOrderId);
+        $('#SaleModal').modal('show');
+    }
+
+    var SaleBillingAddressId;
+    function GetSaleInvoiceData(SaleOrderId) {
+        $.post("/HardwareInvoice/GetSaleInvoiceData",
+            {
+                'SaleId': SaleOrderId,
+            },
+            function (data) {
+
+                var obj = $.parseJSON(data);
+
+                var gtotal = obj[0].Total + obj[0].Gst + obj[0].AdminCharge;
+                $('#workOrderNoSale').val(obj[0].SaleOrderNoText);
+                $('#depNameSale').val(obj[0].departmentName);
+                $('#salebillingAddress').val(obj[0].BIllingAddress);
+                $('#saleBillNo').val(obj[0].Column1);
+                //$('#AgencyBillSale').val(obj[0].Total);
+                //$('#cgstSale').val(obj[0].Cgst);
+                //$('#SGSTSale').val(obj[0].Sgst);
+                //$('#saleGst').val(obj[0].Gst);
+                //$('#saleAdmin').val(obj[0].AdminCharge);
+                //$('#saleTotal').val(gtotal);
+                SaleBillingAddressId = obj[0].BillingAddressId;
+            }
+        )
+    }
+
+    function getdatapuechase() {
+        var PurchaseInvDetail = new Array();
+        var checkedcount = 0;
+        $("#PurchaseTable TBODY TR").each(function () {
+            var row = $(this);
+            Purchase = {};
+
+            if ($(this).find('input[type="checkbox"]').prop('checked') == true) {
+                checkedcount++;
+                if (row.find('.purchase_qty').val() == '' || row.find('.purchase_qty').val() == null) {
+                    alert('Please Enter Quantity');
+                    return;
+                }
+                else if (row.find('.purchase_qty').val() <1) {
+                    alert('Quantity can not be less than 1');
+                    return;
+                }
+                if (row.find('.hsnpurchase').val() == '' || row.find('.hsnpurchase').val() == null) {
+                    alert('Please Enter HSN Code');
+                    return;
+                }
+                Purchase.ProductId = row.find('.ProductId1').html();
+                Purchase.Quantity = row.find('.purchase_qty').val();
+                Purchase.HSNCode = row.find('.hsnpurchase').val();
+                Purchase.Rate = row.find('.rate1').html();
+                Purchase.GST = row.find('.Gst1').html();
+                Purchase.AdminCharge = row.find('.AdminCharge').html();
+                Purchase.Total = row.find('.purchase_totalAmount').html();
+                //PurchaseInvDetail.Narration = row.find('.Narration').html();
+                PurchaseInvDetail.push(Purchase);
+            }
+
+        });
+        if (checkedcount > PurchaseInvDetail.length) {
+            throw new Error("Bill Not Submit");
+        }
+        else if (PurchaseInvDetail.length > 0) {
+            return PurchaseInvDetail;
+        }
+        else  {
+            alert('Please select item details');
+            retrun;
+        }
+    }
+
+    function getdataSale() {
+        var SaleInvDetail = [];
+        var countcheck = 0;
+        var isValid = true;
+
+        saleinvoicetable.rows().every(function () {
+            var row = $(this.node());
+
+            if (row.find('.salecheckbox').prop('checked')) {
+                countcheck++;
+                if (row.find('.qty').val() == '' || row.find('.qty').val() == null) {
+                    alert('Please Enter Quantity');
+                    isValid = false;
+                    return false;
+                }
+                else if (row.find('.qty').val()<1) {
+                    alert('Quantity can not be less than 1');
+                    isValid = false;
+                    return false;
+                }
+                if (row.find('.hsnsale').val() == '' || row.find('.hsnsale').val() == null) {
+                    alert('Please Enter HSN Code');
+                    isValid = false;
+                    return false;
+                }
+
+                let Sale = {};
+                Sale.ProductId = row.find('.productidsale').html();
+                Sale.Quantity = row.find('.qty').val();
+                Sale.HSNCode = row.find('.hsnsale').val();
+                Sale.Rate = row.find('.ratesale').html();
+                Sale.GST = row.find('.gstsale').html();
+                Sale.AdminCharge = row.find('.adminsale').html();
+                Sale.Total = row.find('.totalAmount').html();
+
+                SaleInvDetail.push(Sale);
+            }
+        });
+
+        if (!isValid) return;
+        if (countcheck > SaleInvDetail.length) {
+            throw new Error('Bill Not Submit');
+        }
+        else if (SaleInvDetail.length > 0) {
+            return SaleInvDetail;
+        }
+        else {
+            alert('Please select item details');
+            return;
+        }
+    }
+
+    function SubmitPurchaseBill() {
+
+        var narration = "...."
+        if ($('#billForm').val() == '0') { alert('Please Select Bill From'); return; }
+        if ($('#invoiceNo').val() == '') { alert('Please enter Purchase Invoice No.'); return; }
+        if ($('#purchaseBill').val() == '') { alert('Please Upload Purchasse Invoice Document'); return; }
+        if ($('#naration').val() != '') { narration = $('#naration').val(); }
+        try {
+            var purchaseData = getdatapuechase();
+            if (!purchaseData) return;
+            var data = JSON.stringify(purchaseData);
+        }
+        catch (e) {
+            alert(e.message);
+            return;
+        }
+        $('#loader-overlay').show();
+
+             var formData = new FormData();
+            formData.append("RequestDetails", data);
+            formData.append("PInvId",0);
+            formData.append("InvNo", $("#invoiceNo").val());
+            formData.append("SaleOrderNo", $('#workOrderNo').val());
+
+            formData.append("AgencyBillingId", $("#billForm").val());
+            formData.append("PurchaseOrderNo", $("#purchaseNo").val());
+            formData.append("InvDate", $("#purchaseBillDate").val());
+            formData.append("Narration", $('#naration').val());
+
+           formData.append("TotalAmount", $("#AgencyBill").val());
+           formData.append("IgstAmount", $('#igst').val());
+           formData.append("CgstAmount", $("#cgst").val());
+           //formData.append("CgstAmount",0);
+           //formData.append("SgstAmount", 0);
+           formData.append("SgstAmount", $("#SGST").val());
+           formData.append("GrandTotal", $("#Total").val());
+
+
+           var originalFile = $('#purchaseBill')[0].files[0];
+           var agencyName = $('#agencyName').val().trim().replace(/\s+/g, '_');
+           var purchaseOrderNo = $('#purchaseNo').val();
+           var timestamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+
+           var fileExtension = originalFile.name.split('.').pop();
+           var newFileName = `${agencyName}_${purchaseOrderNo}_${timestamp}.${fileExtension}`;
+
+           var renamedFile = new File([originalFile], newFileName, { type: originalFile.type });
+
+            formData.append("PurchaseBill", renamedFile);
+
+
+        $.ajax({
+            url: '/HardwareInvoice/SubmitPurchaseBill1',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $('#loader-overlay').hide();
+                if (data.includes("Successfully")) {
+                    $('#invoiceNo').val('');
+                    $('#purchaseBill').val('');
+
+                    $('#naration').val('');
+                    $('#PurchaseModal').modal('hide');
+                }
+                alert(data);
+            }
+        })
+    }
+
+    function SubmitSaleBill() {
+
+        if ($('#purchaseNoDdl').val() == 0) { alert('Please select Purchase Number'); return; }
+        try {
+            var saleData = getdataSale();
+            if (!saleData) return;
+            var data = JSON.stringify(saleData);
+        }
+        catch (e) {
+            alert(e.message);
+            return;
+        }
+        $('#loader-overlay').show();
+        $.post('/HardwareInvoice/SubmitSaleBill',
+            {
+                'SaleInvoiceNo': 0,
+                'PurchaseInvoiceNo': $('#purchaseNoDdl').val(),
+                'InvoiceNo': $('#saleBillNo').val(),
+                'AgencyBillingId': SaleBillingAddressId,
+                'PurchaseOrderNo': SalePurchaseOrderNo,
+                'SaleOrderId': SaleSaleorderId,
+                'InvDate': $('#saleBillDate').val(),
+                'TotalAmount': $('#AgencyBillSale').val(),
+                'Igst': 0,
+                'cgst': $('#cgstSale').val(),
+                'sgst': $('#SGSTSale').val(),
+                'AdminCharge': $('#saleAdmin').val(),
+                'Gtotal': $('#saleTotal').val(),
+                'SaleData' : data,
+            }, function (data) {
+                alert(data);
+                $('#loader-overlay').hide();
+                if (data.includes("Successfully")) {
+                    $('#purchaseNoDdl').val('0');
+
+                    $('#SaleModal').modal('hide');
+                }
+            }
+        )
+    }
+
+    function OpenPurchaseInvViewModal(purchaseOrdernoid) {
+        $('#PurchaseInvoiceView').modal('show');
+        PurchaseInvoiceView(purchaseOrdernoid);
+    }
+
+    function OpenSaleInvViewModal(purchaseOrdernoid) {
+        $('#SaleInvoiceView').modal('show');
+        SaleInvoiceView(purchaseOrdernoid);
+    }
+    function PurchaseInvoiceView(purchaseOrdernoid) {
+        $.post('/HardwareInvoice/PurchaseInvoiceView', {
+
+            'PurchaseId': purchaseOrdernoid,
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+
+            var table=$('#viewpurchaseInvioce').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+
+                var invattachment = '<center><a href="/PurchaseInvoice/' + value.InvAttachement + '"target="_blank" data-toggle="tooltip" title="Download file" style="text-align:center; font-size:30px;"><i class="fa fa-download"></i></a></center>';
+
+                msr = msr + 1;
+
+                var status = '...';
+                var elmntArray = [
+                    msr,
+                    value.InvNo,
+                    value.InvDate,
+                    value.TotalAmount,
+                    value.IgstAmount,
+                    value.GrandTotal,
+                    invattachment,
+                    value.IsSaleInvoice,
+                ];
+                table.row.add(elmntArray).draw(false);
+
+            });
+        });
+    }
+
+    function PurchaseInvoiceSaleDdl(purchaseOrdernoid) {
+        $.post('/HardwareInvoice/PurchaseInvoiceView', {
+            'PurchaseId': purchaseOrdernoid,
+        }, function (data) {
+
+            var obj = $.parseJSON(data);
+            var PurchaseDdl = '<option value="0">-Select-</option>';
+
+            $.each(obj, function (key, value) {
+
+                let status = (value.IsSaleInvoice == 'Y') ? 'green' : 'white';
+                PurchaseDdl += `<option value='${value.PInvId}' data-status='${status}'>${value.InvNo}</option>`;
+            });
+
+
+            $('#purchaseNoDdl').html(PurchaseDdl);
+
+
+            $('#purchaseNoDdl').select2({
+
+                dropdownParent: $('#SaleModal .modal-content'),
+                templateResult: function (data) {
+                    if (!data.id) {
+                        return data.text;
+                    }
+
+                    var $option = $(data.element);
+                    var status = $option.data('status');
+                    var $result = $('<div>' + data.text + '</div>');
+
+                    if (status === 'green') {
+                        $result.addClass('select2-option-generated');
+                    }
+
+                    return $result;
+                }
+            });
+
+        });
+    }
+
+    function SaleInvoiceView(purchaseOrdernoid) {
+        $.post('/HardwareInvoice/SaleInvoiceView', {
+
+            'PurchaseId': purchaseOrdernoid,
+            'Saleorderid' : 0,
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+
+            var table = $('#viewsaleInvioce').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+
+
+            $.each(obj, function (key, value) {
+
+                var printButton = `<center><a onclick="RedirectToSale('${value.SInvId}')" ><i class="fa fa-print fa-2x" aria-hidden="true" style="font-size:30px;"></i></a></center>`;
+                var printButtonDublicate = `<center><a onclick="RedirectToSaleDublicate('${value.SInvId}')" ><i class="fa fa-print fa-2x" aria-hidden="true" style="font-size:30px;"></i></a></center>`;
+                var printButtonTriplate = `<center><a onclick="RedirectToSaleTriplate('${value.SInvId}')" ><i class="fa fa-print fa-2x" aria-hidden="true" style="font-size:30px;"></i></a></center>`;
+                var SaleInvCancelbtn = '<div style="text-align:center;"><a  onclick="SaleInvCancelModel(' + value.SInvId + ')" <i class="fas fa-times-circle fa-3x" style="color:red;"></i></a></div>';
+
+                msr = msr + 1;
+
+                var elmntArray = [
+                    msr,
+                    value.Invno,
+                    (value.InvDate),
+                    value.PurchaseInv,
+                    value.TotalAmount,
+                    parseFloat(value.CgstAmount) + parseFloat(value.SgstAmount),
+                    value.GrandTotal,
+                    printButton,
+                    printButtonDublicate,
+                    printButtonTriplate,
+                    value.SaleBIllStatus,
+                    SaleInvCancelbtn
+                ];
+                table.row.add(elmntArray).draw(false);
+
+            });
+        });
+    }
+
+    function RedirectToSale(SinvId) {
+
+        let sid = parseInt(SinvId);
+
+        window.open(`/hardwareInvoice/SaleInovice1/${sid}`, "_blank");
+    }
+
+    function RedirectToSaleDublicate(SinvId) {
+
+        let sid = parseInt(SinvId);
+
+        window.open(`/hardwareInvoice/SaleInoviceDublicate/${sid}`, "_blank");
+    }
+
+    function RedirectToSaleTriplate(SinvId) {
+
+        let sid = parseInt(SinvId);
+
+        window.open(`/hardwareInvoice/SaleInoviceTriplate/${sid}`, "_blank");
+    }
+
+    var AgencyPurchaseOrderNo;
+    function OpenPaymentModal(PurchaseOrderno) {
+        AgencyPurchaseOrderNo = PurchaseOrderno;
+        $('#myModalAgencyPatialPayment').modal('show');
+        ModeOfPaymentDdl();
+        PurchaseInvoiceDdl(PurchaseOrderno);
+        AgencypaymentList(PurchaseOrderno);
+        $('#AgencyPaymentForm')[0].reset();
+        $('#agencypaymentsubmit').show();
+    }
+
+    function GetAgencyPaymentData() {
+        $.post('/HardwareInvoice/GetAgencyPaymentData',
+            {
+                'PruchaseInvId': $('#PurchaseinvoiceDdl').val(),
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var objdata = obj[0];
+
+                $('#PurchaseBillApp').val(objdata.GrandTotal);
+                $('#GSTTDS1App').val(objdata.GstTdsAmount);
+                $('#TDS1App').val(objdata.TdsAmount);
+                $('#BalanceApp').val(objdata.BalanceAmount);
+                if (objdata.BalanceAmount == 0) {
+                    $('#agencypaymentsubmit').hide();
+                }
+                else {
+                    $('#agencypaymentsubmit').show();
+                }
+            }
+        );
+    }
+
+    function ModeOfPaymentDdl() {
+        $.post('/HardwareInvoice/ModeOfPaymentDdl',
+            {
+
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var ModeofPay = '<option value="0">-Select-</option>';
+                $.each(obj, function (key, value) {
+                    ModeofPay += '<option value=' + value.Id + '>' + value.ModeofPayment + '</option>';
+                });
+
+                $('#ModePaymentApp').html(ModeofPay);
+            }
+        );
+    }
+
+    function PurchaseInvoiceDdl(PurchaseOrderno) {
+        $.post('/HardwareInvoice/PurchaseInvoiceView',
+            {
+                'PurchaseId': PurchaseOrderno,
+            },
+            function (data) {
+                var obj = $.parseJSON(data);
+                var invoice = '<option value="0">-Select-</option>';
+                $.each(obj, function (key, value) {
+                    invoice += '<option value=' + value.PInvId + '>' + value.InvNo + '</option>';
+                });
+
+                $('#PurchaseinvoiceDdl').html(invoice);
+            }
+        );
+    }
+
+    function AgencypaymentList() {
+
+        $.post('/HardwareInvoice/AgencypaymentList', {
+
+            'PurchaseOrderNoId': AgencyPurchaseOrderNo,
+        }, function (data) {
+
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+
+            var table = $('#AgencyPartialPaymentTable').DataTable();
+            table.clear().draw();
+
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                var elmntArray = [
+                    msr,
+                    value.PruchaseInvId,
+                    (value.TransactionId),
+                    value.ModeOfPayment,
+                    (value.PaymentAmt) ,
+                    value.GSTTds2,
+                    value.Tds1,
+                    value.Pbg,
+                    value.Penalty,
+                    value.BalanceAmt,
+                    value.PaymentDate,
+                ];
+                table.row.add(elmntArray).draw(false);
+
+            });
+        });
+    }
+
+    function SubmitAgencyPayment() {
+        if ($('#PurchaseinvoiceDdl').val() == 0) { alert('Please Choose Purchase Invoice'); return };
+        if ($('#TransactionApp').val() == '') { alert('Please Enter Transaction Id'); return };
+        if ($('#ModePaymentApp').val() == 0) { alert('Please Choose Mode of Payment'); return };
+        if ($('#PaymentDateApp').val() == 0) { alert('Please Choose Payment Date'); return };
+        if ($('#PaymentAmountApp').val() == '' || $('#PaymentAmountApp').val() == 0) { alert('Please Enter Payment Amount'); return };
+        if ($('#GSTTDS1App').val() == '') { alert('Please Enter GST Amount'); return };
+        if ($('#TDS1App').val() == '') { alert('Please Enter TDS Amount'); return };
+        if ($('#PBG').val() == '') { alert('Please Enter PBG'); return };
+        if ($('#Penalty').val() == '') { alert('Please Enter Penalty'); return };
+        let narration;
+        $('#RemarksApp').val() == '' ? narration = '' : narration = $('#RemarksApp').val();
+        var totalpayamt = parseFloat($('#PaymentAmountApp').val()) + parseFloat($('#GSTTDS1App').val()) + parseFloat($('#TDS1App').val());
+
+        if (totalpayamt > parseFloat($('#BalanceApp').val())) {
+            alert('Payment Amount Should Not be greater than remmaining balance amount');
+            return;
+        }
+        $.post('/HardwareInvoice/SubmitAgencyPayment',
+            {
+                'PaymentId': 0,
+                'PruchaseInvId': $('#PurchaseinvoiceDdl').val() ,
+                'PurchaseOrderNoId': AgencyPurchaseOrderNo,
+                'TransactionId': $('#TransactionApp').val(),
+                'ModeOfPayment': $('#ModePaymentApp').val(),
+                'Narration': $('#RemarksApp').val(),
+                'PaymentDate': $('#PaymentDateApp').val(),
+                'GstTds2': $('#GSTTDS1App').val(),
+                'Tds1': $('#TDS1App').val(),
+                'PaymentAmt': $('#PaymentAmountApp').val(),
+                'PBG': $('#PBG').val(),
+                'Penalty': $('#Penalty').val(),
+            }, function (data) {
+                alert(data);
+                $('#AgencyPaymentForm')[0].reset();
+                AgencypaymentList();
+            }
+        )
+    }
+
+    function printAnnextur(SaleOrder,orderno,orderdate) {
+        //var pdfUrl = '/HWDeliveryDoc/' + pdf;
+
+
+        $.post('/HardwareInvoice/GetOrderDetail', {
+            'Id': orderno,
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            var sr = 0;
+            var totalAmount = 0;
+            var allContent = '';
+
+            //if (isCombined) {
+
+                var rows = '';
+                var agency = '';
+                $.each(obj, function (key, value) {
+                    sr++;
+                    var price = (value.rate + value.rate * (value.GstP / 100)).toFixed(2);
+                   // var total = (price * value.Qty).toFixed(2);
+                    var total = Math.round(price * value.Qty);
+                    totalAmount += parseFloat(total);
+                    agency = value.AgencyName;
+                    rows += `
+                    <tr>
+                        <td>${sr}</td>
+                        <td>${value.BillingAddress}<br><br>${value.HWSaleOrderNo}<br><br>For Delivery Location, Refer Saksham Protal</td>
+                        <td>${value.ProductName}</td>
+                        <td>${value.Qty}</td>
+                        <td>${price}</td>
+                        <td>${total}</td>
+                    </tr>
+                `;
+                });
+
+            allContent = `
+                <div id="poprintbutton">
+                    <button id="printbutton" onclick="window.print()">Print</button>
+                </div>
+                <div class="page">
+                    <table>
+                        <tr>
+                            <td>
+                                <strong>HIMACHAL PRADESH STATE ELECTRONICS DEVELOPMENT CORPORATION LIMITED</strong>
+                            </td>
+                            <td>
+                                <img src="/assets/images/Picture1.png" / style="margin-right:50px;">
+                            </td>
+                            <td>
+                                <strong>1st & Ground Floor, I.T. Bhawan, Mehli, Shimla -171013 e-mail: hpsedc@hpsedc.in</strong>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div style="margin-top:10px;">
+                    <strong>GSTIN No.: 02AAACH3904P2ZO, PAN No.: AAACH3904P<br>
+                                TAN No.: PTLH10945E, TIN No.: 02010300179</strong>
+                    </div>
+                    <div style="display:flex;justify-content: space-between; width: 100%; margin-top:10px;">
+                    <strong>HPSEDC Purchase Order No.: ${orderno}</strong><strong>Date: ${orderdate}</strong>
+                    </div>
+                    <h3>Purchase Order to ${agency}</h3>
+                    <table border="1" cellpadding="10" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Sr No</th>
+                                <th>Customer Address where material to be supplied/installed/Billing Address</th>
+                                <th>Item(s) Description</th>
+                                <th>Qty in Nos.</th>
+                                <th>Rate/Unit(Rs.)<br>(Inclusive Tax)</th>
+                                <th>Total Value(Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                    <h4 class="total">Total : ${(totalAmount).toFixed(2)}<h4>
+                    <div class="total" style="margin-top:30px;">
+                        <img src="/images/hardwareDCSign.png" / style="height:80px;width:80px;"><br>
+                    </div>
+                    <div class="total" style="margin-top:10px;">
+                         <strong>Data Controller<br>
+                                 HPSEDC, Shimla
+                         </strong>
+                    </div>
+                    <div>
+                    <h3>Note:All terms & conditions shall be governed as per the Tender Document, Corrigenda & Agreement/ NIQ.</h3>
+                    </div>
+                </div>
+            `;
+
+            var style = `
+            <style>
+                .page{
+                     width: 203mm;
+                     margin: 28px auto;
+                     box-sizing: border-box;
+                     /*            border: 2px solid black;*/
+                     background-color: white;
+                     padding: 0;
+                     position: relative;
+                }
+                 th, td {
+                     vertical-align: top;
+                     text-align: left;
+                 }
+                 .total{
+                     display: flex;
+                     justify-content: flex-end;
+                     text-align: right;
+                     margin-top: 10px;
+                     font-weight: bold;
+                 }
+                 #poprintbutton{
+                     margin-top:20px;
+                     margin-right:20px;
+                     display:flex;
+                     justify-content: end;
+                 }
+                 #printbutton{
+                    padding: 20px;
+                    font-size:20px;
+                 }
+                @@media print {
+                    @@page {
+                        size: A4;
+                        margin: 10mm;
+                    }
+                    .page {
+                        page-break-after: always;
+                    }
+                    th, td {
+                        vertical-align: top;
+                        text-align: left;
+                    }
+                    .total{
+                        display: flex;
+                        justify-content: flex-end;
+                        text-align: right;
+                        margin-top: 10px;
+                        font-weight: bold;
+                    }
+                    #poprintbutton{
+                        display: none !important;
+                    }
+                }
+            </style>
+        `;
+
+            // Full HTML content
+            var htmlContent = `
+            <html>
+                <head>
+                    <title>Print PO</title>
+                    ${style}
+                </head>
+                <body>
+                    ${allContent}
+                </body>
+            </html>
+        `;
+
+            // Open new window and print
+            var printWindow = window.open('', '_blank');
+            printWindow.document.open();
+            printWindow.document.write(htmlContent);
+            //printWindow.document.close();
+
+            //printWindow.onload = function () {
+            //    printWindow.focus();
+            //    printWindow.print();
+            //    printWindow.close();
+            //};
+        });
+    }
+
+
+    //Add Delivery Location
+    var pid;
+    var sid;
+    function OpenDeliveryLocationModal(PurchaseOrderNoId, SaleOrderId) {
+        sid = SaleOrderId;
+        pid = PurchaseOrderNoId;
+        HardWareDeliveryItem_List(PurchaseOrderNoId);
+        $('#AddDeliveryLocationfrom').trigger('reset');
+        HardwareDeliveryLocationList(PurchaseOrderNoId);
+        // ProductlocationDelivery.clear().draw();
+        $('#OpenDeliveryLocationModal').modal('show');
+    }
+
+    function HardwareDeliveryLocationList(PurchaseOrderNoId) {
+       // alert(PurchaseOrderNoId);
+
+        $('#ProgressImg').show();
+        $.post('/HardwareInvoice/HardwareDeliveryLocationList',
+            {
+                'SaleOrderId': 0,
+                'PurchaseOrderId': PurchaseOrderNoId
+
+            },
+            function (data) {
+
+                $('#ProgressImg').hide();
+                var obj = $.parseJSON(data);
+                var DeliveryLocationTable = $('#DeliveryLocationTable').DataTable(
+                    {
+                        destroy: true,
+                        scrollY: "150px",
+                        scrollX: true,
+                        //scrollCollapse: true,
+                        //paging: false
+                    });
+
+                DeliveryLocationTable.clear().draw();
+                var msr = 0;
+
+                $.each(obj, function (key, value) {
+                    var Deletebtn = '<div style="text-align:center;">' + '<a onclick="AddressconfirmDelete($(this),\'' + value.OrderDetailsId + '\')">' +
+                        '<i class="fa fa-trash-o fa-2x" style="color:red;"></i>' + '</a></div>';
+                    msr += 1;
+                    var elmntArray = [
+                        msr,
+                        value.ProductName,
+                        value.DeliveryQty,
+                        value.ConsigneeName,
+                        value.ConsigneeContactNo,
+                        value.consigneeAddress,
+                        Deletebtn,
+                    ];
+                    DeliveryLocationTable.row.add(elmntArray).draw(false);
+                });
+            });
+    }
+
+    function HardWareDeliveryItem_List(PurchaseOrderNoId) {
+
+        $.post('/HardwareInvoice/HardWareDeliveryItem_List',
+            {
+                'SaleOrderId': 0,
+                'PurchaseOrderId': PurchaseOrderNoId,
+            },
+            function (data) {
+
+                var obj = $.parseJSON(data);
+                var ProductName2 = '<option value="0">-Select-</option>';
+                $.each(obj, function (key, value) {
+                    ProductName2 += '<option value=' + value.OrderDetailsId + '>' + value.ModelNo + '</option>';
+                });
+                $('#ProductName2').html(ProductName2);
+                $('#ProductName2').select2(
+                    {
+                        dropdownParent: $('#OpenDeliveryLocationModal'),
+                        dropdownAutoWidth: 'false',
+                        width: '100%'
+                    }
+                );
+            });
+    }
+
+    function Restfrom() {
+        $('#AddDeliveryLocationfrom').trigger('reset');
+    }
+
+    function ProductDeliveryLocationSubmit() {
+        var contact = 0;
+        if ($('#ProductName2').val() == '0') {
+            alert('Please Select Product Name');
+            return
+        }
+
+        if ($('#DeliveryQuantity').val() == '') {
+            alert('Please Enter Quantity');
+            return
+        }
+        if ($('#ConsigneeName').val() == '') {
+            alert('Please Enter ConsigneeName ');
+            return
+        }
+        if ($('#ContactNumber').val() == '') {
+            contact = 0;
+        }
+        else {
+            contact = $('#ContactNumber').val();
+        }
+        if ($('#consigneeAddress').val() == '') {
+            alert('Please Enter Consignee  Address');
+            return
+        }
+        $('#loader-overlay').show();
+        $.post('/HardwareInvoice/ProductDeliveryLocationSubmit', {
+            'OrderDeliveryId': 0,
+            'ItemDetailsId': $('#ProductName2').val(),
+            'SaleOrderId': sid,
+            'ProductId': $('#DeliveryQuantity1').val(),
+            'DeliveryQty': $('#DeliveryQuantity').val(),
+            'consigneeAddress': $('#consigneeAddress').val(),
+            'ConsigneeName': $('#ConsigneeName').val(),
+            'ConsigneeContactNo': contact,
+
+        }, function (data) {
+            $('#loader-overlay').hide();
+            if (data == 'Record is inserted successfully') {
+                //$('#AddDeliveryLocationfrom').trigger('reset');
+                HardwareDeliveryLocationList(pid);
+                HardWareDeliveryItem_get();
+            }
+            alert(data);
+        });
+    }
+
+    function HardWareDeliveryItem_get() {
+        $.post('/HardwareInvoice/HardWareDeliveryItem_get', {
+            'OrderDetailsId': $('#ProductName2').val(),
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#DeliveryQuantity1').val(value.ProductId);
+                $('#availaleqty').val(value.AvailbaleQty);
+
+            });
+        });
+
+        //$('.modal-title').html("");
+        //$('#OpenDeliveryLocationModal').modal({
+        //    show: 'false'
+        //});
+    }
+
+    function SelectAllCheck() {
+        var checked = $('#selectAllCheckbox').is(':checked');
+
+        producttable.rows().every(function () {
+            $(this.node()).find('.productcheck').prop('checked', checked);
+        });
+    }
+
+    function SelectAllCheckIR() {
+
+        var checked = $('#selectAllCheckboxIR').is(':checked');
+
+        productIrTable.rows().every(function () {
+            $(this.node()).find('.ir_upload_check').prop('checked', checked);
+        });
+    }
+
+    function getProductDeliveryIRdata() {
+        var DeliveryData = [];
+        var isValid = true;
+
+        productIrTable.rows().every(function () {
+            var row = $(this.node());
+
+            if (row.find('.ir_upload_check').prop('checked')) {
+
+                var data = {};
+
+                data.OrderDeliveryId = row.find('.Ir_deliveryid').text();
+                data.OrderDetailsId = row.find('.Ir_deliveryid1').text();
+                DeliveryData.push(data);
+            }
+        });
+
+        if (!isValid) {
+            return 'failed';
+        }
+
+
+        if (DeliveryData.length == 0) {
+            return 'notSelected';
+        }
+
+        return DeliveryData;
+    }
+
+    async function SubmitProductIRDelivery() {
+        if ($('#consigneeAddressDdlIR').val() === 0) { alert('Please Select Address'); return; }
+
+        var rawData = getProductDeliveryIRdata();
+        if (rawData === 'failed') {
+            return;
+        }
+
+        else if (rawData == 'notSelected') {
+            alert('Please Select Product');
+            return;
+        }
+
+        var data = JSON.stringify(rawData);
+        var irFile = $('#irOnly')[0].files[0];
+        if (!irFile) { alert("Please Choose IR File"); return; }
+        $('#loader-overlay').show();
+        var formData = new FormData();
+
+        var timestamp = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+
+        let consignee = $('#consigneeAddressDdlIR option:selected').text();
+        let result = consignee.split(",");
+
+
+        if (irFile) {
+            var fileExtensionIr = irFile.name.split('.').pop();
+            var newIrName = `IR_${result[0]}_${timestamp}.${fileExtensionIr}`;
+            renamedIr = await new File([irFile], newIrName, { type: irFile.type });
+            formData.append("IR", renamedIr);
+        }
+
+        formData.append("data", data);
+        formData.append("PurchaseOrderid", PurchaseNoId);
+        //formData.append("ItemDetailsIdTxt", '');
+
+        $.ajax({
+            url: '/HardwareInvoice/SubmitProductIRDelivery',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#loader-overlay').hide();
+                if (data.includes("Successfully") || data.includes("successfully")) {
+                    ProductDeliveryList(productListState.page, productListState.size, productListState.term);
+                    clearIr();
+                }
+                alert(data);
+            },
+            error: function (xhr, status, error) {
+                $('#loader-overlay').hide();
+                alert("Error: " + error);
+            }
+        });
+    }
+
+    _AgencyddlFilter()
+    function _AgencyddlFilter() {
+
+        $.post('/HardwareInvoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+
+            var ddlAgencyFilter = '<option value="0">---Select---</option>';
+
+            var obj = $.parseJSON(data);
+
+            $.each(obj, function (key, value) {
+
+                ddlAgencyFilter += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>';
+
+            });
+
+            $('#ddlAgencyFilter').html(ddlAgencyFilter);
+        });
+        $('#ddlAgencyFilter').select2({
+            width:'100%',
+        });
+
+    }
+
+    _DepartmentddlFilter();
+    function _DepartmentddlFilter() {
+        $.post('/HardwareInvoice/_HarwareDepartmentddl', { 'DeptId': 0 }, function (data) {
+            var DeptIdFilter = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptIdFilter += '<option value=' + value.DeptId + '>' + value.departmentName + '</option>';
+            });
+            $('#DeptIdFilter').html(DeptIdFilter);
+            $('#DeptIdFilter').select2({
+                width: '100%',
+            });
+        });
+        // _HPSEDCAVOddl();
+    }
+
+    //Cancel saleinvoice Model
+
+    function showWarning(message) {
+        Swal.fire({
+            icon: 'warning',
+            title: message,
+            customClass: {
+                confirmButton: 'swal-ok-btn'
+            },
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        });
+    }
+    var SaleInvcancel;
+    function SaleInvCancelModel(SInvId) {
+        $('#SaleInvCancelModel').modal({
+            show: 'false'
+        });
+        $('#SaleInvoiceView').modal('hide');
+        SaleInvcancel = SInvId;
+        //_SaleorderCancellationGetData(SaleOrderId);
+        //root = '/HardwareInvoice/_SaleorderCancellationGetData';
+
+
+    }
+
+
+    $('.btnModalSubmit9').click(function () {
+        $('#SaleInvCancelModel').modal('hide');
+    });
+
+
+    function _CancellSaleInvSubmit() {
+
+        if ($('#CancelRemarks').val() == '') {
+            showWarning('Please Enter Cancellation Remarks');
+            return
+        }
+        $('#loader-overlay').show();
+        $.post('/HardwareInvoice/_CancellSaleInvSubmit', {
+            'SInvId': SaleInvcancel,
+            'Remarks': $('#CancelRemarks').val(),
+
+        }, function (data) {
+            alert(data);
+
+            $('#CancelRemarks').val('');
+
+            $('#loader-overlay').hide();
+            $('#SaleInvCancelModel').modal('hide');
+            $('.btnModalSubmit9').removeAttr("disabled");
+            //_SaleOrderList();
+
+        });
+    }
+
+</script>
+
+
+
+

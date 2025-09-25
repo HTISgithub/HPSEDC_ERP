@@ -1,0 +1,512 @@
+﻿@using System.Configuration;
+@using System.Globalization;
+@using System.Data;
+@{
+    ViewBag.Title = "AttendanceImport";
+    ViewBag.PageTitle = "Attendance Import";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageSize = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PageSize"]);
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+}
+<style>
+    .fileinput-button {
+        position: relative;
+        overflow: hidden;
+    }
+        /*Also*/
+        .fileinput-button input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            font-size: 200px;
+            direction: ltr;
+            cursor: pointer;
+        }
+</style>
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Reports</a>
+        </li>
+        <li>
+            <a href="#">Daily Reports</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            @*<a class="btn btn-primary pull-right" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New</a>*@
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    <div class="form-group row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+
+
+
+
+            <div id="Attendanceimport">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Month Year <i class="text-danger">*</i></label>
+                                    <div class="col-md-6">
+                                        <div>
+
+
+                                            <select id="ddlMonth" class="Month">
+                                                <option>--Month--</option>
+                                                @for (int i = 1; i <= 12; i++)
+                                                {
+                                                    mon = new DateTime(DateTime.Now.Year, i, 1).ToString("MMM", CultureInfo.InvariantCulture);
+                                                    <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                                }
+                                            </select>
+                                            <select id="ddlYear" class="year">
+                                                <option>--Year--</option>
+                                                @for (int i = 2018; i <= DateTime.Now.Year; i++)
+                                                {
+                                                    if (i == DateTime.Now.Year)
+                                                    {
+                                                        <option value="@i" selected='selected'>@i</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@i">@i</option>
+                                                    }
+                                                }
+                                            </select>
+
+                                            <!--<input placeholder="From Date" data-date-format="M-yyyy" class="form-control datepicker readonly" readonly="readonly" id="FromDate" value="@DateTime.Now.ToString("MMM-yyyy")">-->
+                                            @*<span class="input-group-addon">to</span>
+                                                <input placeholder="Upto Date" autocomplete="off" class="form-control text-box single-line datepicker" id="ToDate" type="datetime" value="">*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Department </label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="BranchId" value="0" class="form-control hidden" placeholder="Department">
+                                        <input type="text" id="Branch" class="form-control" placeholder="Department">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Customer/Vendor </label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="CustomerId" value="0" class="form-control hidden" placeholder="Department">
+                                        <input type="text" id="Customer" class="form-control" placeholder="Customer/Vendor">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Designation </label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="DesignationId" value="0" class="form-control hidden" placeholder="Designation">
+                                        <input type="text" id="Designation" class="form-control" placeholder="Designation">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Employee </label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="EmpId" value="0" class="form-control hidden" placeholder="Employee">
+                                        <input type="text" id="EmpName" class="form-control" placeholder="Employee">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" hidden>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Category </label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="CategoryId" value="0" class="form-control hidden" placeholder="Category">
+                                        <input type="text" id="Category" class="form-control" placeholder="Category Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"> </label>
+                                    <div class="col-md-6">
+                                        <input type="button" class="btn btn-default" onclick=" _Importexcel()" value="Download Template" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">From Date  </label>
+                                    <div class="col-md-6">
+                                        <input placeholder="From Date" class="form-control datepicker" id="Date" value="">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <span class="btn btn-default fileinput-button">
+                                    <span>Choose file</span>
+
+                                    <input type="file" name="file" id="ExcelFile">
+                                </span>
+                                <input type="button" class="btn btn-primary pull-right sendotp" onclick="_Verify()" value="Send OTP" />
+
+
+
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <div class="col-md-6">
+                                        <table id="tbOtp" hidden="hidden">
+                                            <tr>
+                                                <td> <label class="col-md-4 control-label">Otp </label></td>
+                                                <td><input type="text" id="OtpId" class="form-control" placeholder="Enter Otp" /></td>
+                                                <td style="margin:5px;"><input type="button" class="btnModalSubmit btn btn-primary pull-right" onclick="uploadFile()" value="Upload" /></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script src="~/Scripts/autocomplete.js"></script>
+        @section scripts {
+            <script>
+        var mId = 0;
+        var mStartDate = 0;
+        //var mEmpId = 0;
+        var mShiftName = 0;
+         var pageSize=@pageSize;
+        var sr = 0;
+        var IsActive = 'Y';
+        var tableRow;
+        autoTextReport('EmpName', 'EmpId', '/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+        autoTextReport('Designation', 'DesignationId', '/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+        autoTextReport('Branch', 'BranchId', '/autoComplete/_autoSearch/', 'EntityId', 'EntityName', 'EntityCode', 'Entity');
+       // autoTextReport('Department', 'DepartmentId', '/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+        autoTextReport('Category', 'CategoryId', '/autoComplete/_autoSearch/', 'CategoryId', 'CategoryName', 'CategoryCode', 'Category');
+
+        autoTextReport('Customer', 'CustomerId', '/autoComplete/_autoSearch/', 'CustomerId', 'Customer', 'CustomerCode', 'Customer');
+$('#ListFilterOptions a').click(function () {
+                $('.list-group-item').removeClass('active');
+                $(this).addClass('active');
+            });
+
+function _Verify() {
+            $.post('/TimeSheet/_sendEmail', {},
+                function (data) {
+                    alert(data);
+                    $('#tbOtp').show();
+                    $('.sendotp').attr("disabled", "disabled");
+                });
+        }
+        $(document).ready(function () {
+            TableManageDefault.init();
+            // ViewReport();
+        });
+        $('.btnModalSubmit').click(function () {
+            _AttendanceImportSubmit();
+        });
+
+
+        $('.modal-footer').show();
+  //      function Attendance(pageNo) {
+  //            var filter = $('#myTable_filter').find('input').val();
+  //          $('#ProgressImg').show();
+
+  //          $.post('/TimeSheet/_EmployeeDepartmentAttendanceList', {
+  //                  'PageSize': pageSize,
+  //                  'PageNo': pageNo,
+  //              'EmpId': $('#EmpId').val(),
+  //              'CategoryId': $('#CategoryId').val(),
+  //              'DepartmentId': $('#DepartmentId').val(),
+  //              'DesignationId': $('#DesignationId').val(),
+  //              'FromDate': $('#FromDate').val(),
+  //              'BranchId': $('#BranchId').val(),
+  //              'CircleId': $('#CircleId').val(),
+  //          }, function (data) {
+  //              $('#ProgressImg').hide();
+  //              var obj = $.parseJSON(data);
+  //              // var table4 = $('#Contact').DataTable();
+  //              //table4.clear().draw();
+  //                       var totalPage = 0;
+  //              $.each(obj, function (key, value) {
+  //                  //var btnStatus = '<label><input name="switch-field-1" Id=' + value.CustomerID + '  class="ace ace-switch ace-switch-2 chk" onchange="changeActiveStatus(id)"  type="checkbox" ' + (value.IsActive == "Y" ? "checked='checked'" : "") + ' /><span class="lbl"></span></label> ';
+  //                  // var btnRemove = '<i class="fa fa-remove"></i>';
+  //                  //msr = msr + 1;
+  //                  //var btnEdit = '<a href="#" onclick="OpenUpdateModel(' + value.CustomerID + ',this,\'' + value.IsActive + '\')" class="img-circle"><i class="fa fa-pencil-square fa-2x"></i></a>';
+
+
+  //                  var hiddenIds = '<div style="display:none"><span class="Id">' + value.EmpId + '</span>';
+
+  //                  hiddenIds += '</div>';
+  //                  var template1 = '<tr>';
+  //                  template1 += '<td style="display:none"><span class="EmpId">' + value.EmpId + '</span></td>';
+  //                  template1 += '<td><span class="EmpCode">' + value.EmpCode + '</span></td>';
+  //                  template1 += '<td><span class="EmpName">' + value.EmpName + '</span></td>';
+  //                  template1 += '<td><span class="CatName">' + value.CatName + '</span></td>';
+  //                  template1 += '<td><span class="DepttName">' + value.DepttName + '</span></td>';
+  //                  template1 += '<td><span class="DesigName">' + value.DesigName + '</span></td>';
+  //                  template1 += '<td><input type=text style="width:50px;height:20px" class="PresentDays" value=0.00></></td>';
+  //                  template1 += '<td><input type=text style="width:50px;height:20px;" class="AbsentDays" value=0.00></></td>';
+  //                  template1 += '<td ><input type=text style="width:50px;height:20px;" class="LeaveDays" value=0.00></></td>';
+  //                  template1 += '<td><input type=text style="width:50px;height:20px" class="OTTime" value=0.00></></td>';
+  //                  template1 += '<td><input type=text style="width:50px;height:20px" class="Weekoff" value=0.00></></td>';
+  //                  template1 += '<td><input type=text style="width:50px;height:20px" class="Holidays" value=0.00></></td>';
+  //                  template1 += '<td><span class="Days">' + value.Days + '</span></td>';
+  //                  template1 += '<td><button id="btnSubmit"  onclick="_AttendanceImportSubmit();">Add</buttosn> </td>';
+  //                  template1 += '</tr>'
+  //                  var oldBody1 = $("#Attendance > TBODY").html();
+  //                  var tBody1 = $("#Attendance > TBODY").html(oldBody1 + template1);
+  //                  //   tBody1.DataTable();
+
+
+  //$('#Attendance_paginate').html(data.Paging);
+  //                  if (parseInt(parseInt(totalPage) / pageSize )+1== pageNo) {
+  //                      $('#Attendance_info').html('showing ' + pageNo + ' to ' + totalPage + ' out of ' + totalPage);
+  //                  }
+  //                  else {
+  //                      $('#Attendance_info').html('showing ' + pageNo + ' to ' + parseInt(pageNo) * pageSize + ' out of ' + totalPage);
+  //                  }
+
+  //                  //Sort function
+  //                  table.on('order.dt', function () {
+  //                      if (parseInt(parseInt(totalPage) / pageSize) + 1 == pageNo) {
+  //                          $('#Attendance_info').html('showing ' + pageNo + ' to ' + totalPage + ' out of ' + totalPage);
+  //                      }
+  //                      else {
+  //                          $('#Attendance_info').html('showing ' + pageNo + ' to ' + parseInt(pageNo) * pageSize + ' out of ' + totalPage);
+  //                      }
+
+  //                      $('#Attendance_paginate').html(data.Paging);
+  //                  });
+
+
+  //              });
+
+  //          });
+
+
+  //      }
+
+        function AddData() {
+            var data = [];
+            $("#Attendance TBODY TR").each(function () {
+                var row = $(this);
+                var Attendance = {};
+                Attendance.EmpId = row.find(".EmpId").text();
+                Attendance.PresentDays = row.find(".PresentDays").val();
+                Attendance.AbsentDays = row.find(".AbsentDays").val();
+                Attendance.LeaveDays = row.find(".LeaveDays").val();
+                Attendance.OTDays = row.find(".OTTime").val();
+                Attendance.Weekoff = row.find(".Weekoff").val();
+                Attendance.Holidays = row.find(".Holidays").val();
+                Attendance.Days = row.find(".Days").text();
+
+                data.push(Attendance);
+
+                //EmpId, PresentDays, OTDays, Days
+
+
+
+            });
+            // alert(data);
+            return data;
+        }
+        function _AttendanceImportSubmit() {
+            var data1 = JSON.stringify(AddData());
+var fromdate = '01-' + $('#ddlMonth option:selected').text() + '-' + $('#ddlYear').val();
+            var IsActive = 'Y'
+            $('.modelalert').html('');
+            $('#ModalProgress').show();
+            // $('.btnModalSubmit').attr("disabled", "disabled");
+            $.ajax({
+                type: "POST",
+                url: "/TimeSheet/_AttendanceImportSubmit",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+
+                data: JSON.stringify({
+                    'data': data1,
+                    'AttendanceDate': fromdate,
+                    'FromDate': fromdate,
+                    'Otp': $('#OtpId').val()
+                }
+                ),
+
+
+                success: function (r) {
+
+                    if (r.indexOf('Error') > -1) {
+                        $('.modelalert').html(data);
+                    }
+                    else {
+                        alert(r);
+
+                    }
+                    $('.sendotp').removeAttr("disabled");
+                    $('#tbOtp').hide();
+                    $('#ModalProgress').hide();
+
+                }
+            });
+        }
+        $(function () {
+
+            $('#Attendance').paging({ limit: 10 });
+
+        })
+
+        function uploadFile() {
+            var files = $("#ExcelFile").get(0).files;
+            // var Date=$("#Date").val()
+            var formData = new FormData();
+            formData.append('ExcelFile', $('input[name=file]')[0].files[0]);
+            formData.append("AttendanceDate", $('#Date').val());
+            $.ajax({
+                url: '/TimeSheet/ImportFile',
+                data: formData,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.indexOf('Error') > -1) {
+                        $('.modelalert').html(data);
+                    }
+                    else {
+
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function _Importexcel() {
+
+            if ($('#EmpName').val().trim() == '') {
+                $('#EmpId').val(0);
+            }
+
+            if ($('#Branch').val().trim() == '') {
+                $('#BranchId').val(0);
+            }
+            if ($('#Customer').val().trim() == '') {
+                $('#CustomerId').val(0);
+            }
+            if ($('#Designation').val().trim() == '') {
+                $('#DesignationId').val(0);
+            }
+            if ($('#Category').val().trim() == '') {
+                $('#CategoryId').val(0);
+            }
+
+           var fromdate = '01-' + $('#ddlMonth option:selected').text() + '-' + $('#ddlYear').val();
+            var method = 'ImportExcel';
+            var FromDate = fromdate;
+            var ToDate =fromdate;
+            var EmpId = $('#EmpId').val();
+            var BranchId = $('#BranchId').val();
+            var DepartmentId = $('#CustomerId').val();
+
+
+            var DesignationId = $('#DesignationId').val();
+            var qs = '?method=' + method;
+            if (FromDate != '') {
+                qs += '&FromDate=' + FromDate;
+            }
+            if (ToDate != '') {
+                qs += '&ToDate=' + ToDate;
+            }
+
+
+            if (parseInt(EmpId) > 0) {
+                qs += '&EmpId=' + EmpId;
+            }
+            if (parseInt(BranchId) > 0) {
+                qs += '&BranchId=' + BranchId;
+            }
+            if (parseInt(DepartmentId) > 0) {
+                qs += '&DepartmentId=' + DepartmentId;
+            }
+            if (parseInt(DesignationId) > 0) {
+                qs += '&DesignationId=' + DesignationId;
+            }
+            //if (parseInt(CircleId) > 0) {
+            //    qs += '&CircleId=' + CircleId;
+            //}
+            //if (parseInt(MainCategoryId) > 0) {
+            //    qs += '&MainCategoryId=' + MainCategoryId;
+            //}
+            if (method == 'LeaveBalanceRegister') {
+                downloadLeaveBalanceRegister();
+            }
+            else {
+                window.open('/reports/exportExcel' + qs, "_top");
+            }
+        }
+
+
+
+
+
+
+            </script>
+        }

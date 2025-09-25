@@ -1,0 +1,2910 @@
+﻿@using System.Data
+@{
+    // string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    ViewBag.Title = "Agency Invoicing";
+    ViewBag.PageTitle = "Agency Invoicing";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+    int pageSize = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PageSize"]);
+
+}
+
+@******************Breadcrumb Start**************@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        font-family: "Jost", sans-serif;
+        font-weight: 600;
+        color: white;
+        border-radius: 5px;
+        font-size: 15px;
+        background-color: #0f1875;
+    }
+
+    .hydrated {
+        visibility: inherit;
+        font-size: 5px !important;
+    }
+
+    td {
+        font-family: "Jost", sans-serif;
+        font-weight: 400;
+    }
+
+    .dt-buttons {
+        display: none;
+    }
+
+    #myTable_wrapper {
+        margin-top: -50px;
+    }
+
+
+    /* Create a custom checkbox square for only this specific checkbox */
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        opacity: 0.7;
+        background-color: #fff;
+        z-index: 99;
+    }
+
+    #loading-image {
+        width: 100px;
+        left: 0%;
+        position: relative;
+        top: 50%;
+    }
+</style>
+
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    @if (user == "47")
+    {
+        <input type="button" class="btn btn-primary" value="Report" onclick="Report()" style="cursor: pointer !important; float:right;margin-top:-75px" />
+    }
+
+
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+
+            @*<div style="margin-top:10px">
+
+
+                     <select id="ddlMonths" class="Month" onchange="getList()">
+                         <option>--Month--</option>
+                         @for (int i = 1; i <= 12; i++)
+                         {
+
+                             DateTime date = new DateTime(2020, i, 1);
+                             mon = date.ToString("MMM");
+                             <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                         }
+                     </select>
+                     <select id="ddlYears" class="year" onchange="getList()">
+                         <option>--Year--</option>
+                         @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                         {
+                             if (i == DateTime.Now.Year)
+                             {
+                                 <option value="@i" selected='selected'>@i</option>
+                             }
+                             else
+                             {
+                                 <option value="@i">@i</option>
+                             }
+                         }
+                     </select>
+
+                </div>*@
+            @if (user == "39")
+            {
+                <a class="btn btn-primary  btnAddModal" onclick="OpenAddModel()" style=" margin-top: -45px; ">
+                    <i class="fa fa-plus"></i> Enter Purchase Bill
+                </a>
+            }
+            @if (user == "39")
+            {
+                <a class="btn btn-primary  btnAddModal" onclick="OpenPurchaseBillExisting()" style=" margin-top: -45px; ">
+                    <i class="fa fa-plus"></i> Enter Purchase Bill(Existing)
+                </a>
+            }
+
+
+
+            <div align="left" id="Zones">
+                <div class="dt-responsive">
+
+
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                @if (user == "48")
+                                {
+                                    <th>Purchase Bill No.</th>
+                                    <th>Agency Name</th>
+                                    <th>Purchase Bill Date</th>
+                                    <th>Purchase Bill Amount</th>
+                                    <th>Department Name</th>
+                                    @*<th id="purchaseedit">Purchase Bill Edit</th>
+                                        <th>Generate Sale Bill</th>
+                                        <th id="saleedit">Sale Bill Edit</th>*@
+                                    <th>View Sale Bill</th>
+                                    @*<th>EInvoice</th>*@
+                                }
+
+
+                                @if (user == "39")
+                                {
+                                    <th>Purchase Bill No.</th>
+                                    <th>Agency Name</th>
+                                    <th>Purchase Bill Date</th>
+                                    <th>Purchase Bill Amount</th>
+                                    <th>Department Name</th>
+                                    <th id="purchaseedit">Purchase Bill Edit</th>
+                                    <th>Generate Sale Bill</th>
+                                    <th id="saleedit">Sale Bill Edit</th>
+                                    <th>View Sale Bill</th>
+                                    <th>EInvoice</th>
+                                }
+                                @if (user == "47")
+                                {
+                                    <th>Deptt. Name</th>
+                                    <th>Deppt. Address</th>
+                                    <th>Agency Name</th>
+                                    <th>Sale Bill No.</th>
+                                    <th>Sale Bill Amount</th>
+                                    <th>Sale Bill Date</th>
+                                    <th>Department Payment</th>
+                                    <th>Edit Deptt.</th>
+                                    <th>View</th>
+                                }
+                                @if (user == "46")
+                                {
+                                    <th>Deptt. Name</th>
+                                    <th>Deppt. Address</th>
+                                    <th>Agency Name</th>
+                                    <th>Purchase Bill No.</th>
+                                    <th>Purchase Bill Amount</th>
+                                    <th>Purchase Bill Date</th>
+                                    <th>Agency Payment</th>
+                                    <th>View</th>
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div id="loading">
+                                <img id="loading-image" src="~/images/Speener.svg" style="width: 100px; position: relative" alt="Loading..." />
+                            </div>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="update-Country" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="BillDate">Purchase Bill Date</label><span class="error-message">*</span>
+                                    <input placeholder="Bill Date" class="form-control text-box single-line datepicker cleardate" data-val="true" id="BillDate" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Work">Work Order No.</label>
+                                    <input id="WorkOrderNo" placeholder="WorkOrderNo" class="form-control cleartxt required">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Billno">Purchase Bill No.</label><span class="error-message">*</span>
+                                    <input id="Billno" class="form-control cleartxt required" placeholder="Bill No.">
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Complaint">Agency</label><span class="error-message">*</span>
+                                    <select id="ddlAgency" class="clearddl" style="width:270px">
+                                        <option value="0">Select Agency</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Complaint">Department</label><span class="error-message">*</span>
+                                    <select id="DeptId" class="clearddl" style="width:269px">
+                                        <option value="0">Select Department</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="No">No. Of Resource</label><span class="error-message">*</span>
+                                    <input type="text" class="form-control cleartxt required" id="NoOfResource" placeholder="No. Of Resource" />
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-8" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>Department Full Name With Billing Address</label><span class="error-message">*</span>
+                                    </div>
+                                    <div>
+                                        <textarea rows="2" cols="88" id="DepartmentAddress" class="cleartxt" placeholder="Department Full Name With Address"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>BillForMonth</label><span class="error-message">*</span>
+                                    </div>
+
+                                    <div>
+                                        <select id="ddlMonths" class="Month">
+                                            <option>--Month--</option>
+                                            @for (int i = 1; i <= 12; i++)
+                                            {
+
+                                                DateTime date = new DateTime(2020, i, 1);
+                                                mon = date.ToString("MMM");
+                                                <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                            }
+                                        </select>
+                                        <select id="ddlYears" class="year">
+                                            <option>--Year--</option>
+                                            @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                            {
+                                                if (i == DateTime.Now.Year)
+                                                {
+                                                    <option value="@i" selected='selected'>@i</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i">@i</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="Complaint">Description</label><span class="error-message">*</span>
+                                    <textarea rows="2" cols="51" id="Description" class="cleartxt" style="width: 425px; height: 31px;" placeholder="Description"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Complaint">Narration</label><span class="error-message">*</span>
+                                    <textarea rows="2" cols="51" id="Narration" class="cleartxt" style="width: 419px; height: 31px;" placeholder="Narration"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doosra bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+                                @*<div>
+                                        <input type="checkbox" class="clearchk" id="NoAdminCharge" style=" margin-left: 14px; " />
+                                        <label for="NoAdminCharge">No Admin Charge</label>
+                                    </div>*@
+
+                                <div class="col-md-4">
+                                    <label for="AgencyBill">Basic Bill Amount</label>
+                                    <input id="AgencyBill" class="form-control cleartxt required" placeholder="Agency Bill" onchange="calculateAdminCharge()">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Admin">Admin Charge@2.5%</label>
+                                    <input id="Admin" class="form-control cleartxt" placeholder="Agency Bill" onchange="calculateTaxes()">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Libary">Livery Charge</label>
+                                    <input id="Libary" class="form-control clearddl" value="0" placeholder="Livery Charge" onchange="calculateTaxes()">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div>
+                                    <input type="checkbox" class="clearchk" id="showIGST" style=" margin-left: 14px; " />
+                                    <label for="showIGST">Show IGST Input</label>
+                                </div>
+
+                                <div class="col-md-3" id="igstInputContainer" style="display:none;">
+                                    <label for="Igst">Input IGST@18%</label>
+                                    <input id="IGST" class="form-control clearddl required" placeholder="IGST" readonly>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="Cgst">Input CGST@9%</label>
+                                    <input id="cgst" class="form-control clearddl required" placeholder="CGST" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="SGST">Input SGST@9%</label>
+                                    <input id="SGST" class="form-control clearddl required" placeholder="SGST" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Total">Total Amount</label>
+                                    <input id="Total" class="form-control cleartxt required" placeholder="Total" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="modal fade" id="PurchaseBillExistingModal" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Complaint">Agency</label><span class="error-message">*</span>
+                                    <select id="ddlSelectAgency" class="form-control clearddl" style="width:270px" onchange="_DepartmentddlNew()">
+                                        <option value="0">Select Agency</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label for="Complaint">Department</label><span class="error-message">*</span>
+                                    <select id="selectDeptId" class="clearddl" style="width:269px">
+                                        <option value="0">Select Department</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4" hidden>
+                                    <label for="Work">Work Order No.</label>
+                                    <select id="WOrderNo2" class="clearddl" style="width:269px" onchange="_InvoicePurchaseListget()">
+                                        <option value="0">Select WorkOederNo</option>
+                                    </select>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group row">
+
+                                <div class="col-md-4">
+                                    <label for="Billing">Billing Address</label><span class="error-message">*</span>
+                                    <select id="BillingId" class="clearddl" style="width:269px" onchange="_InvoicePurchaseListget()">
+
+                                        <option value="0">Select Billing Address</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="BillDate">Purchase Bill Date</label><span class="error-message">*</span>
+                                    <input placeholder="Bill Date" class="form-control text-box single-line datepicker cleardate" data-val="true" id="PDate" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Work">Work Order No.</label>
+
+                                    <input id="WorkOrderNo1" placeholder="WorkOrderNo" class="form-control cleartxt required">
+                                </div>
+
+
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-md-4">
+                                    <label for="Billno">Purchase Bill No.</label><span class="error-message">*</span>
+                                    <input id="PBillno" class="form-control cleartxt required" placeholder="Bill No.">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="No">No. Of Resource</label><span class="error-message">*</span>
+                                    <input type="text" class="form-control cleartxt required" id="NoOfResource1" placeholder="No. Of Resource" />
+
+                                </div>
+                                <div class="col-md-4" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>BillForMonth</label><span class="error-message">*</span>
+                                    </div>
+
+                                    <div>
+                                        <select id="ddlMonths2" class="Month">
+                                            <option>--Month--</option>
+                                            @for (int i = 1; i <= 12; i++)
+                                            {
+
+                                                DateTime date = new DateTime(2020, i, 1);
+                                                mon = date.ToString("MMM");
+                                                <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                            }
+                                        </select>
+                                        <select id="ddlYears2" class="year">
+                                            <option>--Year--</option>
+                                            @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                            {
+                                                if (i == DateTime.Now.Year)
+                                                {
+                                                    <option value="@i" selected='selected'>@i</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i">@i</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-8" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>Department Full Name With Billing Address</label><span class="error-message">*</span>
+                                    </div>
+                                    <div>
+                                        <textarea rows="2" cols="88" id="DepartmentAddress2" class="cleartxt" placeholder="Department Full Name With Address"></textarea>
+                                        @*<input type="text" id="DepartmentAddress2" placeholder="Selected Billing ID will appear here" readonly>*@
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="Complaint">Description</label><span class="error-message">*</span>
+                                    <textarea rows="2" cols="51" id="Description2" class="cleartxt" style="width: 425px; height: 31px;" placeholder="Description"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Complaint">Narration</label><span class="error-message">*</span>
+                                    <textarea rows="2" cols="51" id="Narration2" class="cleartxt" style="width: 419px; height: 31px;" placeholder="Narration"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doosra bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+
+
+                                <div class="col-md-4">
+                                    <label for="AgencyBill">Basic Bill Amount</label>
+                                    <input id="AgencyBill2" class="form-control cleartxt required" placeholder="Agency Bill" onchange="calculateAdminCharge2()">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Admin">Admin Charge@2.5%</label>
+                                    <input id="Admin2" class="form-control cleartxt" placeholder="Agency Bill" onchange="calculateTaxes2()">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Libary">Livery Charge</label>
+                                    <input id="Libary2" class="form-control clearddl" value="0" placeholder="Livery Charge" onchange="calculateTaxes2()">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div>
+                                    <input type="checkbox" class="clearchk1" id="showIGST12" style=" margin-left: 14px; " />
+                                    <label for="showIGST2">Show IGST Input</label>
+                                </div>
+
+                                <div class="col-md-3" id="igstInputContainer12" style="display:none;">
+                                    <label for="Igst2">Input IGST@18%</label>
+                                    <input id="IGST2" class="form-control clearddl required" value="0" placeholder="IGST" readonly>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="Cgst">Input CGST@9%</label>
+                                    <input id="cgst2" class="form-control cleartxt required" placeholder="CGST" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="SGST">Input SGST@9%</label>
+                                    <input id="SGST2" class="form-control clearddl required" placeholder="SGST" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Total">Total Amount</label>
+                                    <input id="Total2" class="form-control cleartxt required" placeholder="Total" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit4 btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="modal fade" id="update-Country1" role="dialog">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="WorkNo">Work Order No.</label>
+                                    <input id="WorkNo" class="form-control cleartxt required" placeholder="Bill No." readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill No.</label>
+                                    <input id="Billno1" class="form-control cleartxt required" placeholder="Bill No." readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="BillDate">Sale Bill Date</label>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="BillDate" id="BillDate1" />
+                                    @*<input placeholder="Bill Date1" class="form-control text-box single-line datepicker" data-val="true" id="BillDate1" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">*@
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Billno">Sale Bill No.</label>
+                                    <input id="SaleBillNo" class="form-control cleartxt required" placeholder="Bill No." readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="Complaint">Agency</label>
+                                    <input id="ddlAgency1" class="form-control cleartxt required" placeholder="Agency Name" style="display:none;">
+                                    <input id="ddlAgency2" class="form-control cleartxt required" placeholder="Agency Name" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Complaint">Department</label>
+                                    <input id="DeptId1" class="form-control cleartxt required" placeholder="Department Name" style="display:none;">
+                                    <input id="DeptId2" class="form-control cleartxt required" placeholder="Department Name" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @*<div class="col-md-4">
+                                        <label for="Complaint" style=" font-weight: 390;">Department Full Name With Billing Address</label>
+                                        <textarea rows="2" cols="51" class="cleartxt" id="DepartmentAddress1" style="width: 850px; height: 31px;" placeholder="Department Full Name With Address"></textarea>
+                                    </div>*@
+
+                                <div class="col-md-8" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>Department Full Name With Billing Address</label><span class="error-message">*</span>
+                                    </div>
+                                    <div>
+                                        <textarea rows="2" cols="88" id="DepartmentAddress1" class="cleartxt" placeholder="Department Full Name With Address"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" style=" display:flex;flex-direction:column">
+                                    <div>
+                                        <label>BillForMonth</label><span class="error-message">*</span>
+                                    </div>
+
+                                    <div>
+                                        <select id="ddlMonths1" class="Month">
+                                            <option>--Month--</option>
+                                            @for (int i = 1; i <= 12; i++)
+                                            {
+
+                                                DateTime date = new DateTime(2020, i, 1);
+                                                mon = date.ToString("MMM");
+                                                <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                            }
+                                        </select>
+                                        <select id="ddlYears1" class="year">
+                                            <option>--Year--</option>
+                                            @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                            {
+                                                if (i == DateTime.Now.Year)
+                                                {
+                                                    <option value="@i" selected='selected'>@i</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@i">@i</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Pin">Pin Code</label>
+                                    <input id="Pin" class="form-control cleartxt" placeholder="Pin Code">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="gst">GST No.</label>
+                                    <input id="gst" class="form-control cleartxt" placeholder="GST No.">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="HSN">HSN Code</label>
+                                    <input id="HSN" class="form-control cleartxt" placeholder="HSN Code">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="Complaint">Description</label>
+                                    <textarea rows="2" cols="51" id="Description1" class="cleartxt" style="width: 425px; height: 31px;" placeholder="Description" disabled></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Complaint">Narration</label>
+                                    <textarea rows="2" cols="51" id="Narration1" class="cleartxt" style="width: 419px; height: 31px;" placeholder="Narration" disabled></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Doosra bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="AgencyBill">Basic Bill Amount</label>
+                                    <input id="AgencyBill1" class="form-control cleartxt required" placeholder="Agency Bill" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Admin">Admin Charge@5%</label>
+                                    <input id="Admin1" class="form-control cleartxt" placeholder="Agency Bill" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Libary">Livery Charge</label>
+                                    <input id="Libary1" class="form-control cleartxt" placeholder="Libary Charge" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Cgst">Output CGST@9%</label>
+                                    <input id="cgst1" class="form-control cleartxt required" placeholder="CGST" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="SGST">Output SGST@9%</label>
+                                    <input id="SGST1" class="form-control cleartxt required" placeholder="SGST" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Total">Total Amount</label>
+                                    <input id="Total1" class="form-control cleartxt required" placeholder="Total" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+
+                <div class="row">
+
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                    <div class="col-md-8">
+
+                        <div class="modelalert"></div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="button" class="btnModalSubmit1 btn btn-primary" value="Submit" />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill No.(Agency Ref. No.)</label>
+                                    <input id="Purchase" class="form-control cleartxt required" placeholder="Bill No." readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill Date</label>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="BillDate" id="PurchaseBillDate1" readonly="readonly" />
+                                    @*<input placeholder="Bill Date1" class="form-control text-box single-line datepicker" data-val="true" id="BillDate1" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">*@
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Invoice">Sale Bill No.(HPSEDC Ref.No.)</label>
+                                    <input id="Invoice" class="form-control cleartxt required" placeholder="SaleBill No." readonly>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+
+                                <div class="col-md-4">
+                                    <label for="Bill">Sale Bill Date</label>
+                                    <input id="BillDate2" class="form-control cleartxt required" placeholder="Bill Date" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Bill">Sale Bill Amount (INR)</label>
+                                    <input id="BillAmount2" class="form-control cleartxt required" placeholder="Bill Amount" readonly>
+                                </div>
+                                <div class="col-md-4" style="display:none">
+                                    <label for="Dues">Amount Due</label>
+                                    <input id="DuesAmount" class="form-control cleartxt required" placeholder="Dues Amount" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="Department">Department Name</label>
+                                    <input id="Department" class="form-control cleartxt required" placeholder="Department Name" readonly>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="Agency">Agency Name</label>
+                                    <input id="ddlAgency3" class="form-control cleartxt required" placeholder="Agency Name" style="display:none;">
+                                    <input id="ddlAgency4" class="form-control cleartxt required" placeholder="Agency Name" readonly>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-9">
+                                    <label for="Complaint" @*style=" font-weight: 390;"*@>Department Name With Billing Address</label>
+                                    <textarea rows="2" cols="51" id="IncoiceBill" style="width: 775px; height: 31px;" placeholder="Department Name With Address" disabled></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Doosra bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="Mode">Mode Of Payment</label><span class="error-message">*</span>
+                                    <select id="ModePayment1" class="form-control clearddl" onchange="">
+                                        @*<option value="0">--Select Payment Mode--</option>
+                                            <option value="1">RTGS</option>
+                                            <option value="2">NEFT</option>
+                                            <option value="3">Bank Transfer </option>
+                                            <option value="4">Treasury</option>
+                                            <option value="5">Cheque</option>*@
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Transaction">Transaction ID</label><span class="error-message">*</span>
+                                    <input id="Transaction" class="form-control cleartxt required" placeholder="Transaction ID">
+
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <label for="PaymentAmount">Payment Received (INR)</label><span class="error-message">*</span>
+                                    <input id="PaymentAmount" class="form-control cleartxt required" placeholder="Payment Amount">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="GSTTDS">GST TDS (at 2%)</label>
+                                    <input id="GSTTDS" class="form-control cleartxt required" placeholder="GST TDS">
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group row">
+
+
+                                <div class="col-md-4">
+                                    <label for="TDS">TDS (at 2%)</label>
+                                    <input id="TDS" class="form-control cleartxt required" placeholder="TDS">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="Balance">Balance Payment Due (INR)</label>
+                                    <input id="Balance" class="form-control cleartxt required" placeholder="Balance" readonly>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="PaymentDate">Payment Date</label><span class="error-message">*</span>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="PaymentDate" id="PaymentDate" />
+
+                                    @*<input type="date" data-date-format="yyyy-MM-dd" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="PaymentDate" id="PaymentDate" class="form-control" />*@
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label>Remarks/Narration</label><span class="error-message">*</span>
+                                    <textarea id="Remarks" class="form-control cleartxt required" style=" height: 40px;" placeholder="Please Enter Remark Here "></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <div class="row">
+
+                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                <div class="col-md-8">
+
+                    <div class="modelalert"></div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <input type="button" class="btnModalSubmit2 btn btn-primary" value="Submit" />
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- View Department Payment Model -->
+<div class="modal fade" id="myModal3" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style=" width: 1035px; ">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal"><h4>Close</h4></button>
+                <h4 class="modal-title">View Action</h4>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <div id="_view">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                @*<h5>Sale Bill Amount</h5>
+                                    <h5 id="h1">Sale Bill Amount</h5>*@
+                            </div>
+                            <div align="left" id="Zones">
+                                <div class="dt-responsive">
+
+                                    <table class="table table-striped table-bordered" id="myTable3">
+                                        <thead>
+                                            <tr>
+                                                <th class="widthsr">Sr.No.</th>
+                                                @*<th>Deptt. Name</th>*@
+                                                @*<th>Deptt.Address</th>*@
+                                                <th>Agency Name</th>
+                                                <th>Sale Bill No.</th>
+                                                <th>Sale Bill Amt.</th>
+                                                <th>Mode Of Payment</th>
+                                                <th>Trasaction Id</th>
+                                                <th>Payment Recived & Date</th>
+                                                <th>GST TDS & TDS</th>
+                                                <th>Narration</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Table rows go here -->
+                                        </tbody>
+                                    </table>
+                                    <!-- More content can go here if needed -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    @*<div class="col-md-2">
+                            <input type="button" class="btnModalSubmit1 btn btn-primary" value="Ok" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Department Payment Model -->
+<!-- Agency Payment Model -->
+<div class="modal fade" id="myModal4" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <!-- Pehla bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+
+                            <div class="form-group row">
+
+
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill No.(Agency Ref. No.)</label>
+                                    <input id="Purchase1" class="form-control cleartxt required" placeholder="Bill No." readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill Date</label>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="BillDate" id="PurchaseBillDate2" readonly="readonly" />
+                                    @*<input placeholder="Bill Date1" class="form-control text-box single-line datepicker" data-val="true" id="BillDate1" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">*@
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="Invoice">Sale Bill No.(HPSEDC Ref.No.)</label>
+                                    <input id="Invoice1" class="form-control cleartxt required" placeholder="Invoice No." readonly>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Bill">Sale Bill Date</label><span class="error-message">*</span>
+
+                                    <input id="BillDate3" class="form-control cleartxt required" placeholder="Bill Date" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Bill">Bill Amount</label>
+                                    <input id="BillAmount3" class="form-control cleartxt required" placeholder="Bill Amount" readonly>
+                                </div>
+                                <div class="col-md-4" hidden>
+                                    <label for="Dues">Due Amount</label>
+                                    <input id="DuesAmount1" class="form-control cleartxt required" placeholder="Dues Amount" readonly>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="Department">Department Name</label>
+                                    <input id="Department1" class="form-control cleartxt required" placeholder="Department Name" readonly>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="Agency">Agency Name</label>
+                                    <input id="ddlAgency5" class="form-control cleartxt required" placeholder="Agency Name" style="display:none;">
+                                    <input id="ddlAgency6" class="form-control cleartxt required" placeholder="Agency Name" readonly>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-9">
+                                    <label for="Complaint" @*style=" font-weight: 390;"*@>Department Name With Billing Address</label>
+                                    <textarea rows="2" cols="51" id="IncoiceBill1" style="width: 628px; height: 31px;" placeholder="Department Name With Address" disabled></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Doosra bordered div -->
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-top: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="Mode">Mode Of Payment</label><span class="error-message">*</span>
+                                    <select id="ModePayment2" class="form-control clearddl" onchange="">
+                                        @*<option value="0">--Select Payment Mode--</option>
+                                            <option value="1">RTGS</option>
+                                            <option value="2">NEFT</option>
+                                            <option value="3">Bank Transfer</option>
+                                            <option value="4">Treasury</option>*@
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="Transaction">Transaction Id</label><span class="error-message">*</span>
+                                    <input id="Transaction1" class="form-control cleartxt required" placeholder="Transaction Id">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="PaymentAmount">Payment Amount</label><span class="error-message">*</span>
+                                    <input id="PaymentAmount1" class="form-control cleartxt required" placeholder="Payment Amount">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="GSTTDS">GST TDS (at 2%)</label>
+                                    <input id="GSTTDS1" class="form-control cleartxt required" placeholder="GST TDS">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+
+                                <div class="col-md-3">
+                                    <label for="TDS">TDS (at 1%)</label>
+
+                                    <input type="text" id="TDS1" class="form-control cleartxt required" placeholder="TDS">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="TDS">TDS (at 2%)</label>
+                                    <input id="TDS2" class="form-control cleartxt required" placeholder="TDS">
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <label for="Balance">Balance</label>
+                                    <input id="Balance1" class="form-control cleartxt required" placeholder="Balance" readonly>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="PaymentDate">Payment Date</label><span class="error-message">*</span>
+                                    <input type="date" data-date-format="yyyy-MM-dd" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="PaymentDate" id="PaymentDate1" class="form-control" />
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-9">
+                                    <label>Narration</label><span class="error-message">*</span>
+                                    <textarea id="Remarks1" class="form-control cleartxt required" style=" height: 40px;" placeholder="Please Enter Remark Here "></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <div class="row">
+
+                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+
+                <div class="col-md-8">
+
+                    <div class="modelalert"></div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <input type="button" class="btnModalSubmit3 btn btn-primary" value="Submit" />
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--  Agency Payment Model -->
+<!-- View Agency Payment Model -->
+<div class="modal fade" id="myModal8" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal"><h4>Close</h4></button>
+                <h4 class="modal-title">View Action</h4>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <div id="_view">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div align="left" id="Zones">
+                                <div class="dt-responsive">
+                                    <!-- Content that may overflow and require scrolling -->
+                                    <table class="table table-striped table-bordered" id="myTable8">
+                                        <thead>
+                                            <tr>
+                                                <th class="widthsr">Sr.No.</th>
+                                                <th>Transaction Id</th>
+                                                <th>Mode Of Payment</th>
+                                                <th>Narration</th>
+                                                <th>Payment Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Table rows go here -->
+                                        </tbody>
+                                    </table>
+                                    <!-- More content can go here if needed -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    @*<div class="col-md-2">
+                            <input type="button" class="btnModalSubmit1 btn btn-primary" value="Ok" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Agency Payment Model -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script>
+    var mAgencyId = 0, DeptAddId = 0, WOrderNo2=0,accessRights;
+    var vId = 0;
+    var sr = 0;
+    var Id = 0;
+    var pageSize =@pageSize;
+    var pageNo = 1;
+
+    var IsActive = 'Y';
+    var tableRow;
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _NewInvoiceList1(1);
+        $('#myTable_filter').find('input').keyup(function () {
+           _NewInvoiceList1(1);
+        });
+       //_NewInvoiceDeptList();
+    });
+
+    $('#NoAdminCharge').on('change', function () {
+        if ($('#NoAdminCharge').is(':checked')) {
+            $('#Admin').val('0');
+        }
+        else {
+            calculateAdminCharge();
+        }
+    });
+
+        @*function openInvoice(WorkOfferid,Yid) {
+        var popupUrl = '@Url.Action("WorkOffer", "TimeSheet")' + '/?WorkOfferid=' + WorkOfferid + '&=' + Yid;
+        var features = 'width=600,height=400,status=no,toolbar=no,menubar=no,location=no';
+        window.location.replace(popupUrl);
+        }*@
+
+    document.getElementById("showIGST").addEventListener("change", function () {
+        var igstInput = document.getElementById("igstInputContainer");
+        if (this.checked) {
+            igstInput.style.display = "block";
+            var igst = $('#SGST').val()*2;
+            $('#IGST').val(igst);
+            $('#SGST').val(0);
+            $('#cgst').val(0);
+        } else {
+            igstInput.style.display = "none";
+            var gst = $('#IGST').val() / 2;
+
+            $('#SGST').val(gst);
+            $('#cgst').val(gst);
+            $('#IGST').val(0);
+        }
+    });
+    document.getElementById("showIGST12").addEventListener("change", function () {
+        var igstInput2 = document.getElementById("igstInputContainer12");
+        if (this.checked) {
+            igstInput2.style.display = "block";
+            var igst2 = $('#SGST2').val() * 2;
+            $('#IGST2').val(igst2);
+            $('#SGST2').val(0);
+            $('#cgst2').val(0);
+        } else {
+            igstInput2.style.display = "none";
+            var gst2 = $('#IGST2').val() / 2;
+
+            $('#SGST2').val(gst2);
+            $('#cgst2').val(gst2);
+            $('#IGST2').val(0);
+        }
+    });
+
+
+    function Report() {
+        window.open('/Invoice/InvoiceReport', '_blank');
+    }
+
+
+    $('.btnModalSubmit1').click(function () {
+        $('#update-Country1').modal('hide');
+    });
+
+
+
+    $('.btnModalSubmit3').click(function () {
+
+        _NewAgencytPaySubmit();
+    });
+
+    $('.btnModalSubmit2').click(function () {
+
+        _NewDeptPaySubmit();
+    });
+    function resetModal() {
+        $('.btnModalSubmit').removeAttr("disabled");
+        $('#ModalProgress').hide();
+        $('.modelalert').html('');
+    }
+
+    function resetForm() {
+        $('.cleartxt').val('');
+        $('.clearddl').val('0');
+        //$('.clearchk').val('');
+        $('.clearchk').prop('checked', false);
+
+        var currentDate = new Date();
+        var formattedDate = currentDate.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).replace(',', '');
+        $('.cleardate').val(formattedDate);
+
+        var currentMonth = new Date().getMonth() + 1;
+        var currentYear = new Date().getFullYear();
+        $('#ddlMonths').val(currentMonth);
+        $('#ddlYears').val(currentYear);
+        $('#ddlMonths1').val(currentMonth);
+        $('#ddlYears1').val(currentYear);
+    }
+    var sId = 0;
+
+    function OpenAddModel() {
+        resetForm();
+        resetModal();
+         sId = 0;
+        $('.modal-title').html("<table><tr><td>Add Purchase Bill Details</td><td style=padding-inline:185px;align:center;!important></td></tr></table>");
+
+        $('#update-Country').modal({
+
+            show: 'false'
+
+        });
+
+       // View(WorkOrderId, MonthYear);
+    }
+    function OpenPurchaseBillExisting() {
+        resetForm();
+        resetModal();
+        $('.modal-title').html("<table><tr><td>Purchase Bill Existing Data</td><td style=padding-inline:185px;align:center;!important></td></tr></table>");
+
+        $('#PurchaseBillExistingModal').modal({
+
+            show: 'false'
+
+        });
+
+        root = '/Invoice/_InvoicePurchaseListget';
+
+        // View(WorkOrderId, MonthYear);
+    }
+
+    function updateInputBox() {
+        var selectedValue = document.getElementById("BillingId").value;
+        document.getElementById("DepartmentAddress2").value = selectedValue;
+    }
+    function _InvoicePurchaseListget() {
+
+        //var month2 = $('#ddlMonths2').val() + $('#ddlYears2').val();
+
+        $.post('/Invoice/_InvoicePurchaseListget', {
+            'WorkorderNo': $('#WOrderNo2').val(),
+            'AgencyBillId': $('#BillingId').val(),
+            'AgencyId': $('#ddlSelectAgency').val(),
+            'DeptId': $('#selectDeptId').val(),
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#WorkOrderNo1').val(value.WorkOrderNo);
+                $('#NoOfResource1').val(value.NoOfResource);
+                $('#Description2').val(value.Description);
+                $('#DepartmentAddress2').val(value.DepartmentAddress);
+
+                $('#AgencyBill2').val(value.AgencyBillAmt);
+                $('#Libary2').val(value.LibaryAmt);
+               // $('#Admin2').val(value.AdminAmt * 2);
+                $('#Admin2').val(value.AdminAmt);
+                $('#ddlMonths2').val(value.BillforMonth.toString().substring(0, 1));
+                $('#ddlYears2').val(value.BillforMonth.toString().substring(1));
+
+                var agencyBillAmt = parseFloat(value.AgencyBillAmt) || 0;
+                var adminAmt = parseFloat(value.AdminAmt) || 0;
+                var libraryCharge = parseFloat(value.LibaryAmt) || 0;
+
+                var taxableAmt = agencyBillAmt + adminAmt + libraryCharge;
+
+                var cgst = taxableAmt * 0.09;
+                var sgst = taxableAmt * 0.09;
+
+                $('#cgst2').val(cgst.toFixed(2));
+                $('#SGST2').val(sgst.toFixed(2));
+
+                var total = taxableAmt + cgst + sgst;
+                $('#Total2').val(total.toFixed(2));
+
+            });
+        });
+
+        $('.modal-title').html("Purchase Bill Existing Data");
+        $('#PurchaseBillExistingModal').modal({
+            show: 'false'
+        });
+    }
+
+    $('#selectDeptId').change(function(){
+        _DepartmentAddress_list();
+       // _WorkOrder_list();
+
+    })
+    $('#BillingId').change(function () {
+        updateInputBox();
+    })
+
+    function _DepartmentAddress_list() {
+
+        $.post('/Invoice/_TallyAgencyDepartmentAddress_list', {
+            'AgencyId': $('#ddlSelectAgency').val(),
+            'DeptId': $('#selectDeptId').val()
+        }, function (data) {
+            var DepartmentAddress = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DepartmentAddress += '<option value=' + value.AgencyBillId + '>' + value.DepartmentAddress + '</option>'
+            });
+            $('#BillingId').html(DepartmentAddress);
+            $('#BillingId').val(DeptAddId);
+        });
+    }
+
+
+    function _WorkOrder_list() {
+        $.post('/Invoice/_TallyAgencyWorkOrder_list', {
+            'AgencyId': $('#ddlSelectAgency').val(),
+            'DeptId': $('#selectDeptId').val()
+        }, function (data) {
+            var WorkOrder = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                WorkOrder += '<option value=' + value.WorkOrderNo + '>' + value.WorkOrderNo + '</option>'
+            });
+            $('#WOrderNo2').html(WorkOrder);
+            $('#WOrderNo2').val(WOrderNo2);
+        });
+    }
+
+    function _DepartmentddlNew() {
+        $.post('/Invoice/TallyAgencyDepartment_list', {
+            'AgencyId': $('#ddlSelectAgency').val()
+        }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.DeptId + '>' + value.departmentName + '</option>';
+            });
+            $('#selectDeptId').html(DeptId);
+        });
+        $('#selectDeptId').select2({
+            dropdownParent: $('#PurchaseBillExistingModal')
+        });
+    }
+    _AgencyddlNew();
+    function _AgencyddlNew() {
+        $.post('/Invoice/_Agencyddl1', {
+            'AgencyId': 0
+        },
+            function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlSelectAgency').html(DeploymentOfficeId);
+            $('#ddlSelectAgency').val(mAgencyId);
+        });
+        $('#ddlSelectAgency').select2({
+            dropdownParent: $('#PurchaseBillExistingModal')
+        });
+    }
+
+    function OpenUpdateModel(Id) {
+        resetForm();
+        resetModal();
+        var igstInput = document.getElementById("igstInputContainer");
+        igstInput.style.display = "none";
+        $('.modal-title').html("<table><tr><td>Add Purchase Bill Details</td><td style=padding-inline:185px;align:center;!important></td></tr></table>");
+        sId = Id;
+        $('#update-Country').modal({
+
+            show: 'false'
+
+        });
+        _PurchaseBillFill(Id);
+    }
+
+    $('.btnModalSubmit').click(function () {
+
+        _NewInvoiceSubmit();
+
+    });
+    $('.btnModalSubmit4').click(function () {
+
+        _NewInvoiceSubmit1();
+    });
+    $('.btnModalSubmit1').click(function () {
+
+        _NewSaleInvoiceSubmit();
+
+    });
+
+
+    function _NewInvoiceSubmit() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+
+        if ($('#BillDate').val() == '') {
+            alert('Please Select Bill Date');
+            return;
+        }
+        //if ($('#WorkOrderNo').val() == '') {
+        //    alert('Enter WorkOrderNo');
+        //    return;
+        //}
+        if ($('#Billno').val() == '') {
+            alert('Please Enter Bill No.');
+            return;
+        }
+
+
+        if ($('#ddlAgency').val() == '0') {
+            alert('Please Select Agency');
+            return;
+        }
+
+        if ($('#DeptId').val() == '0') {
+            alert('Please Select Department');
+            return;
+        }
+        if ($('#DepartmentAddress').val() == '') {
+            alert('Please Enter Department Address');
+            return;
+        }
+
+        if ($('#Description').val() == '') {
+            alert('Please Enter Description');
+            return;
+        }
+        if ($('#Narration').val() == '') {
+            alert('Please Enter Narration');
+            return;
+        }
+
+        if ($('#AgencyBill').val() == '') {
+            alert('Please Enter Bill Amount');
+            return;
+        }
+
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $('.btnModalSubmit').attr("disabled", "disabled");
+        $.post('/Invoice/_NewInvoiceSubmit', {
+            'AgencyBillId': sId,
+            'BillDate': $('#BillDate').val(),
+            'WorkOrderNo': $('#WorkOrderNo').val(),
+            'NoOfResource': $('#NoOfResource').val(),
+            'Billno': $('#Billno').val(),
+            'ddlAgency': $('#ddlAgency').val(),
+            'DeptId': $('#DeptId').val(),
+            'DepartmentAddress': $('#DepartmentAddress').val(),
+            'Description': $('#Description').val(),
+            'Narration': $('#Narration').val(),
+            'AgencyBill': $('#AgencyBill').val(),
+            'Admin': $('#Admin').val(),
+            'Libary': $('#Libary').val(),
+            'cgst': $('#cgst').val(),
+            'SGST': $('#SGST').val(),
+            'IGSTAmt': $('#IGST').val(),
+            //'Total': $('#Total').val(),
+            'Total': Math.round($('#Total').val()),
+            'BillForMonth': month
+
+
+        }, function (data) {
+            alert(data);
+            vId = 0;
+            _NewInvoiceList1(1);
+            $('#update-Country').modal('hide');
+            $('.btnModalSubmit').removeAttr("disabled");
+            $('#ModalProgress').hide();
+        });
+    }
+
+    function _NewInvoiceSubmit1() {
+        var month2 = $('#ddlMonths2').val() + $('#ddlYears2').val();
+
+
+        if ($('#PBillno').val() == '') {
+            alert('Please Enter PurchaseBillNo.');
+            return;
+        }
+
+        if ($('#Narration2').val() == '') {
+            alert('Please Enter Narration');
+            return;
+        }
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $('.btnModalSubmit').attr("disabled", "disabled");
+        $.post('/Invoice/_NewInvoiceSubmit', {
+            'AgencyBillId': sId,
+            'ddlAgency': $('#ddlSelectAgency').val(),
+            'DeptId': $('#selectDeptId').val(),
+            'BillDate': $('#PDate').val(),
+            'WorkOrderNo': $('#WorkOrderNo1').val(),
+            'Billno': $('#PBillno').val(),
+            'NoOfResource': $('#NoOfResource1').val(),
+            'BillForMonth': month2,
+            'DepartmentAddress': $('#DepartmentAddress2').val(),
+
+           // 'DepartmentAddress': $('#DepartmentAddress2').val(),
+            'Description': $('#Description2').val(),
+            'Narration': $('#Narration2').val(),
+            'AgencyBill': $('#AgencyBill2').val(),
+            'Admin': $('#Admin2').val(),
+            'Libary': $('#Libary2').val(),
+            'cgst': $('#cgst2').val(),
+            'SGST': $('#SGST2').val(),
+            'IGSTAmt': $('#IGST2').val(),
+            //'Total': $('#Total').val(),
+            'Total': Math.round($('#Total2').val()),
+
+        }, function (data) {
+            alert(data);
+            vId = 0;
+            _NewInvoiceList1(1);
+            $('#PurchaseBillExistingModal').modal('hide');
+            $('.btnModalSubmit4').removeAttr("disabled");
+            $('#ModalProgress').hide();
+        });
+    }
+
+    $('.modal-footer').show();
+
+    function _NewInvoiceList1(pageNo) {
+        var filter = $('#myTable_filter').find('input').val();
+        if (filter == null) {
+            filter = '';
+        }
+        $('#loading').show();
+        $('#ProgressImg').show();
+        $.post('/Invoice/_NewInvoiceList1', {
+            'PageSize': pageSize,
+            'PageNo': pageNo,
+            'AgencyBillId': vId,
+            'Search': filter
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data.data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var RoleId = '@Session["RoleId"]';
+            var msr = 0; var btn = ''; var totalPage = 0;
+
+            $.each(obj, function (key, value) {
+                totalPage = value.Total;
+               // msr = msr + 1;
+                if (RoleId == 48) {
+                    if (value.Issalebillgenerated == 'Y') {
+                        var EditPurchaseBill = '<div style="text-align:center;"><a href="#" ' +
+                            'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                            'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        //var GenerateSale = '<button style="background-color: gray; width: 13vw; color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px; border: 1px solid gray; cursor: not-allowed;" disabled>Generate Sale Bill</button>';
+                        //if (value.IsDeptPaymentReceived == 'N') {
+                        //    var EditSaleBill = '<div style="text-align:center;"><a href="#" onclick="OpenUpdateModal2(' + value.AgencyBillId + ')" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        //}
+                        //else {
+                        //    var EditSaleBill = '<div style="text-align:center;"><a href="#" ' +
+                        //        'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                        //        'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        //}
+                        var printSale = '<a href="#" onclick="openPopupInvoice(' + value.AgencyBillId + ')" class="img-circle"style="text-align:center; font-size:16px;">Print Sale Bill<ion-icon name="document"></ion-icon></a>';
+
+                    }
+                    //else {
+                    //    var EditPurchaseBill = '<div style="text-align:center;"><a href="#" onclick="OpenUpdateModel(' + value.AgencyBillId + ')" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                    //    var GenerateSale = '<a href="#" onclick="OpenUpdateModal1(' + value.AgencyBillId + ')" class="btn btn-primary" style="width: 13vw;background-color: #4CAF50; color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px;">Generate Sale Bill</a>';
+                    //    var EditSaleBill = '<div style="text-align:center;"><a href="#" ' +
+                    //        'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                    //        'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                    //    var printSale = '<a href="#" class="img-circle" style="text-align:center; cursor: not-allowed; font-size:16px; color:gray; text-decoration: none;" aria-disabled="true">Print Sale Bill <ion-icon name="document"></ion-icon></a>';
+
+                    //}
+                }
+
+
+                if (RoleId == 39) {
+                    if (value.Issalebillgenerated == 'Y') {
+                        var EditPurchaseBill = '<div style="text-align:center;"><a href="#" ' +
+                            'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                            'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        var GenerateSale = '<button style="background-color: gray; width: 13vw; color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px; border: 1px solid gray; cursor: not-allowed;" disabled>Generate Sale Bill</button>';
+                        if (value.IsDeptPaymentReceived == 'N') {
+                            var EditSaleBill = '<div style="text-align:center;"><a href="#" onclick="OpenUpdateModal2(' + value.AgencyBillId + ')" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        }
+                        else {
+                            var EditSaleBill = '<div style="text-align:center;"><a href="#" ' +
+                                'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                                'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        }
+                        var printSale = '<a href="#" onclick="openPopupInvoice(' + value.AgencyBillId + ')" class="img-circle"style="text-align:center; font-size:16px;">Print Sale Bill<ion-icon name="document"></ion-icon></a>';
+
+                    }
+                    else {
+                        var EditPurchaseBill = '<div style="text-align:center;"><a href="#" onclick="OpenUpdateModel(' + value.AgencyBillId + ')" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        var GenerateSale = '<a href="#" onclick="OpenUpdateModal1(' + value.AgencyBillId + ')" class="btn btn-primary" style="width: 13vw;background-color: #4CAF50; color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px;">Generate Sale Bill</a>';
+                        var EditSaleBill = '<div style="text-align:center;"><a href="#" ' +
+                            'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                            'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                        var printSale = '<a href="#" class="img-circle" style="text-align:center; cursor: not-allowed; font-size:16px; color:gray; text-decoration: none;" aria-disabled="true">Print Sale Bill <ion-icon name="document"></ion-icon></a>';
+
+                    }
+                }
+
+                if (RoleId == 46) {
+                    if (value.IsDeptPaymentReceived == 'Y') {
+                        if (value.IsAgencyPaymentReleased == 'N') {
+                            var agencyPayment = '<a href="#" onclick="OpenAddModel6(' + value.AgencyBillId + ')" class="btn btn-primary" style="background-color: #4CAF50;  color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px;">Agency Payment</a>';
+                            var AgencyPaymentView = '<div style="text-align:center;"><a href="#" ' +
+                                'style="color: #6c757d; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                                'aria-disabled="true"><i class="fa fa-eye fa-2x"></i></a></div>';
+                        }
+                        else {
+                            var agencyPayment = '<button style="background-color: gray; width: 13vw; color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px; border: 1px solid gray; cursor: not-allowed;" disabled>Agency Payment</button>';
+                            var AgencyPaymentView = '<a href="#" onclick="OpenAddModel8(' + value.AgencyBillId + ')"  class="img-circle"><center><i class="fa fa-eye fa-2x" aria-hidden="true"></i></center></a>';
+                        }
+                    }
+                    else {
+                        var agencyPayment = '<button style="background-color: gray; width: 13vw; color: white; font-size: 16px; padding: 10px 20px; border-radius: 5px; border: 1px solid gray; cursor: not-allowed;" disabled>Agency Payment</button>';
+                        var AgencyPaymentView = '<div style="text-align:center;"><a href="#" ' +
+                            'style="color: #6c757d; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                            'aria-disabled="true"><i class="fa fa-eye fa-2x"></i></a></div>';
+                    }
+                }
+
+                if (RoleId == 47) {
+                    if (value.Issalebillgenerated == 'Y') {
+                        if (value.IsDeptPaymentReceived == 'N') {
+                            var DeptPayment = '<a href="#" onclick="OpenAddModel5(' + value.AgencyBillId + ')"  class="img-circle"><center><i class="btn btn-secondary" style="color:blue !important;">Department Payment</center></i></a>';
+
+                            var EditDeptPayment = '<div style="text-align:center;"><a href="#" ' +
+                                'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                                'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+
+                           // var EditDeptPayment = '<div style="text-align:center;"><a href="#" onclick="OpenUpdateModalDept(' + value.AgencyBillId + ')" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a></div>';
+
+                            var View = '<div style="text-align:center;"><a href="#" ' +
+                                'style="color: #6c757d; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                                'aria-disabled="true"><i class="fa fa-eye fa-2x"></i></a></div>';
+                        }
+
+                        else {
+                            var DeptPayment = '<button style="background-color: gray;  color: white; font-size: 16px; padding: 10px 7px;margin-left:29px; border-radius: 5px; border: 1px solid gray; cursor: not-allowed;" disabled>Department Payment</button>';
+                            if (value.IsAgencyPaymentReleased == 'N') {
+                                var EditDeptPayment = '<div style="text-align:center;"><a href="#" onclick="OpenUpdateModalDept(' + value.AgencyBillId + ')" class="btn btn-primary"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                            }
+                            else {
+                                var EditDeptPayment = '<div style="text-align:center;"><a href="#" ' +
+                                    'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                                    'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+                            }
+
+                            var View = '<a href="#" onclick="OpenAddModel3(' + value.AgencyBillId + ')" class="img-circle"><center><i class="fa fa-eye fa-2x" aria-hidden="true"></i></center></a>';
+
+                        }
+                    }
+
+                    else {
+                        var DeptPayment = '<button style="background-color: gray;  color: white; font-size: 16px; padding: 10px 7px;margin-left:29px; border-radius: 5px; border: 1px solid gray; cursor: not-allowed;" disabled>Department Payment</button>';
+                        var View = '<div style="text-align:center;"><a href="#" ' +
+                            'style="color: #6c757d; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                            'aria-disabled="true"><i class="fa fa-eye fa-2x"></i></a></div>';
+
+                        var EditDeptPayment = '<div style="text-align:center;"><a href="#" ' +
+                                'style="background-color: #6c757d; color: white; cursor: not-allowed; text-decoration: none; padding: 10px 18px; border-radius: 5px;" ' +
+                                'aria-disabled="true"><i class="fa fa-pencil fa-lg"></i></a></div>';
+
+                    }
+                }
+                 //alert(RoleId);
+                if (RoleId == 48) {
+                   // alert(RoleId);
+                    var elmntArray = [
+                       // msr,
+                        value.Sr,
+                        value.Billno,
+                        value.AgencyName,
+                        value.BillDate,
+                        value.TotalAmt,
+                        value.DepartmentName,
+                        //EditPurchaseBill,
+                        //GenerateSale,
+                        //EditSaleBill,
+                        printSale,
+                      //  value.IsEinv
+
+                    ];
+                }
+                else if (RoleId == 39) {
+
+                    var elmntArray = [
+                       // msr,
+                        value.Sr,
+                        value.Billno,
+                        value.AgencyName,
+                        value.BillDate,
+                        value.TotalAmt,
+                        value.DepartmentName,
+                        EditPurchaseBill,
+                        GenerateSale,
+                        EditSaleBill,
+                        printSale,
+                        value.IsEinv
+
+                    ];
+                }
+                else if (RoleId == 46) {
+                    var elmntArray = [
+                        //msr,
+                        value.Sr,
+                        value.DepartmentName,
+                        value.DepartmentAddress,
+                        value.AgencyName,
+                        value.Billno,
+                        value.TotalAmt,
+                        value.BillDate,
+                        agencyPayment,
+                        AgencyPaymentView
+                    ];
+                }
+                else {
+                    var elmntArray = [
+                        //msr,
+                        value.Sr,
+                        value.DepartmentName,
+                        value.DepartmentAddress,
+                        value.AgencyName,
+                        value.SaleBillNo,
+                        value.SaleBillAmount,
+                        value.SaleBillDate,
+
+                        DeptPayment,
+                        EditDeptPayment,
+                        View
+                    ];
+                }
+                table.row.add(elmntArray).draw(false);
+            });
+
+            $('#myTable_paginate').html(data.Paging);
+            $('#myTable_paginate').find
+
+            if (parseInt(parseInt(totalPage) / 10) + 1 == pageNo) {
+                $('#myTable_info').html('showing ' + pageNo + ' to ' + totalPage + ' out of ' + totalPage);
+            }
+            else {
+                $('#myTable_info').html('showing ' + pageNo + ' to ' + parseInt(pageNo) * 10 + ' out of ' + totalPage);
+            }
+
+            table.on('order.dt', function () {
+                if (parseInt(parseInt(totalPage) / pageSize) + 1 == pageNo) {
+                    $('#myTable_info').html('showing ' + pageNo + ' to ' + totalPage + ' out of ' + totalPage);
+                }
+                else {
+                    $('#myTable_info').html('showing ' + pageNo + ' to ' + parseInt(pageNo) * pageSize + ' out of ' + totalPage);
+                }
+
+                $('#myTable_paginate').html(data.Paging);
+            });
+
+            $('#loading').hide();
+
+        });
+    }
+
+
+    function _PurchaseBillFill(AgencyBillId) {
+
+        $.post('/Invoice/_NewInvoiceList1', {
+            'AgencyBillId': AgencyBillId,
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#WorkOrderNo').val(value.WorkOrderNo);
+                $('#Billno').val(value.Billno);
+                $('#ddlAgency').val(value.AgencyId);
+                $('#DeptId').val(value.DeptId);
+                $('#NoOfResource').val(value.NoOfResource);
+                $('#BillDate').val(value.BillDate);
+                $('#DepartmentAddress').val(value.DepartmentAddress);
+                $('#Description').val(value.Description);
+                $('#Narration').val(value.Narration);
+
+                $('#AgencyBill').val(value.AgencyBillAmt);
+                $('#Admin').val(value.AdminAmt);
+                $('#Libary').val(value.LibaryAmt);
+                $('#cgst').val(value.cgstAmt);
+                $('#SGST').val(value.SGSTAtm);
+                $('#Total').val(value.TotalAmt);
+
+                $('#ddlMonths').val(value.BillForMonth.toString().substring(0, 1));
+                $('#ddlYears').val(value.BillForMonth.toString().substring(1));
+
+                if (value.AdminAmt == '0') {
+                    $('#NoAdminCharge').prop('checked', true);
+                }
+
+                if (value.IGSTAmt != 0) {
+                    $('#showIGST').prop('checked', true);
+                    var igstInput = document.getElementById("igstInputContainer");
+                    igstInput.style.display = "block";
+                    $('#IGST').val(value.IGSTAmt);
+                }
+
+            });
+        });
+
+        $('.modal-title').html("Update Purchase Bill Details");
+        $('#update-Country').modal({
+            show: 'false'
+        });
+    }
+
+
+   function _NewDeptPaymentList(AgencyBillId) {
+
+        $('#ProgressImg').show();
+        $.post('/Invoice/_NewDeptPaymentList', {
+            'AgencyBillId': AgencyBillId,
+            'DepartmentBillId': 0,
+            'ReceiptId': AgencyBillId,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable3').DataTable();
+            table.clear().draw();
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var elmntArray = [
+                    msr,
+                    //value.departmentName,
+                    //value.DepartmentAddress,
+                    value.AgencyName,
+                    value.SaleBillNo,
+                    value.BillAmount,
+                    value.ModeOfPayment,
+                    value.TransactionId,
+                    value.ReceivedAmt + '<br>' + value.ReceivedDate,
+                    value.GSTTds2 + '<br>' + value.Tds2,
+                    value.Narration
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+            $('#loading').hide();
+        });
+    }
+
+
+    function openPopupInvoice(id) {
+    // Specify the URL of the controller action that renders the popup page
+      var popupUrl = '@Url.Action("HpsedcInvoice1", "Invoice")' + '/?AgencyBillId=' + id;
+      var features = 'width=600,height=400,status=no,toolbar=no,menubar=no,location=no';
+
+    // Open the popup window
+    window.location.replace(popupUrl);
+    //window.open(popupUrl, 'Popup', features);
+    }
+
+    function _NewSaleInvoiceSubmit() {
+        var month = $('#ddlMonths1').val() + $('#ddlYears1').val();
+
+        if ($('#DepartmentAddress1').val() == '') {
+            alert('Please Enter Billing Address');
+            return;
+        }
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+
+
+        $.post('/Invoice/_NewSaleInvoiceSubmit', {
+            'DeptBillId': 0,
+            'AgencyBillId': vId,
+            'BillDate1': $('#BillDate1').val(),
+            'WorkNo': $('#WorkNo').val(),
+            'SaleBillNo': $('#SaleBillNo').val(),
+
+
+            'Billno1': $('#Billno1').val(),
+            'ddlAgency1': $('#ddlAgency1').val(),
+            'DeptId1': $('#DeptId1').val(),
+            'DepartmentAddress1': $('#DepartmentAddress1').val(),
+            'Description1': $('#Description1').val(),
+            'Pin': $('#Pin').val(),
+            'gst': $('#gst').val(),
+            'HSN': $('#HSN').val(),
+            'Narration1': $('#Narration1').val(),
+            'AgencyBill1': $('#AgencyBill1').val(),
+            'Admin1': $('#Admin1').val(),
+            'Libary1': $('#Libary1').val(),
+            'cgst1': $('#cgst1').val(),
+            'SGST1': $('#SGST1').val(),
+            //'Total1': $('#Total1').val(),
+            'Total1': Math.round($('#Total1').val()),
+            'BillForMonth': month
+
+
+        }, function (data) {
+            alert(data);
+
+            if (data.indexOf('Error') > -1) {
+
+                $('.modelalert').html(data);
+
+            }
+            else {
+
+                resetModal();
+                resetForm();
+                vId = 0;
+
+
+                $('.modelalert').html(data).delay(1000).queue(function () {
+                    $('.modelalert').dequeue();
+                    $('#myModal').modal('toggle');
+                    _NewInvoiceList1(1);
+
+                });
+
+            }
+            $('.btnModalSubmit').removeAttr("disabled");
+            $('#ModalProgress').hide();
+        });
+
+
+
+    }
+
+
+    @*function openPopup(id,MonthYear) {
+        // Specify the URL of the controller action that renders the popup page
+        var popupUrl = '@Url.Action("AgencyInvoice", "Invoice")' + '/?WorkOrderId=' + id + '&MonthYear=' + MonthYear;
+        var features = 'width=600,height=400,status=no,toolbar=no,menubar=no,location=no';
+
+        // Open the popup window
+        window.location.replace(popupUrl);
+        //window.open(popupUrl, 'Popup', features);
+    }*@
+
+
+
+    function calculateAdminCharge() {
+        let billAmount = parseFloat(document.getElementById("AgencyBill").value);
+
+        if (!isNaN(billAmount)) {
+            // Calculate Admin Charge (2.5% of Bill Amount)
+            let adminCharge = billAmount * 0.025;
+            if ($('#NoAdminCharge').is(':checked')) {
+                $('#Admin').val('0');
+            }
+            else {
+                document.getElementById("Admin").value = adminCharge.toFixed(2);
+            }
+
+            // Recalculate taxes and total
+            calculateTaxes();
+        } else {
+            // Clear related fields if input is invalid
+            document.getElementById("Admin").value = '';
+            document.getElementById("cgst").value = '';
+            document.getElementById("SGST").value = '';
+            document.getElementById("Total").value = '';
+        }
+    }
+
+    function calculateTaxes() {
+        let billAmount = parseFloat(document.getElementById("AgencyBill").value);
+        let adminCharge = parseFloat(document.getElementById("Admin").value) || 0;
+        let libraryCharge = parseFloat(document.getElementById("Libary").value) || 0;
+
+        if (!isNaN(billAmount)) {
+            let taxableAmount = billAmount + adminCharge + libraryCharge;
+            var cgst = 0;
+            var sgst = 0;
+            var igst = 0;
+            var totalAmount = 0;
+
+            if ($('#showIGST').is(':checked')) {
+                igst = taxableAmount * 0.18;
+                totalAmount = taxableAmount + igst;
+            }
+            else {
+                cgst = taxableAmount * 0.09;
+                sgst = taxableAmount * 0.09;
+                totalAmount = taxableAmount + cgst + sgst;
+            }
+
+            document.getElementById("cgst").value = cgst.toFixed(2);
+            document.getElementById("SGST").value = sgst.toFixed(2);
+            document.getElementById("IGST").value = igst.toFixed(2);
+            // Calculate total amount
+            document.getElementById("Total").value = totalAmount.toFixed(2);
+        }
+        else {
+            // Clear related fields if input is invalid
+            document.getElementById("cgst").value = '';
+            document.getElementById("SGST").value = '';
+            document.getElementById("Total").value = '';
+        }
+    }
+
+
+    function calculateAdminCharge2() {
+        let billAmount2 = parseFloat(document.getElementById("AgencyBill2").value);
+
+        if (!isNaN(billAmount2)) {
+            // Calculate Admin Charge (2.5% of Bill Amount)
+            let adminCharge2 = billAmount2 * 0.025;
+            if ($('#NoAdminCharge').is(':checked')) {
+                $('#Admin2').val('0');
+            }
+            else {
+                document.getElementById("Admin2").value = adminCharge2.toFixed(2);
+            }
+
+            // Recalculate taxes and total
+            calculateTaxes2();
+        } else {
+            // Clear related fields if input is invalid
+            document.getElementById("Admin2").value = '';
+            document.getElementById("cgst2").value = '';
+            document.getElementById("SGST2").value = '';
+            document.getElementById("Total2").value = '';
+        }
+    }
+
+    function calculateTaxes2() {
+        let billAmount2 = parseFloat(document.getElementById("AgencyBill2").value);
+        let adminCharge2 = parseFloat(document.getElementById("Admin2").value) || 0;
+        let libraryCharge2 = parseFloat(document.getElementById("Libary2").value) || 0;
+
+        if (!isNaN(billAmount2)) {
+            let taxableAmount2 = billAmount2 + adminCharge2 + libraryCharge2;
+            var cgst2 = 0;
+            var sgst2 = 0;
+            var igst2 = 0;
+            var totalAmount2 = 0;
+
+            if ($('#showIGST12').is(':checked')) {
+                igst2 = taxableAmount2 * 0.18;
+                totalAmount2 = taxableAmount2 + igst2;
+            }
+            else {
+                cgst2 = taxableAmount2 * 0.09;
+                sgst2 = taxableAmount2 * 0.09;
+                totalAmount2 = taxableAmount2 + cgst2 + sgst2;
+            }
+
+            document.getElementById("cgst2").value = cgst2.toFixed(2);
+            document.getElementById("SGST2").value = sgst2.toFixed(2);
+            document.getElementById("IGST2").value = igst2.toFixed(2);
+            // Calculate total amount
+            document.getElementById("Total2").value = totalAmount2.toFixed(2);
+        }
+        else {
+            // Clear related fields if input is invalid
+            document.getElementById("cgst2").value = '';
+            document.getElementById("SGST2").value = '';
+            document.getElementById("Total2").value = '';
+        }
+    }
+
+
+    _PaymentModeddl1();
+    function _PaymentModeddl1() {
+        $.post('/Invoice/_PaymentModeddl1', { 'Id': 0 }, function (data) {
+            var ModePayment1 = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ModePayment1 += '<option value=' + value.Id + '>' + value.ModeofPayment + '</option>'
+            });
+            $('#ModePayment1').html(ModePayment1);
+            $('#ModePayment1').val(Id);
+        });
+    }
+    _PaymentModeddl11();
+    function _PaymentModeddl11() {
+        $.post('/Invoice/_PaymentModeddl1', { 'Id': 0 }, function (data) {
+            var ModePayment2 = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                ModePayment2 += '<option value=' + value.Id + '>' + value.ModeofPayment + '</option>'
+            });
+            $('#ModePayment2').html(ModePayment2);
+            $('#ModePayment2').val(Id);
+        });
+    }
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+
+        });
+
+        $('#ddlAgency').select2({
+            dropdownParent: $('#update-Country')
+        });
+    }
+
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptId += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId').html(DeptId);
+        });
+
+        $('#DeptId').select2({
+            dropdownParent: $('#update-Country')
+        });
+    }
+
+    function OpenUpdateModal1(AgencyBillId) {
+        resetModal();
+        resetForm();
+        vId = 0;
+        $('.modal-title').html("Add Sale Bill Details");
+        $('#update-Country1').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        _NewInvoiceListget(AgencyBillId);
+        root = '/Invoice/_NewInvoiceListget';
+    }
+
+    function OpenUpdateModal2(AgencyBillId) {
+        resetModal();
+        resetForm();
+        vId = 0;
+        $('.modal-title').html("Update Sale Bill Details");
+        $('#update-Country1').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        _NewInvoiceListFill(AgencyBillId);
+    }
+
+    function OpenAddModel5(AgencyBillId) {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("Enter Payment Received from Department Against Sale Bill");
+        $('#myModal1').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        IsActive = 'Y';
+        _NewInvoiceDeptList(AgencyBillId);
+        root = '/Invoice/_NewInvoiceDeptList';
+    }
+    function OpenUpdateModalDept(AgencyBillId) {
+        resetModal();
+        resetForm();
+        vId = 0;
+        $('.modal-title').html("Update Payment Release");
+        $('#myModal1').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        _DepartmentPaymentFill(AgencyBillId);
+    }
+
+    function _DepartmentPaymentFill(AgencyBillId) {
+        $.post('/Invoice/_DepartmentPaymentFill', {
+            'AgencyBillId': AgencyBillId,
+        }, function (data) {
+            console.log(data);
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                // alert(value.IGSTAmt);
+
+                $('#Purchase').val(value.Billno);
+                $('#PurchaseBillDate1').val(value.BillDate);
+                $('#Invoice').val(value.SaleBillNo);
+                $('#BillDate2').val(value.SaleBillDate);
+                $('#BillAmount2').val(value.SaleBillAmount);
+                $('#ddlAgency4').val(value.AgencyName);
+                $('#Department').val(value.DepartmentName);
+                $('#IncoiceBill').val(value.DepartmentAddress);
+
+                $('#ModePayment1').val(value.ModeOfPayment);
+                $('#Transaction').val(value.TransactionId);
+                $('#PaymentAmount').val(value.ReceivedAmt);
+
+                $('#GSTTDS').val(value.GSTTds2);
+                $('#TDS').val(value.Tds);
+                $('#Balance').val(value.BalanceAmt);
+                $('#PaymentDate').val(value.ReceivedDate);
+                $('#Remarks').val(value.Narration1);
+                //$('#Total').val(value.TotalAmt);
+                var totalAmount = parseFloat(value.SaleBillAmount).toFixed(2) || 0;
+
+                // var receivedAmount = parseFloat(value.ReceivedAmt).toFixed(2);
+
+                var gstTDS = $('#GSTTDS').val();
+                var tds = $('#TDS').val();
+
+                //var totalpay = ((totalAmount - (gstTDS + tds))).toFixed(2);
+                //$('#PaymentAmount').val(receivedAmount);
+
+
+                var balance = (parseFloat(value.SaleBillAmount) - (parseFloat(value.ReceivedAmt) +
+                    parseFloat(gstTDS) + parseFloat(tds)));
+                $('#Balance').val(parseFloat(balance).toFixed(2));
+
+                // Calculate Balance Payment Due (INR) after subtracting PaymentAmount
+                $('#PaymentAmount').on('input', function () {
+                    var paymentAmount = parseFloat($(this).val()) || 0;
+                    var gstTDS12 = $('#GSTTDS').val();
+                    var tds12 = $('#TDS').val();
+
+                    balance = parseFloat(totalAmount) - (parseFloat(paymentAmount) + parseFloat(gstTDS12) + parseFloat(tds12));
+
+                    $('#Balance').val(parseFloat(balance).toFixed(2));
+                });
+                $('#GSTTDS').on('input', function () {
+
+                    var PaymentAmount = parseFloat($('#PaymentAmount').val()) || 0;
+                    var GSTTDS = parseFloat($(this).val()) || 0;
+                    var TDS = parseFloat($('#TDS').val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount2').val()) || 0;
+                    var total = parseFloat(totalAmount) - (parseFloat(PaymentAmount) + parseFloat(GSTTDS) + parseFloat(TDS));
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+                    $('#Balance').val(parseFloat(total).toFixed(2));
+                });
+                $('#TDS').on('input', function () {
+                    var PaymentAmount = parseFloat($('#PaymentAmount').val()) || 0;
+                    var GSTTDS = parseFloat($('#GSTTDS').val()) || 0;
+                    var TDS = parseFloat($(this).val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount2').val()) || 0;
+                    var total = parseFloat(totalAmount) - (parseFloat(PaymentAmount) + parseFloat(GSTTDS) + parseFloat(TDS));
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+
+                    $('#Balance').val(parseFloat(total).toFixed(2));
+                });
+            });
+
+        });
+
+        $('.modal-title').html("Update Payment Release");
+        $('#myModal1').modal({
+            show: 'false'
+        });
+    }
+
+    function _NewInvoiceListget(AgencyBillId) {
+        $.post('/Invoice/_NewInvoiceListget', {
+            'AgencyBillId': AgencyBillId
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#Description1').val(value.Description);
+                $('#Billno1').val(value.Billno);
+               // $('#BillDate3').val(value.SaleBillDate);
+                $('#SaleBillNo').val(value.DeptBillNO);
+                $('#ddlAgency1').val(value.AgencyId);
+
+                $('#ddlAgency2').val(value.AgencyName);
+                $('#DeptId2').val(value.DepartmentName);
+                $('#DepartmentAddress1').val(value.DepartmentAddress);
+
+                $('#WorkNo').val(value.WorkOrderNo);
+                $('#DeptId1').val(value.DeptId);
+                $('#Narration1').val(value.Narration);
+                $('#AgencyBill1').val(value.AgencyBillAmt);
+                $('#Libary1').val(value.LibaryAmt);
+                $('#Admin1').val(value.AdminAmt * 2);
+                $('#ddlMonths1').val(value.BillforMonth.toString().substring(0, 1));
+                $('#ddlYears1').val(value.BillforMonth.toString().substring(1));
+
+                var agencyBillAmt = parseFloat(value.AgencyBillAmt) || 0;
+                var adminAmt = parseFloat(value.AdminAmt * 2) || 0;
+                var libraryCharge = parseFloat(value.LibaryAmt) || 0;
+
+                var taxableAmt = agencyBillAmt + adminAmt + libraryCharge;
+
+                var cgst = taxableAmt * 0.09;
+                var sgst = taxableAmt * 0.09;
+
+                $('#cgst1').val(cgst.toFixed(2));
+                $('#SGST1').val(sgst.toFixed(2));
+
+                var total = taxableAmt + cgst + sgst;
+                $('#Total1').val(total.toFixed(2));
+
+           });
+        });
+
+        $('.modal-title').html("Add Sale Bill Details");
+        $('#update-Country1').modal({
+            show: 'false'
+        });
+    }
+
+
+    function _NewInvoiceListFill(AgencyBillId) {
+        $.post('/Invoice/_NewInvoiceListFill', {
+            'AgencyBillId': AgencyBillId
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#Description1').val(value.Description);
+                $('#Billno1').val(value.Billno);
+                $('#BillDate1').val(value.BillDate);
+                $('#SaleBillNo').val(value.DeptBillNO);
+                $('#ddlAgency1').val(value.AgencyId);
+
+                $('#ddlAgency2').val(value.AgencyName);
+                $('#DeptId2').val(value.DepartmentName);
+                $('#DepartmentAddress1').val(value.DepartmentAddress);
+
+                $('#WorkNo').val(value.WorkOrderNo);
+                $('#DeptId1').val(value.DeptId);
+                $('#Narration1').val(value.Narration);
+                $('#AgencyBill1').val(value.AgencyBillAmt);
+                $('#Libary1').val(value.LibaryAmt);
+                $('#Admin1').val(value.AdminAmt);
+
+                $('#cgst1').val(value.cgstAmt);
+                $('#SGST1').val(value.SGSTAtm);
+                $('#Total1').val(value.TotalAmt);
+                $('#ddlMonths1').val(value.BillforMonth.toString().substring(0, 1));
+                $('#ddlYears1').val(value.BillforMonth.toString().substring(1));
+
+            });
+        });
+    }
+
+
+
+    function _NewInvoiceDeptList(AgencyBillId) {
+
+
+        $.post('/Invoice/_NewInvoiceDeptList', {
+            'AgencyBillId': AgencyBillId,
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                // Set the basic values
+                $('#Purchase').val(value.Billno);
+                $('#PurchaseBillDate1').val(value.PurchaseBillDate);
+                $('#BillDate2').val(value.BillDate);
+                $('#Invoice').val(value.SaleBillNo);
+                $('#BillAmount2').val(parseFloat(value.TotalAmt).toFixed(2));
+                $('#DuesAmount').val(value.TotalAmt);
+                $('#Department').val(value.departmentName);
+                $('#ddlAgency4').val(value.AgencyName);
+                $('#IncoiceBill').val(value.DepartmentAddress);
+                $('#AgencyBill1').val(value.AgencyBillAmt);
+
+                var totalAmount = parseFloat(value.TotalAmt).toFixed(2) || 0;
+
+                //var manpowerAmt = (totalAmount / 1.18).toFixed(2);
+                //var gstTDS = manpowerAmt * 0.02;
+                //var tds = manpowerAmt * 0.02;
+                // var gstTDS = amountWithoutGST * 0.02;
+                //var tds = amountWithoutGST * 0.02;
+
+                var receivedAmount = parseFloat(value.ReceivedAmt).toFixed(2);
+                var gstTDS = parseFloat(value.gstTds).toFixed(2);
+                var tds = parseFloat(value.tds).toFixed(2);
+
+                $('#GSTTDS').val(gstTDS);
+                $('#TDS').val(tds); //PaymentAmount
+                //var totalpay = ((totalAmount - (gstTDS + tds))).toFixed(2);
+                $('#PaymentAmount').val(receivedAmount);
+
+                //var balance = (totalAmount - totalpay-(gstTDS + tds));
+                var balance = (parseFloat(value.TotalAmt) - (parseFloat(value.ReceivedAmt) +
+                    parseFloat(value.gstTds) + parseFloat(value.tds)));
+                $('#Balance').val(parseFloat(balance).toFixed(2));
+
+                // Calculate Balance Payment Due (INR) after subtracting PaymentAmount
+                $('#PaymentAmount').on('input', function () {
+                    var paymentAmount = parseFloat($(this).val()) || 0;
+                    balance = parseFloat(totalAmount) - (parseFloat(paymentAmount) + parseFloat(gstTDS) + parseFloat(tds));
+                    $('#Balance').val(parseFloat(balance).toFixed(2));
+                });
+                $('#GSTTDS').on('input', function () {
+
+                    var PaymentAmount = parseFloat($('#PaymentAmount').val()) || 0;
+                    var GSTTDS = parseFloat($(this).val()) || 0;
+                    var TDS = parseFloat($('#TDS').val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount2').val()) || 0;
+                    var total = parseFloat(totalAmount) - (parseFloat(PaymentAmount) + parseFloat(GSTTDS) + parseFloat(TDS));
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+
+                    $('#Balance').val(parseFloat(total).toFixed(2));
+                });
+                $('#TDS').on('input', function () {
+                    var PaymentAmount = parseFloat($('#PaymentAmount').val()) || 0;
+                    var GSTTDS = parseFloat($('#GSTTDS').val()) || 0;
+                    var TDS = parseFloat($(this).val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount2').val()) || 0;
+                    var total = parseFloat(totalAmount) - (parseFloat(PaymentAmount) + parseFloat(GSTTDS) + parseFloat(TDS));
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+
+                    $('#Balance').val(parseFloat(total).toFixed(2));
+                });
+            });
+        });
+
+        $('#myModal1').modal({
+            show: 'false'
+        });
+    }
+
+
+    function _NewDeptPaySubmit() {
+
+        if ($('#ModePayment1').val() == '0') {
+            $('.modelalert').html('Please Select Mode Of Payment');
+            return;
+        }
+
+        if ($('#Transaction').val() == '') {
+            $('.modelalert').html('Please Enter Transaction Id');
+            return;
+        }
+        if ($('#PaymentDate').val() == '') {
+            $('.modelalert').html('Please Choose Payment Date');
+            return;
+        }
+
+        if ($('#Remarks').val() == '') {
+            $('.modelalert').html('Please Enter Remarks');
+            return;
+        }
+
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $.post('/Invoice/_NewDeptPaySubmit', {
+            'DeptBillId': 0,
+            'AgencyBillId': vId,
+            'ModePayment': $('#ModePayment1').val(),
+            'Transaction': $('#Transaction').val(),
+            //'PaymentAmount': $('#PaymentAmount').val(),
+            'PaymentAmount': Math.round($('#PaymentAmount').val()),
+            'Balance': $('#Balance').val(),
+
+            'GSTTDS': $('#GSTTDS').val(),
+            'TDS': $('#TDS').val(),
+
+            'PaymentDate': $('#PaymentDate').val(),
+            'Remarks': $('#Remarks').val(),
+
+        }, function (data) {
+            alert(data);
+            vId = 0;
+            $('#myModal1').modal('hide');
+            $('.btnModalSubmit2').removeAttr("disabled");
+            $('#ModalProgress').hide();
+            _NewInvoiceList1(1);
+        });
+    }
+    function OpenAddModel3(AgencyBillId) {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("View Payment Against Sale Bill");
+        $('#myModal3').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        IsActive = 'Y';
+        _NewDeptPaymentList(AgencyBillId);
+        root = '/Invoice/_NewDeptPaymentList';
+    }
+    function OpenAddModel6(AgencyBillId) {
+
+        $('.modal-title').html("Enter Payment Released to Agency against Purchase Bill");
+        $('#myModal4').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        IsActive = 'Y';
+        _NewInvoiceAgencytList(AgencyBillId);
+        root = '/Invoice/_NewInvoiceAgencytList';
+    }
+
+
+
+    function _NewInvoiceAgencytList(AgencyBillId) {
+
+        $.post('/Invoice/_NewInvoiceList1', {
+            'AgencyBillId': AgencyBillId,
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                $('#Purchase1').val(value.Billno);
+                $('#PurchaseBillDate2').val(value.BillDate);
+                $('#Invoice1').val(value.SaleBillNo);
+                $('#BillDate3').val(value.SaleBillDate);
+                $('#BillAmount3').val(value.TotalAmt);
+                $('#DuesAmount1').val(value.TotalAmt);
+                $('#Department1').val(value.DepartmentName);
+                $('#IncoiceBill1').val(value.DepartmentAddress);
+                $('#AgencyBill1').val(value.AgencyBillAmt);
+                $('#ddlAgency6').val(value.AgencyName);
+
+                totalAmountnew = value.TotalAmt;
+                var manpowerAmt = (totalAmountnew / 1.18).toFixed(2);
+                var gstTDS = manpowerAmt * 0.02;
+                var tds1 = 0, tds2 = 0;
+
+                if (value.Tds1 == "Y") {
+                    tds1 = manpowerAmt * 0.01;
+                }
+                if (value.Tds2 == "Y") {
+                    tds2 = manpowerAmt * 0.02;
+                }
+
+
+                // Set the values in the respective input fields
+                $('#GSTTDS1').val(gstTDS.toFixed(2));
+                $('#TDS1').val(tds1.toFixed(2)); //PaymentAmount
+                $('#TDS2').val(tds2.toFixed(2)); //PaymentAmount
+                var totalpay = Math.round(totalAmountnew - (gstTDS + tds1 + tds2)).toFixed(2);
+               // alert(totalpay);
+                //'Total': Math.round($('#Total').val()),
+                $('#PaymentAmount1').val(totalpay);
+
+
+
+                var balance = (totalAmountnew - totalpay - (gstTDS + tds1 + tds2));
+                $('#Balance1').val(balance.toFixed(2));
+
+
+                // Calculate Balance dynamically based on PaymentAmount input
+                // Calculate Balance Payment Due (INR) after subtracting PaymentAmount
+                $('#PaymentAmount1').on('input', function () {
+                    var paymentAmount = parseFloat($(this).val()) || 0;
+                    balance = totalAmountnew - (paymentAmount + gstTDS + tds1 + tds2);
+                    $('#Balance1').val(balance.toFixed(2));
+                });
+                $('#GSTTDS1').on('input', function () {
+
+                    var PaymentAmount = parseFloat($('#PaymentAmount1').val()) || 0;
+                    var GSTTDS = parseFloat($(this).val()) || 0;
+                    var TDS1 = parseFloat($('#TDS1').val()) || 0;
+                    var TDS2 = parseFloat($('#TDS2').val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount3').val()) || 0;
+                    var total = totalAmount - (PaymentAmount + GSTTDS + TDS1 + TDS2);
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+
+                    $('#Balance1').val(total.toFixed(2));
+                });
+                $('#TDS1').on('input', function () {
+                    var PaymentAmount = parseFloat($('#PaymentAmount1').val()) || 0;
+                    var GSTTDS = parseFloat($('#GSTTDS1').val()) || 0;
+                    var TDS1 = parseFloat($(this).val()) || 0;
+                    var TDS2 = parseFloat($('#TDS2').val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount3').val()) || 0;
+                    var total = totalAmount - (PaymentAmount + GSTTDS + TDS1 + TDS2);
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+
+                    $('#Balance1').val(total.toFixed(2));
+                });
+                $('#TDS2').on('input', function () {
+                    var PaymentAmount = parseFloat($('#PaymentAmount1').val()) || 0;
+                    var GSTTDS = parseFloat($('#GSTTDS1').val()) || 0;
+                    var TDS2 = parseFloat($(this).val()) || 0;
+                    var TDS1 = parseFloat($('#TDS1').val()) || 0;
+                    var totalAmount = parseFloat($('#BillAmount3').val()) || 0;
+                    var total = totalAmount - (PaymentAmount + GSTTDS + TDS1 + TDS2);
+                    //var balance = totalAmount - (paymentAmount + GSTTDS + TDS);
+
+                    $('#Balance1').val(total.toFixed(2));
+                });
+
+            });
+        });
+
+    }
+
+
+    function _NewAgencytPaySubmit() {
+
+        if ($('#ModePayment2').val() == '0') {
+            $('.modelalert').html('Please Select Mode Of Payment');
+            return;
+        }
+
+        if ($('#Transaction1').val() == '') {
+            $('.modelalert').html('Please Enter Transaction Id');
+            return;
+        }
+
+
+        if ($('#PaymentDate1').val() == '') {
+            $('.modelalert').html('Please Choose PaymentDate');
+            return;
+        }
+        if ($('#Remarks1').val() == '') {
+            $('.modelalert').html('Please Enter Narration');
+            return;
+        }
+
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $.post('/Invoice/_NewAgencytPaySubmit', {
+            'PaymentId': 0,
+            'AgencyBillId': vId,
+            'Transaction1': $('#Transaction1').val(),
+            'ModePayment2': $('#ModePayment2').val(),
+            'Remarks1': $('#Remarks1').val(),
+            'PaymentDate1': $('#PaymentDate1').val(),
+            'PaymentAmount1': $('#PaymentAmount1').val(),
+
+            'GSTTDS1': $('#GSTTDS1').val(),
+            'TDS1': $('#TDS1').val(),
+            'TDS2': $('#TDS2').val(),
+
+            /*'Balance1': $('#Balance1').val(),*/
+
+        }, function (data) {
+            alert(data);
+            vId = 0;
+
+            $('#myModal4').modal('hide');
+            $('.btnModalSubmit3').removeAttr("disabled");
+            $('#ModalProgress').hide();
+            _NewInvoiceList1(1);
+
+
+        });
+    }
+
+    function _NewAgencyPaymentList(AgencyBillId) {
+
+        $('#ProgressImg').show();
+        $.post('/Invoice/_NewAgencyPaymentList', {
+            'AgencyBillId': AgencyBillId,
+            'PaymentId': 0,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable8').DataTable();
+            table.clear().draw(); 
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+
+                var elmntArray = [
+                    msr,
+                    value.TransactionId,
+                    value.ModeOfPayment,
+                    value.Narration,
+                    value.totalReceivedAmt,
+
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+
+    function OpenAddModel8(AgencyBillId) {
+        resetModal();
+        resetForm();
+        $('.modal-title').html("View Payment Against Purchase Invoice");
+        $('#myModal8').modal({
+            show: 'false'
+        });
+
+        vId = AgencyBillId;
+
+        IsActive = 'Y';
+        _NewAgencyPaymentList(AgencyBillId);
+        root = '/Invoice/_NewAgencyPaymentList';
+    }
+</script>

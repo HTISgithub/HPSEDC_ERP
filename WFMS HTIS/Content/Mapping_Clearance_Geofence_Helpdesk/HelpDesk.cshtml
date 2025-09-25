@@ -1,0 +1,228 @@
+﻿@{
+    ViewBag.Title = "Helpdesk Group";
+    ViewBag.Title = "Help Desk Group List";
+
+    //Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+}
+<style>
+    .align12 {
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<br />
+<br />
+
+<div class="container">
+    @*<div class="row">
+        <div class="col-md-2"><div id="sidebar" class=""></div></div>
+        <div class="col-md-10">
+            <div class="row titleArea">
+                <div class="col-md-4 ">
+                    <span class="page-title">@ViewBag.PageTitle</span>
+                </div>
+                <div class="col-md-8 " id="ActionbtnArea">
+                    <a href="@siteUrl/admin/GradeAdd" class="btn btn-info pull-right">Add</a>
+                </div>
+            </div>*@
+
+            <div class="col-lg-8">
+                <div class="panel panel-default ">
+                    <div class="card demo-icons">
+                        <div class="card-header">
+                            <h5 class="card-title">Help Desk</h5>
+
+                        </div>
+                        <div class="card-body all-icons">
+                            <div id="icons-wrapper">
+
+                                <div class="row mt10">
+                                    <div class="col-lg-2 col-md-2 col-sm-2">
+                                        <div>
+                                            <b>Date</b>
+                                        </div>
+                                        <input type="text" id="AMDate" value="AMDate" class="form-control " disabled="disabled" />
+                                    </div>
+
+                                </div>
+                                <div class="row mt10">
+                                    <div class="col-lg-2 col-md-2 col-sm-2">
+                                        <div>
+                                            <b>Employee</b>
+                                        </div>
+                                        <select id="fiEmployeeID" class="form-control" style="width:150px">
+                                            <option value="0">---Select  Employee ---</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-sm-5">
+                                        <div>
+                                            <b>Title</b>
+                                        </div>
+                                        <input type="text" id="Title" value="" class="form-control " />
+                                    </div>
+                                </div>
+                                <div class="row mt10">
+                                    <div class="col-lg-5 col-md-5 col-sm-5">
+                                        <div>
+                                            <b>Quuery:</b>
+                                        </div>
+                                        <textarea rows="4" cols="50" class="form-control" id="fvQuery"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="row mt12" align="center">
+                                    <div class="col-lg-5 col-md-5 col-sm-5">
+                                        <form class="submitbutton">
+                                            <button class="buttonR buttonR" id="btnSubmit" onclick="_createQuery()" type="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        var dt = new Date();
+                        document.getElementById("datetime").innerHTML = dt.toLocaleDateString();
+                    </script>
+                    @*<div class="panel-heading align12">
+
+                            <font style="color:#005550"> <b> Country List</b></font>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 align12 " id="Shop">
+                                <div class="row  ">
+
+                                    <div class="row">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <span class="label-input100">Add Country Name</span>
+                                            <input type="text" id="txtCountry" style="width:150px" class="form-control" placeholder="Country Name" />
+                                            <br />
+                                            <span class="label-input100">Add Country Code</span>
+                                            <input type="text" id="fvCountryCode" style="width:150px" class="form-control" placeholder="Country Code" />
+                                            <br />
+                                            <input type="button" value="Submit" style="width:150px" class="confirm form-control btnSelect" id="btnSave" onclick="CountrySave()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="col-lg-12 col-md-12 col-sm-12 align12 " id="Shop">
+                                    <div class="row  ">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <a class="btnSelect" href="~/Master/GridCountry">Check your list</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+
+        <div id="GridQuerys">
+
+        </div>
+        <script>
+            var dt = new Date();
+            document.getElementById("datetime").innerHTML = dt.toLocaleDateString();
+        </script>
+        <script src="../../Scripts/pikaday.js" type="text/javascript"></script>
+        <script>
+            var picker1 = new Pikaday(
+            {
+                field: document.getElementById('AMDate'),
+                firstDay: 1,
+                minDate: new Date('01-1-1945'),
+                maxDate: new Date('31-12-2090'),
+                yearRange: [1945, 2090],
+                onSelect: function () {
+                    var date = document.createTextNode(this.getMoment().format('DD-MMM-YYYY') + ' ');
+                    document.getElementById('AMDate').appendChild(date);
+                }
+            });
+
+            picker1.setMoment(moment().dayOfYear(Date));
+
+            _getEmployee();
+            function _getEmployee() {
+                $.post('/Home/GetEmployee', {
+                }, function (result) {
+                    $('#fiEmployeeID').html(result);
+
+                });
+            }
+
+            function _createQuery() {
+                //if ($('#AMDate').val() == '' || $('#Title').val() == '' || $('#Announcement').val() == '' || $('#fiClassId').val() == '') {
+                //    alert("Please fill all fields");
+                //    return;
+                //}
+
+                $.post('/Home/_QuerySave', {
+                    'fiEmployeeID': $('#fiEmployeeID').val(),
+                    'AMDate': $('#AMDate').val(),
+                    'Title': $('#Title').val(),
+                    'fvQuery': $('#fvQuery').val()
+                }, function (data) {
+                    GridQuery();
+                    alert(data);
+                });
+            }
+            GridQuery();
+            function GridQuery() {
+                $.post('/Home/GridQuery', {
+                },
+                function (result) {
+                    $('#GridQuerys').html(result);
+                });
+            }
+        </script>
+
+        @*<script>
+
+
+
+
+
+                function CountrySave() {
+
+                    if (!confirm("Would you like to save this record?")) {
+                        return false;
+                    }
+                    else {
+                        $.post('/Master/CountrySave',
+                            {
+                                'CountryName': $('#txtCountry').val(),
+                                'fvCountryCode': $('#fvCountryCode').val()
+                            },
+                            function (result) {
+                                alert(result);
+
+                                window.location = '/Master/Country';
+                            });
+                    }
+                }
+            </script>*@

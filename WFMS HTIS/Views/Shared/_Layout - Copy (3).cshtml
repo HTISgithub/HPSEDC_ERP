@@ -1,0 +1,1370 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Dashboard</title>
+
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /> 
+    @Html.Partial("_layoutrefTop") 
+    <style>
+        .error-message {
+            color: #ff5b57 !important;
+        }
+    </style>
+</head>
+
+<body class="no-skin">
+    <div id="ProgressImg" class="ProgressImg">
+        <img src="~/images/ajax-loader.gif" />
+    </div>
+    <div id="navbar" class="navbar navbar-default ace-save-state">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                    <img src="/assets/images/logo.png" style="height: 45px;">
+                </a>
+            </div>
+
+            <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                <ul class="nav ace-nav">
+                    <li class="grey dropdown-modal">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="ace-icon fa fa-tasks"></i>
+                            <span class="badge badge-grey">4</span>
+                        </a>
+
+                        <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-header">
+                                <i class="ace-icon fa fa-check"></i>
+                                4 Tasks to complete
+                            </li>
+
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Software Update</span>
+                                                <span class="pull-right">65%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini">
+                                                <div style="width:65%" class="progress-bar"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Hardware Upgrade</span>
+                                                <span class="pull-right">35%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini">
+                                                <div style="width:35%" class="progress-bar progress-bar-danger"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Unit Testing</span>
+                                                <span class="pull-right">15%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini">
+                                                <div style="width:15%" class="progress-bar progress-bar-warning"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">Bug Fixes</span>
+                                                <span class="pull-right">90%</span>
+                                            </div>
+
+                                            <div class="progress progress-mini progress-striped active">
+                                                <div style="width:90%" class="progress-bar progress-bar-success"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-footer">
+                                <a href="#">
+                                    See tasks with details
+                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="purple dropdown-modal">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+                            <span class="badge badge-important">8</span>
+                        </a>
+
+                        <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-header">
+                                <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                8 Notifications
+                            </li>
+
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar navbar-pink">
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">
+                                                    <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+                                                    New Comments
+                                                </span>
+                                                <span class="pull-right badge badge-info">+12</span>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="btn btn-xs btn-primary fa fa-user"></i>
+                                            Bob just signed up as an editor ...
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">
+                                                    <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+                                                    New Orders
+                                                </span>
+                                                <span class="pull-right badge badge-success">+8</span>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <div class="clearfix">
+                                                <span class="pull-left">
+                                                    <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+                                                    Followers
+                                                </span>
+                                                <span class="pull-right badge badge-info">+11</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-footer">
+                                <a href="#">
+                                    See all notifications
+                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="green dropdown-modal">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                            <span class="badge badge-success">5</span>
+                        </a>
+
+                        <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                            <li class="dropdown-header">
+                                <i class="ace-icon fa fa-envelope-o"></i>
+                                5 Messages
+                            </li>
+
+                            <li class="dropdown-content">
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Alex:</span>
+                                                    Ciao sociis natoque penatibus et auctor ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>a moment ago</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Susan:</span>
+                                                    Vestibulum id ligula porta felis euismod ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>20 minutes ago</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Bob:</span>
+                                                    Nullam quis risus eget urna mollis ornare ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>3:15 pm</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Kate:</span>
+                                                    Ciao sociis natoque eget urna mollis ornare ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>1:33 pm</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="clearfix">
+                                            <img src="~/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                                            <span class="msg-body">
+                                                <span class="msg-title">
+                                                    <span class="blue">Fred:</span>
+                                                    Vestibulum id penatibus et auctor  ...
+                                                </span>
+
+                                                <span class="msg-time">
+                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                    <span>10:09 am</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-footer">
+                                <a href="inbox.html">
+                                    See all messages
+                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="light-blue dropdown-modal">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <img class="nav-user-photo" src="~/assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                            <span class="user-info">
+                                <small>Welcome,</small>
+                                Jason
+                            </span>
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <li>
+                                <a href="#">
+                                    <i class="ace-icon fa fa-cog"></i>
+                                    Settings
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="profile.html">
+                                    <i class="ace-icon fa fa-user"></i>
+                                    Profile
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.loadState('main-container') } catch (e) { }
+        </script>
+
+        <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+            <script type="text/javascript">
+                try { ace.settings.loadState('sidebar') } catch (e) { }
+            </script>
+
+
+            <!------------------------------NEW PRODUCT-------------------------->
+            <ul class="nav nav-list">
+                <!--<li class="active">
+                    <a href="index.html">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text">Change Company </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>-->
+                <li class="">
+                    <a href="#" class="dropdown-toggle" style="background-color: #EE7928;color: #fff;">
+                        <i class="fa fa-product-hunt"></i>
+                        <b>Change Product</b>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Attendance Management System
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                PayRoll Management System
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Projet Management System
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-----------------------------------END PRODUCT----------------------------->
+
+            <ul class="nav nav-list">
+                <li class="active">
+                    <a href="">
+                        <i class="fa fa-th-large" style="margin-left: 14px;"></i>
+                        <span class="menu-text"> Dashboard </span>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-asterisk" style="margin-left: 14px;"></i>
+                        <span class="menu-text">
+                            Master
+                        </span>
+                        <i class="fas fa-users-cog"></i>
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Address
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/country">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Country
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/admin/states">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        State
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/Cities">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        City
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/admin/Zone">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Zone
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/admin/TierList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Tier
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                User Managment
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Users/RoleList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Role
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Users/RolePermission">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Role Permission
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Organization
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/CompanyNatureList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Company Nature
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/CompanyList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Company
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/Branch">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Branch
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                General
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/Designation">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Designation
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/EmployeeCategoryList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Category
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/department">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Department
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/EmpTypeList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Employee Type
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/GradeList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Grade
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/Master/Holiday">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Public Holiday
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/EmpStatusList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Employee status
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/MaritalStatusList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Marital Status
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/policycategorylist">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Policy category
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                @*<li class="">
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Bank Detail
+                                            <b class="arrow fa fa-angle-down"></b>
+                                        </a>
+                                        <b class="arrow"></b>
+                                        <ul class="submenu">
+                                            <li class="">
+                                                <a href="/admin/banks">
+                                                    <i class="menu-icon fa fa-caret-right"></i>
+                                                    Bank Name
+                                                </a>
+                                                <b class="arrow"></b>
+                                            </li>
+                                            <li class="">
+                                                <a href="/master/banks">
+                                                    <i class="menu-icon fa fa-caret-right"></i>
+                                                    Branch
+                                                </a>
+                                                <b class="arrow"></b>
+                                            </li>
+
+                                        </ul>
+                                    </li>*@
+
+                            </ul>
+                        </li>
+
+                        <li class="">
+                            <a href="" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Clearance
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Admin/CGList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Group
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/Admin/GroupandClearanceHeadMapping">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Mapping
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+
+
+
+                        <li class="">
+                            <a href="" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Bank Detail
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/banks">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Bank
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/master/bankbranchlist">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Branch
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href=# class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Advance
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Admin/NoticeBoardList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Notice Board
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/master/latecomingcategory">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Late Category
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+
+                                    <a href="/Master/Policy">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Policies
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="#">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        App Re-Initialize
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Geofence
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/GeofenceList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Master
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/GeoFenceMappingList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        User Mapping
+                                    </a>
+                                    <b class="arrow"></b>
+
+                            </ul>
+                        </li>
+
+                        <li class="">
+                            <a href="" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Help desk
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/Admin/HelpdeskGroupList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Group
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="/Admin/HelpdeskGroupMappingList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Mapping
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        @*<li class="">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Help desk
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <b class="arrow"></b>
+                                <ul class="submenu">
+                                    <li class="">
+                                        <a href="/admin/country">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Group
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="">
+                                        <a href="/admin/helpdeskmapping">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Mapping
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+
+                                </ul>
+                            </li>*@
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Conveyance
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="/admin/ConveyanceGroupList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Group
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/admin/ConveyanceSettingList">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Auto setting
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <li class="">
+                                    <a href="/master/Travalmodelist">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Mode
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a href="/master/UniformRequest" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Uniform Request 
+                            </a>
+                            <b class="arrow"></b>
+
+                    </ul>
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-users" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Emp Managment
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Master/OnBoardcandidateList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Onboard Candidate
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Master/EmployeeList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee Exit
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Attendance/WeekoffList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Week off
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Master/OutDoorAttendanceList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Outdoor Attendance
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Master/HODAttendance">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                HOD Attendance
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Compoff Request
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/master/email">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Email
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Send Sms
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Payroll/Paygrouplist">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Pay Group 
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+
+                            <a href="/Admin/PayCharges">
+
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Pay Charges
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+
+                            <a href="/Payroll/PayChargesApplied">
+
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Employee CTC
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-calendar-check-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Leave Managment
+                        </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Hr/LeaveTypeList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Leave Type
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Attendance/LeaveAssignedList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Leave Assign
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Attendance/LeaveBalanceList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Leave Balance
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Leave Deduct
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-motorcycle" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Conveyance
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/master/Conveyance"  >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Conveyance Detail
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Conveyance Request
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Facilitation tool
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Mobile App Log
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Grade Tier Mapping
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Conveyance Paid
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-file" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            DMS
+                        </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Master/DocumentTypeList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Category
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Repository
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Statistics
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <!--<li>-->
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-clock-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Shift Managment
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/admin/ShiftMasterDisplay">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Shift Master
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/admin/shiftgroup" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Shift Group
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Admin/ShiftAssign">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Shift assign
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <!--<li>-->
+                    </ul>
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-mobile" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Device Managment
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/Admin/DeviceList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Device
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Admin/DeviceConnectionTypeList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Device Connection Type
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/Admin/DeviceModelNumberList">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Model Number
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Device log
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Model Log
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Device Req/Res
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-bar-chart-o" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            Reports
+                        </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Calculate
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Daily Report
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Monthly Report
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Other Report
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Mis report
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Conveyance
+                                <!--<b class="arrow fa fa-angle-down"></b>-->
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-cog" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            My Account
+                        </span>
+
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+
+                </li>
+                <li class="">
+                    <a href="/Admin/ApplicationSettings" class="dropdown-toggle">
+                        <i class="fa fa-cog" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            App Setting
+                        </span>
+
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-ticket" style="margin-left: 14px;"><!--style="margin-left: 14px;"--></i>
+                        <span class="menu-text">
+                            HTIS Connect
+                        </span>
+
+                        <!--<b class="arrow fa fa-angle-down"></b>-->
+                    </a>
+                    <b class="arrow"></b>
+
+                </li>
+            </ul>
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right" style="float: right;"></i>
+            </div>
+        </div>
+
+        <div class="main-content" style="background-color: #ffffff;">
+
+            <div class="main-content-inner">
+
+                @RenderBody()
+            </div>
+            <div class="footer">
+                <div class="footer-inner">
+                    <div class="footer-content">
+                        <span class="bigger-120">
+                            <span class="blue bolder">WFMS</span>
+                            Application &copy; @DateTime.Now.Year
+                        </span>
+
+                        &nbsp; &nbsp;
+                        <span class="action-buttons">
+                            <a href="#">
+                                <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                            </a>
+
+                            <a href="#">
+                                <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                            </a>
+
+                            <a href="#">
+                                <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div>
+        @*-----------------------------------------------------MODEL Start----------------------------------*@
+       <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:#00476a;color:white;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="_view">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                            <div class="col-md-8">
+                                <div class="modelalert"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        @*</div>*@
+    </div>
+
+
+    @Html.Partial("_layoutrefBottom") 
+</body>
+</html>
+
+

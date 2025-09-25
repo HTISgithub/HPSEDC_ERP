@@ -1,0 +1,694 @@
+﻿
+@using System.Configuration;
+@using System.Globalization;
+@using System.Data;
+@{
+    ViewBag.Title = "Attandance Approval";
+    ViewBag.PageTitle = "Attandance Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int pageSize = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PageSize"]);
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+}
+<style>
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    /*Also */
+    .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+
+    .fileinput-button {
+        position: relative;
+        overflow: hidden;
+    }
+        /*Also*/
+        .fileinput-button input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+            font-size: 200px;
+            direction: ltr;
+            cursor: pointer;
+        }
+
+    .hidden {
+        display: none !important;
+    }
+
+    .ui-helper-hidden-accessible {
+        display: none !important;
+    }
+
+    .ui-datepicker-calendar {
+        background-color: white;
+    }
+
+        .ui-datepicker-calendar td {
+            padding: 5px;
+            border-collapse: collapse;
+        }
+
+    #ui-datepicker-div {
+        padding: 5px;
+        border: solid 1px #e8e8e8;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    }
+
+    .highlightedRow {
+        background-color: #ccddff;
+    }
+
+    /*Datatable paging*/
+    .tableData {
+        border-left: solid 1px #D8C3C3;
+        border-top: solid 1px #D8C3C3;
+    }
+
+
+
+        .tableData tr {
+        }
+
+
+
+        .tableData td, .tableData th {
+            border-right: solid 1px #D8C3C3;
+            border-bottom: solid 1px #D8C3C3;
+            text-align: left;
+            padding: 5px;
+        }
+
+
+
+        .tableData td {
+        }
+
+
+
+        .tableData th {
+            background-color: #FAFAFA;
+            padding: 7px 5px;
+            border-bottom-color: #9C9C9C;
+        }
+</style>
+@******************Breadcrumb Start**************@
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Reports</a>
+        </li>
+        <li>
+            <a href="#">Daily Reports</a>
+        </li>
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+<div class="page-content">
+    @*********Page Title************@
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            @*<a class="btn btn-primary pull-right" onclick="OpenAddModel()"><i class="fa fa-plus"></i> Add New</a>*@
+        </h1>
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    <div class="form-group row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Month Year<i class="text-danger">*</i></label>
+                        <div class="col-md-6">
+                            <div>
+
+
+                                <select id="ddlMonth" class="Month">
+                                    <option>--Month--</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+                                        mon = new DateTime(DateTime.Now.Year, i, 1).ToString("MMM", CultureInfo.InvariantCulture);
+                                        <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                    }
+                                </select>
+                                <select id="ddlYear" class="year">
+                                    <option>--Year--</option>
+                                    @for (int i = 2018; i <= DateTime.Now.Year; i++)
+                                    {
+                                        if (i == DateTime.Now.Year)
+                                        {
+                                            <option value="@i" selected='selected'>@i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    }
+                                </select>
+
+                                <!--<input placeholder="From Date" data-date-format="M-yyyy" class="form-control datepicker readonly" readonly="readonly" id="FromDate" value="@DateTime.Now.ToString("MMM-yyyy")">-->
+                                @*<span class="input-group-addon">to</span>
+                                    <input placeholder="Upto Date" autocomplete="off" class="form-control text-box single-line datepicker" id="ToDate" type="datetime" value="">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Department </label>
+                        <div class="col-md-6">
+                            <input type="text" id="BranchId" value="0" class="form-control hidden" placeholder="Branch">
+                            <input type="text" id="Branch" class="form-control" placeholder="Department">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Customer/Vendor  </label>
+                        <div class="col-md-6">
+                            <input type="text" id="CustomerId" value="0" class="form-control hidden" placeholder="Customer/Vendor">
+                            <input type="text" id="Customer" class="form-control" placeholder="Customer/Vendor">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Designation </label>
+                        <div class="col-md-6">
+                            <input type="text" id="DesignationId" value="0" class="form-control hidden" placeholder="Designation">
+                            <input type="text" id="Designation" class="form-control" placeholder="Designation">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Employee </label>
+                        <div class="col-md-6">
+                            <input type="text" id="EmpId" value="0" class="form-control hidden" placeholder="Employee">
+                            <input type="text" id="EmpName" class="form-control" placeholder="Employee">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" hidden>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Category </label>
+                        <div class="col-md-6">
+                            <input type="text" id="CategoryId" value="0" class="form-control hidden" placeholder="Category">
+                            <input type="text" id="Category" class="form-control" placeholder="Category Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">&nbsp;</label>
+                        <div class="col-md-6">
+                            <input type="button" class="btn btn-primary pull-left" value="View" onclick="Attendance()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                @*<div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">&nbsp;</label>
+                            <div class="col-md-6">
+                                <input type="button" class="btn btn-primary pull-left" value="View" onclick="Attendance()" />
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="row">
+
+                    <div class="col-xs-12" style="overflow-x:auto;height:400px;">
+                        &nbsp;
+                        <div id="_AttendanceDetails">
+
+                            <div id="pager">
+                                <ul id="pagination" class="pagination-sm"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <input type="text" value='@ViewData["Method"]' id="Method" class="hidden" />
+    <script src="~/Scripts/autocomplete.js"></script>
+
+    @section scripts {
+
+        <script>
+            var mId = 0;
+            var mStartDate = 0;
+            //var mEmpId = 0;
+            var mShiftName = 0;
+
+            var sr = 0;
+            var IsActive = 'Y';
+            var tableRow;
+            autoTextReport('EmpName', 'EmpId', '/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+            autoTextReport('Designation', 'DesignationId', '/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+            autoTextReport('Branch', 'BranchId', '/autoComplete/_autoSearch/', 'EntityId', 'EntityName', 'EntityCode', 'Entity');
+            autoTextReport('Department', 'DepartmentId', '/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+            autoTextReport('Category', 'CategoryId', '/autoComplete/_autoSearch/', 'CategoryId', 'CategoryName', 'CategoryCode', 'Category');
+            autoTextReport('EmpName1', 'EmpId1', '/autoComplete/_autoSearch/', 'EmpId', 'EmpName', 'EmpCode', 'Employee');
+            autoTextReport('Designation1', 'DesignationId1', '/autoComplete/_autoSearch/', 'DesignationId', 'DesigName', 'DesigCode', 'Designation');
+            autoTextReport('Branch1', 'BranchId1', '/autoComplete/_autoSearch/', 'BranchId', 'BranchName', 'BranchCode', 'Branch');
+            autoTextReport('Department1', 'DepartmentId1', '/autoComplete/_autoSearch/', 'DepttId', 'DepttName', 'DepttCode', 'Department');
+            autoTextReport('Category1', 'CategoryId1', '/autoComplete/_autoSearch/', 'CategoryId', 'CategoryName', 'CategoryCode', 'Category');
+            autoTextReport('Customer', 'CustomerId', '/autoComplete/_autoSearch/', 'CustomerId', 'Customer', 'CustomerCode', 'Customer');
+            $(".datepicker").datepicker({
+                format: "M-yyyy",
+                viewMode: "months",
+                minViewMode: "months"
+            });
+
+            $('.datepicker').on('changeDate', function (e) {
+                $(this).datepicker('hide');
+                //  var date = new Date(e.date);
+                //$('.errorDiv').html(date.getMonth()+1).show();
+                //$('#Month').val(date.getMonth() + 1);
+            });
+            function _Verify() {
+                $('#tbOtp').show();
+                //$.post('/TimeSheet/_sendEmail', {'Customer': $('#Customer').val()},
+                //    function (data) {
+                //        alert(data);
+                //        $('#tbOtp').show();
+                //        $('.sendotp').attr("disabled", "disabled");
+                //    });
+            }
+                    TableManageDefault.init();
+                    function alert1(a1) {
+                       // alert(this.checked)
+                        if ($(a1).is(':checked')) {
+                            $(".chkProduct").prop("checked", true);
+                        } else {
+                            $(".chkProduct").prop("checked", false);
+                        }
+                        // $('.SelectAll').click(function () {
+                       // $('.t1').val('Tt');
+                       // $(".t1").prop("checked", false);
+                       // $('.t1').prop('checked', this.checked);
+                            // });
+                        }
+            function Color() {
+                $(document).ready(function () {
+
+                    $('.color').focusin(function () {
+                        $(this).css("background-color", "#fff4d8");
+                        $('.AbsentDays').val('.Days' - '.PresentDays');
+                    });
+                    $('.color').focusout(function () {
+                        $(this).css("background-color", "#FFFFFF");
+                    });
+                });
+            }
+            function PresentDays() {
+                $('.PresentDays').change(function () {
+                    $("#Attendance TBODY TR").each(function () {
+                        var row = $(this).closest("tr");
+                        //var Absent = row.find('.AbsentDays').val();
+                        var Days = row.find('.Days').text();
+                        var PresentDay = row.find('.PresentDays').val();
+                        var LeaveDays = row.find('.LeaveDays').val();
+                        var WeekOff = row.find('.Weekoff').val();
+                        var Holidays = row.find('.Holidays').val();
+                        row.find('.AbsentDays').val(Days - PresentDay);
+                        // alert(parseInt(PresentDay + LeaveDays + WeekOff + Holidays));
+                        row.find('.PayDays').text(parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays));
+                        if (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays) > Days) {
+                            row.find('.PayDays').text(row.find('.Days').text());
+                            row.find('.PresentDays').val(row.find('.Days').text());
+                            row.find('.LeaveDays').val('0');
+                            row.find('.Weekoff').val('0');
+                            row.find('.Holidays').val('0');
+                        }
+                    });
+
+                    $('.AbsentDays').change(function () {
+                        var row = $(this).closest("tr");
+                        //var Absent = row.find('.AbsentDays').val();
+                        var Days = row.find('.Days').text();
+                        var PresentDay = row.find('.PresentDays').val();
+                        var LeaveDays = row.find('.LeaveDays').val();
+                        var WeekOff = row.find('.Weekoff').val();
+                        var Holidays = row.find('.Holidays').val();
+                        row.find('.AbsentDays').val(Days - PresentDay);
+                        // alert(parseInt(PresentDay + LeaveDays + WeekOff + Holidays));
+                        row.find('.PayDays').text(parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays));
+                        if (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays) > Days) {
+                            row.find('.PayDays').text(row.find('.Days').text());
+                            row.find('.PresentDays').val(row.find('.Days').text());
+                            row.find('.LeaveDays').val('0');
+                            row.find('.Weekoff').val('0');
+                            row.find('.Holidays').val('0');
+                        }
+                    });
+                    $('.LeaveDays').change(function () {
+                        var row = $(this).closest("tr");
+                        //var Absent = row.find('.AbsentDays').val();
+                        var Days = row.find('.Days').text();
+                        var PresentDay = row.find('.PresentDays').val();
+                        var LeaveDays = row.find('.LeaveDays').val();
+                        var WeekOff = row.find('.Weekoff').val();
+                        var Holidays = row.find('.Holidays').val();
+                        row.find('.AbsentDays').val(Days - (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(Holidays) + parseInt(WeekOff)));
+                        // alert(parseInt(PresentDay + LeaveDays + WeekOff + Holidays));
+                        row.find('.PayDays').text(parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays));
+                        if (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays) > Days) {
+                            row.find('.PayDays').text(row.find('.Days').text());
+                            row.find('.PresentDays').val(row.find('.Days').text());
+                            row.find('.LeaveDays').val('0');
+                            row.find('.Weekoff').val('0');
+                            row.find('.Holidays').val('0');
+                        }
+                    });
+                    $('.Weekoff').change(function () {
+                        var row = $(this).closest("tr");
+                        //var Absent = row.find('.AbsentDays').val();
+                        var Days = row.find('.Days').text();
+                        var PresentDay = row.find('.PresentDays').val();
+                        var LeaveDays = row.find('.LeaveDays').val();
+                        var WeekOff = row.find('.Weekoff').val();
+                        var Holidays = row.find('.Holidays').val();
+                        row.find('.AbsentDays').val(Days - (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(Holidays) + parseInt(WeekOff)));
+                        // alert(parseInt(PresentDay + LeaveDays + WeekOff + Holidays));
+                        row.find('.PayDays').text(parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays));
+                        if (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays) > Days) {
+                            row.find('.PayDays').text(row.find('.Days').text());
+                            row.find('.PresentDays').val(row.find('.Days').text());
+                            row.find('.LeaveDays').val('0');
+                            row.find('.Weekoff').val('0');
+                            row.find('.Holidays').val('0');
+                        }
+                    });
+                    $('.Holidays').change(function () {
+                        var row = $(this).closest("tr");
+                        //var Absent = row.find('.AbsentDays').val();
+                        var Days = row.find('.Days').text();
+                        var PresentDay = row.find('.PresentDays').val();
+                        var LeaveDays = row.find('.LeaveDays').val();
+                        var WeekOff = row.find('.Weekoff').val();
+                        var Holidays = row.find('.Holidays').val();
+                        row.find('.AbsentDays').val(Days - (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(Holidays) + parseInt(WeekOff)));
+                        // alert(parseInt(PresentDay + LeaveDays + WeekOff + Holidays));
+                        row.find('.PayDays').text(parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays));
+                        if (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays) > Days) {
+                            row.find('.PayDays').text(row.find('.Days').text());
+                            row.find('.PresentDays').val(row.find('.Days').text());
+                            row.find('.LeaveDays').val('0');
+                            row.find('.Weekoff').val('0');
+                            row.find('.Holidays').val('0');
+                        }
+                    });
+                });
+            }
+            function AbsentDays() {
+
+                $('.AbsentDays').change(function () {
+                    var row = $(this).closest("tr");
+                    var Absent = row.find('.AbsentDays').val();
+                    var Days = row.find('.Days').text();
+                    var PresentDay = row.find('.PresentDays').val();
+                    var LeaveDays = row.find('.LeaveDays').val();
+                    var WeekOff = row.find('.Weekoff').val();
+                    var Holidays = row.find('.Holidays').val();
+                    row.find('.PresentDays').val(Days - Absent);
+                    PresentDay = row.find('.PresentDays').val();
+                    // alert(parseInt(PresentDay + LeaveDays + WeekOff + Holidays));
+                    row.find('.PayDays').text(parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays));
+                    if (parseInt(PresentDay) + parseInt(LeaveDays) + parseInt(WeekOff) + parseInt(Holidays) > Days) {
+                        row.find('.PayDays').text(row.find('.Days').text());
+                        row.find('.PresentDays').val(row.find('.Days').text());
+                        row.find('.LeaveDays').val('0');
+                        row.find('.Weekoff').val('0');
+                        row.find('.Holidays').val('0');
+                    }
+                });
+            }
+
+
+            $.post('/Master/ddlState', {}, function (data) {
+                var Circle = '<option value="0">--Select Circle--</option>';
+                var obj = $.parseJSON(data);
+                $.each(obj, function (key, value) {
+                    Circle += '<option value=' + value.StateId + '>' + value.StateName + '</option>'
+                    // $('#EmpId').html(Emplist);
+                });
+                $('#CircleId').html(Circle);
+
+            });
+            $('.modal-footer').show();
+            function Attendance() {
+                $('#ProgressImg').show();
+                $("#Attendance > TBODY").html('');
+                if ($('#EmpName').val().trim() == '') {
+                    $('#EmpId').val(0);
+                }
+
+                if ($('#Branch').val().trim() == '') {
+                    $('#BranchId').val(0);
+                }
+                if ($('#Customer').val().trim() == '') {
+                    $('#CustomerId').val(0);
+                }
+                if ($('#Designation').val().trim() == '') {
+                    $('#DesignationId').val(0);
+                }
+                if ($('#Category').val().trim() == '') {
+                    $('#CategoryId').val(0);
+                }
+                var fromdate = '01-' + $('#ddlMonth option:selected').text() + '-' + $('#ddlYear').val();
+                $.post('/TimeSheet/_DepartmentAttendanceapproval', {
+
+                    'EmpId': $('#EmpId').val(),
+                    'CategoryId': $('#CategoryId').val(),
+                    'DepartmentId': $('#CustomerId').val(),
+                    'DesignationId': $('#DesignationId').val(),
+                    'FromDate': fromdate,
+                    'BranchId': $('#BranchId').val(),
+                    'CircleId': $('#CircleId').val(),
+                }, function (data) {
+                    $('#ProgressImg').hide();
+                    $('#_AttendanceDetails').html(data);
+                });
+
+
+            }
+            function AddData() {
+                var data = [];
+                var sr = 0;
+                $("#Attendance TBODY TR").each(function () {
+                    var row = $(this);
+                    var Attendance = {};
+                    sr = sr + 1;
+                    Attendance.EmpId = row.find(".EmpId").text();
+                    Attendance.PresentDays = row.find(".PresentDays").val();
+                    Attendance.AbsentDays = row.find(".AbsentDays").val();
+                    Attendance.LeaveDays = row.find(".LeaveDays").val();
+                    Attendance.OTDays = row.find(".OTTime").val();
+                    Attendance.Weekoff = row.find(".Weekoff").val();
+                    Attendance.Holidays = row.find(".Holidays").val();
+                    Attendance.Days = row.find(".Days").text();
+                    if (row.find(".PresentDays").val() > "0.00") {
+                        if ($('#chkProduct_' + sr + ':checkbox:checked').length > 0) {
+                            //data.push(alldata);
+                            data.push(Attendance);
+                        }
+
+                    }
+                    //EmpId, PresentDays, OTDays, Days
+
+
+
+                });
+                //alert(data);
+                return data;
+                    }
+                    function _AttendanceImportSubmit() {
+                        var data1 = JSON.stringify(AddData());
+                       // window.location.href = "/TimeSheet/DepartmentBillGenerate";
+
+                    }
+            function _AttendanceImportSubmit() {
+                var data1 = JSON.stringify(AddData());
+                var fromdate = '01-' + $('#ddlMonth option:selected').text() + '-' + $('#ddlYear').val();
+                var IsActive = 'Y'
+                $('.modelalert').html('');
+                $('#ModalProgress').show();
+                // $('.btnModalSubmit').attr("disabled", "disabled");
+                $.ajax({
+                    type: "POST",
+                    url: "/TimeSheet/_AttendanceImportSubmit1",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+
+                    data: JSON.stringify({
+                        'data': data1,
+                        'AttendanceDate': fromdate,
+                        'FromDate': $('#FromDate').val(),
+                        'Otp': $('#OtpId').val()
+                    }
+                    ),
+
+
+                    success: function (r) {
+
+                        if (r.indexOf('Error') > -1) {
+                            $('.modelalert').html(r);
+                        }
+                        else {
+                            $.post('/TimeSheet/_sendVerifyEmail', { 'AttendanceDate': fromdate, 'Customer': $('#Customer').val() },
+                                function (data) {
+                                    alert(r);
+                                });
+
+
+                        }
+
+                        $('.sendotp').removeAttr("disabled");
+                        $('#tbOtp').hide();
+                        $('#ModalProgress').hide();
+                        window.location.href = "/TimeSheet/DepartmentBillGenerate";
+
+                    }
+                });
+            }
+            //function uploadFile() {
+            //    var files = $("#ExcelFile").get(0).files;
+            //    if ($("#Date").val() == "") {
+            //        alert('Please Enter From Date');
+            //        return;
+            //    }
+            //    // var Date=$("#Date").val()
+            //    var formData = new FormData();
+            //    formData.append('ExcelFile', $('input[name=file]')[0].files[0]);
+            //    formData.append("AttendanceDate", $('#Date').val());
+            //    $.ajax({
+            //        url: '/TimeSheet/ImportFile',
+            //        data: formData,
+            //        type: 'POST',
+            //        contentType: false,
+            //        processData: false,
+            //        success: function (data) {
+            //            if (data.indexOf('Error') > -1) {
+            //                $('.modelalert').html(data);
+            //            }
+            //            else {
+
+            //                $('.modelalert').html(data);
+            //                alert(data);
+            //            }
+            //        }
+            //    });
+            //}
+
+            $('#ListFilterOptions a').click(function () {
+                $('.list-group-item').removeClass('active');
+                $(this).addClass('active');
+            });
+                    //function _Importexcel() {
+
+                    //    if ($('#EmpName1').val().trim() == '') {
+                    //        $('#EmpId1').val(0);
+                    //    }
+
+                    //    if ($('#Branch1').val().trim() == '') {
+                    //        $('#BranchId1').val(0);
+                    //    }
+                    //    if ($('#Department1').val().trim() == '') {
+                    //        $('#DepartmentId1').val(0);
+                    //    }
+                    //    if ($('#Designation1').val().trim() == '') {
+                    //        $('#DesignationId1').val(0);
+                    //    }
+                    //    var method = 'ImportExcel';
+                    //    var FromDate = $('#FromDate1').val();
+                    //    var ToDate = $('#FromDate1').val();
+                    //    var EmpId = $('#EmpId1').val();
+                    //    var BranchId = $('#BranchId1').val();
+                    //    var DepartmentId = $('#DepartmentId1').val();
+                    //    var CategoryId = $('#CategoryId1').val();
+                    //    var CircleId = $('#CircleId1').val();
+
+                    //    var DesignationId = $('#DesignationId1').val();
+                    //    var qs = '?method=' + method;
+                    //    if (FromDate != '') {
+                    //        qs += '&FromDate=' + FromDate;
+                    //    }
+                    //    if (ToDate != '') {
+                    //        qs += '&ToDate=' + ToDate;
+                    //    }
+
+
+                    //    if (parseInt(EmpId) > 0) {
+                    //        qs += '&EmpId=' + EmpId;
+                    //    }
+                    //    if (parseInt(BranchId) > 0) {
+                    //        qs += '&BranchId=' + BranchId;
+                    //    }
+                    //    if (parseInt(DepartmentId) > 0) {
+                    //        qs += '&DepartmentId=' + DepartmentId;
+                    //    }
+                    //    if (parseInt(DesignationId) > 0) {
+                    //        qs += '&DesignationId=' + DesignationId;
+                    //    }
+                    //    if (parseInt(CircleId) > 0) {
+                    //        qs += '&CircleId=' + CircleId;
+                    //    }
+                    //    if (parseInt(CategoryId) > 0) {
+                    //        qs += '&CategoryId=' + CategoryId;
+                    //    }
+
+                    //    if (method == 'LeaveBalanceRegister') {
+                    //        downloadLeaveBalanceRegister();
+                    //    }
+                    //    else {
+                    //        window.open('/reports/exportExcel' + qs, "_top");
+                    //    }
+
+                    //}
+
+        </script>
+    }

@@ -1,0 +1,328 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Report For Import";
+    ViewBag.PageTitle = "IT TDS Report";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+
+}
+@******************Breadcrumb Start**************@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@******************Breadcrumb End**************@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    .input-sm {
+        margin-top: 30px;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+    .dt-buttons {
+        display: none;
+    }
+
+    #Zones {
+        margin-top: 0px !important;
+        padding-top: 5px !important;
+    }
+
+    #printData {
+        display: none;
+    }
+</style>
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+    </div>
+    @*********Page End************@
+    @*********Page Content************@
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div style="margin-top:10px">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style=" margin-top: -71px;">
+                            <label for="Month">Month Year</label><span class="error-message">*</span>
+                            <select id="ddlMonths" class="Month" onchange="_GstReportList()">
+                                <option>--Month--</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    DateTime date = new DateTime(2020, i, 1);
+                                    mon = date.ToString("MMM");
+                                    <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+                                }
+                            </select>
+                            <select id="ddlYears" class="year" onchange="_GstReportList()">
+                                <option>--Year--</option>
+                                @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                {
+                                    if (i == DateTime.Now.Year)
+                                    {
+                                        <option value="@i" selected='selected'>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 280px; ">
+                            <label for="Complaint">Agency</label><span class="error-message">*</span>
+                            <select id="ddlAgency" style="width: 20rem" onchange="_GstReportList()">
+                                <option value="0">Select Agency</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1" style=" margin-top: -83px; margin-left: 1045px; display:flex;flex-direction:row ">
+                        <button id="printData" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 8px; border-radius: 5px; border: none; " onclick="printData()">Print</button>
+                        <button id="exportBtn" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 12px; border-radius: 5px; border: none; margin-left:10px " onclick="Excel()">Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div align="left" id="Zones">
+            <div class="dt-responsive">
+                <table class="table table-striped table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="widthsr">Sr.No.</th>
+                            <th>Agency Name</th>
+                            <th>GST No.</th>
+                            <th>Agency Bill No.</th>
+                            <th>Agency Base Amount</th>
+                            <th>9% CGST</th>
+                            <th>9% SGST</th>
+                            <th>18% IGST</th>
+                            <th>IT TDS</th>
+                            <th>GST TDS</th>
+                            <th>Balance</th>
+                            <th>HPSEDC Bill Number</th>
+                            <th>HPSEDC Base Amount</th>
+                            <th>9% CGST HPSEDC</th>
+                            <th>9% SGST HPSEDC</th>
+                            <th>Narration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+var mAgencyId;
+<script>
+    $(document).ready(function () {
+        TableManageDefault.init();
+        $('#ddlAgency').select2();
+        _GstReportList();
+    });
+    function Excel() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+        $.post('/Invoice/TdsReportNewList', {
+            AgencyId: $('#ddlAgency').val(),
+            MonthId: month,
+            AgencyBillId : 0,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var msr = 0;
+            var totalBaseAmount = 0;
+            var totalAmount = 0;
+            var agencyname = ($('#ddlAgency').val() == 0) ? "All Agency" : $('#ddlAgency option:selected').text();
+            var dataForExport = [];
+
+            dataForExport.push(["DETAIL OF GST 18 % OF BILLS RECD. FROM VARIOUS COMPANIES DURING THE M/o " + $('#ddlMonths').find(':selected').text() + " " + $('#ddlYears').find(':selected').text()]);
+            dataForExport.push([]);
+            dataForExport.push([
+                "Sr. No.",
+                "Department Id",
+                "Department Name",
+                "Department Address code",
+                "Department Address",
+                "GST No.",
+                "AGENCY NAME",
+                "AGENCY CODE",
+                "GST No.",
+                "AGENCY BILL NO.",
+                "AGENCY BILL DATE",
+                "AGENCY AMOUNT Without(2.5%)",
+                "AGENCY ADMIN Charge",
+                "AGENCY BASE AMOUNT",
+                "Livery Charge",
+                "9% CGST",
+                "9% SGST",
+                "18% IGST",
+                "Agency Bill Amt.",
+                "IT TDS",
+                "IT TDS(Percentage)",
+                "GST TDS",
+                "Balance",
+                "HPSEDC BILL NO.",
+                "Bill Date",
+                "HPSEDC DESCRIPTION",
+                "HPSEDC AMOUNT",
+                "HPSEDC Amin Charge",
+                "9% CGST",
+                "9% SGST",
+                "Total",
+                "Narration",
+            ]);
+
+            $.each(obj, function (key, value) {
+                msr++;
+                totalBaseAmount += value.BaseAmount;
+                totalAmount += value.TotalAmt;
+
+                dataForExport.push([
+                    msr,
+                    value.DeptId,
+                    value.departmentName,
+                    value.AddressId,
+                    value.BillingAddress,
+                    value.GSTIN,
+                    value.AgencyName,
+                    value.AgencyId,
+                    value.Gst,
+                    value.Billno,
+                    value.BillDate?.split('T')[0] || "",
+                    value.AgencyBillAmt,
+                    value.AdminAmt,
+                    value.BaseAmount,
+                    
+                    value.LibaryAmt,
+                    value.cgstAmt,
+                    value.SGSTAtm,
+                    value.IGSTAmt,
+                    value.Ptotal,
+                    value.ITTDS,
+                    value.TdsP,
+                    value.GSTTDS,
+                    '',
+                    value.SaleBillNo,
+                    value.SBillDAte?.split('T')[0] || "",
+                    value.Description,
+                    value.SaleBillAmt,
+                    value.HpsedcAdmin,
+                    value.HpsedcCgst,
+                    value.HpsedcSgst,
+                    value.STotal,
+                    value.Narration
+                ]);
+            });
+
+            dataForExport.push([
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "TOTAL",
+                "",
+                "",
+                totalBaseAmount,
+                "",
+                "",
+                "",
+                "",
+                totalAmount,
+                "",
+                "",
+                "",
+                totalBaseAmount,
+                ""
+            ]);
+
+            const ws = XLSX.utils.aoa_to_sheet(dataForExport);
+            ws["!merges"] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }
+            ];
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "GST 18% Report");
+            XLSX.writeFile(wb, "GST18%_Report.xlsx");
+        });
+    }
+
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+        });
+    }
+    function _GstReportList() {
+
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+        $.post('/Invoice/TdsReportNewList', {
+            AgencyId: $('#ddlAgency').val(),
+            MonthId: month,
+            AgencyBillId : 0,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                var elmntArray = [
+                    msr,
+                    value.AgencyName,
+                    value.Gst,
+                    value.Billno,
+                    value.BaseAmount,
+                    value.cgstAmt,
+                    value.SGSTAtm,
+                    value.IGSTAmt,
+                    value.ITTDS,
+                    value.GSTTDS,
+                    '',
+                    value.SaleBillNo,
+                    value.BaseAmount,
+                    value.cgstAmt,
+                    value.SGSTAtm,
+                    value.Narration
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

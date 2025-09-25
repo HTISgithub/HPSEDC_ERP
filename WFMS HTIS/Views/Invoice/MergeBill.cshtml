@@ -1,0 +1,348 @@
+﻿@{
+    ViewBag.Title = "Agency Billing";
+    ViewBag.PageTitle = "Agency Billing";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 41px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    .modal-footer {
+        display: block;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        
+    }
+
+   
+</style>
+<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Master</a>
+        </li>
+        @*<li>
+                <a href="#"></a>
+            </li>*@
+        <li class="active">@ViewBag.PageTitle</li>
+    </ul><!-- /.breadcrumb -->
+
+</div>
+@******************Breadcrumb End**************@
+
+
+
+<div class="page-content">
+    @*********Page Title************@
+    @*********Page End************@
+    @*********Page Content************@
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Agency Billing</b></div>
+            <div class="panel-body">
+                <div class="container-fluid" id="show">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label for="Complaint">Department</label><span class="error-message">*</span></br>
+                                <select id="DeptId1" style="width: 30rem" onchange="_AgencyNewAttendanceDdl();">
+                                    <option value="0">Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Complaint">Agency</label><span class="error-message">*</span></br>
+                                <select id="ddlAgency" class="ddlAgency" style="width: 30rem" onchange="_NewBiillingAdress();">
+                                    <option value="0">Select Agency</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Billing">Billing Address</label><span class="error-message">*</span><br />
+                                <select id="BillingId" class="clearddl" style="width: 652px; height: 34px" onchange="_WorkOrderDetails();">
+                                    <option value="0">Select Billing Address</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label for="Complaint">Merged Into Work Order No.</label><span class="error-message">*</span>
+                                <select id="Work" class="clearddl" style="width: 30rem" onchange="_NewBiillingAdress();">
+                                    <option value="0">--Select Work Order--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3" style="display:none;">
+                                <label for="NoofResouserces">No. Of Resources</label><span class="error-message">*</span>
+                                <input type="text" id="NoofResources" style="width: 30rem" class="form-control cleartxt" placeholder="No. Of Resources" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="row">
+                                <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                                <div class="col-md-8">
+                                    <div class="modelalert"></div>
+                                </div>
+                                <div class="col-md-2" style="display:none;">
+                                    <input type="submit" id="Submit" style="width: 130px; margin-left:57px;" class="btn btn-primary cleartxt" value="Submit" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            &nbsp;
+                            <div class="col-md-12">
+                                <div align="left" id="_DocumentCategoryList">
+                                    <div class="dt-responsive">
+                                        <table class="table table-striped table-bordered" id="myTable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="widthsr">Sr.No.</th>
+                                                    @*<th></th>*@
+                                                    <th>Department Name</th>
+                                                    <th>Agency Name</th>
+                                                    <th>Work Order No.</th>
+                                                    <th>Billing Address</th>
+                                                    <th>Merged Into</th>
+                                                    <th>Total No.<br />Of Resources</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+<script>
+    var accessRights;
+    var vId = 0;
+    var sr = 0;
+    var sId = 0;
+
+    var IsActive = 'Y';
+    var tableRow;
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        $('#ddlAgency').select2();
+        $('#DeptId1').select2();
+        $('#BillingId').select2();
+        $('#Work').select2();
+
+    });
+
+
+    function resetForm() {
+        $('#NoofResources').val('');
+        $('#ddlAgency').val('0');
+        $('#DeptId').val('0');
+        $('#Upload').val('');
+        $('#BillnoPurchase').val('');
+        $('#DescriptionPurchase').val('');
+        $('#NarrationPurchase').val('');
+        $('#AgencyBillPurchase').val('');
+        $('#IGSTPurchase').val('');
+        $('#cgstPurchase').val('');
+        $('#SGSTPurchase').val('');
+        $('#TotalPurchase').val('');
+    }
+
+    $('#Submit').click(function () {
+        _NewDeptAttendanceSubmit();
+    });
+
+    $('.btnModalSubmit1').click(function () {
+        _PurchaseInvoiceSubmit();
+    });
+
+    _Departmentddl();
+    function _Departmentddl() {
+        $.post('/Invoice/_AvoDepartmentddlNew1', { 'Id': 0 }, function (data) {
+            var DeptIdvar = '<option value="0">---select---</option>';
+            var obj = $.parseJSON(data);
+            $('#ProgressImg').hide();
+            $.each(obj, function (key, value) {
+                DeptIdvar += '<option value=' + value.Id + '>' + value.EntityName + '</option>';
+            });
+            $('#DeptId1').html(DeptIdvar);
+        });
+    }
+
+    function _AgencyNewAttendanceDdl() {
+        $.post('/Invoice/_AgencyNewAttendanceDdl', { 'AgencyId': 0, 'DeptId': $("#DeptId1").val() }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+        });
+    }
+    function _NewBiillingAdress() {
+        $.post('/Invoice/_MergeAddressDdl', {
+            'AgencyId': 0,
+            'DeptId': $("#DeptId1").val(),
+            'WorkOrderAgencyId': 0,
+        }, function (data) {
+            var DeploymentOfficeId = '<option value="0">--Select--</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                // $('#NoofResources').val(value.NoDeployedRes);
+                DeploymentOfficeId += '<option value=' + value.WorkOrderAgencyId + '>' + value.BillingAddress + '</option>'
+            });
+            $('#BillingId').html(DeploymentOfficeId);
+
+
+        });
+    }
+
+    function _WorkOrderDetails1() {
+        $.post('/Invoice/_BillingAddressMerge', {
+            'AgencyId': 0,
+            'DeptId': $("#DeptId1").val(),
+            'WorkOrderAgencyId': $("#BillingId option:selected").text(),
+        }, function (data) {
+            var DeploymentOfficeId = '';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.WorkOrderAgencyId + '>' + value.WorkOrderId + '</option>'
+            });
+            $('#Work').html(DeploymentOfficeId);
+
+
+        });
+    }
+
+    function _WorkOrderDetails() {
+        $('#ProgressImg').show();
+        $.post('/Invoice/_MergeAddressDdl', {
+            'AgencyId': 0,
+            'DeptId': $('#DeptId1').val(),
+            'WorkOrderAgencyId': 0,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            $('#Work').empty();
+            $('#Work').append('<option value="0">--Select Work Order--</option>');
+
+            var msr = 0;
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                //var MergeCheckbox = '<input type="checkbox">';
+
+                // Disable button if IsMerged is 'Y'
+                var isDisabled = value.IsMerged === 'Y' ? 'disabled' : '';
+
+                var actionBtn = `<button type="button" onclick="MergedWorkOrder(this, '${value.WorkOrderAgencyId}')" class="btnModalSubmit2 btn btn-success btn-sm merged-btn" ${isDisabled}>Merged</button>`;
+
+                var elmntArray = [
+                    msr,
+                    //MergeCheckbox,
+                    value.departmentName,
+                    value.AgencyName,
+                    value.WorkOrderId,
+                    value.BillingAddress,
+                    value.MergeInto,
+                    value.NoDeployedRes,
+                    actionBtn
+                ];
+
+                table.row.add(elmntArray).draw(false);
+                $('#Work').append('<option value="' + value.WorkOrderAgencyId + '">' + value.WorkOrderId + '</option>');
+            });
+        });
+    }
+
+
+    function MergedWorkOrder(button, WorkOrderAgencyId) {
+        var row = $(button).closest("TR");
+        if (row.find('.ddlAgency').val() == 0) {
+            alert('Please Select Agency');
+        }
+        else {
+            $.post("/Invoice/_MergeWorkOrderBiling", {
+                'WorkOrderAgencyId': WorkOrderAgencyId,
+                'MegeWorkOrderTwo': $('#Work').val(),
+            },
+                function (data) {
+                    if (data == 'Record submited successfully') {
+                        row.find('.btnModalSubmit2').prop('disabled', true);
+                        alert(data);
+                    }
+                    else {
+                        alert(data);
+                        _WorkOrderDetails();
+
+                    }
+                }
+            )
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

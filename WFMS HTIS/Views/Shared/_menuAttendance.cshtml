@@ -1,0 +1,65 @@
+﻿@using System.Data
+@{
+    DataTable dt = (DataTable)HttpRuntime.Cache["dtMenu"];
+}
+<div class="sidebar-header">
+    <select class="form-control" >
+        @for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            <option value="@dt.Rows[i]["RoleId"]">@dt.Rows[i]["RoleName"]</option>
+        }
+    </select>
+</div>
+     <ul class="list-unstyled components">
+        <li class="active">
+            <a href="#MastersSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-home"></i>
+                Masters
+            </a>
+            <ul class="collapse list-unstyled" id="MastersSubmenu">
+                <li><a href="/admin/attendanceType">Attendance Type</a></li>
+                <li><a href="#">Employee Machine Code</a></li>
+                <li><a href="/attendance/hourOtView"><b>Machine Attendance</b></a></li>
+            </ul>
+        </li>
+        <li>  
+            <a href="#entrySubMenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                <i class="glyphicon glyphicon-duplicate"></i>
+                Entry
+            </a>
+            <ul class="collapse list-unstyled" id="entrySubMenu">
+                <li><a href="/Attendance/LeaveApply">Leave Apply</a></li>
+                <li><a href="/Attendance/LeaveCancel">Leave Cancel</a></li>
+                <li><a href="/Attendance/LeaveStatus">Leave Status</a></li>
+                <li><a href="/Attendance/LeaveApproval">Leave Approval</a></li>
+                <li><a href="/Attendance/WeeklyOffCalender">Weekly Off</a></li>
+                @*<li><a href="#">Employee Leaves</a></li>*@
+                <li><a href="/Attendance/Attendance">Daily Attendance</a></li>
+                @*<li><a href="#">Bulk Attendance</a></li>*@
+            </ul>
+        </li>
+         <li>
+             <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+                 <i class="glyphicon glyphicon-duplicate"></i>
+                 Reports
+             </a>
+             <ul class="collapse list-unstyled" id="reportsSubmenu">
+                 <li><a href="/ReportofPayroll/AttendanceRegister">Attendance Register</a></li>
+                 <li><a href="/attendance/attendancecalendar">Attendance Calander</a></li>
+                 <li><a href="/attendance/timingReport">Timing Report</a></li>
+                 @*<li><a href="#">Employee Leaves</a></li>
+                 <li><a href="#">Bulk Attendance</a></li>*@
+                 @*<li><a href="#">Employee Leaves</a></li>*@
+                 <li><a href="/Attendance/Attendance">Daily Attendance</a></li>
+                 @*<li><a href="#">Bulk Attendance</a></li>*@
+
+                 <li><a href="/attendance/attendancecalendar">Attendance Calander</a></li>
+             </ul>
+         </li>
+    </ul> 
+<script>
+    $('.menua').click(function () {
+        $('#sidebar').removeClass('active');
+        //$('.list-unstyled ul').css('height', 'auto').addClass('in').removeClass('collapse');
+    });
+</script>

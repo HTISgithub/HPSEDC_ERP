@@ -1,0 +1,98 @@
+﻿@using System.Collections
+@using System.Data
+@{
+    string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    string website = System.Configuration.ConfigurationManager.AppSettings["SiteName"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himachal Pradesh &ndash; State Elecronic Corporation</title>
+    <link href="~/Content/Loginbootstrap/style_003.css" rel="stylesheet" />
+    <link href="~/Content/Loginbootstrap/style_004.css" rel="stylesheet" />
+    <link href="~/Content/Loginbootstrap/StyleN.css" rel="stylesheet" />
+    <link href="~/Content/Loginbootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/Hpsedclogin.css" rel="stylesheet" />
+</head>
+<body class="loginbody">
+    <header class="site-header ast-primary-submenu-animation-fade header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemtype="https://schema.org/WPHeader" itemscope="itemscope" itemid="#masthead">
+        @*<div class="custom-top-bar">
+            <div class="container">
+                <div class="custom-top-bar-in"><i class="fa fa-phone-square" style="font-size:16px;"></i> &nbsp;Call Us : 0172-506-3088  </div>
+            </div>
+        </div>*@
+        <div class="main-header-bar-wrap">
+            <div class="main-header-bar">
+                <div class="#">
+                    <div class="ast-flex main-header-container">
+                        <div class="site-branding">
+                            <div class="ast-site-identity" itemscope="itemscope">
+                                <span class="site-logo-img"><a href="/" class="custom-logo-link" rel="home"><img src="~/images/saksham-logo-v2.png" class="custom-logo" alt="wfms-logo" style="width: 299px; height: 74px;"></a></span>
+                            </div>
+                        </div>
+                        <!-- .site-branding -->
+                        <div class="ast-mobile-menu-buttons">
+                            <div class="ast-button-wrap">
+                                <button type="button" class="menu-toggle main-header-menu-toggle ast-mobile-menu-buttons-minimal" aria-controls="primary-menu" aria-expanded="false" data-index="0">
+                                    <span class="screen-reader-text">Main Menu</span>
+                                    <span class="menu-toggle-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="ast-main-header-bar-alignment">
+                            <div class="main-header-bar-navigation">
+                                @*<nav class="ast-flex-grow-1 navigation-accessibility" id="site-navigation" aria-label="Site Navigation" itemtype="https://schema.org/SiteNavigationElement" itemscope="itemscope">
+                                    <div class="main-navigation">
+                                        <ul id="primary-menu" class="main-header-menu ast-nav-menu ast-flex ast-justify-content-flex-end  submenu-with-border astra-menu-animation-fade " aria-expanded="false">
+                                            <li id="menu-item-24" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-10 current_page_item menu-item-24"><a href="https://wfms.htistelecom.in/">Home</a></li>
+                                            <li id="menu-item-25" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-25"><a href="https://wfms.htistelecom.in/Home/About">About Us</a></li>
+                                            <li id="menu-item-27" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-27"><a href="https://wfms.htistelecom.in/Home/Features">Features</a></li>
+                                            <li id="menu-item-28" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-28"><a href="https://wfms.htistelecom.in/Home/Pricing">Pricing</a></li>
+                                            <li id="menu-item-29" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-29"><a href="https://wfms.htistelecom.in/Home/Support">Support</a></li>
+                                            <li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="https://wfms.htistelecom.in/Home/Blog">Blog</a></li>
+                                            <li class="ast-masthead-custom-menu-items widget-custom-menu-item">
+                                                <div class="ast-header-widget-area">
+                                                    <aside id="custom_html-2" class="widget_text widget widget_custom_html">
+                                                        <div class="textwidget custom-html-widget">
+                                                            <a class="maxbutton-2 maxbutton maxbutton-button2" href="hhttps://wfms.htistelecom.in/account/login"><span class="mb-text">Login</span></a>
+                                                            <a class="maxbutton-1 maxbutton maxbutton-button1" href="https://wfms.htistelecom.in/account/signup"><span class="mb-text">Try For Free</span></a>
+                                                        </div>
+                                                    </aside>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>*@
+                            </div>
+                        </div>
+                    </div><!-- Main Header Container -->
+                </div><!-- ast-row -->
+            </div> <!-- Main Header Bar -->
+        </div> <!-- Main Header Bar Wrap -->
+    </header>
+    @RenderBody()
+<footer>
+    <div class="">
+        <div class="" style="position: fixed !important; left: 0 !important; bottom: 0 !important; width: 100% !important; background-color: #fff !important; color: #000000 !important; text-align: center !important;">
+            <div class="row">
+                <div class="col-lg-3 footerdiv1">
+                    Copyright © @DateTime.Now.ToString("yyyy") <span class="ast-footer-site-title"></span> | HPSEDC
+                </div>
+                <div class="col-lg-2 pull-right footerdiv2">
+                    <div style="margin-top: 1vw;">
+                        <font class="footerfont">Powered By :&nbsp; </font>
+                    </div>
+                    <div>
+                        <img src="/images/logowfms.png" style="height: 36px !important" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>   
+    <script type="text/javascript">
+    </script>
+    <script src="@siteUrl/Scripts/browser.js"></script>
+</body>
+</html>

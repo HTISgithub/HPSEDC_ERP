@@ -1,0 +1,160 @@
+﻿@using System.Data
+@{
+    // string siteUrl = System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+    ViewBag.Title = "EInvoice";
+    ViewBag.PageTitle = "EInvoice";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString();
+}
+
+@******************Breadcrumb Start**************@
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+@*<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Master</a>
+            </li>
+
+            <li class="active">@ViewBag.PageTitle</li>
+        </ul>
+    </div>*@
+@******************Breadcrumb End**************@
+<style>
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        font-family: "Jost", sans-serif;
+        font-weight: 600;
+        color: white;
+        border-radius: 5px;
+        font-size: 15px;
+        background-color: #0f1875;
+    }
+
+    .hydrated {
+        visibility: inherit;
+        font-size: 5px !important;
+    }
+
+    td {
+        font-family: "Jost", sans-serif;
+        font-weight: 400;
+    }
+
+    .dt-buttons {
+        display: none;
+    }
+
+    #myTable_wrapper {
+        margin-top: -50px;
+    }
+
+    /* Create a custom checkbox square for only this specific checkbox */
+
+</style>
+
+<div class="page-content">
+    @*********Page Title************@
+    <div class="page-header">
+
+    </div>
+    @*********Page End************@
+
+    @*********Page Content************@
+
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div align="left" id="Zones">
+                <div class="dt-responsive">
+                    <table class="table table-striped table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="widthsr">Sr.No.</th>
+                                <th>Deptt. Name</th>
+                                <th>Deppt. Address</th>
+                                <th>Agency Name</th>
+                                <th>Sale Bill No.</th>
+                                <th>Sale Bill Amount</th>
+                                <th>Sale Bill Date</th>
+                                <th>Generate EInvoice</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var vId = 0;
+    var sr = 0;
+
+    $(document).ready(function () {
+        TableManageDefault.init();
+        _EInvoiceList();
+    });
+
+    function _EInvoiceList() {
+        $('#ProgressImg').show();
+        $.post('/Invoice/_EInvoiceList', {
+            'AgencyBillId': vId,
+
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+             var RoleId = '@Session["RoleId"]';
+            var msr = 0; var btn=''
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                var GenerateEInvoice = '<button onclick="GenerateEinvoice(' + value.ID +')" class="btn btn-primary">Generate Einvoice</button>';
+
+                    var elmntArray = [
+                        msr,
+                        value.DepartmentName,
+                        value.DepartmentAddress,
+                        value.AgencyName,
+                        value.SaleBillNo,
+                        value.SaleBillAmount,
+                        value.SaleBillDate,
+                        GenerateEInvoice
+
+                    ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+    }
+
+
+    function GenerateEinvoice(Id) {
+        $('#ProgressImg').show();
+        $.post('/Invoice/Generate_IRN', {
+            'id': Id,
+        }, function (data) {
+            alert(data);
+            $('#ProgressImg').hide();
+        });
+    }
+
+</script>

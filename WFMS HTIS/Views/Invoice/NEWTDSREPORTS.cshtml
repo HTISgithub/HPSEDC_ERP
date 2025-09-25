@@ -1,0 +1,617 @@
+﻿@using System.Data
+@{ ViewBag.Title = "TDS Report";
+    ViewBag.PageTitle = "TDS Report";
+    commonFunctions comfun = new commonFunctions();
+    string mon = "";
+    string user = Session["RoleId"].ToString(); }
+
+@*Breadcrumb Start*@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@*Breadcrumb End*@
+<style>
+    .modal-footer {
+        display: block;
+    }
+
+    .input-sm {
+        margin-top: 30px;
+    }
+
+    body {
+        font-family: "Jost", sans-serif;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+        margin-right: -186px;
+    }
+    .page-header h1 {
+        padding: 0;
+        margin: 0 8px;
+        margin-left: 650px;
+        font-size: 24px;
+        font-weight: lighter;
+        color: #2679B5;
+    }
+
+    table {
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #0f1875;
+        border-radius: 5px;
+        color: white;
+        font-size: 15px
+    }
+
+    #myTable_wrapper {
+        margin-top: -89px;
+    }
+
+
+    .dt-buttons {
+        display: none;
+    }
+
+    #Zones {
+        margin-top: 0px !important;
+        padding-top: 5px !important;
+    }
+
+    #printData {
+        display: none;
+    }
+
+    #myTable_filter {
+        margin-top: -8px;
+    }
+</style>
+
+<div class="page-content">
+
+    <div class="page-header">
+        <h1>
+            @ViewBag.PageTitle
+            <a class="btn btn-primary pull-right btnAddModal" onclick="OpenAddModel()" style="margin-top: 65px;"><i class="fa fa-plus"> </i>  Deposited Tds Challan</a>
+        </h1>
+
+    </div>
+
+    <div class="row">
+        &nbsp;
+        <div class="col-md-12">
+            <div style="margin-top:10px">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style=" margin-top: -71px;">
+                            <label for="Month">Month Year</label><span class="error-message">*</span>
+                            <select id="ddlMonths" class="Month" onchange="_NEWTDSREPORTSList()">
+                                <option>--Month--</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+
+                                    DateTime date = new DateTime(2020, i, 1);
+                                    mon = date.ToString("MMM");
+                    <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>
+}
+                            </select>
+                            <select id="ddlYears" class="year" onchange="_TdsReportList()">
+                                <option>--Year--</option>
+                                @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                {
+                                    if (i == DateTime.Now.Year)
+                                    {
+                    <option value="@i" selected='selected'>@i</option> }
+                                    else
+                                    {
+
+                    <option value="@i">@i</option>}
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3" style=" margin-top: -73px; margin-left: 280px; display:none;  ">
+                            <label for="Complaint">Agency</label><span class="error-message">*</span>
+                            <select id="ddlAgency" style="width: 20rem" onchange="_NEWTDSREPORTSList()">
+                                <option value="0">Select Agency</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1" style=" margin-top: -52px; margin-left: 1045px; display:flex;flex-direction:row">
+                        <button id="exportBtn" style="background-color: #337ab7; width: 4vw; color: white; font-size: 16px; padding: 8px 12px; border-radius: 5px; border: none; margin-left:10px;" onclick="Excel()">Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div align="left" id="Zones">
+            <div class="dt-responsive">
+                <table class="table table-striped table-bordered" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="widthsr">Sr.No.</th>
+                            <th>Invoice No.</th>
+                            <th>Agency Name</th>
+                            <th>Bill Amount</th>
+                            @*<th>GST TDS(2%)</th>*@
+                            <th>Invoice Verification Status</th>
+                            <th>IT TDS(1% & 2%)</th>
+                            <th>IT TDS Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal4" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00476a;color:white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="table-responsive">
+                        <div style="border: 2px solid #000; padding: 10px; position: relative; margin-bottom: 20px;">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill No.(Agency Ref. No.)</label>
+                                    <input id="Purchase" class="form-control cleartxt required" placeholder="Bill No." readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Purchase">Purchase Bill Date</label>
+                                    <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="BillDate" id="PurchaseBillDate2" readonly="readonly" />
+                                    @*<input id="BillForMonth" class="form-control cleartxt required" placeholder="Bill Date" readonly>
+                                        <input placeholder="Bill Date1" class="form-control text-box single-line datepicker" data-val="true" id="BillDate1" type="datetime" value="@DateTime.Now.ToString("dd-MMM-yyyy")">*@
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Bill">Bill For Month</label><span class="error-message">*</span>
+                                    <input id="BillForMonth" class="form-control cleartxt required" placeholder="Bill Date" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="Bill">Bill Amount</label>
+                                    <input id="BillAmount" class="form-control cleartxt required" placeholder="Bill Amount" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Bill">TDS Percentage</label>
+                                    <input id="Percentage" class="form-control cleartxt required" placeholder="Bill Amount" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Bill">Mark TDS Deposited</label><span class="error-message">*</span><br />
+                                    <input type="checkbox" id="TDS" value="TDS" style="transform: scale(1.5); cursor: pointer;">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" class="btnModalSubmit btn btn-primary" value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-md" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #0f1875; color: white;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="_view">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="Total">Total No. Of Purchase Inv.</label>
+                            <input type="text" id="TotalPurchaseInv" placeholder="Total No. Of Purchase Inv." class="form-control cleartxt" />
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="TotalTds">Total TDS Amount</label>
+                            <input type="text" id="TotaltdsAmount" placeholder="Total TDS Amount" class="form-control cleartxt" />
+
+                        </div>
+                        <div class="col-md-4">
+
+                            <label for="Month">For Month Year</label><span class="error-message">*</span><br />
+                            <div class="" style="display:flex">
+                                <select id="ddlMonths1" class="Month" style="width: 15rem;" onchange="_TDSDataGet();">
+                                    <option>--Month--</option>
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+
+                                        DateTime date = new DateTime(2020, i, 1);
+                                        mon = date.ToString("MMM");
+                        <option value="@i" @(DateTime.Now.Month == i ? "Selected='selected'" : "")>@mon</option>}
+                                </select>
+                                <select id="ddlYears1" class="year" style="width: 15rem;" onchange="_TDSDataGet();">
+                                    <option>--Year--</option>
+                                    @for (int i = 2021; i <= DateTime.Now.Year; i++)
+                                    {
+                                        if (i == DateTime.Now.Year)
+                                        {
+                        <option value="@i" selected='selected'>@i</option> }
+                                        else
+                                        {
+                        <option value="@i">@i</option>}
+                                    }
+                                </select>
+
+                            </div>
+
+                        </div>
+                        @*<div class="col-md-4">
+                                <label for="Monthyear">Month Year</label>
+                                <input id="Monthyear" placeholder="Month Year" class="form-control cleartxt required" readonly>
+                            </div>*@
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="ChallanNo">challan No.</label><span class="error-message">*</span>
+                            <input id="ChallanNo" class="form-control cleartxt required" placeholder="Challan No">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="DepositedDate">Deposited Date</label><span class="error-message">*</span><br />
+                            <input type="text" data-date-format="d-M-yyyy" value="@DateTime.Now.ToString("d-MMM-yyyy")" class="datepicker datepickertxt form-control readonly" name="BillDate" id="DepositedDate" />
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="ChallanNo">BSR Code</label><span class="error-message">*</span>
+                            <input id="BSRCode" class="form-control cleartxt required" placeholder="BSR Code">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="Challan">Challan Amount</label><span class="error-message">*</span>
+                            <input type="text" id="ChallanAmount" placeholder="Total Amount" class="form-control cleartxt" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="Sub">Remarks</label><span class="error-message">*</span>
+                            <textarea id="Remarks" class="form-control cleartxt" placeholder="Please Enter Remarks"></textarea>
+                        </div>
+
+                        @*<div class="col-lg-6 col-md-3 col-sm-6">
+
+                             <input type="checkbox" id="IsActive">
+                               <label for="IsActive" style=" margin-top: 1rem;">Is Active</label>
+                            </div>*@
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2"> <img src="~/images/ajax-loader.gif" id="ModalProgress" /></div>
+                    <div class="col-md-8">
+                        <div class="modelalert"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" class="btnModalSubmit1 btn btn-primary" value="Submit" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+
+<script>
+    var mAgencyId = 0, accessRights;
+    var vId = 0;
+    var sr = 0;
+    var IsActive = 'Y';
+    var tableRow;
+    $(document).ready(function () {
+        TableManageDefault.init();
+        $('#ddlAgency').select2();
+        _NEWTDSREPORTSList();
+    });
+
+    _Agencyddl();
+    function _Agencyddl() {
+        $.post('/Invoice/_Agencyddl1', { 'AgencyId': 0 }, function (data) {
+            var DeploymentOfficeId = '<option value="0">---Select---</option>';
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                DeploymentOfficeId += '<option value=' + value.AgencyId + '>' + value.AgencyName + '</option>'
+            });
+            $('#ddlAgency').html(DeploymentOfficeId);
+            $('#ddlAgency').val(mAgencyId);
+        });
+    }
+    function _NEWTDSREPORTSList() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+        $.post('/Invoice/_NEWTDSREPORTSList', {
+            AgencyId: '0',
+            MonthId: month,
+            AgencyBillId: 0,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var table = $('#myTable').DataTable();
+            table.clear().draw();
+            var msr = 0;
+
+            $.each(obj, function (key, value) {
+                msr = msr + 1;
+                if (value.IsTdsDeposited == 'N') {
+                    VerifiedIcon = '<i class="fa fa-close" style="font-size:48px;color:red"></i>';
+                } else{
+                    VerifiedIcon = '<i class="fa fa-check" style="font-size:48px;color:green"></i>';
+                }
+                if (value.IsPurchaseBillVerified == 'V') {
+                    PVerified = '<i class="fa fa-check" style="font-size:48px;color:green"></i>';
+                } else if (value.IsPurchaseBillVerified == 'R') {
+                    PVerified = ''; // Blank
+                } else {
+                    PVerified = '<i class="fa fa-close" style="font-size:48px;color:red"></i>';
+                }
+
+                var elmntArray = [
+
+                    msr,
+                    value.Billno,
+                    value.AgencyName,
+                    value.Ptotal,
+                    PVerified,
+                   /* value.GSTTDS,*/
+                    value.ITTDS1,
+                    VerifiedIcon
+                ];
+                table.row.add(elmntArray).draw(false);
+            });
+        });
+
+    }
+    var TdsId;
+    function OpenAddModel6(AgencyBillId) {
+        $('.modal-title').html("Enter TDS");
+        $('#myModal4').modal({
+            show: 'false'
+        });
+
+        TdsId = AgencyBillId;
+        _NEWTDSREPORTSListGet(AgencyBillId);
+        root = '/Invoice/_NEWTDSREPORTSListGet';
+    }
+    function _NEWTDSREPORTSListGet(AgencyBillId) {
+        alert(AgencyBillId);
+        $.post('/Invoice/_NEWTDSREPORTSListGet', {
+            'AgencyBillId': AgencyBillId,
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+                $('#Purchase').val(value.Billno);
+                $('#PurchaseBillDate2').val(value.BillDate);
+                $('#BillForMonth').val(value.BillforMonth);
+                $('#BillAmount').val(value.BaseAmount);
+                $('#Percentage').val(value.TdsP);
+
+            });
+        });
+    }
+
+    $('.btnModalSubmit').click(function () {
+        _TDSSubmit();
+    });
+    function _TDSSubmit() {
+
+        if (!$('#TDS').is(':checked')) {
+            alert('Please check the "Mark TDS Deposited" checkbox before submitting.');
+            return;
+        }
+
+
+        $('.modelalert').html('');
+        $('#ModalProgress').show();
+        $.post('/Invoice/_TDSSubmit', {
+            'AgencyBillId': TdsId,
+            'IsDeposited': 'Y',
+
+        }, function (data) {
+            alert(data);
+            TdsId = 0;
+            $('#myModal4').modal('hide');
+            $('.btnModalSubmit').removeAttr("disabled");
+            $('#ModalProgress').hide();
+            _NEWTDSREPORTSList();
+        });
+    }
+
+    function OpenAddModel() {
+        // resetModal();
+        // resetForm();
+        $('.modal-title').html("Deposited TDS Challan");
+        $('#myModal').modal({
+            show: true
+        });
+
+        vId = 0;
+        IsActive = 'Y';
+        _TDSDataGet(vId);
+    }
+    $('.btnModalSubmit1').click(function () {
+        _DepositedTdsSubmit();
+    });
+
+    function _DepositedTdsSubmit() {
+
+        var monthyear = $('#ddlMonths1').val() + $('#ddlYears1').val();
+        if ($('#TotalPurchaseInv').val() == '') {
+            alert('Enter Total Purchase No.');
+            return;
+        }
+        if ($('#TotaltdsAmount').val() == '') {
+            alert('Please Enter Total Tds Amount');
+            return;
+        }
+        if ($('#ddlMonths1').val() == "--Month--" || $('#ddlYears1').val() == "--Year--") {
+            $('.modelalert').html('Please select Month and Year.');
+            return;
+        }
+
+
+        if ($('#ChallanNo').val() == '') {
+            alert('Please Enter Challan No.');
+            return;
+        }
+
+        if ($('#BSRCode').val() == '') {
+            alert('Please Enter BSR Code');
+            return;
+        }
+        if ($('#ChallanAmount').val() == '') {
+            alert('Please Enter Challan Amount');
+            return;
+        }
+        if ($('#Remarks').val() == '') {
+            alert('Please Enter Remarks');
+            return;
+        }
+
+        $.post('/Invoice/_DepositedTdsSubmit', {
+            'ChallanId': vId,
+            'TotalPurchaseInv': $('#TotalPurchaseInv').val(),
+            'TotaltdsAmount': $('#TotaltdsAmount').val(),
+            'monthyear': monthyear,
+            'ChallanNo': $('#ChallanNo').val(),
+            'DepositedDate': $('#DepositedDate').val(),
+            'BSRCode': $('#BSRCode').val(),
+            'ChallanAmount': $('#ChallanAmount').val(),
+            'Remarks': $('#Remarks').val(),
+
+        }, function (data) {
+            alert(data);
+            $('#myModal').modal('hide');
+            $('.btnModalSubmit1').removeAttr("disabled");
+            $('#ModalProgress').hide();
+        });
+    }
+
+    function _TDSDataGet(vId) {
+        var MonthYearComine = $('#ddlMonths1').val() + $('#ddlYears1').val();
+        $.post('/Invoice/_NewTDSGETList', {
+            'ChallanId': 0,
+            'MonthYear': MonthYearComine,
+        }, function (data) {
+            var obj = $.parseJSON(data);
+            $.each(obj, function (key, value) {
+
+                $('#TotalPurchaseInv').val(value.TotalAgencyBIll);
+                $('#TotaltdsAmount').val(value.TdsAmount);
+            });
+        });
+
+        $('.modal-title').html("Deposited TDS Challan");
+        $('#myModal').modal({
+            show: 'false'
+        });
+    }
+    function Excel() {
+        var month = $('#ddlMonths').val() + $('#ddlYears').val();
+        $('#ProgressImg').show();
+        $.post('/Invoice/_NEWTDSREPORTSList', {
+            AgencyId: '0',
+            MonthId: month,
+            AgencyBillId: 0,
+        }, function (data) {
+            $('#ProgressImg').hide();
+            var obj = $.parseJSON(data);
+            var msr = 0;
+
+            // Totals initialized
+            var totalAgencyBillAmt = 0;
+            var totalAdminAmt = 0;
+            var totalBaseAmount = 0;
+            var totalITTDS = 0;
+
+            var dataForExport = [];
+            dataForExport.push(["COMPUTATION OF TAXABLE AMOUNT (NON SALARIED) FOR THE " + $("#ddlMonths").find(':selected').text() + " " + $("#ddlYears").find(':selected').text() + " & ITTDS DEPOSIT THERE OF IN R/o HPSEDC LTD., MEHLI"]);
+            dataForExport.push([]);
+
+            dataForExport.push([
+                "Sr. No.",
+                "Agency Invoice No.",
+                "Agency Name",
+                "Amount Without(2.5%)",
+                "Adminstrative Charge(2.5%)",
+                "Base Amount",
+                "ITTDS Percentage",
+                "ITTDS Deducted",
+            ]);
+
+            $.each(obj, function (key, value) {
+                msr++;
+                totalAgencyBillAmt += Math.round(value.AgencyBillAmt);
+                totalAdminAmt += Math.round(value.AdminAmt);
+                totalBaseAmount += Math.round(value.BaseAmount);
+                totalITTDS += Math.round(value.ITTDS);
+
+                dataForExport.push([
+                    msr,
+                    value.Billno,
+                    value.AgencyName,
+                    Math.round(value.AgencyBillAmt),
+                    Math.round(value.AdminAmt),
+                    Math.round(value.BaseAmount),
+                    value.TdsP,
+                    Math.round(value.ITTDS),
+                ]);
+            });
+            dataForExport.push([
+                "",
+                "",
+                "TOTAL",
+                totalAgencyBillAmt,
+                totalAdminAmt,
+                totalBaseAmount,
+                "",
+                totalITTDS,
+            ]);
+
+            const ws = XLSX.utils.aoa_to_sheet(dataForExport);
+
+            ws["!merges"] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 6 } }
+            ];
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "TDS Report");
+            XLSX.writeFile(wb, "ITTDS_Report.xlsx");
+        });
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

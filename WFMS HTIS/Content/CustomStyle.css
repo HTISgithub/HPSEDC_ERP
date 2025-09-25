@@ -1,0 +1,184 @@
+﻿body {
+}
+
+@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
+
+body {
+    font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    color: #666;
+    padding: 0px !important;
+    background: #fff;
+    display: flex !important;
+    flex-direction: column;
+}
+
+.data-accordion .panel-title {
+    position: relative;
+}
+
+ol, ul {
+    margin:10px 10px 10px 10px;
+}
+
+a {
+    color: #2d4b7b;
+}
+    a:hover {
+        text-decoration: none;
+        color: #ed3237;
+    }
+/* =========== End Table hard Code ========== */
+
+/* ==== Accordion ====*/
+.data-accordion {
+    float: left;
+    width: 100%;
+}
+
+    .data-accordion .panel {
+        margin: 5px 0px;
+        float: left;
+        width: 100%;
+    }
+
+    .data-accordion .panel-heading a:before {
+        font-family: 'FontAwesome';
+        content: "\f105";
+        transition: all 0.5s;
+        position: absolute;
+        right: 30px;
+        text-align: center;
+        top: calc(50% - 10px);
+    }
+
+    .data-accordion .panel-heading.active a:before {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(-900deg);
+        transform: rotate(-90deg);
+    }
+
+    .data-accordion .panel:hover .panel-heading a:before {
+        color: #ed3237;
+    }
+
+    .data-accordion .panel-heading.active a:before {
+        color: #fff !important;
+    }
+
+    .data-accordion .panel-heading {
+        float: left;
+        width: 100%;
+        padding: 0px;
+        border: 1px solid #dcdcdc;
+        background: #f0f3f5;
+    }
+
+        .data-accordion .panel-heading.active {
+            background: #2d4b7b;
+            border-color: #2d4b7b;
+        }
+
+    .data-accordion .panel-title {
+        position: relative;
+    }
+
+        .data-accordion .panel-title .btn {
+            margin-top: 3px;
+            position: absolute;
+            right: 70px;
+            top: 10px;
+        }
+
+    .data-accordion .panel-heading a {
+        padding: 10px 20px;
+        width: calc(100% - 174px);
+        height: 60px;
+    }
+
+    .data-accordion .collapse {
+        float: left;
+        width: 100%;
+    }
+
+        .data-accordion .collapse .panel-body {
+            border: 1px solid #dcdcdc;
+            margin-top: -1px;
+        }
+
+.data-style {
+    padding: 0px;
+    float: left;
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+    .data-style li {
+        float: left;
+        padding-right: 15px;
+        list-style: none;
+    }
+
+        .data-style li:nth-child(1) {
+            width: 22%;
+        }
+
+        .data-style li:nth-child(2) {
+            width: 15%;
+        }
+
+        .data-style li:nth-child(3) {
+            width: 20%;
+        }
+
+        .data-style li:nth-child(4) {
+            width: 15%;
+        }
+
+        .data-style li:nth-child(5) {
+            width: 20%;
+        }
+
+        .data-style li span {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+            margin:0px 0px 10px 0px;
+        }
+
+.data-accordion .panel-heading.active .data-style li span {
+    color: #fff;
+    opacity: .8;
+}
+
+.data-style li strong {
+    display: block;
+    color: #242a30;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.data-accordion .collapse .panel-body table {
+    margin: 0px;
+}
+
+.data-accordion .panel:hover .panel-title li strong {
+    color: #ed3237;
+}
+
+.data-accordion .panel-heading.active .data-style li strong {
+    color: #fff;
+}
+
+.data-accordion .panel:hover .panel-title .btn.btn-white {
+    background: #ed3237;
+    border-color: #ed3237;
+    color: #fff;
+}
+
+.data-accordion .panel-heading.active .panel-title .btn.btn-white {
+    background: #f59100;
+    color: #fff;
+    border-color: #f59100;
+}

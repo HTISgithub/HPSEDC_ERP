@@ -1,0 +1,77 @@
+/// <summary>
+        /// Group and Clearance Head Mapping
+        /// </summary>
+        /// <returns></returns>
+        #region Group and Clearance Head Mapping
+        public ActionResult GroupandClearanceHeadMapping()
+        {
+            return View();
+        }
+        public ActionResult _GroupandClearanceHeadMapping()
+        {
+            DataTable dt = comfun.fillDataTable("sp_CGListDisplay", "", null);
+            return PartialView("_GroupandClearanceHeadMapping", dt);
+        }
+        public ActionResult _UpdateGroupandClearanceHeadMapping()
+        {
+            SortedList list = new SortedList();
+            list.Add("@CGId", Request.Form["CGId"].ToString());
+            DataSet ds = comfun.fillDataSet("sp_CGDisplayViaId", "", list);
+            return PartialView("_UpdateGroupandClearanceHeadMapping", ds);
+        }
+        public ActionResult _CGMappedEmployees()
+        {
+            SortedList list = new SortedList();
+            list.Add("@CGId", Request.Form["CGId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_ClearanceGroupMappedEmpList", "", list);
+            return PartialView("_CGMappedEmployees", dt);
+        }
+        public class Employees
+        {
+            public string EmployeeId { get; set; }
+            public string EmployeeCode { get; set; }
+            public string EmployeeName { get; set; }
+            public string EmployeeEmail { get; set; }
+            public string EmployeeImage { get; set; }
+            public string EmployeeDepartment { get; set; }
+            public string EmployeeDesignation { get; set; }
+            public string EmployeeBranch { get; set; }
+
+        }
+        public ActionResult _EmpListDisplay()
+        {
+            SortedList list = new SortedList();
+            list.Add("@DepartmentId", Request.Form["DepartmentId"].ToString());
+            DataTable dt = comfun.fillDataTable("sp_EmpListViaDepartmentId", "", list);
+            List<Employees> empList = new List<Employees>();
+            empList = (from DataRow dr in dt.Rows
+                       select new Employees()
+                       {
+                           EmployeeId = dr["EmployeeID"].ToString(),
+                           EmployeeCode = dr["EmployeeCode"].ToString(),
+                           EmployeeName = dr["EmployeeName"].ToString(),
+                           EmployeeEmail = dr["Email"].ToString(),
+                           EmployeeImage = dr["EmployeeImage"].ToString(),
+                           EmployeeDepartment = dr["EmployeeDepartment"].ToString(),
+                           EmployeeDesignation = dr["EmployeeDesignation"].ToString(),
+                           EmployeeBranch = dr["EmployeeBranch"].ToString(),
+                       }).ToList();
+            return Json(empList, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GroupandClearanceHeadMappingSaveUpdateSubmit()
+        {
+            string mes = string.Empty;
+            try
+            {
+                SortedList list = new SortedList();
+                list.Add("@CGId", Request.Form["CGId"].ToString());
+                list.Add("@MappedEmpId", Request.Form["Emps"].ToString());
+                mes = comfun.executeNonQueryWMessage("sp_ClearanceGroupMapping_SaveUpdate", "", list).ToString();
+            }
+            catch (Exception ex)
+            {
+                mes = ex.Message;
+            }
+            return Json(mes);
+        }
+        #endregion Group and Clearance Head Mapping

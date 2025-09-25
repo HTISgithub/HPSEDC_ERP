@@ -1,0 +1,56 @@
+﻿<div class="sidebar-header">
+    <h4>Employee Leave</h4>
+</div>
+<ul class="list-unstyled components">
+   
+            <li><a href="/Attendance/LeaveApply">Leave Apply</a></li>
+            <li><a href="/Attendance/LeaveCancel">Leave Cancel</a></li>
+            <li><a href="/Attendance/LeaveStatus">Leave Status</a></li>
+            <li><a href="/Attendance/LeaveApproval">Leave Approval</a></li>
+            <li><a href="/Attendance/WeeklyOffCalender">Weekly Off</a></li>
+            <li><a href="/attendance/attendancecalendar">Regularize Calander</a></li>
+
+</ul>
+@*<li class="active">*@
+@*<a href="#MastersSubmenu" data-toggle="collapse" aria-expanded="true" class="menua">
+       Leave
+    </a>*@
+@*<ul class="collapse list-unstyled" id="MastersSubmenu">*@
+@*</ul>*@
+@*</li>*@
+@*<li>
+        <a href="#entrySubMenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-duplicate"></i>
+            Entry
+        </a>
+        <ul class="collapse list-unstyled" id="entrySubMenu">
+            <li><a href="#">Employee Leaves</a></li>
+            <li><a href="/Attendance/Attendance">Daily Attendance</a></li>
+            <li><a href="#">Bulk Attendance</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#reportsSubmenu" data-toggle="collapse" aria-expanded="false" class="menua">
+            <i class="glyphicon glyphicon-duplicate"></i>
+            Reports
+        </a>
+        <ul class="collapse list-unstyled" id="reportsSubmenu">
+            <li><a href="#">Employee Leaves</a></li>
+            <li><a href="/Attendance/Attendance">Daily Attendance</a></li>
+            <li><a href="#">Bulk Attendance</a></li>
+
+            <li><a href="/attendance/attendancecalendar">Attendance Calander</a></li>
+        </ul>
+    </li>*@
+
+
+
+
+
+
+<script>
+    $('.menua').click(function () {
+        $('#sidebar').removeClass('active');
+        //$('.list-unstyled ul').css('height', 'auto').addClass('in').removeClass('collapse');
+    });
+</script>
