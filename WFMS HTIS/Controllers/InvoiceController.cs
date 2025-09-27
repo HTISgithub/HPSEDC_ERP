@@ -2904,5 +2904,9 @@ namespace Payroll.portal.Controllers
         {
             return View();
         }
+        public ActionResult ManpowerPartialPaymentReportNew()
+        {
+            return View();
+        }
     }
 }
